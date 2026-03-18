@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D0 Product Dashboard — v8</title>
+<title>D0 Product Dashboard — v8.1</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ── Design System Tokens (from Sprint Board) ──────────── */
+/* ── Design System Tokens ──────────────────────────────── */
 :root {
   --bg-base: #09090b;
   --bg-subtle: #18181b;
@@ -234,7 +234,7 @@ a:hover { text-decoration: underline; }
 .ctrl-btn:hover { color: var(--fg-base); background: var(--bg-muted) }
 .ctrl-btn.active { color: var(--fg-base); background: var(--bg-muted) }
 
-/* Section (sprint) */
+/* Section (person view) */
 .section {
   margin-bottom: var(--space-8);
   animation: fadeUp 0.4s var(--ease-out) both;
@@ -322,6 +322,7 @@ a:hover { text-decoration: underline; }
 .card.done { opacity: 0.5 }
 .card.done:hover { opacity: 0.7 }
 .card.cancel { opacity: 0.3 }
+.card.filtered-out { display: none }
 .card-head {
   display: flex;
   align-items: center;
@@ -371,6 +372,28 @@ a:hover { text-decoration: underline; }
   font-weight: 500;
   color: var(--state-color, var(--fg-subtle));
 }
+.card-team-badge {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: var(--space-1);
+}
+.card-team-badge.eng { background: rgba(20,184,166,.1); color: var(--teal) }
+.card-team-badge.product { background: rgba(167,139,250,.1); color: var(--purple) }
+.card-custom-del {
+  position: absolute;
+  top: 6px; right: 8px;
+  background: none; border: none;
+  color: var(--fg-subtle); cursor: pointer;
+  font-size: 0.65rem; opacity: 0;
+  transition: opacity 0.15s;
+  width: 16px; height: 16px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+}
+.card:hover .card-custom-del { opacity: .5 }
+.card-custom-del:hover { opacity: 1 !important; color: var(--error); background: rgba(239,68,68,.1) }
 .empty-state {
   text-align: center;
   padding: var(--space-8) var(--space-4);
@@ -381,8 +404,67 @@ a:hover { text-decoration: underline; }
 #view-layer, #view-person { display: none }
 #view-layer.active, #view-person.active { display: block }
 
+/* ── Module Section (v8.1) ─────────────────────────────── */
+.module-section {
+  margin-bottom: var(--space-4);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.module-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-subtle);
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--duration-normal);
+}
+.module-header:hover { background: var(--bg-muted) }
+.module-header .module-icon { font-size: 1.2rem }
+.module-header .module-name { font-weight: 600; color: var(--fg-base); flex: 1 }
+.module-header .module-count {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  background: var(--bg-muted);
+  border-radius: 99px;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+}
+.module-header .module-meta {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--fg-subtle);
+}
+.module-header .chevron {
+  color: var(--fg-muted);
+  transition: transform var(--duration-normal);
+  font-size: 0.8rem;
+}
+.module-section.collapsed .chevron { transform: rotate(-90deg) }
+.module-section.collapsed .module-body { display: none }
+.module-body { padding: var(--space-3) }
+
+/* ── Delivery Pipeline (v8.1) ──────────────────────────── */
+.delivery-pipeline {
+  display: flex;
+  gap: 2px;
+  margin: var(--space-2) 0;
+  font-size: 0.6rem;
+}
+.pipeline-step {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--bg-emphasis);
+  transition: background var(--duration-normal);
+}
+.pipeline-step.reached { background: var(--success) }
+.pipeline-step.current { background: var(--warning) }
+
 /* ══════════════════════════════════════════════════════════
-   ORG CHART STYLES (adapted from v6)
+   ORG CHART STYLES
    ══════════════════════════════════════════════════════════ */
 .ceo { text-align: center; margin: var(--space-4) 0 var(--space-2) }
 .ceo-card {
@@ -506,7 +588,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* ══════════════════════════════════════════════════════════
-   PRODUCT TREE STYLES (adapted from v6)
+   PRODUCT TREE STYLES
    ══════════════════════════════════════════════════════════ */
 .sec {
   margin: var(--space-8) 0 0;
@@ -613,7 +695,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* ══════════════════════════════════════════════════════════
-   KANBAN STYLES (adapted from v6)
+   KANBAN STYLES
    ══════════════════════════════════════════════════════════ */
 .kanban {
   display: grid;
@@ -713,7 +795,7 @@ a:hover { text-decoration: underline; }
 .k-col.drag-over { background: var(--bg-muted); border-color: var(--info) }
 
 /* ══════════════════════════════════════════════════════════
-   ENG OWNERSHIP STYLES (adapted from v6)
+   ENG OWNERSHIP STYLES
    ══════════════════════════════════════════════════════════ */
 .eng-grid {
   display: grid;
@@ -757,7 +839,7 @@ a:hover { text-decoration: underline; }
 .eng-card .ec-risk { font-family: var(--font-mono); font-size: 0.62rem; color: var(--error); margin-top: var(--space-2) }
 
 /* ══════════════════════════════════════════════════════════
-   RISK / PLAN / CHALLENGE STYLES (adapted from v6)
+   RISK / PLAN / CHALLENGE STYLES
    ══════════════════════════════════════════════════════════ */
 .risk-grid { display: grid; gap: var(--space-3); margin: var(--space-3) 0 }
 .risk-item {
@@ -1060,16 +1142,6 @@ a:hover { text-decoration: underline; }
   .voice-issue-card .vi-assignee { grid-column: 2; }
 }
 
-/* Sprint Board PRODUCT legend */
-.sprint-legend {
-  display: flex;
-  gap: var(--space-4);
-  margin-bottom: var(--space-4);
-  font-size: 0.75rem;
-  color: var(--fg-muted);
-  justify-content: center;
-}
-
 /* Sprint Board: Cycle Selector */
 .cycle-selector {
   display: flex; gap: var(--space-2); margin-bottom: var(--space-4);
@@ -1091,6 +1163,14 @@ a:hover { text-decoration: underline; }
   text-align: center;
   margin-bottom: var(--space-2);
 }
+.sprint-legend {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  justify-content: center;
+}
 </style>
 </head>
 <body>
@@ -1101,12 +1181,12 @@ a:hover { text-decoration: underline; }
     <button onclick="this.parentElement.style.display='none'" style="position:absolute;top:var(--space-2);right:var(--space-3);background:none;border:none;color:var(--fg-subtle);cursor:pointer;font-size:1rem">✕</button>
     <div style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:var(--space-2)">📋 异步 Sprint 管理工作流</div>
     <div style="font-size:.82rem;color:var(--fg-muted)">
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">① 选择 Sprint</strong> — 用上方的 cycle 切换器查看当前/下个 sprint</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">① 选择 Sprint</strong> — 用上方的 cycle 切换器查看当前/下个 sprint（ENG + PRODUCT 合并显示）</p>
       <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">② 找到你的 Issues</strong> — 点「👤 我的看板」→ 选你的名字，看到你所有 issue</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">③ 管理优先级</strong> — 在卡片上点击状态标签循环切换（Todo → 进行中 → Done）</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">④ 添加 Issue</strong> — 在「👤 我的看板」里点「+ 添加 Issue」手动补充</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">⑤ Sprint Planning</strong> — 每周一 PM 异步审核，Ring 自动生成推荐列表</p>
-      <p style="margin-top:var(--space-3);font-size:.78rem;color:var(--fg-subtle)">💡 PRODUCT 🟣 和 ENG 🟢 issue 按同一套五层架构管理<br>💡 编辑内容自动保存到浏览器（点「保存版本」可以回退）</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">③ 管理优先级</strong> — 在卡片上点击状态标签循环切换（待开始 → 开发中 → 已完成）</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">④ 添加 Issue</strong> — 在 Sprint Board 底部或「👤 我的看板」里点「+ 添加 Issue」</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">⑤ D0 功能模块</strong> — Issue 按 7 个产品模块分组（AI · Trading · Wallet · Dashboard · Agent · Infra · Growth）</p>
+      <p style="margin-top:var(--space-3);font-size:.78rem;color:var(--fg-subtle)">💡 ENG 🟢 和 PRODUCT 🟣 issue 在同一个 Sprint 里按功能模块管理<br>💡 编辑内容自动保存到浏览器（点「保存版本」可以回退）</p>
     </div>
     <div style="margin-top:var(--space-3);display:flex;gap:var(--space-2);flex-wrap:wrap">
       <a href="https://linear.app/donutbrowser/team/ENG/cycle/active" target="_blank" style="font-family:var(--font-mono);font-size:.7rem;padding:var(--space-1) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:100px;color:var(--fg-muted);text-decoration:none">ENG Active Cycle ↗</a>
@@ -1117,10 +1197,10 @@ a:hover { text-decoration: underline; }
 
   <header class="header">
     <h1>D0 Product Dashboard</h1>
-    <div class="subtitle">Multi-Cycle · 组织 · 产品 · 工程 · 风险</div>
+    <div class="subtitle">Unified Sprint · 组织 · 产品 · 工程 · 风险</div>
     <div class="cycle-badge">
       <span class="pulse"></span>
-      v8 · 2026-03-18
+      v8.1 · 2026-03-18
     </div>
   </header>
 
@@ -1149,11 +1229,10 @@ a:hover { text-decoration: underline; }
        ══════════════════════════════════════════════════════ -->
   <div id="tab-sprint" class="tab-panel active">
 
-    <!-- Cycle Selector -->
+    <!-- Cycle Selector (Unified: ENG + PRODUCT merged) -->
     <div class="cycle-selector" id="cycleSelector">
-      <button class="cycle-btn" onclick="switchCycle('eng22')" id="btn-eng22">🏃 ENG Sprint 22 (current)</button>
-      <button class="cycle-btn active" onclick="switchCycle('prod23')" id="btn-prod23">📋 PRODUCT Sprint 23 (upcoming)</button>
-      <button class="cycle-btn" onclick="switchCycle('eng23')" id="btn-eng23">🔮 ENG Sprint 23 (next)</button>
+      <button class="cycle-btn" onclick="switchCycle('sprint22')" id="btn-sprint22">🏃 Sprint 22 (当前 3/15→3/29)</button>
+      <button class="cycle-btn active" onclick="switchCycle('sprint23')" id="btn-sprint23">📋 Sprint 23 (upcoming 3/23→4/3)</button>
     </div>
 
     <div class="cycle-label" id="cycleLabel"></div>
@@ -1173,7 +1252,7 @@ a:hover { text-decoration: underline; }
 
     <div class="controls">
       <div class="ctrl-group">
-        <button class="ctrl-btn active" onclick="switchView('layer')">🏗 五层架构</button>
+        <button class="ctrl-btn active" onclick="switchView('layer')">📦 功能模块</button>
         <button class="ctrl-btn" onclick="switchView('person')">👤 按人员</button>
       </div>
       <div class="ctrl-group">
@@ -1184,80 +1263,39 @@ a:hover { text-decoration: underline; }
     </div>
 
     <div id="view-layer" class="active">
-      <!-- ─── 获客层 ─── -->
-      <div class="section" data-layer-key="acquisition" style="--accent:#3b82f6;--accent-bg:rgba(59,130,246,.06)">
-        <div class="section-head">
-          <div class="section-title">
-            <span class="section-icon">📣</span>
-            <span class="section-name">获客层</span>
-            <span class="section-sub">Acquisition</span>
-          </div>
-          <div class="section-meta" id="meta-acquisition"></div>
-        </div>
-        <div class="progress-bar" id="progress-acquisition"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-acquisition"></div>
-      </div>
-
-      <!-- ─── 体验层 ─── -->
-      <div class="section" data-layer-key="experience" style="--accent:#14b8a6;--accent-bg:rgba(20,184,166,.06)">
-        <div class="section-head">
-          <div class="section-title">
-            <span class="section-icon">✨</span>
-            <span class="section-name">体验层</span>
-            <span class="section-sub">Experience</span>
-          </div>
-          <div class="section-meta" id="meta-experience"></div>
-        </div>
-        <div class="progress-bar" id="progress-experience"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-experience"></div>
-      </div>
-
-      <!-- ─── AI 层 ─── -->
-      <div class="section" data-layer-key="ai" style="--accent:#f59e0b;--accent-bg:rgba(245,158,11,.06)">
-        <div class="section-head">
-          <div class="section-title">
-            <span class="section-icon">🧠</span>
-            <span class="section-name">AI 层</span>
-            <span class="section-sub">Intelligence</span>
-          </div>
-          <div class="section-meta" id="meta-ai"></div>
-        </div>
-        <div class="progress-bar" id="progress-ai"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-ai"></div>
-      </div>
-
-      <!-- ─── 交易层 ─── -->
-      <div class="section" data-layer-key="trading" style="--accent:#ef4444;--accent-bg:rgba(239,68,68,.06)">
-        <div class="section-head">
-          <div class="section-title">
-            <span class="section-icon">📊</span>
-            <span class="section-name">交易层</span>
-            <span class="section-sub">Trading</span>
-          </div>
-          <div class="section-meta" id="meta-trading"></div>
-        </div>
-        <div class="progress-bar" id="progress-trading"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-trading"></div>
-      </div>
-
-      <!-- ─── 基础设施 ─── -->
-      <div class="section" data-layer-key="infra" style="--accent:#a78bfa;--accent-bg:rgba(167,139,250,.06)">
-        <div class="section-head">
-          <div class="section-title">
-            <span class="section-icon">🏗</span>
-            <span class="section-name">基础设施</span>
-            <span class="section-sub">Infrastructure</span>
-          </div>
-          <div class="section-meta" id="meta-infra"></div>
-        </div>
-        <div class="progress-bar" id="progress-infra"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-infra"></div>
-      </div>
-    </div><!-- /view-layer -->
+      <!-- Rendered dynamically by renderCycle — 7 D0 functional modules -->
+    </div>
 
     <div id="view-person">
       <!-- Rendered dynamically by renderCycle -->
-    </div><!-- /view-person -->
+    </div>
+
+    <!-- Add Issue to Current Cycle -->
+    <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);margin-top:var(--space-6)">
+      <div style="font-family:var(--font-mono);font-size:.75rem;font-weight:600;margin-bottom:var(--space-3);color:var(--fg-muted)">+ 添加 Issue 到当前 Cycle</div>
+      <div style="display:grid;grid-template-columns:120px 1fr 120px 140px auto;gap:var(--space-2);align-items:center">
+        <input id="cycleIssueId" type="text" placeholder="ENG-1234" style="font-family:var(--font-mono);font-size:.78rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
+        <input id="cycleIssueTitle" type="text" placeholder="Issue 标题" style="font-family:var(--font-sans);font-size:.82rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
+        <select id="cycleIssueAssignee" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
+          <option value="">负责人</option>
+          <option value="jackjun">JackJun</option><option value="fei">Fei</option><option value="xujin">Jin Xu</option>
+          <option value="gary">Gary</option><option value="ethan">Ethan</option><option value="alex">Alex</option>
+          <option value="lirui">Rui Li</option><option value="regison">Regison</option><option value="wenzhang">Wenzhang</option>
+          <option value="jiagui">Jiagui</option><option value="peter">Peter</option><option value="zouye">Ye Zou</option>
+          <option value="sylvia">Sylvia</option><option value="yixintan">Yi Tan</option><option value="hanliang">Liang Han</option>
+          <option value="tao">Tao Yuan</option><option value="jim">Jim</option><option value="kevin">Kevin</option><option value="justin">Justin</option>
+        </select>
+        <select id="cycleIssueModule" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
+          <option value="">模块</option>
+          <option value="ai">🧠 AI Engine</option><option value="trading">💰 Trading</option><option value="wallet">👛 Wallet</option>
+          <option value="dashboard">📊 Dashboard</option><option value="agent">🤖 Agent</option><option value="infra">🔌 Infra</option>
+          <option value="growth">📣 Growth</option>
+        </select>
+        <button onclick="addIssueToCycle()" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2) var(--space-4);background:var(--info);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap">添加</button>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:.62rem;color:var(--fg-subtle);margin-top:var(--space-2)">输入 Issue ID（如 ENG-1234 / PRODUCT-2008）+ 标题，添加到当前显示的 Cycle。自动生成 <a href="https://linear.app/donutbrowser" target="_blank" style="color:var(--info)">Linear</a> 链接。</div>
+    </div>
+
   </div><!-- /tab-sprint -->
 
   <!-- ══════════════════════════════════════════════════════
@@ -1276,7 +1314,6 @@ a:hover { text-decoration: underline; }
     </div>
     <div class="vline"></div>
     <div class="divisions">
-      <!-- ENGINEERING -->
       <div class="division engineering">
         <div class="div-head"><span class="dh-dot" style="background:var(--info)"></span><span class="dh-name" contenteditable>Engineering</span><span class="dh-count">12</span></div>
         <div class="sub-teams">
@@ -1305,7 +1342,6 @@ a:hover { text-decoration: underline; }
           </div>
         </div>
       </div>
-      <!-- PRODUCT & DESIGN -->
       <div class="division">
         <div class="div-head"><span class="dh-dot" style="background:var(--teal)"></span><span class="dh-name" contenteditable>Product &amp; Design</span><span class="dh-count">4</span></div>
         <div class="div-body">
@@ -1315,7 +1351,6 @@ a:hover { text-decoration: underline; }
           <div class="person"><span class="p-name" contenteditable>Yi Tan</span><span class="p-role" contenteditable>UI/UX Design</span><a class="p-link" href="https://linear.app/donutbrowser/user/yixintan/assigned" target="_blank">Linear ↗</a></div>
         </div>
       </div>
-      <!-- RESEARCH & DATA -->
       <div class="division">
         <div class="div-head"><span class="dh-dot" style="background:var(--warning)"></span><span class="dh-name" contenteditable>Research &amp; Data</span><span class="dh-count">2</span></div>
         <div class="div-body">
@@ -1323,7 +1358,6 @@ a:hover { text-decoration: underline; }
           <div class="person"><span class="p-name" contenteditable>Tao Yuan</span><span class="p-role" contenteditable>Data Engineering — 回测 / 数据管线</span><a class="p-link" href="https://linear.app/donutbrowser/user/tao/assigned" target="_blank">Linear ↗</a></div>
         </div>
       </div>
-      <!-- QA -->
       <div class="division">
         <div class="div-head"><span class="dh-dot" style="background:var(--fg-subtle)"></span><span class="dh-name" contenteditable>质量工程 QA</span><span class="dh-count">2</span></div>
         <div class="div-body">
@@ -1331,7 +1365,6 @@ a:hover { text-decoration: underline; }
           <div class="person"><span class="p-name" contenteditable>Kevin Wang</span><span class="p-role" contenteditable>测试工程师</span><a class="p-link" href="https://linear.app/donutbrowser/user/kevin/assigned" target="_blank">Linear ↗</a></div>
         </div>
       </div>
-      <!-- GTM -->
       <div class="division">
         <div class="div-head"><span class="dh-dot" style="background:var(--info)"></span><span class="dh-name" contenteditable>GTM / Growth</span><span class="dh-count">4</span></div>
         <div class="div-body">
@@ -1341,7 +1374,6 @@ a:hover { text-decoration: underline; }
           <div class="person"><span class="p-name" contenteditable>Hongwei Feng</span><span class="p-role" contenteditable>GTM / Social Frontier Tracking</span><a class="p-link" href="https://linear.app/donutbrowser/user/hongweifeng/assigned" target="_blank">Linear ↗</a></div>
         </div>
       </div>
-      <!-- OPS -->
       <div class="division">
         <div class="div-head"><span class="dh-dot" style="background:var(--fg-subtle)"></span><span class="dh-name" contenteditable>Operations &amp; Strategy</span><span class="dh-count">3</span></div>
         <div class="div-body">
@@ -1508,7 +1540,6 @@ a:hover { text-decoration: underline; }
        TAB 5: 风险 & 规划
        ══════════════════════════════════════════════════════ -->
   <div id="tab-risk" class="tab-panel">
-    <!-- Section 05: Risk -->
     <div class="sec">
       <div class="sec-head"><span class="sec-num">05</span><h2>风险消解</h2></div>
     </div>
@@ -1520,8 +1551,6 @@ a:hover { text-decoration: underline; }
       <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem" contenteditable><strong>Jiagui = DonutExtension 单点</strong><br>浏览器安全 + 容器隔离 sole owner。</div><div class="ri-fix" contenteditable><strong>行动:</strong> Jin Xu 或 Gary 做 Extension buddy · 文档化</div></div>
       <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem" contenteditable><strong>多副本无总 Owner</strong><br>各服务自行处理，无统筹。</div><div class="ri-fix" contenteditable><strong>行动:</strong> Wenzhang 总 owner · 优先级: Perps > Backend > Wallet > Agents</div></div>
     </div>
-
-    <!-- Section 06: Q2 Plan -->
     <div class="sec">
       <div class="sec-head"><span class="sec-num">06</span><h2>五层架构 Q2 规划</h2></div>
     </div>
@@ -1535,8 +1564,6 @@ a:hover { text-decoration: underline; }
         <tr style="opacity:.75"><td><span class="layer-dot" style="background:var(--fg-subtle)"></span><strong>基础设施</strong></td><td contenteditable>Wenzhang</td><td contenteditable>Regison · Jiagui · JackJun</td><td contenteditable>可用性>99.9%</td><td contenteditable>多副本 · 灾备 · Safety &amp; Container</td></tr>
       </tbody>
     </table>
-
-    <!-- Section 07: Challenge -->
     <div class="sec">
       <div class="sec-head"><span class="sec-num">07</span><h2>Challenge 决议</h2></div>
     </div>
@@ -1557,7 +1584,6 @@ a:hover { text-decoration: underline; }
        TAB 6: MY BOARD (个人看板)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-myboard" class="tab-panel">
-
     <div style="text-align:center;margin:var(--space-4) 0 var(--space-6)">
       <div style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:var(--space-2)">选择你的名字 → 查看和管理你的 Issues</div>
       <div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:var(--space-4)" id="personBtns">
@@ -1583,50 +1609,35 @@ a:hover { text-decoration: underline; }
         <button class="ctrl-btn" onclick="filterPerson('justin')">Justin</button>
       </div>
     </div>
-
-    <!-- Personal Issue Cards -->
-    <div id="myBoardGrid" class="card-grid" style="margin-bottom:var(--space-6)">
-      <!-- JS will populate from Sprint Board data + custom issues -->
-    </div>
-
-    <!-- Add Issue Form -->
+    <div id="myBoardGrid" style="margin-bottom:var(--space-6)"></div>
     <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-6)">
       <div style="font-family:var(--font-mono);font-size:.75rem;font-weight:600;margin-bottom:var(--space-3);color:var(--fg-muted)">+ 添加 Issue</div>
-      <div style="display:grid;grid-template-columns:120px 120px 1fr auto;gap:var(--space-2);align-items:center">
+      <div style="display:grid;grid-template-columns:120px 120px 1fr 120px auto;gap:var(--space-2);align-items:center">
         <input id="newIssueId" type="text" placeholder="ENG-1234" style="font-family:var(--font-mono);font-size:.78rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
         <select id="newIssueAssignee" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
           <option value="">负责人</option>
-          <option value="jackjun">JackJun</option>
-          <option value="fei">Fei</option>
-          <option value="xujin">Jin Xu</option>
-          <option value="gary">Gary</option>
-          <option value="ethan">Ethan</option>
-          <option value="alex">Alex</option>
-          <option value="lirui">Rui Li</option>
-          <option value="regison">Regison</option>
-          <option value="wenzhang">Wenzhang</option>
-          <option value="jiagui">Jiagui</option>
-          <option value="peter">Peter</option>
-          <option value="zouye">Ye Zou</option>
-          <option value="sylvia">Sylvia</option>
-          <option value="yixintan">Yi Tan</option>
-          <option value="hanliang">Liang Han</option>
-          <option value="tao">Tao Yuan</option>
-          <option value="jim">Jim</option>
-          <option value="kevin">Kevin</option>
-          <option value="justin">Justin</option>
+          <option value="jackjun">JackJun</option><option value="fei">Fei</option><option value="xujin">Jin Xu</option>
+          <option value="gary">Gary</option><option value="ethan">Ethan</option><option value="alex">Alex</option>
+          <option value="lirui">Rui Li</option><option value="regison">Regison</option><option value="wenzhang">Wenzhang</option>
+          <option value="jiagui">Jiagui</option><option value="peter">Peter</option><option value="zouye">Ye Zou</option>
+          <option value="sylvia">Sylvia</option><option value="yixintan">Yi Tan</option><option value="hanliang">Liang Han</option>
+          <option value="tao">Tao Yuan</option><option value="jim">Jim</option><option value="kevin">Kevin</option><option value="justin">Justin</option>
         </select>
         <input id="newIssueTitle" type="text" placeholder="Issue 标题" style="font-family:var(--font-sans);font-size:.82rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
+        <select id="newIssueModule" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
+          <option value="">模块</option>
+          <option value="ai">🧠 AI</option><option value="trading">💰 Trading</option><option value="wallet">👛 Wallet</option>
+          <option value="dashboard">📊 Dashboard</option><option value="agent">🤖 Agent</option><option value="infra">🔌 Infra</option>
+          <option value="growth">📣 Growth</option>
+        </select>
         <button onclick="addMyIssue()" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2) var(--space-4);background:var(--info);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap">添加</button>
       </div>
-      <div style="font-family:var(--font-mono);font-size:.62rem;color:var(--fg-subtle);margin-top:var(--space-2)">输入 Issue ID（如 ENG-1234 / PRODUCT-1834）自动生成 Linear 链接。或在 <a href="https://linear.app/donutbrowser/team/ENG/cycle/active" target="_blank" style="color:var(--info)">Linear</a> 创建后 sync。</div>
+      <div style="font-family:var(--font-mono);font-size:.62rem;color:var(--fg-subtle);margin-top:var(--space-2)">输入 Issue ID（如 ENG-1234 / PRODUCT-1834）自动生成 Linear 链接。</div>
     </div>
-
-    <!-- My Board Legend -->
     <div style="display:flex;gap:var(--space-4);flex-wrap:wrap;font-family:var(--font-mono);font-size:.65rem;color:var(--fg-subtle);justify-content:center">
-      <span>◉ <span style="color:var(--warning)">Active</span></span>
-      <span>○ <span style="color:var(--fg-subtle)">Todo</span></span>
-      <span>✓ <span style="color:var(--success)">Done</span></span>
+      <span>🔨 <span style="color:var(--warning)">开发中</span></span>
+      <span>📝 <span style="color:var(--fg-subtle)">待开始</span></span>
+      <span>✅ <span style="color:var(--success)">已完成</span></span>
       <span style="color:var(--error)">● P0</span>
       <span style="color:var(--warning)">● P1</span>
       <span style="color:var(--info)">● P2</span>
@@ -1637,214 +1648,66 @@ a:hover { text-decoration: underline; }
        TAB 7: USER VOICE PIPELINE
        ══════════════════════════════════════════════════════ -->
   <div id="tab-voice" class="tab-panel">
-
-    <!-- Pipeline Visualization -->
     <div class="voice-section-title" style="margin-top:var(--space-4)">
       <span class="vs-icon">🔄</span> User Voice Pipeline
     </div>
     <div class="voice-pipeline">
-      <div class="vp-stage" style="border-color:rgba(59,130,246,.3)">
-        <div class="vp-icon">📥</div>
-        <div class="vp-label">收集</div>
-        <div class="vp-count">89</div>
-      </div>
+      <div class="vp-stage" style="border-color:rgba(59,130,246,.3)"><div class="vp-icon">📥</div><div class="vp-label">收集</div><div class="vp-count">89</div></div>
       <div class="vp-arrow">→</div>
-      <div class="vp-stage" style="border-color:rgba(167,139,250,.3)">
-        <div class="vp-icon">🤖</div>
-        <div class="vp-label">AI Triage</div>
-        <div class="vp-count">89</div>
-      </div>
+      <div class="vp-stage" style="border-color:rgba(167,139,250,.3)"><div class="vp-icon">🤖</div><div class="vp-label">AI Triage</div><div class="vp-count">89</div></div>
       <div class="vp-arrow">→</div>
-      <div class="vp-stage" style="border-color:rgba(20,184,166,.3)">
-        <div class="vp-icon">📋</div>
-        <div class="vp-label">PRODUCT Backlog</div>
-        <div class="vp-count">8</div>
-      </div>
+      <div class="vp-stage" style="border-color:rgba(20,184,166,.3)"><div class="vp-icon">📋</div><div class="vp-label">PRODUCT Backlog</div><div class="vp-count">8</div></div>
       <div class="vp-arrow">→</div>
-      <div class="vp-stage" style="border-color:rgba(34,197,94,.3)">
-        <div class="vp-icon">🏃</div>
-        <div class="vp-label">Sprint</div>
-        <div class="vp-count">6</div>
-      </div>
+      <div class="vp-stage" style="border-color:rgba(34,197,94,.3)"><div class="vp-icon">🏃</div><div class="vp-label">Sprint</div><div class="vp-count">6</div></div>
     </div>
-
-    <!-- HIL Top Issues -->
-    <div class="voice-section-title">
-      <span class="vs-icon">📊</span> HIL 反馈 Top 问题状态
-    </div>
+    <div class="voice-section-title"><span class="vs-icon">📊</span> HIL 反馈 Top 问题状态</div>
     <div class="hil-grid">
-      <div class="hil-card">
-        <div class="hil-left">
-          <span class="hil-category">AI 数据抓取/幻觉</span>
-          <span class="hil-count">14</span>
-        </div>
-        <span class="hil-badge partial">🔶 部分解决</span>
-      </div>
-      <div class="hil-card">
-        <div class="hil-left">
-          <span class="hil-category">UI/UX 整体体验</span>
-          <span class="hil-count">14</span>
-        </div>
-        <span class="hil-badge partial">🔶 部分解决</span>
-      </div>
-      <div class="hil-card">
-        <div class="hil-left">
-          <span class="hil-category">钱包余额/仓位延迟</span>
-          <span class="hil-count">12</span>
-        </div>
-        <span class="hil-badge partial">🔶 部分解决</span>
-      </div>
-      <div class="hil-card">
-        <div class="hil-left">
-          <span class="hil-category">预置策略/一键交易</span>
-          <span class="hil-count">11</span>
-        </div>
-        <span class="hil-badge aligned">✅ D0 方向对齐</span>
-      </div>
-      <div class="hil-card">
-        <div class="hil-left">
-          <span class="hil-category">响应速度/稳定性</span>
-          <span class="hil-count">10</span>
-        </div>
-        <span class="hil-badge unconfirmed">⚠️ 未确认</span>
-      </div>
-      <div class="hil-card">
-        <div class="hil-left">
-          <span class="hil-category">Backtest 不可靠</span>
-          <span class="hil-count">8</span>
-        </div>
-        <span class="hil-badge unresolved">❌ 未解决</span>
-      </div>
-      <div class="hil-card">
-        <div class="hil-left">
-          <span class="hil-category">止损/限价异常</span>
-          <span class="hil-count">8</span>
-        </div>
-        <span class="hil-badge partial">🔶 部分解决</span>
-      </div>
-      <div class="hil-card">
-        <div class="hil-left">
-          <span class="hil-category">资金安全/信任</span>
-          <span class="hil-count">6</span>
-        </div>
-        <span class="hil-badge unconfirmed">⚠️ 未确认</span>
-      </div>
-      <div class="hil-card">
-        <div class="hil-left">
-          <span class="hil-category">策略逻辑不透明</span>
-          <span class="hil-count">6</span>
-        </div>
-        <span class="hil-badge inprogress">🔶 In Progress</span>
-      </div>
+      <div class="hil-card"><div class="hil-left"><span class="hil-category">AI 数据抓取/幻觉</span><span class="hil-count">14</span></div><span class="hil-badge partial">🔶 部分解决</span></div>
+      <div class="hil-card"><div class="hil-left"><span class="hil-category">UI/UX 整体体验</span><span class="hil-count">14</span></div><span class="hil-badge partial">🔶 部分解决</span></div>
+      <div class="hil-card"><div class="hil-left"><span class="hil-category">钱包余额/仓位延迟</span><span class="hil-count">12</span></div><span class="hil-badge partial">🔶 部分解决</span></div>
+      <div class="hil-card"><div class="hil-left"><span class="hil-category">预置策略/一键交易</span><span class="hil-count">11</span></div><span class="hil-badge aligned">✅ D0 方向对齐</span></div>
+      <div class="hil-card"><div class="hil-left"><span class="hil-category">响应速度/稳定性</span><span class="hil-count">10</span></div><span class="hil-badge unconfirmed">⚠️ 未确认</span></div>
+      <div class="hil-card"><div class="hil-left"><span class="hil-category">Backtest 不可靠</span><span class="hil-count">8</span></div><span class="hil-badge unresolved">❌ 未解决</span></div>
+      <div class="hil-card"><div class="hil-left"><span class="hil-category">止损/限价异常</span><span class="hil-count">8</span></div><span class="hil-badge partial">🔶 部分解决</span></div>
+      <div class="hil-card"><div class="hil-left"><span class="hil-category">资金安全/信任</span><span class="hil-count">6</span></div><span class="hil-badge unconfirmed">⚠️ 未确认</span></div>
+      <div class="hil-card"><div class="hil-left"><span class="hil-category">策略逻辑不透明</span><span class="hil-count">6</span></div><span class="hil-badge inprogress">🔶 In Progress</span></div>
     </div>
-
-    <!-- GTM Active User Voice Issues -->
-    <div class="voice-section-title">
-      <span class="vs-icon">📣</span> GTM Active User Voice Issues
-    </div>
+    <div class="voice-section-title"><span class="vs-icon">📣</span> GTM Active User Voice Issues</div>
     <div class="voice-issue-grid">
-      <div class="voice-issue-card">
-        <span class="vi-icon">📣</span>
-        <div>
-          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-206" target="_blank">GTM-206</a></div>
-          <div class="vi-title">AI - K线功能优化</div>
-        </div>
-        <span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span>
-        <span class="vi-assignee">Liang Han</span>
-      </div>
-      <div class="voice-issue-card">
-        <span class="vi-icon">📣</span>
-        <div>
-          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-189" target="_blank">GTM-189</a></div>
-          <div class="vi-title">引入"绩效教练"风控层</div>
-        </div>
-        <span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span>
-        <span class="vi-assignee">Liang Han</span>
-      </div>
-      <div class="voice-issue-card">
-        <span class="vi-icon">📣</span>
-        <div>
-          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-231" target="_blank">GTM-231</a></div>
-          <div class="vi-title">交易滑点感知优化</div>
-        </div>
-        <span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span>
-        <span class="vi-assignee">chu4</span>
-      </div>
-      <div class="voice-issue-card">
-        <span class="vi-icon">📣</span>
-        <div>
-          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-187" target="_blank">GTM-187</a></div>
-          <div class="vi-title">提升形态识别可解释性与准确度</div>
-        </div>
-        <span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span>
-        <span class="vi-assignee">Liang Han</span>
-      </div>
-      <div class="voice-issue-card">
-        <span class="vi-icon">📣</span>
-        <div>
-          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-39" target="_blank">GTM-39</a></div>
-          <div class="vi-title">webapp需要基础交易功能</div>
-        </div>
-        <span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span>
-        <span class="vi-assignee">Peter</span>
-      </div>
-      <div class="voice-issue-card">
-        <span class="vi-icon">📣</span>
-        <div>
-          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-220" target="_blank">GTM-220</a></div>
-          <div class="vi-title">策略基于什么指标和量价形态</div>
-        </div>
-        <span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span>
-        <span class="vi-assignee">JackJun</span>
-      </div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-206" target="_blank">GTM-206</a></div><div class="vi-title">AI - K线功能优化</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-189" target="_blank">GTM-189</a></div><div class="vi-title">引入"绩效教练"风控层</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-231" target="_blank">GTM-231</a></div><div class="vi-title">交易滑点感知优化</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">chu4</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-187" target="_blank">GTM-187</a></div><div class="vi-title">提升形态识别可解释性与准确度</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-39" target="_blank">GTM-39</a></div><div class="vi-title">webapp需要基础交易功能</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span><span class="vi-assignee">Peter</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-220" target="_blank">GTM-220</a></div><div class="vi-title">策略基于什么指标和量价形态</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span><span class="vi-assignee">JackJun</span></div>
     </div>
-
-    <!-- New Key Issues -->
-    <div class="voice-section-title">
-      <span class="vs-icon">🆕</span> 新建关键 Issue
-    </div>
+    <div class="voice-section-title"><span class="vs-icon">🆕</span> 新建关键 Issue</div>
     <div class="voice-issue-grid">
-      <div class="voice-issue-card" style="border-left:3px solid var(--purple)">
-        <span class="vi-icon">📋</span>
-        <div>
-          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank">PRODUCT-2007</a></div>
-          <div class="vi-title">D0 图表能力策略决策</div>
-        </div>
-        <span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">P2 Todo</span>
-        <span class="vi-assignee">Sylvia</span>
-      </div>
-      <div class="voice-issue-card" style="border-left:3px solid var(--purple)">
-        <span class="vi-icon">📋</span>
-        <div>
-          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank">PRODUCT-2008</a></div>
-          <div class="vi-title">HIL 反馈 → D0 迁移完整现状</div>
-        </div>
-        <span class="vi-status" style="background:rgba(239,68,68,.1);color:var(--error)">P1 Todo</span>
-        <span class="vi-assignee">—</span>
-      </div>
+      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank">PRODUCT-2007</a></div><div class="vi-title">D0 图表能力策略决策</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">P2 Todo</span><span class="vi-assignee">Sylvia</span></div>
+      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank">PRODUCT-2008</a></div><div class="vi-title">HIL 反馈 → D0 迁移完整现状</div></div><span class="vi-status" style="background:rgba(239,68,68,.1);color:var(--error)">P1 Todo</span><span class="vi-assignee">—</span></div>
     </div>
-
   </div><!-- /tab-voice -->
 
   <div class="footer">
-    D0 Product Dashboard v8 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Multi-Cycle View
+    D0 Product Dashboard v8.1 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View
   </div>
 
 </div><!-- /page -->
 
 <script>
 /* ══════════════════════════════════════════════════════════
-   CYCLES DATA
+   UNIFIED CYCLES DATA (v8.1 — ENG + PRODUCT merged)
    ══════════════════════════════════════════════════════════ */
 const CYCLES = {
-  eng22: {
-    label: 'ENG Sprint 22', dates: '3/15 → 3/29', status: 'active', team: 'ENG',
+  sprint22: {
+    label: 'Sprint 22', dates: '3/15 → 3/29', status: 'active',
     issues: [
-      { id:'ENG-1000', title:'tgbot中消息顺序的问题', assignee:'justin', layer:'experience', state:'started', stateLabel:'In Review', priority:'none', team:'ENG' },
-      { id:'ENG-1111', title:'Onboarding 状态机文档化 — 前后端状态流转 + 触发条件 + 边界 case', assignee:'wenzhang', layer:'experience', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1087', title:'OpenClaw Profile Plugin：用 SQLite 替代 workspace JSON 文件存储 user profile', assignee:'jim', layer:'experience', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
-      { id:'ENG-925', title:'[Research] D0 独享 Agent vs Multi-Agent 共享：功能与安全对比分析', assignee:'justin', layer:'experience', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
-      { id:'ENG-924', title:'[Research] D0 Cloud 成本分析：Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享', assignee:'justin', layer:'experience', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
+      // ─── ENG Sprint 22 ───
+      { id:'ENG-1000', title:'tgbot中消息顺序的问题', assignee:'justin', layer:'agent', state:'started', stateLabel:'In Review', priority:'none', team:'ENG' },
+      { id:'ENG-1111', title:'Onboarding 状态机文档化 — 前后端状态流转 + 触发条件 + 边界 case', assignee:'wenzhang', layer:'dashboard', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-1087', title:'OpenClaw Profile Plugin：用 SQLite 替代 workspace JSON 文件存储 user profile', assignee:'jim', layer:'infra', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
+      { id:'ENG-925', title:'[Research] D0 独享 Agent vs Multi-Agent 共享：功能与安全对比分析', assignee:'justin', layer:'agent', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
+      { id:'ENG-924', title:'[Research] D0 Cloud 成本分析：Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
       { id:'ENG-1019', title:'实现 D0 用户行为记忆系统（v3.0）', assignee:'jim', layer:'ai', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
       { id:'ENG-853', title:'[Eval001] Atom\u0026Invariant Level Evaluation', assignee:'fei', layer:'ai', state:'started', stateLabel:'In Review', priority:'medium', team:'ENG' },
       { id:'ENG-1091', title:'[Bug] Shared LLM 日配额每天早上耗尽 — Opus/Sonnet 100% 满额导致服务不可用', assignee:'jim', layer:'ai', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
@@ -1853,11 +1716,11 @@ const CYCLES = {
       { id:'ENG-1096', title:'[Methodology] Data source audit framework for discovering DONUT tool gaps and conflicts', assignee:'hanliang', layer:'ai', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
       { id:'ENG-827', title:'Collect more user scenarios and related data sources', assignee:'tao', layer:'ai', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
       { id:'ENG-1127', title:'[Position TPSL] 多空不平 / 流水断裂 / 死锁风险分析报告', assignee:'alex', layer:'trading', state:'started', stateLabel:'In Progress', priority:'high', team:'ENG' },
-      { id:'ENG-1062', title:'fix: build-transfer API 500 - Helius priority fee encoding mismatch', assignee:'ethan', layer:'trading', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
+      { id:'ENG-1062', title:'fix: build-transfer API 500 - Helius priority fee encoding mismatch', assignee:'ethan', layer:'wallet', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
       { id:'ENG-824', title:'Add Birdeye OHLCV fallback to hummingbot-api market data endpoints', assignee:'jackjun', layer:'trading', state:'started', stateLabel:'In Review', priority:'medium', team:'ENG' },
       { id:'ENG-967', title:'[d0-cli] GH#85: 功能改进: 平仓后自动取消对应token的止盈止损订单', assignee:'alex', layer:'trading', state:'started', stateLabel:'In Progress', priority:'none', team:'ENG' },
       { id:'ENG-1126', title:'Polymarket 信号生产到执行全流程 Pipeline', assignee:'ethan', layer:'trading', state:'triage', stateLabel:'Triage', priority:'high', team:'ENG' },
-      { id:'ENG-970', title:'[d0-cli] GH#75: DONUT_HL_WITHDRAW未告知提现手续费', assignee:'ethan', layer:'trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'ENG' },
+      { id:'ENG-970', title:'[d0-cli] GH#75: DONUT_HL_WITHDRAW未告知提现手续费', assignee:'ethan', layer:'wallet', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'ENG' },
       { id:'ENG-997', title:'polymarket完成情況與overall tracker', assignee:'hanliang', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-962', title:'Implement Polymarket CLOB \u0026 Data API Tools for d0-cli', assignee:'hanliang', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-861', title:'[P0] 生产服务全单副本 — 添加多副本 + PDB', assignee:'unassigned', layer:'infra', state:'started', stateLabel:'In Progress', priority:'urgent', team:'ENG' },
@@ -1876,51 +1739,74 @@ const CYCLES = {
       { id:'ENG-831', title:'Suna: long-lived connection draining during rolling update', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' }
     ]
   },
-  prod23: {
-    label: 'PRODUCT Sprint 23', dates: '3/23 → 4/3', status: 'upcoming', team: 'PRODUCT',
+  sprint23: {
+    label: 'Sprint 23', dates: '3/23 → 4/3', status: 'upcoming',
     issues: [
-      { id:'PRODUCT-2008', title:'[审计] HIL 用户反馈 → D0 迁移完整现状', assignee:'unassigned', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-2007', title:'图表能力策略决策', assignee:'sylvia', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1997', title:'Safari 登录跳回后参数未正确处理', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1996', title:'Safari 登录 redirect 不正确', assignee:'gary', layer:'experience', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1992', title:'D0 E2E 自动化测试接入 CI', assignee:'kevin', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-2002', title:'/d0/status 轮询间隔过长', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
+      // ─── PRODUCT Sprint 23 ───
+      { id:'PRODUCT-2008', title:'[审计] HIL 用户反馈 → D0 迁移完整现状', assignee:'unassigned', layer:'agent', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
+      { id:'PRODUCT-2007', title:'图表能力策略决策', assignee:'sylvia', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1997', title:'Safari 登录跳回后参数未正确处理', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1996', title:'Safari 登录 redirect 不正确', assignee:'gary', layer:'dashboard', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1992', title:'D0 E2E 自动化测试接入 CI', assignee:'kevin', layer:'infra', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-2002', title:'/d0/status 轮询间隔过长', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
       { id:'PRODUCT-1972', title:'数据质量与集成度审查', assignee:'regison', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1994', title:'月度 LLM 用量 resetsAt UTC', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-1993', title:'邀请码校验 loading', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-2001', title:'LLM USAGE 进度条不对称', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-2000', title:'动画需缩小', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
+      { id:'PRODUCT-1994', title:'月度 LLM 用量 resetsAt UTC', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
+      { id:'PRODUCT-1993', title:'邀请码校验 loading', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-2001', title:'LLM USAGE 进度条不对称', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
+      { id:'PRODUCT-2000', title:'动画需缩小', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
       { id:'PRODUCT-1945', title:'MCP tool bugs + data gaps', assignee:'hanliang', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1939', title:'EVM Native Token 转账预留 Gas', assignee:'ethan', layer:'trading', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1999', title:'Landing Page iframe 路由重构', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
+      { id:'PRODUCT-1939', title:'EVM Native Token 转账预留 Gas', assignee:'ethan', layer:'wallet', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT' },
+      { id:'PRODUCT-1999', title:'Landing Page iframe 路由重构', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
       { id:'PRODUCT-1915', title:'Position TPSL 下单触发价校验', assignee:'kevin', layer:'trading', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1998', title:'谷歌登录新邮箱界面问题', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
+      { id:'PRODUCT-1998', title:'谷歌登录新邮箱界面问题', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
       { id:'PRODUCT-1765', title:'GRPS AutoProtect', assignee:'kevin', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT' },
       { id:'PRODUCT-1763', title:'GRPS 授权管理', assignee:'kevin', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1586', title:'D0 Chat → Agent Creation PRD', assignee:'unassigned', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1502', title:'D0 Backtest Skill PRD', assignee:'sylvia', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1475', title:'confidence 0% 自动平仓', assignee:'unassigned', layer:'ai', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1474', title:'编辑策略时编辑币种', assignee:'unassigned', layer:'ai', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1443', title:'策略编辑后重新评估风险', assignee:'unassigned', layer:'ai', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1442', title:'创建后追加资金', assignee:'unassigned', layer:'ai', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1441', title:'TG通知 + TG交互修改', assignee:'unassigned', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' }
+      { id:'PRODUCT-1586', title:'D0 Chat → Agent Creation PRD', assignee:'unassigned', layer:'agent', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1502', title:'D0 Backtest Skill PRD', assignee:'sylvia', layer:'agent', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
+      { id:'PRODUCT-1475', title:'confidence 0% 自动平仓', assignee:'unassigned', layer:'agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1474', title:'编辑策略时编辑币种', assignee:'unassigned', layer:'agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1443', title:'策略编辑后重新评估风险', assignee:'unassigned', layer:'agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1442', title:'创建后追加资金', assignee:'unassigned', layer:'agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1441', title:'TG通知 + TG交互修改', assignee:'unassigned', layer:'agent', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' }
     ]
-  },
-  eng23: {
-    label: 'ENG Sprint 23', dates: '3/29 → 4/12', status: 'next', team: 'ENG',
-    issues: []
   }
 };
+
+/* ── Module Definitions (v8.1 — 7 D0 Functional Modules) ─ */
+const MODULES = ['ai','trading','wallet','dashboard','agent','infra','growth'];
+const moduleIcons = {ai:'🧠',trading:'💰',wallet:'👛',dashboard:'📊',agent:'🤖',infra:'🔌',growth:'📣'};
+const moduleNames = {ai:'AI Engine',trading:'Trading',wallet:'Wallet & Assets',dashboard:'Dashboard',agent:'Agent',infra:'Infrastructure',growth:'Growth & GTM'};
+const moduleAccents = {ai:'#f59e0b',trading:'#ef4444',wallet:'#14b8a6',dashboard:'#3b82f6',agent:'#a78bfa',infra:'#71717a',growth:'#22c55e'};
 
 /* ── Shared Mappings ───────────────────────────────────── */
 const nameMap = {jackjun:'JackJun',fei:'Fei',xujin:'Jin Xu',gary:'Gary',ethan:'Ethan',alex:'Alex',lirui:'Rui Li',regison:'Regison',wenzhang:'Wenzhang',jiagui:'Jiagui',peter:'Peter',zouye:'Ye Zou',sylvia:'Sylvia',yixintan:'Yi Tan',hanliang:'Liang Han',tao:'Tao Yuan',jim:'Jim',kevin:'Kevin',justin:'Justin',unassigned:'—'};
 const priorityColors = {urgent:'#ef4444',high:'#f59e0b',medium:'#3b82f6',low:'#22c55e',none:'#52525b'};
-const layerAccents = {acquisition:'#3b82f6',experience:'#14b8a6',ai:'#f59e0b',trading:'#ef4444',infra:'#a78bfa'};
-const layerIcons = {acquisition:'📣',experience:'✨',ai:'🧠',trading:'📊',infra:'🏗'};
-const layerNames = {acquisition:'获客层',experience:'体验层',ai:'AI 层',trading:'交易层',infra:'基础设施'};
-const LAYERS = ['acquisition','experience','ai','trading','infra'];
 
-let activeCycleKey = 'prod23';
+let activeCycleKey = 'sprint23';
+
+/* ── localStorage Keys (v8.1) ──────────────────────────── */
+const SAVE_KEY = 'd0-board-v81';
+const VER_KEY = 'd0-board-v81-vers';
+const CUSTOM_KEY = 'd0-board-v81-custom';
+const CYCLE_ADDS_KEY = 'd0-board-v81-cycle-adds';
+
+/* ── Cycle Additions (localStorage) ────────────────────── */
+function getCycleAdditions(key) {
+  try { const a = JSON.parse(localStorage.getItem(CYCLE_ADDS_KEY)||'{}'); return a[key]||[]; }
+  catch { return []; }
+}
+function saveCycleAddition(key, issue) {
+  const a = JSON.parse(localStorage.getItem(CYCLE_ADDS_KEY)||'{}');
+  if (!a[key]) a[key] = [];
+  if (a[key].some(i => i.id === issue.id)) return false;
+  a[key].push(issue);
+  localStorage.setItem(CYCLE_ADDS_KEY, JSON.stringify(a));
+  return true;
+}
+function removeCycleAddition(key, issueId) {
+  const a = JSON.parse(localStorage.getItem(CYCLE_ADDS_KEY)||'{}');
+  if (a[key]) { a[key] = a[key].filter(i => i.id !== issueId); localStorage.setItem(CYCLE_ADDS_KEY, JSON.stringify(a)); }
+}
 
 /* ══════════════════════════════════════════════════════════
    CYCLE RENDERING
@@ -1931,7 +1817,6 @@ function switchCycle(key) {
   const btn = document.getElementById('btn-' + key);
   if (btn) btn.classList.add('active');
   renderCycle(key);
-  // Reset state filter to all
   document.querySelectorAll('#tab-sprint .ctrl-group:last-child .ctrl-btn').forEach(b => b.classList.remove('active'));
   const allBtn = document.querySelector('#tab-sprint .ctrl-group:last-child .ctrl-btn[data-filter="all"]');
   if (allBtn) allBtn.classList.add('active');
@@ -1940,166 +1825,163 @@ function switchCycle(key) {
 function renderCycle(key) {
   const cycle = CYCLES[key];
   if (!cycle) return;
-  const issues = cycle.issues;
+  const added = getCycleAdditions(key).map(i => ({...i, source:'cycle-add'}));
+  const issues = [...cycle.issues, ...added];
 
-  // Update cycle label
-  const labelEl = document.getElementById('cycleLabel');
-  if (labelEl) labelEl.textContent = cycle.label + ' · ' + cycle.dates;
+  document.getElementById('cycleLabel').textContent = cycle.label + ' · ' + cycle.dates;
 
-  // Compute stats
+  // Stats
   const total = issues.length;
-  const active = issues.filter(i => i.state === 'started' || i.state === 'triage').length;
-  const done = issues.filter(i => i.state === 'completed').length;
-  const canceled = issues.filter(i => i.state === 'canceled').length;
-  const completion = total > 0 ? Math.round(((done + canceled) / total) * 100) : 0;
-  const people = new Set(issues.filter(i => i.assignee !== 'unassigned').map(i => i.assignee)).size;
-
+  const active = issues.filter(i => i.state==='started'||i.state==='triage').length;
+  const done = issues.filter(i => i.state==='completed').length;
+  const canceled = issues.filter(i => i.state==='canceled').length;
+  const completion = total > 0 ? Math.round(((done+canceled)/total)*100) : 0;
+  const people = new Set(issues.filter(i => i.assignee!=='unassigned').map(i => i.assignee)).size;
   document.getElementById('stat-total').textContent = total;
   document.getElementById('stat-active').textContent = active;
   document.getElementById('stat-done').textContent = done;
-  document.getElementById('stat-completion').textContent = completion + '%';
+  document.getElementById('stat-completion').textContent = completion+'%';
   document.getElementById('stat-people').textContent = people;
 
-  // Render layer view
-  LAYERS.forEach(layer => {
-    const grid = document.getElementById('grid-' + layer);
-    const metaEl = document.getElementById('meta-' + layer);
-    const progressEl = document.getElementById('progress-' + layer);
-    if (!grid) return;
+  // Module View
+  const layerView = document.getElementById('view-layer');
+  layerView.innerHTML = MODULES.map(mod => {
+    const mi = issues.filter(i => i.layer === mod);
+    if (mi.length === 0) return '';
+    const mActive = mi.filter(i => i.state==='started'||i.state==='triage').length;
+    const mDone = mi.filter(i => i.state==='completed').length;
+    const mCanceled = mi.filter(i => i.state==='canceled').length;
+    const mTotal = mi.length;
+    const doneP = mTotal>0 ? Math.round(((mDone+mCanceled)/mTotal)*100) : 0;
+    const activeP = mTotal>0 ? Math.round((mActive/mTotal)*100) : 0;
+    return '<div class="module-section">'
+      +'<div class="module-header" onclick="this.parentElement.classList.toggle(\'collapsed\')">'
+      +'<span class="module-icon">'+moduleIcons[mod]+'</span>'
+      +'<span class="module-name">'+moduleNames[mod]+'</span>'
+      +'<span class="module-count">'+mTotal+'</span>'
+      +'<span class="module-meta">'+mActive+' active · '+mDone+' done</span>'
+      +'<span class="chevron">▼</span></div>'
+      +'<div class="module-body">'
+      +'<div class="progress-bar"><div class="progress-done" style="width:'+doneP+'%"></div><div class="progress-active" style="width:'+activeP+'%"></div></div>'
+      +'<div class="card-grid">'+mi.map(renderCardHTML).join('')+'</div>'
+      +'</div></div>';
+  }).join('');
 
-    const layerIssues = issues.filter(i => i.layer === layer);
-    const layerActive = layerIssues.filter(i => i.state === 'started' || i.state === 'triage').length;
-    const layerDone = layerIssues.filter(i => i.state === 'completed').length;
-    const layerTotal = layerIssues.length;
-
-    // Update meta
-    if (metaEl) {
-      metaEl.innerHTML = '<span class="meta-count">' + layerActive + ' active</span><span class="meta-sep">·</span><span class="meta-count">' + layerDone + ' done</span>';
-    }
-
-    // Update progress bar
-    if (progressEl && layerTotal > 0) {
-      const doneP = Math.round((layerDone / layerTotal) * 100);
-      const activeP = Math.round((layerActive / layerTotal) * 100);
-      progressEl.innerHTML = '<div class="progress-done" style="width:' + doneP + '%"></div><div class="progress-active" style="width:' + activeP + '%"></div>';
-      progressEl.style.display = '';
-    } else if (progressEl) {
-      progressEl.style.display = 'none';
-    }
-
-    // Render cards
-    if (layerIssues.length === 0) {
-      grid.innerHTML = '<div class="empty-state">当前 Cycle 暂无 issue</div>';
-    } else {
-      grid.innerHTML = layerIssues.map(renderCardHTML).join('');
-    }
-  });
-
-  // Render person view
   renderPersonView(issues);
   save();
 }
 
+/* ── Delivery Pipeline ─────────────────────────────────── */
+function getPipelineHTML(state, stateLabel) {
+  if (state === 'canceled') return '';
+  let step = 0;
+  if (state==='triage'||state==='unstarted') step = 0;
+  else if (state==='started' && stateLabel!=='In Review') step = 1;
+  else if (state==='started' && stateLabel==='In Review') step = 2;
+  else if (state==='completed') step = 4;
+  let h = '<div class="delivery-pipeline">';
+  for (let i = 0; i < 6; i++) {
+    let c = 'pipeline-step';
+    if (i < step) c += ' reached';
+    else if (i === step) c += ' current';
+    h += '<div class="'+c+'"></div>';
+  }
+  return h + '</div>';
+}
+
+/* ── Card Rendering ────────────────────────────────────── */
 function renderCardHTML(issue) {
-  const pColor = priorityColors[issue.priority] || '#52525b';
-  const isProduct = issue.team === 'PRODUCT';
-  const accentStyle = isProduct ? ' style="--accent:var(--purple)"' : '';
+  const pColor = priorityColors[issue.priority]||'#52525b';
+  const teamAccent = issue.team==='PRODUCT' ? '#a78bfa' : '#14b8a6';
   let stateColor, stateText, cardClass;
   switch(issue.state) {
-    case 'started': stateColor = '#f59e0b'; stateText = '◉ ' + issue.stateLabel; cardClass = 'active'; break;
-    case 'completed': stateColor = '#22c55e'; stateText = '✓ Done'; cardClass = 'done'; break;
-    case 'canceled': stateColor = '#71717a'; stateText = '✕ Canceled'; cardClass = 'done'; break;
-    case 'triage': stateColor = '#a78bfa'; stateText = '◎ Triage'; cardClass = 'triage'; break;
-    default: stateColor = '#71717a'; stateText = '○ Todo'; cardClass = 'todo';
+    case 'started':
+      if (issue.stateLabel==='In Review') { stateColor='#a78bfa'; stateText='👀 Review 中'; cardClass='active'; }
+      else { stateColor='#f59e0b'; stateText='🔨 开发中'; cardClass='active'; }
+      break;
+    case 'completed': stateColor='#22c55e'; stateText='✅ 已完成'; cardClass='done'; break;
+    case 'canceled': stateColor='#71717a'; stateText='✕ 已取消'; cardClass='done cancel'; break;
+    case 'triage': stateColor='#a78bfa'; stateText='📝 待分类'; cardClass='triage'; break;
+    default: stateColor='#71717a'; stateText='📝 待开始'; cardClass='todo';
   }
-  // Add priority tag for todo items
-  if (issue.state === 'unstarted' && issue.priority !== 'none') {
-    const pLabels = {urgent:'P1',high:'P2',medium:'P3',low:'P4'};
-    if (pLabels[issue.priority]) stateText += ' · ' + pLabels[issue.priority];
+  if (issue.state==='unstarted' && issue.priority!=='none') {
+    const pL = {urgent:'P0',high:'P1',medium:'P2',low:'P3'};
+    if (pL[issue.priority]) stateText += ' · '+pL[issue.priority];
   }
-  const assigneeName = nameMap[issue.assignee] || issue.assignee;
-  const href = 'https://linear.app/donutbrowser/issue/' + issue.id;
+  const assigneeName = nameMap[issue.assignee]||issue.assignee;
+  const href = 'https://linear.app/donutbrowser/issue/'+issue.id;
   const safeTitle = issue.title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const teamBadge = '<span class="card-team-badge '+(issue.team==='PRODUCT'?'product':'eng')+'">'+issue.team+'</span>';
+  const delBtn = issue.source==='cycle-add' ? '<button class="card-custom-del" onclick="removeCycleIssueAndRefresh(\''+issue.id+'\')">✕</button>' : '';
 
-  return '<div class="card ' + cardClass + '" data-assignee="' + issue.assignee + '" data-layer="' + issue.layer + '" data-state="' + issue.state + '"' + accentStyle + '>'
-    + '<div class="card-head"><a href="' + href + '" target="_blank" rel="noopener" class="card-id">' + issue.id + '</a>'
-    + '<span class="priority-dot" style="background:' + pColor + '"></span></div>'
-    + '<div class="card-title">' + safeTitle + '</div>'
-    + '<div class="card-foot"><span class="card-assignee">' + assigneeName + '</span>'
-    + '<span class="card-state" onclick="cycleCardState(this)" style="--state-color:' + stateColor + '">' + stateText + '</span></div></div>';
+  return '<div class="card '+cardClass+'" data-assignee="'+issue.assignee+'" data-layer="'+issue.layer+'" data-state="'+issue.state+'" style="--accent:'+teamAccent+'">'
+    +delBtn
+    +'<div class="card-head"><a href="'+href+'" target="_blank" rel="noopener" class="card-id">'+issue.id+'</a>'
+    +teamBadge
+    +'<span class="priority-dot" style="background:'+pColor+'"></span></div>'
+    +'<div class="card-title">'+safeTitle+'</div>'
+    +getPipelineHTML(issue.state, issue.stateLabel)
+    +'<div class="card-foot"><span class="card-assignee">'+assigneeName+'</span>'
+    +'<span class="card-state" onclick="cycleCardState(this)" style="--state-color:'+stateColor+'">'+stateText+'</span></div></div>';
+}
+
+function removeCycleIssueAndRefresh(id) {
+  if (!confirm('删除 '+id+'?')) return;
+  removeCycleAddition(activeCycleKey, id);
+  renderCycle(activeCycleKey);
 }
 
 function renderPersonView(issues) {
-  const personView = document.getElementById('view-person');
-  if (!personView) return;
-
-  // Group by assignee
+  const pv = document.getElementById('view-person');
+  if (!pv) return;
   const groups = {};
-  issues.forEach(i => {
-    const a = i.assignee;
-    if (!groups[a]) groups[a] = [];
-    groups[a].push(i);
+  issues.forEach(i => { if (!groups[i.assignee]) groups[i.assignee]=[]; groups[i.assignee].push(i); });
+  const sorted = Object.keys(groups).sort((a,b) => {
+    const aA = groups[a].filter(i => i.state==='started'||i.state==='triage').length;
+    const bA = groups[b].filter(i => i.state==='started'||i.state==='triage').length;
+    if (bA!==aA) return bA-aA;
+    return (nameMap[a]||a).localeCompare(nameMap[b]||b);
   });
-
-  // Sort assignees: by active count desc, then by name
-  const sortedAssignees = Object.keys(groups).sort((a, b) => {
-    const aActive = groups[a].filter(i => i.state === 'started' || i.state === 'triage').length;
-    const bActive = groups[b].filter(i => i.state === 'started' || i.state === 'triage').length;
-    if (bActive !== aActive) return bActive - aActive;
-    return (nameMap[a] || a).localeCompare(nameMap[b] || b);
-  });
-
-  if (sortedAssignees.length === 0) {
-    personView.innerHTML = '<div class="empty-state" style="padding:var(--space-8);text-align:center">当前 Cycle 暂无 issue</div>';
-    return;
-  }
-
-  personView.innerHTML = sortedAssignees.map(assignee => {
+  if (!sorted.length) { pv.innerHTML='<div class="empty-state">当前 Sprint 暂无 issue</div>'; return; }
+  pv.innerHTML = sorted.map(assignee => {
     const cards = groups[assignee];
-    const active = cards.filter(i => i.state === 'started' || i.state === 'triage').length;
-    const done = cards.filter(i => i.state === 'completed').length;
-    const total = cards.length;
-    const doneP = total > 0 ? Math.round((done / total) * 100) : 0;
-    const activeP = total > 0 ? Math.round((active / total) * 100) : 0;
-    // Find primary layer
-    const layerCounts = {};
-    cards.forEach(c => { layerCounts[c.layer] = (layerCounts[c.layer] || 0) + 1; });
-    const primaryLayer = Object.keys(layerCounts).sort((a, b) => layerCounts[b] - layerCounts[a])[0] || 'infra';
-    const accent = layerAccents[primaryLayer] || 'var(--fg-subtle)';
-    const icon = layerIcons[primaryLayer] || '🏗';
-    const layerLabel = layerNames[primaryLayer] || primaryLayer;
-    const displayName = nameMap[assignee] || assignee;
-    const initial = displayName.charAt(0).toUpperCase();
-
-    return '<div class="section" style="--accent:' + accent + '">'
-      + '<div class="section-head"><div class="section-title">'
-      + '<span class="person-avatar">' + initial + '</span>'
-      + '<span class="section-name">' + displayName + '</span>'
-      + '<span class="section-sub" style="color:' + accent + '">' + icon + ' ' + layerLabel + '</span></div>'
-      + '<div class="section-meta"><span class="meta-count">' + active + ' active</span><span class="meta-sep">·</span><span class="meta-count">' + done + ' done</span></div></div>'
-      + '<div class="progress-bar"><div class="progress-done" style="width:' + doneP + '%"></div><div class="progress-active" style="width:' + activeP + '%"></div></div>'
-      + '<div class="card-grid">' + cards.map(renderCardHTML).join('') + '</div></div>';
+    const ac = cards.filter(i => i.state==='started'||i.state==='triage').length;
+    const dn = cards.filter(i => i.state==='completed').length;
+    const t = cards.length;
+    const dP = t>0?Math.round((dn/t)*100):0;
+    const aP = t>0?Math.round((ac/t)*100):0;
+    const lc = {}; cards.forEach(c => { lc[c.layer]=(lc[c.layer]||0)+1; });
+    const pl = Object.keys(lc).sort((a,b) => lc[b]-lc[a])[0]||'infra';
+    const accent = moduleAccents[pl]||'var(--fg-subtle)';
+    const icon = moduleIcons[pl]||'🔌';
+    const ln = moduleNames[pl]||pl;
+    const dn2 = nameMap[assignee]||assignee;
+    const init = dn2.charAt(0).toUpperCase();
+    return '<div class="section" style="--accent:'+accent+'">'
+      +'<div class="section-head"><div class="section-title">'
+      +'<span class="person-avatar">'+init+'</span>'
+      +'<span class="section-name">'+dn2+'</span>'
+      +'<span class="section-sub" style="color:'+accent+'">'+icon+' '+ln+'</span></div>'
+      +'<div class="section-meta"><span class="meta-count">'+ac+' active</span><span class="meta-sep">·</span><span class="meta-count">'+dn+' done</span></div></div>'
+      +'<div class="progress-bar"><div class="progress-done" style="width:'+dP+'%"></div><div class="progress-active" style="width:'+aP+'%"></div></div>'
+      +'<div class="card-grid">'+cards.map(renderCardHTML).join('')+'</div></div>';
   }).join('');
 }
 
 /* ── Sprint Card State Cycling ─────────────────────────── */
 const cardStateCycle = [
-  { state:'unstarted', label:'○ Todo', color:'#71717a' },
-  { state:'started', label:'◉ In Progress', color:'#f59e0b' },
-  { state:'completed', label:'✓ Done', color:'#22c55e' }
+  { state:'unstarted', label:'📝 待开始', color:'#71717a' },
+  { state:'started', label:'🔨 开发中', color:'#f59e0b' },
+  { state:'completed', label:'✅ 已完成', color:'#22c55e' }
 ];
 function cycleCardState(el) {
   const card = el.closest('.card');
   if (!card) return;
   const cur = card.dataset.state;
-  const idx = cardStateCycle.findIndex(s => s.state === cur);
-  const next = cardStateCycle[(idx + 1) % cardStateCycle.length];
+  const idx = cardStateCycle.findIndex(s => s.state===cur);
+  const next = cardStateCycle[(idx+1)%cardStateCycle.length];
   card.dataset.state = next.state;
-  card.className = 'card ' + (next.state === 'completed' ? 'done' : next.state === 'started' ? 'active' : 'todo');
-  // Preserve accent for PRODUCT cards
-  if (el.closest('[style*="--accent:var(--purple)"]')) {
-    card.style.setProperty('--accent', 'var(--purple)');
-  }
+  card.className = 'card '+(next.state==='completed'?'done':next.state==='started'?'active':'todo');
   el.style.setProperty('--state-color', next.color);
   el.textContent = next.label;
   save();
@@ -2109,16 +1991,16 @@ function cycleCardState(el) {
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
   event.currentTarget.classList.add('active');
-  if (tab === 'myboard') renderMyBoard(window._currentMyFilter || 'all');
+  if (tab==='myboard') renderMyBoard(window._currentMyFilter||'all');
 }
 
 /* ── Sprint Board: View Switching ──────────────────────── */
 function switchView(view) {
   document.querySelectorAll('#tab-sprint .ctrl-group:first-child .ctrl-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('#view-layer,#view-person').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-' + view).classList.add('active');
+  document.getElementById('view-'+view).classList.add('active');
   event.currentTarget.classList.add('active');
 }
 
@@ -2128,23 +2010,43 @@ function filterState(filter) {
   event.currentTarget.classList.add('active');
   document.querySelectorAll('#tab-sprint .card').forEach(card => {
     const state = card.dataset.state;
-    if (filter === 'all') card.style.display = '';
-    else if (filter === 'active') card.style.display = ['completed','canceled'].includes(state) ? 'none' : '';
-    else if (filter === 'done') card.style.display = state === 'completed' ? '' : 'none';
+    if (filter==='all') card.classList.remove('filtered-out');
+    else if (filter==='active') card.classList.toggle('filtered-out', ['completed','canceled'].includes(state));
+    else if (filter==='done') card.classList.toggle('filtered-out', state!=='completed');
   });
+  document.querySelectorAll('#view-layer .module-section').forEach(s => {
+    const total = s.querySelectorAll('.card').length;
+    const hidden = s.querySelectorAll('.card.filtered-out').length;
+    s.style.display = (total===hidden)?'none':'';
+  });
+}
+
+/* ── Add Issue to Cycle ────────────────────────────────── */
+function addIssueToCycle() {
+  const id = document.getElementById('cycleIssueId').value.trim().toUpperCase();
+  const title = document.getElementById('cycleIssueTitle').value.trim();
+  const assignee = document.getElementById('cycleIssueAssignee').value||'unassigned';
+  const layer = document.getElementById('cycleIssueModule').value||'infra';
+  if (!id||!title) { alert('请输入 Issue ID 和标题'); return; }
+  const team = id.startsWith('PRODUCT')?'PRODUCT':id.startsWith('TES')?'TES':'ENG';
+  const issue = {id, title, assignee, layer, state:'unstarted', stateLabel:'Todo', priority:'none', team};
+  if (saveCycleAddition(activeCycleKey, issue)) {
+    renderCycle(activeCycleKey);
+    document.getElementById('cycleIssueId').value='';
+    document.getElementById('cycleIssueTitle').value='';
+    document.getElementById('cycleIssueAssignee').value='';
+    document.getElementById('cycleIssueModule').value='';
+  } else { alert(id+' 已存在'); }
 }
 
 /* ── Kanban: Status Cycling ────────────────────────────── */
 const statusCycle = [
-  {cls:'active', text:'进行中'},
-  {cls:'p0', text:'P0'},
-  {cls:'blocked', text:'BLOCKED'},
-  {cls:'gap', text:'需定义'},
-  {cls:'done', text:'✓ Done'}
+  {cls:'active', text:'进行中'},{cls:'p0', text:'P0'},{cls:'blocked', text:'BLOCKED'},
+  {cls:'gap', text:'需定义'},{cls:'done', text:'✓ Done'}
 ];
 function cycleStatus(el) {
   const c = statusCycle.findIndex(s => el.classList.contains(s.cls));
-  const n = (c + 1) % statusCycle.length;
+  const n = (c+1)%statusCycle.length;
   statusCycle.forEach(s => el.classList.remove(s.cls));
   el.classList.add(statusCycle[n].cls);
   el.textContent = statusCycle[n].text;
@@ -2152,14 +2054,10 @@ function cycleStatus(el) {
 }
 
 /* ── Challenge: Resolution Cycling ─────────────────────── */
-const resCycle = [
-  {cls:'resolved', text:'✓ 已修正'},
-  {cls:'action', text:'→ 需确认'},
-  {cls:'discuss', text:'讨论中'}
-];
+const resCycle = [{cls:'resolved',text:'✓ 已修正'},{cls:'action',text:'→ 需确认'},{cls:'discuss',text:'讨论中'}];
 function cycleRes(el) {
   const c = resCycle.findIndex(r => el.classList.contains(r.cls));
-  const n = (c + 1) % resCycle.length;
+  const n = (c+1)%resCycle.length;
   resCycle.forEach(r => el.classList.remove(r.cls));
   el.classList.add(resCycle[n].cls);
   el.textContent = resCycle[n].text;
@@ -2170,186 +2068,147 @@ function cycleRes(el) {
 function addCard(btn) {
   const b = btn.previousElementSibling;
   const c = document.createElement('div');
-  c.className = 'k-card';
-  c.draggable = true;
-  c.innerHTML = '<span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>新模块</div><div class="kc-people" contenteditable>负责人</div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span>';
-  b.appendChild(c);
-  initDrag(c);
-  c.querySelector('.kc-title').focus();
-  save();
+  c.className='k-card'; c.draggable=true;
+  c.innerHTML='<span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>新模块</div><div class="kc-people" contenteditable>负责人</div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span>';
+  b.appendChild(c); initDrag(c);
+  c.querySelector('.kc-title').focus(); save();
 }
-function delCard(btn) {
-  if (confirm('删除?')) { btn.parentElement.remove(); save() }
-}
+function delCard(btn) { if (confirm('删除?')) { btn.parentElement.remove(); save() } }
 
 /* ── Kanban: Drag & Drop ───────────────────────────────── */
-let dragCard = null;
+let dragCard=null;
 function initDrag(card) {
-  card.addEventListener('dragstart', e => {
-    dragCard = card;
-    card.classList.add('dragging');
-    e.dataTransfer.effectAllowed = 'move';
-  });
-  card.addEventListener('dragend', () => {
-    dragCard?.classList.remove('dragging');
-    dragCard = null;
-    document.querySelectorAll('.k-col').forEach(c => c.classList.remove('drag-over'));
-  });
+  card.addEventListener('dragstart', e => { dragCard=card; card.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; });
+  card.addEventListener('dragend', () => { dragCard?.classList.remove('dragging'); dragCard=null; document.querySelectorAll('.k-col').forEach(c => c.classList.remove('drag-over')); });
 }
 function initColDrop(col) {
   col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('drag-over') });
   col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
-  col.addEventListener('drop', e => {
-    e.preventDefault();
-    col.classList.remove('drag-over');
-    if (dragCard) { col.querySelector('.k-body').appendChild(dragCard); save() }
-  });
+  col.addEventListener('drop', e => { e.preventDefault(); col.classList.remove('drag-over'); if (dragCard) { col.querySelector('.k-body').appendChild(dragCard); save() } });
 }
 document.querySelectorAll('.k-card').forEach(initDrag);
 document.querySelectorAll('.k-col').forEach(initColDrop);
 
 /* ── Auto-save / localStorage ──────────────────────────── */
-const SAVE_KEY = 'd0-board-v8';
-const VER_KEY = 'd0-board-v8-vers';
 let saveTimer;
-
 function save() {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
     localStorage.setItem(SAVE_KEY, document.querySelector('.page').innerHTML);
-    const ind = document.getElementById('saveInd');
-    if (ind) { ind.textContent = '✓ saved'; ind.classList.add('show'); setTimeout(() => ind.classList.remove('show'), 1500) }
+    const ind=document.getElementById('saveInd');
+    if (ind) { ind.textContent='✓ saved'; ind.classList.add('show'); setTimeout(() => ind.classList.remove('show'),1500) }
   }, 500);
 }
-
-document.addEventListener('input', e => {
-  if (e.target.closest('[contenteditable]')) save();
-});
-
-function loadSaved() {
-  const s = localStorage.getItem(SAVE_KEY);
-  if (s) {
-    document.querySelector('.page').innerHTML = s;
-    rebindAll();
-  }
-}
+document.addEventListener('input', e => { if (e.target.closest('[contenteditable]')) save(); });
 
 function rebindAll() {
   document.querySelectorAll('.k-card').forEach(initDrag);
   document.querySelectorAll('.k-col').forEach(initColDrop);
 }
 
-// Don't auto-load from localStorage on first load — render fresh from CYCLES data
-// loadSaved();
-
 /* ── Version Management ────────────────────────────────── */
-function getVersions() {
-  try { return JSON.parse(localStorage.getItem(VER_KEY) || '[]') } catch { return [] }
-}
-
+function getVersions() { try { return JSON.parse(localStorage.getItem(VER_KEY)||'[]') } catch { return [] } }
 function saveVersion() {
-  const n = prompt('版本名称:', 'v' + (getVersions().length + 1) + ' — ' + new Date().toLocaleDateString('zh-CN'));
+  const n=prompt('版本名称:','v'+(getVersions().length+1)+' — '+new Date().toLocaleDateString('zh-CN'));
   if (!n) return;
-  const v = getVersions();
-  v.push({ name: n, ts: new Date().toISOString(), html: document.querySelector('.page').innerHTML });
-  localStorage.setItem(VER_KEY, JSON.stringify(v));
-  const ind = document.getElementById('saveInd');
-  if (ind) { ind.textContent = '✓ ' + n; ind.classList.add('show'); setTimeout(() => ind.classList.remove('show'), 2500) }
+  const v=getVersions();
+  v.push({name:n,ts:new Date().toISOString(),html:document.querySelector('.page').innerHTML});
+  localStorage.setItem(VER_KEY,JSON.stringify(v));
+  const ind=document.getElementById('saveInd');
+  if (ind) { ind.textContent='✓ '+n; ind.classList.add('show'); setTimeout(() => ind.classList.remove('show'),2500) }
   updateVersionList();
 }
-
 function loadVersion(idx) {
-  const v = getVersions();
-  if (v[idx] && confirm('加载「' + v[idx].name + '」?')) {
-    document.querySelector('.page').innerHTML = v[idx].html;
-    rebindAll();
-    save();
-    updateVersionList();
+  const v=getVersions();
+  if (v[idx]&&confirm('加载「'+v[idx].name+'」?')) {
+    document.querySelector('.page').innerHTML=v[idx].html; rebindAll(); save(); updateVersionList();
   }
 }
-
 function updateVersionList() {
-  const el = document.getElementById('verList');
-  if (!el) return;
-  const v = getVersions();
-  el.innerHTML = v.length ? v.map((x, i) => '<button class="btn" style="font-size:.56rem" onclick="loadVersion(' + i + ')">' + x.name + '</button>').join('') : '';
+  const el=document.getElementById('verList'); if (!el) return;
+  const v=getVersions();
+  el.innerHTML=v.length?v.map((x,i) => '<button class="btn" style="font-size:.56rem" onclick="loadVersion('+i+')">'+x.name+'</button>').join(''):'';
 }
-
 function exportHTML() {
-  const n = prompt('文件名:', 'd0-dashboard-' + new Date().toISOString().slice(0, 10));
+  const n=prompt('文件名:','d0-dashboard-'+new Date().toISOString().slice(0,10));
   if (!n) return;
-  const b = new Blob(['<!DOCTYPE html>' + document.documentElement.outerHTML], { type: 'text/html' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(b);
-  a.download = n + '.html';
-  a.click();
+  const b=new Blob(['<!DOCTYPE html>'+document.documentElement.outerHTML],{type:'text/html'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=n+'.html'; a.click();
 }
-
 function resetData() {
-  if (confirm('重置所有编辑? (版本不丢)')) {
-    localStorage.removeItem(SAVE_KEY);
-    location.reload();
-  }
+  if (confirm('重置所有编辑? (版本不丢)')) { localStorage.removeItem(SAVE_KEY); location.reload(); }
 }
-
 setTimeout(updateVersionList, 100);
 
-/* ── My Board: Personal Kanban ─────────────────────────── */
-const CUSTOM_KEY = 'd0-board-v8-custom';
-const layerColors = {experience:'var(--teal)',ai:'var(--warning)',trading:'var(--error)',infra:'var(--purple)',acquisition:'var(--info)'};
-
+/* ── My Board ──────────────────────────────────────────── */
+function collectSprintIssues() {
+  const cycle = CYCLES[activeCycleKey];
+  if (!cycle) return [];
+  const added = getCycleAdditions(activeCycleKey);
+  return [...cycle.issues, ...added].map(i => ({
+    id:i.id, title:i.title, assignee:i.assignee, layer:i.layer,
+    state:i.state, stateLabel:i.stateLabel, priority:i.priority, team:i.team,
+    href:'https://linear.app/donutbrowser/issue/'+i.id,
+    pColor:priorityColors[i.priority]||'#52525b', source:'sprint'
+  }));
+}
 function getCustomIssues() { try { return JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]') } catch { return [] } }
 function saveCustomIssues(arr) { localStorage.setItem(CUSTOM_KEY, JSON.stringify(arr)); save(); }
 
-function collectSprintCards() {
-  const cards = [];
-  document.querySelectorAll('#tab-sprint .card').forEach(c => {
-    const id = c.querySelector('.card-id')?.textContent || '';
-    const title = c.querySelector('.card-title')?.textContent || '';
-    const assignee = c.dataset.assignee || 'unassigned';
-    const layer = c.dataset.layer || '';
-    const state = c.dataset.state || '';
-    const href = c.querySelector('.card-id')?.href || '';
-    const pDot = c.querySelector('.priority-dot');
-    const pColor = pDot ? pDot.style.background : '#52525b';
-    cards.push({id, title, assignee, layer, state, href, pColor, source:'sprint'});
-  });
-  return cards;
+function renderMyBoardCard(c) {
+  const stL = c.state==='completed'?'✅ 已完成':c.state==='started'?(c.stateLabel==='In Review'?'👀 Review 中':'🔨 开发中'):c.state==='triage'?'📝 待分类':c.state==='canceled'?'✕ 已取消':'📝 待开始';
+  const stC = c.state==='completed'?'var(--success)':c.state==='started'?'var(--warning)':c.state==='triage'?'var(--purple)':'var(--fg-subtle)';
+  const lBg = moduleAccents[c.layer]||'var(--fg-faint)';
+  const isDone = c.state==='completed'||c.state==='canceled';
+  const del = c.source==='custom'?'<button onclick="removeCustomIssue(\''+c.id+'\')" style="position:absolute;top:6px;right:8px;background:none;border:none;color:var(--fg-subtle);cursor:pointer;font-size:.7rem;opacity:.4" onmouseover="this.style.opacity=1;this.style.color=\'var(--error)\'" onmouseout="this.style.opacity=.4;this.style.color=\'var(--fg-subtle)\'">✕</button>':'';
+  const teamAccent = (c.team==='PRODUCT')?'#a78bfa':'#14b8a6';
+  return '<div class="card '+(isDone?'done':'')+'" style="--accent:'+teamAccent+';position:relative">'+del
+    +'<div class="card-head"><a href="'+(c.href||'https://linear.app/donutbrowser/issue/'+c.id)+'" target="_blank" class="card-id">'+c.id+'</a>'
+    +'<span class="priority-dot" style="background:'+c.pColor+'"></span></div>'
+    +'<div class="card-title" style="font-size:.82rem;font-weight:500;margin-bottom:var(--space-2)">'+c.title+'</div>'
+    +getPipelineHTML(c.state, c.stateLabel||'')
+    +'<div class="card-foot"><span class="card-assignee">'+(nameMap[c.assignee]||c.assignee)+'</span>'
+    +'<span style="font-family:var(--font-mono);font-size:.62rem;font-weight:500;color:'+stC+'">'+stL+'</span></div></div>';
 }
 
 function renderMyBoard(filterAssignee) {
   const grid = document.getElementById('myBoardGrid');
   if (!grid) return;
-  const sprintCards = collectSprintCards();
-  const customCards = getCustomIssues();
-  let all = [...sprintCards, ...customCards.map(c => ({...c, source:'custom'}))];
-  if (filterAssignee && filterAssignee !== 'all') {
-    all = all.filter(c => c.assignee === filterAssignee);
+  const sprint = collectSprintIssues();
+  const custom = getCustomIssues().map(c => ({...c, source:'custom'}));
+  let all = [...sprint, ...custom];
+  if (filterAssignee && filterAssignee!=='all') {
+    all = all.filter(c => c.assignee===filterAssignee);
+    // Flat list sorted by state
+    const stOrd = {started:0,triage:1,unstarted:2,completed:3,canceled:4};
+    all.sort((a,b) => (stOrd[a.state]??2)-(stOrd[b.state]??2));
+    if (!all.length) { grid.innerHTML='<div class="empty-state">没有匹配的 Issue。</div>'; return; }
+    grid.innerHTML='<div class="card-grid">'+all.map(renderMyBoardCard).join('')+'</div>';
+  } else {
+    // Group by module, sorted by issue number within each
+    const groups = {};
+    MODULES.forEach(m => { groups[m]=[]; });
+    all.forEach(c => { const m=c.layer||'infra'; if (!groups[m]) groups[m]=[]; groups[m].push(c); });
+    Object.values(groups).forEach(arr => {
+      arr.sort((a,b) => {
+        const nA=parseInt(a.id.replace(/\D+/g,''))||0;
+        const nB=parseInt(b.id.replace(/\D+/g,''))||0;
+        return nA-nB;
+      });
+    });
+    const html = MODULES.filter(m => groups[m].length>0).map(mod => {
+      return '<div class="module-section">'
+        +'<div class="module-header" onclick="this.parentElement.classList.toggle(\'collapsed\')">'
+        +'<span class="module-icon">'+moduleIcons[mod]+'</span>'
+        +'<span class="module-name">'+moduleNames[mod]+'</span>'
+        +'<span class="module-count">'+groups[mod].length+'</span>'
+        +'<span class="chevron">▼</span></div>'
+        +'<div class="module-body"><div class="card-grid">'
+        +groups[mod].map(renderMyBoardCard).join('')
+        +'</div></div></div>';
+    }).join('');
+    grid.innerHTML = html || '<div class="empty-state">没有匹配的 Issue。</div>';
   }
-  const stateOrder = {started:0, triage:1, unstarted:2, completed:3, canceled:4};
-  all.sort((a,b) => (stateOrder[a.state]??2) - (stateOrder[b.state]??2));
-
-  if (!all.length) {
-    grid.innerHTML = '<div style="text-align:center;padding:var(--space-8);color:var(--fg-faint);font-style:italic">没有匹配的 Issue。选择其他人或添加新 Issue。</div>';
-    return;
-  }
-
-  grid.innerHTML = all.map(c => {
-    const stateLabel = c.state==='completed' ? '✓ Done' : c.state==='started' ? '◉ Active' : c.state==='triage' ? '◎ Triage' : c.state==='canceled' ? '✕ Cancel' : '○ Todo';
-    const stateColor = c.state==='completed' ? 'var(--success)' : c.state==='started' ? 'var(--warning)' : c.state==='triage' ? 'var(--purple)' : 'var(--fg-subtle)';
-    const layerBg = layerColors[c.layer] || 'var(--fg-faint)';
-    const isDone = c.state==='completed' || c.state==='canceled';
-    const delBtn = c.source==='custom' ? '<button onclick="removeCustomIssue(\''+c.id+'\')" style="position:absolute;top:6px;right:8px;background:none;border:none;color:var(--fg-subtle);cursor:pointer;font-size:.7rem;opacity:.4" onmouseover="this.style.opacity=1;this.style.color=\'var(--error)\'" onmouseout="this.style.opacity=.4;this.style.color=\'var(--fg-subtle)\'">✕</button>' : '';
-    return '<div class="card '+(isDone?'done':'')+'" style="--accent:'+layerBg+';position:relative">'
-      + delBtn
-      + '<div class="card-head"><a href="'+(c.href||'https://linear.app/donutbrowser/issue/'+c.id)+'" target="_blank" class="card-id" style="font-family:var(--font-mono);font-size:.65rem;color:var(--fg-subtle)">'+c.id+'</a>'
-      + '<span class="priority-dot" style="background:'+c.pColor+'"></span></div>'
-      + '<div class="card-title" style="font-size:.82rem;font-weight:500;margin-bottom:var(--space-2)">'+c.title+'</div>'
-      + '<div class="card-foot" style="display:flex;justify-content:space-between;align-items:center">'
-      + '<span class="card-assignee" style="font-family:var(--font-mono);font-size:.62rem;color:var(--fg-subtle);background:var(--bg-muted);padding:2px var(--space-2);border-radius:100px">'+(nameMap[c.assignee]||c.assignee)+'</span>'
-      + '<span style="font-family:var(--font-mono);font-size:.62rem;font-weight:500;color:'+stateColor+'">'+stateLabel+'</span>'
-      + '</div></div>';
-  }).join('');
 }
 
 function filterPerson(assignee) {
@@ -2360,33 +2219,37 @@ function filterPerson(assignee) {
 }
 
 function addMyIssue() {
-  const idEl = document.getElementById('newIssueId');
-  const titleEl = document.getElementById('newIssueTitle');
-  const assigneeEl = document.getElementById('newIssueAssignee');
-  const id = idEl.value.trim().toUpperCase();
-  const title = titleEl.value.trim();
-  const assignee = assigneeEl.value;
+  const idEl=document.getElementById('newIssueId');
+  const titleEl=document.getElementById('newIssueTitle');
+  const assigneeEl=document.getElementById('newIssueAssignee');
+  const moduleEl=document.getElementById('newIssueModule');
+  const id=idEl.value.trim().toUpperCase();
+  const title=titleEl.value.trim();
+  const assignee=assigneeEl.value;
+  const layer=moduleEl?moduleEl.value:'';
   if (!id) { idEl.focus(); return }
   if (!title) { titleEl.focus(); return }
-  const href = 'https://linear.app/donutbrowser/issue/' + id;
-  const customs = getCustomIssues();
-  customs.push({id, title, assignee: assignee||'unassigned', layer:'', state:'unstarted', href, pColor:'#52525b'});
+  const team = id.startsWith('PRODUCT')?'PRODUCT':'ENG';
+  const href='https://linear.app/donutbrowser/issue/'+id;
+  const customs=getCustomIssues();
+  customs.push({id,title,assignee:assignee||'unassigned',layer:layer||'infra',state:'unstarted',stateLabel:'Todo',priority:'none',team,href,pColor:'#52525b'});
   saveCustomIssues(customs);
-  idEl.value = ''; titleEl.value = ''; assigneeEl.value = '';
-  renderMyBoard(window._currentMyFilter || 'all');
+  idEl.value=''; titleEl.value=''; assigneeEl.value='';
+  if (moduleEl) moduleEl.value='';
+  renderMyBoard(window._currentMyFilter||'all');
 }
 
 function removeCustomIssue(id) {
-  if (!confirm('删除 ' + id + '?')) return;
-  const customs = getCustomIssues().filter(c => c.id !== id);
+  if (!confirm('删除 '+id+'?')) return;
+  const customs=getCustomIssues().filter(c => c.id!==id);
   saveCustomIssues(customs);
-  renderMyBoard(window._currentMyFilter || 'all');
+  renderMyBoard(window._currentMyFilter||'all');
 }
 
 window._currentMyFilter = 'all';
 
-/* ── Init: Default to PRODUCT Sprint 23 ────────────────── */
-switchCycle('prod23');
+/* ── Init: Default to Sprint 23 ────────────────────────── */
+switchCycle('sprint23');
 </script>
 </body>
 </html>
