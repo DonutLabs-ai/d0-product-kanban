@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D0 Product Dashboard — v7</title>
+<title>D0 Product Dashboard — v7.2</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── Design System Tokens (from Sprint Board) ──────────── */
@@ -894,6 +894,181 @@ a:hover { text-decoration: underline; }
   to { opacity: 1; transform: translateY(0) }
 }
 @media (prefers-reduced-motion: reduce) { .section { animation: none } .tab-panel.active { animation: none } }
+
+/* ══════════════════════════════════════════════════════════
+   USER VOICE PIPELINE STYLES
+   ══════════════════════════════════════════════════════════ */
+.voice-pipeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: var(--space-6) 0;
+  flex-wrap: nowrap;
+}
+.voice-pipeline .vp-stage {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  text-align: center;
+  min-width: 140px;
+  transition: border-color var(--duration-normal);
+}
+.voice-pipeline .vp-stage:hover { border-color: var(--border-emphasis) }
+.voice-pipeline .vp-icon { font-size: 1.3rem; margin-bottom: var(--space-1) }
+.voice-pipeline .vp-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  margin-bottom: var(--space-1);
+}
+.voice-pipeline .vp-count {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--fg-base);
+}
+.voice-pipeline .vp-arrow {
+  font-size: 1.2rem;
+  color: var(--fg-faint);
+  padding: 0 var(--space-2);
+  flex-shrink: 0;
+}
+@media (max-width: 700px) {
+  .voice-pipeline { flex-direction: column; gap: var(--space-2) }
+  .voice-pipeline .vp-arrow { transform: rotate(90deg) }
+  .voice-pipeline .vp-stage { min-width: auto; width: 100% }
+}
+.voice-section-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: var(--space-6) 0 var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-base);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.voice-section-title .vs-icon { font-size: 1rem }
+.hil-grid {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+}
+.hil-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  transition: border-color var(--duration-normal);
+}
+.hil-card:hover { border-color: var(--border-emphasis) }
+.hil-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
+}
+.hil-category {
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hil-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  background: var(--bg-muted);
+  padding: 0.1rem 0.4rem;
+  border-radius: 100px;
+  flex-shrink: 0;
+  min-width: 28px;
+  text-align: center;
+}
+.hil-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  padding: 0.12rem 0.5rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.hil-badge.partial { background: rgba(245,158,11,.1); color: var(--warning) }
+.hil-badge.aligned { background: rgba(34,197,94,.1); color: var(--success) }
+.hil-badge.unconfirmed { background: rgba(239,68,68,.08); color: var(--error); border: 1px dashed rgba(239,68,68,.2) }
+.hil-badge.unresolved { background: rgba(239,68,68,.1); color: var(--error) }
+.hil-badge.inprogress { background: rgba(167,139,250,.1); color: var(--purple) }
+.voice-issue-grid {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+}
+.voice-issue-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: var(--space-3);
+  align-items: center;
+  transition: border-color var(--duration-normal);
+}
+.voice-issue-card:hover { border-color: var(--border-emphasis) }
+.voice-issue-card .vi-icon { font-size: 0.9rem; flex-shrink: 0 }
+.voice-issue-card .vi-id {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--fg-subtle);
+}
+.voice-issue-card .vi-title {
+  font-size: 0.78rem;
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.voice-issue-card .vi-status {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.voice-issue-card .vi-assignee {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--fg-subtle);
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .voice-issue-card { grid-template-columns: auto 1fr; }
+  .voice-issue-card .vi-status,
+  .voice-issue-card .vi-assignee { grid-column: 2; }
+}
+
+/* Sprint Board PRODUCT legend */
+.sprint-legend {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  justify-content: center;
+}
 </style>
 </head>
 <body>
@@ -921,7 +1096,7 @@ a:hover { text-decoration: underline; }
     <div class="subtitle">Sprint 22 · 组织 · 产品 · 工程 · 风险</div>
     <div class="cycle-badge">
       <span class="pulse"></span>
-      v7 · 2026-03-18
+      v7.2 · 2026-03-18
     </div>
   </header>
 
@@ -933,6 +1108,7 @@ a:hover { text-decoration: underline; }
     <button class="tab-btn" onclick="switchTab('eng')">⚙️ 工程 Scope</button>
     <button class="tab-btn" onclick="switchTab('risk')">⚠️ 风险 &amp; 规划</button>
     <button class="tab-btn" onclick="switchTab('myboard')">👤 我的看板</button>
+    <button class="tab-btn" onclick="switchTab('voice')">📣 User Voice</button>
   </div>
 
   <!-- ══ Toolbar ══ -->
@@ -955,6 +1131,11 @@ a:hover { text-decoration: underline; }
       <div class="stat"><div class="num" style="color:var(--success)">22</div><div class="label">Done</div></div>
       <div class="stat"><div class="num">63%</div><div class="label">Completion</div></div>
       <div class="stat"><div class="num">12</div><div class="label">People</div></div>
+    </div>
+
+    <div class="sprint-legend">
+      <span>🟢 ENG issues</span>
+      <span>🟣 PRODUCT issues</span>
     </div>
 
     <div class="controls">
@@ -1445,6 +1626,130 @@ a:hover { text-decoration: underline; }
               <span class="card-assignee">Justin</span>
               <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PRODUCT Issues ─── -->
+      <div class="section" style="--accent:#a78bfa;--accent-bg:rgba(167,139,250,.06)">
+        <div class="section-head">
+          <div class="section-title">
+            <span class="section-icon">📋</span>
+            <span class="section-name">PRODUCT Issues</span>
+            <span class="section-sub">Cross-team</span>
+          </div>
+          <div class="section-meta">
+            <span class="meta-count">11 active</span>
+            <span class="meta-sep">·</span>
+            <span class="meta-count">9 todo</span>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-done" style="width:0%"></div>
+          <div class="progress-active" style="width:55%"></div>
+        </div>
+        <div class="card-grid">
+          <!-- In Progress -->
+          <div class="card active" data-assignee="gary" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1996" target="_blank" rel="noopener" class="card-id">PRODUCT-1996</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">Safari 登录 redirect</div>
+            <div class="card-foot"><span class="card-assignee">Gary</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="lirui" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1950" target="_blank" rel="noopener" class="card-id">PRODUCT-1950</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">GRPS SigNoz 监控</div>
+            <div class="card-foot"><span class="card-assignee">Rui Li</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="alex" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1917" target="_blank" rel="noopener" class="card-id">PRODUCT-1917</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">Position TPSL 集成自测</div>
+            <div class="card-foot"><span class="card-assignee">Alex</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="alex" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1852" target="_blank" rel="noopener" class="card-id">PRODUCT-1852</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">PositionTpslService 核心服务</div>
+            <div class="card-foot"><span class="card-assignee">Alex</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="xujin" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1963" target="_blank" rel="noopener" class="card-id">PRODUCT-1963</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 Cloud Eval Harness</div>
+            <div class="card-foot"><span class="card-assignee">Jin Xu</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="sylvia" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1736" target="_blank" rel="noopener" class="card-id">PRODUCT-1736</a><span class="priority-dot" style="background:#3b82f6"></span></div>
+            <div class="card-title">User Profile Schema</div>
+            <div class="card-foot"><span class="card-assignee">Sylvia</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="fei" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1591" target="_blank" rel="noopener" class="card-id">PRODUCT-1591</a><span class="priority-dot" style="background:#3b82f6"></span></div>
+            <div class="card-title">Eval 003-1 主动埋点</div>
+            <div class="card-foot"><span class="card-assignee">Fei</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="fei" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1947" target="_blank" rel="noopener" class="card-id">PRODUCT-1947</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">Eval Harness Spec</div>
+            <div class="card-foot"><span class="card-assignee">Fei</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="jackjun" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1948" target="_blank" rel="noopener" class="card-id">PRODUCT-1948</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 hard use case</div>
+            <div class="card-foot"><span class="card-assignee">JackJun</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="jim" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1705" target="_blank" rel="noopener" class="card-id">PRODUCT-1705</a><span class="priority-dot" style="background:#3b82f6"></span></div>
+            <div class="card-title">支持 polymarket</div>
+            <div class="card-foot"><span class="card-assignee">Jim</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="jiagui" data-layer="product" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1899" target="_blank" rel="noopener" class="card-id">PRODUCT-1899</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 灾备故障恢复</div>
+            <div class="card-foot"><span class="card-assignee">Jiagui</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <!-- Todo -->
+          <div class="card todo" data-assignee="unassigned" data-layer="product" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank" rel="noopener" class="card-id">PRODUCT-2008</a><span class="priority-dot" style="background:#ef4444"></span></div>
+            <div class="card-title">HIL 反馈审计</div>
+            <div class="card-foot"><span class="card-assignee">—</span><span class="card-state" style="--state-color:#71717a">○ Todo · P1</span></div>
+          </div>
+          <div class="card todo" data-assignee="sylvia" data-layer="product" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank" rel="noopener" class="card-id">PRODUCT-2007</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">图表策略决策</div>
+            <div class="card-foot"><span class="card-assignee">Sylvia</span><span class="card-state" style="--state-color:#71717a">○ Todo · P2</span></div>
+          </div>
+          <div class="card todo" data-assignee="unassigned" data-layer="product" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1586" target="_blank" rel="noopener" class="card-id">PRODUCT-1586</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 Chat → Agent</div>
+            <div class="card-foot"><span class="card-assignee">—</span><span class="card-state" style="--state-color:#71717a">○ Todo · P2</span></div>
+          </div>
+          <div class="card todo" data-assignee="hanliang" data-layer="product" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1945" target="_blank" rel="noopener" class="card-id">PRODUCT-1945</a><span class="priority-dot" style="background:#ef4444"></span></div>
+            <div class="card-title">MCP tool bugs</div>
+            <div class="card-foot"><span class="card-assignee">Liang Han</span><span class="card-state" style="--state-color:#71717a">○ Todo · P1</span></div>
+          </div>
+          <div class="card todo" data-assignee="regison" data-layer="product" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1972" target="_blank" rel="noopener" class="card-id">PRODUCT-1972</a><span class="priority-dot" style="background:#ef4444"></span></div>
+            <div class="card-title">数据质量审查</div>
+            <div class="card-foot"><span class="card-assignee">Regison</span><span class="card-state" style="--state-color:#71717a">○ Todo · P1</span></div>
+          </div>
+          <div class="card todo" data-assignee="xujin" data-layer="product" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1978" target="_blank" rel="noopener" class="card-id">PRODUCT-1978</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">高质量 Cron Jobs</div>
+            <div class="card-foot"><span class="card-assignee">Jin Xu</span><span class="card-state" style="--state-color:#71717a">○ Todo</span></div>
+          </div>
+          <div class="card todo" data-assignee="kevin" data-layer="product" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1992" target="_blank" rel="noopener" class="card-id">PRODUCT-1992</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 E2E 自动化测试</div>
+            <div class="card-foot"><span class="card-assignee">Kevin</span><span class="card-state" style="--state-color:#71717a">○ Todo</span></div>
+          </div>
+          <div class="card todo" data-assignee="gary" data-layer="product" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1997" target="_blank" rel="noopener" class="card-id">PRODUCT-1997</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">Safari 登录参数</div>
+            <div class="card-foot"><span class="card-assignee">Gary</span><span class="card-state" style="--state-color:#71717a">○ Todo</span></div>
+          </div>
+          <div class="card todo" data-assignee="gary" data-layer="product" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1993" target="_blank" rel="noopener" class="card-id">PRODUCT-1993</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">邀请码 loading</div>
+            <div class="card-foot"><span class="card-assignee">Gary</span><span class="card-state" style="--state-color:#71717a">○ Todo</span></div>
           </div>
         </div>
       </div>
@@ -1995,8 +2300,201 @@ a:hover { text-decoration: underline; }
     </div>
   </div><!-- /tab-myboard -->
 
+  <!-- ══════════════════════════════════════════════════════
+       TAB 7: USER VOICE PIPELINE
+       ══════════════════════════════════════════════════════ -->
+  <div id="tab-voice" class="tab-panel">
+
+    <!-- Pipeline Visualization -->
+    <div class="voice-section-title" style="margin-top:var(--space-4)">
+      <span class="vs-icon">🔄</span> User Voice Pipeline
+    </div>
+    <div class="voice-pipeline">
+      <div class="vp-stage" style="border-color:rgba(59,130,246,.3)">
+        <div class="vp-icon">📥</div>
+        <div class="vp-label">收集</div>
+        <div class="vp-count">89</div>
+      </div>
+      <div class="vp-arrow">→</div>
+      <div class="vp-stage" style="border-color:rgba(167,139,250,.3)">
+        <div class="vp-icon">🤖</div>
+        <div class="vp-label">AI Triage</div>
+        <div class="vp-count">89</div>
+      </div>
+      <div class="vp-arrow">→</div>
+      <div class="vp-stage" style="border-color:rgba(20,184,166,.3)">
+        <div class="vp-icon">📋</div>
+        <div class="vp-label">PRODUCT Backlog</div>
+        <div class="vp-count">8</div>
+      </div>
+      <div class="vp-arrow">→</div>
+      <div class="vp-stage" style="border-color:rgba(34,197,94,.3)">
+        <div class="vp-icon">🏃</div>
+        <div class="vp-label">Sprint</div>
+        <div class="vp-count">6</div>
+      </div>
+    </div>
+
+    <!-- HIL Top Issues -->
+    <div class="voice-section-title">
+      <span class="vs-icon">📊</span> HIL 反馈 Top 问题状态
+    </div>
+    <div class="hil-grid">
+      <div class="hil-card">
+        <div class="hil-left">
+          <span class="hil-category">AI 数据抓取/幻觉</span>
+          <span class="hil-count">14</span>
+        </div>
+        <span class="hil-badge partial">🔶 部分解决</span>
+      </div>
+      <div class="hil-card">
+        <div class="hil-left">
+          <span class="hil-category">UI/UX 整体体验</span>
+          <span class="hil-count">14</span>
+        </div>
+        <span class="hil-badge partial">🔶 部分解决</span>
+      </div>
+      <div class="hil-card">
+        <div class="hil-left">
+          <span class="hil-category">钱包余额/仓位延迟</span>
+          <span class="hil-count">12</span>
+        </div>
+        <span class="hil-badge partial">🔶 部分解决</span>
+      </div>
+      <div class="hil-card">
+        <div class="hil-left">
+          <span class="hil-category">预置策略/一键交易</span>
+          <span class="hil-count">11</span>
+        </div>
+        <span class="hil-badge aligned">✅ D0 方向对齐</span>
+      </div>
+      <div class="hil-card">
+        <div class="hil-left">
+          <span class="hil-category">响应速度/稳定性</span>
+          <span class="hil-count">10</span>
+        </div>
+        <span class="hil-badge unconfirmed">⚠️ 未确认</span>
+      </div>
+      <div class="hil-card">
+        <div class="hil-left">
+          <span class="hil-category">Backtest 不可靠</span>
+          <span class="hil-count">8</span>
+        </div>
+        <span class="hil-badge unresolved">❌ 未解决</span>
+      </div>
+      <div class="hil-card">
+        <div class="hil-left">
+          <span class="hil-category">止损/限价异常</span>
+          <span class="hil-count">8</span>
+        </div>
+        <span class="hil-badge partial">🔶 部分解决</span>
+      </div>
+      <div class="hil-card">
+        <div class="hil-left">
+          <span class="hil-category">资金安全/信任</span>
+          <span class="hil-count">6</span>
+        </div>
+        <span class="hil-badge unconfirmed">⚠️ 未确认</span>
+      </div>
+      <div class="hil-card">
+        <div class="hil-left">
+          <span class="hil-category">策略逻辑不透明</span>
+          <span class="hil-count">6</span>
+        </div>
+        <span class="hil-badge inprogress">🔶 In Progress</span>
+      </div>
+    </div>
+
+    <!-- GTM Active User Voice Issues -->
+    <div class="voice-section-title">
+      <span class="vs-icon">📣</span> GTM Active User Voice Issues
+    </div>
+    <div class="voice-issue-grid">
+      <div class="voice-issue-card">
+        <span class="vi-icon">📣</span>
+        <div>
+          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-206" target="_blank">GTM-206</a></div>
+          <div class="vi-title">AI - K线功能优化</div>
+        </div>
+        <span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span>
+        <span class="vi-assignee">Liang Han</span>
+      </div>
+      <div class="voice-issue-card">
+        <span class="vi-icon">📣</span>
+        <div>
+          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-189" target="_blank">GTM-189</a></div>
+          <div class="vi-title">引入"绩效教练"风控层</div>
+        </div>
+        <span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span>
+        <span class="vi-assignee">Liang Han</span>
+      </div>
+      <div class="voice-issue-card">
+        <span class="vi-icon">📣</span>
+        <div>
+          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-231" target="_blank">GTM-231</a></div>
+          <div class="vi-title">交易滑点感知优化</div>
+        </div>
+        <span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span>
+        <span class="vi-assignee">chu4</span>
+      </div>
+      <div class="voice-issue-card">
+        <span class="vi-icon">📣</span>
+        <div>
+          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-187" target="_blank">GTM-187</a></div>
+          <div class="vi-title">提升形态识别可解释性与准确度</div>
+        </div>
+        <span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span>
+        <span class="vi-assignee">Liang Han</span>
+      </div>
+      <div class="voice-issue-card">
+        <span class="vi-icon">📣</span>
+        <div>
+          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-39" target="_blank">GTM-39</a></div>
+          <div class="vi-title">webapp需要基础交易功能</div>
+        </div>
+        <span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span>
+        <span class="vi-assignee">Peter</span>
+      </div>
+      <div class="voice-issue-card">
+        <span class="vi-icon">📣</span>
+        <div>
+          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-220" target="_blank">GTM-220</a></div>
+          <div class="vi-title">策略基于什么指标和量价形态</div>
+        </div>
+        <span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span>
+        <span class="vi-assignee">JackJun</span>
+      </div>
+    </div>
+
+    <!-- New Key Issues -->
+    <div class="voice-section-title">
+      <span class="vs-icon">🆕</span> 新建关键 Issue
+    </div>
+    <div class="voice-issue-grid">
+      <div class="voice-issue-card" style="border-left:3px solid var(--purple)">
+        <span class="vi-icon">📋</span>
+        <div>
+          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank">PRODUCT-2007</a></div>
+          <div class="vi-title">D0 图表能力策略决策</div>
+        </div>
+        <span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">P2 Todo</span>
+        <span class="vi-assignee">Sylvia</span>
+      </div>
+      <div class="voice-issue-card" style="border-left:3px solid var(--purple)">
+        <span class="vi-icon">📋</span>
+        <div>
+          <div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank">PRODUCT-2008</a></div>
+          <div class="vi-title">HIL 反馈 → D0 迁移完整现状</div>
+        </div>
+        <span class="vi-status" style="background:rgba(239,68,68,.1);color:var(--error)">P1 Todo</span>
+        <span class="vi-assignee">—</span>
+      </div>
+    </div>
+
+  </div><!-- /tab-voice -->
+
   <div class="footer">
-    D0 Product Dashboard v7 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Sprint 22 (3/15 → 3/29)
+    D0 Product Dashboard v7.2 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Sprint 22 (3/15 → 3/29)
   </div>
 
 </div><!-- /page -->
@@ -2105,8 +2603,8 @@ document.querySelectorAll('.k-card').forEach(initDrag);
 document.querySelectorAll('.k-col').forEach(initColDrop);
 
 /* ── Auto-save / localStorage ──────────────────────────── */
-const SAVE_KEY = 'd0-board-v71';
-const VER_KEY = 'd0-board-v71-vers';
+const SAVE_KEY = 'd0-board-v72';
+const VER_KEY = 'd0-board-v72-vers';
 let saveTimer;
 
 function save() {
@@ -2190,7 +2688,7 @@ function resetData() {
 setTimeout(updateVersionList, 100);
 
 /* ── My Board: Personal Kanban ─────────────────────────── */
-const CUSTOM_KEY = 'd0-board-v71-custom';
+const CUSTOM_KEY = 'd0-board-v72-custom';
 const nameMap = {jackjun:'JackJun',fei:'Fei',xujin:'Jin Xu',gary:'Gary',ethan:'Ethan',alex:'Alex',lirui:'Rui Li',regison:'Regison',wenzhang:'Wenzhang',jiagui:'Jiagui',peter:'Peter',zouye:'Ye Zou',sylvia:'Sylvia',yixintan:'Yi Tan',hanliang:'Liang Han',tao:'Tao Yuan',jim:'Jim',kevin:'Kevin',justin:'Justin',unassigned:'Unassigned'};
 const layerColors = {experience:'var(--teal)',ai:'var(--warning)',trading:'var(--error)',infra:'var(--purple)',acquisition:'var(--info)'};
 
