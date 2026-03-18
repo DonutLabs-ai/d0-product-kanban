@@ -2105,8 +2105,8 @@ document.querySelectorAll('.k-card').forEach(initDrag);
 document.querySelectorAll('.k-col').forEach(initColDrop);
 
 /* ── Auto-save / localStorage ──────────────────────────── */
-const SAVE_KEY = 'd0-board-v7';
-const VER_KEY = 'd0-board-v7-vers';
+const SAVE_KEY = 'd0-board-v71';
+const VER_KEY = 'd0-board-v71-vers';
 let saveTimer;
 
 function save() {
@@ -2190,7 +2190,7 @@ function resetData() {
 setTimeout(updateVersionList, 100);
 
 /* ── My Board: Personal Kanban ─────────────────────────── */
-const CUSTOM_KEY = 'd0-board-v7-custom';
+const CUSTOM_KEY = 'd0-board-v71-custom';
 const nameMap = {jackjun:'JackJun',fei:'Fei',xujin:'Jin Xu',gary:'Gary',ethan:'Ethan',alex:'Alex',lirui:'Rui Li',regison:'Regison',wenzhang:'Wenzhang',jiagui:'Jiagui',peter:'Peter',zouye:'Ye Zou',sylvia:'Sylvia',yixintan:'Yi Tan',hanliang:'Liang Han',tao:'Tao Yuan',jim:'Jim',kevin:'Kevin',justin:'Justin',unassigned:'Unassigned'};
 const layerColors = {experience:'var(--teal)',ai:'var(--warning)',trading:'var(--error)',infra:'var(--purple)',acquisition:'var(--info)'};
 
