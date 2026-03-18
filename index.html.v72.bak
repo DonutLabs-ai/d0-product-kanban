@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D0 Product Dashboard — v8</title>
+<title>D0 Product Dashboard — v7.2</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── Design System Tokens (from Sprint Board) ──────────── */
@@ -1069,28 +1069,6 @@ a:hover { text-decoration: underline; }
   color: var(--fg-muted);
   justify-content: center;
 }
-
-/* Sprint Board: Cycle Selector */
-.cycle-selector {
-  display: flex; gap: var(--space-2); margin-bottom: var(--space-4);
-  padding: var(--space-2); background: var(--bg-subtle); border-radius: var(--radius-md);
-  border: 1px solid var(--border-base); flex-wrap: wrap;
-}
-.cycle-btn {
-  padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm);
-  font-size: 0.8rem; font-family: var(--font-sans); cursor: pointer;
-  background: transparent; border: 1px solid var(--border-base); color: var(--fg-muted);
-  transition: all var(--duration-normal) var(--ease-out);
-}
-.cycle-btn:hover { color: var(--fg-base); border-color: var(--fg-muted) }
-.cycle-btn.active { background: var(--bg-muted); color: var(--fg-base); border-color: var(--fg-base); font-weight: 600 }
-.cycle-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--fg-subtle);
-  text-align: center;
-  margin-bottom: var(--space-2);
-}
 </style>
 </head>
 <body>
@@ -1099,14 +1077,12 @@ a:hover { text-decoration: underline; }
   <!-- ══ Usage Guide ══ -->
   <div id="guideBox" style="background:var(--bg-subtle);border:1px solid var(--border-emphasis);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-6);margin-bottom:var(--space-4);position:relative;line-height:1.7">
     <button onclick="this.parentElement.style.display='none'" style="position:absolute;top:var(--space-2);right:var(--space-3);background:none;border:none;color:var(--fg-subtle);cursor:pointer;font-size:1rem">✕</button>
-    <div style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:var(--space-2)">📋 异步 Sprint 管理工作流</div>
+    <div style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:var(--space-2)">📋 How to use this board</div>
     <div style="font-size:.82rem;color:var(--fg-muted)">
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">① 选择 Sprint</strong> — 用上方的 cycle 切换器查看当前/下个 sprint</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">② 找到你的 Issues</strong> — 点「👤 我的看板」→ 选你的名字，看到你所有 issue</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">③ 管理优先级</strong> — 在卡片上点击状态标签循环切换（Todo → 进行中 → Done）</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">④ 添加 Issue</strong> — 在「👤 我的看板」里点「+ 添加 Issue」手动补充</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">⑤ Sprint Planning</strong> — 每周一 PM 异步审核，Ring 自动生成推荐列表</p>
-      <p style="margin-top:var(--space-3);font-size:.78rem;color:var(--fg-subtle)">💡 PRODUCT 🟣 和 ENG 🟢 issue 按同一套五层架构管理<br>💡 编辑内容自动保存到浏览器（点「保存版本」可以回退）</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">每周工作流:</strong> 每位工程师在「👤 我的看板」tab 里管理自己每周的优先级。选择你的名字 → 看到你所有 issue → 按优先级排序执行。</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">添加 Issue:</strong> 在「👤 我的看板」里点击「+ 添加 Issue」，输入 Linear Issue ID（如 ENG-1234），会自动生成链接。也可以直接在 <a href="https://linear.app/donutbrowser/team/ENG/cycle/active" target="_blank" style="color:var(--info);font-family:var(--font-mono);font-size:.78rem">Linear → Active Cycle</a> 创建，下次 sync 自动出现。</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">编辑:</strong> 所有文字可直接点击编辑。状态标签点击可切换。卡片可拖拽移动。</p>
+      <p><strong style="color:var(--fg-base)">保存:</strong> 编辑自动保存到浏览器。点「💾 保存版本」命名快照。点「⤓ 导出」下载 HTML 存档。</p>
     </div>
     <div style="margin-top:var(--space-3);display:flex;gap:var(--space-2);flex-wrap:wrap">
       <a href="https://linear.app/donutbrowser/team/ENG/cycle/active" target="_blank" style="font-family:var(--font-mono);font-size:.7rem;padding:var(--space-1) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:100px;color:var(--fg-muted);text-decoration:none">ENG Active Cycle ↗</a>
@@ -1117,10 +1093,10 @@ a:hover { text-decoration: underline; }
 
   <header class="header">
     <h1>D0 Product Dashboard</h1>
-    <div class="subtitle">Multi-Cycle · 组织 · 产品 · 工程 · 风险</div>
+    <div class="subtitle">Sprint 22 · 组织 · 产品 · 工程 · 风险</div>
     <div class="cycle-badge">
       <span class="pulse"></span>
-      v8 · 2026-03-18
+      v7.2 · 2026-03-18
     </div>
   </header>
 
@@ -1149,21 +1125,12 @@ a:hover { text-decoration: underline; }
        ══════════════════════════════════════════════════════ -->
   <div id="tab-sprint" class="tab-panel active">
 
-    <!-- Cycle Selector -->
-    <div class="cycle-selector" id="cycleSelector">
-      <button class="cycle-btn" onclick="switchCycle('eng22')" id="btn-eng22">🏃 ENG Sprint 22 (current)</button>
-      <button class="cycle-btn active" onclick="switchCycle('prod23')" id="btn-prod23">📋 PRODUCT Sprint 23 (upcoming)</button>
-      <button class="cycle-btn" onclick="switchCycle('eng23')" id="btn-eng23">🔮 ENG Sprint 23 (next)</button>
-    </div>
-
-    <div class="cycle-label" id="cycleLabel"></div>
-
-    <div class="stats" id="sprintStats">
-      <div class="stat"><div class="num" id="stat-total">0</div><div class="label">Total</div></div>
-      <div class="stat"><div class="num" id="stat-active" style="color:var(--warning)">0</div><div class="label">Active</div></div>
-      <div class="stat"><div class="num" id="stat-done" style="color:var(--success)">0</div><div class="label">Done</div></div>
-      <div class="stat"><div class="num" id="stat-completion">0%</div><div class="label">Completion</div></div>
-      <div class="stat"><div class="num" id="stat-people">0</div><div class="label">People</div></div>
+    <div class="stats">
+      <div class="stat"><div class="num">35</div><div class="label">Total</div></div>
+      <div class="stat"><div class="num" style="color:var(--warning)">12</div><div class="label">Active</div></div>
+      <div class="stat"><div class="num" style="color:var(--success)">22</div><div class="label">Done</div></div>
+      <div class="stat"><div class="num">63%</div><div class="label">Completion</div></div>
+      <div class="stat"><div class="num">12</div><div class="label">People</div></div>
     </div>
 
     <div class="sprint-legend">
@@ -1185,78 +1152,763 @@ a:hover { text-decoration: underline; }
 
     <div id="view-layer" class="active">
       <!-- ─── 获客层 ─── -->
-      <div class="section" data-layer-key="acquisition" style="--accent:#3b82f6;--accent-bg:rgba(59,130,246,.06)">
+      <div class="section" style="--accent:#3b82f6;--accent-bg:rgba(59,130,246,.06)">
         <div class="section-head">
           <div class="section-title">
             <span class="section-icon">📣</span>
             <span class="section-name">获客层</span>
             <span class="section-sub">Acquisition</span>
           </div>
-          <div class="section-meta" id="meta-acquisition"></div>
+          <div class="section-meta">
+            <span class="meta-count">0 active</span>
+            <span class="meta-sep">·</span>
+            <span class="meta-count">0 done</span>
+          </div>
         </div>
-        <div class="progress-bar" id="progress-acquisition"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-acquisition"></div>
+        <div class="empty-state">当前 Cycle 暂无 issue</div>
       </div>
 
       <!-- ─── 体验层 ─── -->
-      <div class="section" data-layer-key="experience" style="--accent:#14b8a6;--accent-bg:rgba(20,184,166,.06)">
+      <div class="section" style="--accent:#14b8a6;--accent-bg:rgba(20,184,166,.06)">
         <div class="section-head">
           <div class="section-title">
             <span class="section-icon">✨</span>
             <span class="section-name">体验层</span>
             <span class="section-sub">Experience</span>
           </div>
-          <div class="section-meta" id="meta-experience"></div>
+          <div class="section-meta">
+            <span class="meta-count">1 active</span>
+            <span class="meta-sep">·</span>
+            <span class="meta-count">4 done</span>
+          </div>
         </div>
-        <div class="progress-bar" id="progress-experience"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-experience"></div>
+        <div class="progress-bar">
+          <div class="progress-done" style="width:80%"></div>
+          <div class="progress-active" style="width:20%"></div>
+        </div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="justin" data-layer="experience" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1000/tgbot中消息顺序的问题" target="_blank" rel="noopener" class="card-id">ENG-1000</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">tgbot中消息顺序的问题</div>
+            <div class="card-foot">
+              <span class="card-assignee">Justin</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Review</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="wenzhang" data-layer="experience" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1111/onboarding-状态机文档化-前后端状态流转-触发条件-边界-case" target="_blank" rel="noopener" class="card-id">ENG-1111</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">Onboarding 状态机文档化 — 前后端状态流转 + 触发条件 + 边界 case</div>
+            <div class="card-foot">
+              <span class="card-assignee">Wenzhang</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="jim" data-layer="experience" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1087/openclaw-profile-plugin用-sqlite-替代-workspace-json-文件存储-user-profile" target="_blank" rel="noopener" class="card-id">ENG-1087</a>
+              <span class="priority-dot" style="background:#3b82f6"></span>
+            </div>
+            <div class="card-title">OpenClaw Profile Plugin：用 SQLite 替代 workspace JSON 文件存储 user profile</div>
+            <div class="card-foot">
+              <span class="card-assignee">Jim</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-925/research-d0-独享-agent-vs-multi-agent-共享功能与安全对比分析" target="_blank" rel="noopener" class="card-id">ENG-925</a>
+              <span class="priority-dot" style="background:#3b82f6"></span>
+            </div>
+            <div class="card-title">[Research] D0 独享 Agent vs Multi-Agent 共享：功能与安全对比分析</div>
+            <div class="card-foot">
+              <span class="card-assignee">Justin</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-924/research-d0-cloud-成本分析hetzner-独享-vs-aws-ec2-vs-multi-agent-共享" target="_blank" rel="noopener" class="card-id">ENG-924</a>
+              <span class="priority-dot" style="background:#3b82f6"></span>
+            </div>
+            <div class="card-title">[Research] D0 Cloud 成本分析：Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享</div>
+            <div class="card-foot">
+              <span class="card-assignee">Justin</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+        
+          <!-- PRODUCT issues (紫色) -->
+          <div class="card active" data-assignee="gary" data-layer="experience" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1996" target="_blank" rel="noopener" class="card-id">PRODUCT-1996</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">Safari 登录 redirect</div>
+            <div class="card-foot"><span class="card-assignee">Gary</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="sylvia" data-layer="experience" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1736" target="_blank" rel="noopener" class="card-id">PRODUCT-1736</a><span class="priority-dot" style="background:#3b82f6"></span></div>
+            <div class="card-title">User Profile Schema</div>
+            <div class="card-foot"><span class="card-assignee">Sylvia</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card todo" data-assignee="sylvia" data-layer="experience" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank" rel="noopener" class="card-id">PRODUCT-2007</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">图表策略决策</div>
+            <div class="card-foot"><span class="card-assignee">Sylvia</span><span class="card-state" style="--state-color:#71717a">○ Todo · P2</span></div>
+          </div>
+          <div class="card todo" data-assignee="gary" data-layer="experience" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1997" target="_blank" rel="noopener" class="card-id">PRODUCT-1997</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">Safari 登录参数</div>
+            <div class="card-foot"><span class="card-assignee">Gary</span><span class="card-state" style="--state-color:#71717a">○ Todo</span></div>
+          </div>
+          <div class="card todo" data-assignee="gary" data-layer="experience" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1993" target="_blank" rel="noopener" class="card-id">PRODUCT-1993</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">邀请码 loading</div>
+            <div class="card-foot"><span class="card-assignee">Gary</span><span class="card-state" style="--state-color:#71717a">○ Todo</span></div>
+          </div>
+</div>
       </div>
 
       <!-- ─── AI 层 ─── -->
-      <div class="section" data-layer-key="ai" style="--accent:#f59e0b;--accent-bg:rgba(245,158,11,.06)">
+      <div class="section" style="--accent:#f59e0b;--accent-bg:rgba(245,158,11,.06)">
         <div class="section-head">
           <div class="section-title">
             <span class="section-icon">🧠</span>
             <span class="section-name">AI 层</span>
             <span class="section-sub">Intelligence</span>
           </div>
-          <div class="section-meta" id="meta-ai"></div>
+          <div class="section-meta">
+            <span class="meta-count">2 active</span>
+            <span class="meta-sep">·</span>
+            <span class="meta-count">5 done</span>
+          </div>
         </div>
-        <div class="progress-bar" id="progress-ai"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-ai"></div>
+        <div class="progress-bar">
+          <div class="progress-done" style="width:71%"></div>
+          <div class="progress-active" style="width:29%"></div>
+        </div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="jim" data-layer="ai" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1019/实现-d0-用户行为记忆系统v30" target="_blank" rel="noopener" class="card-id">ENG-1019</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">实现 D0 用户行为记忆系统（v3.0）</div>
+            <div class="card-foot">
+              <span class="card-assignee">Jim</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Review</span>
+            </div>
+          </div>
+          <div class="card active" data-assignee="fei" data-layer="ai" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-853/eval001-atomandinvariant-level-evaluation" target="_blank" rel="noopener" class="card-id">ENG-853</a>
+              <span class="priority-dot" style="background:#3b82f6"></span>
+            </div>
+            <div class="card-title">[Eval001] Atom&amp;Invariant Level Evaluation</div>
+            <div class="card-foot">
+              <span class="card-assignee">Fei</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Review</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="jim" data-layer="ai" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1091/bug-shared-llm-日配额每天早上耗尽-opussonnet-100percent-满额导致服务不可用" target="_blank" rel="noopener" class="card-id">ENG-1091</a>
+              <span class="priority-dot" style="background:#ef4444"></span>
+            </div>
+            <div class="card-title">[Bug] Shared LLM 日配额每天早上耗尽 — Opus/Sonnet 100% 满额导致服务不可用</div>
+            <div class="card-foot">
+              <span class="card-assignee">Jim</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="zouye" data-layer="ai" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1011/llm-token-用量配额按用户账户限制与会员权益挂钩" target="_blank" rel="noopener" class="card-id">ENG-1011</a>
+              <span class="priority-dot" style="background:#ef4444"></span>
+            </div>
+            <div class="card-title">LLM Token 用量配额：按用户账户限制，与会员权益挂钩</div>
+            <div class="card-foot">
+              <span class="card-assignee">Ye Zou</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="xujin" data-layer="ai" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1110/d0-prompt-系统清理5-个结构性问题修复" target="_blank" rel="noopener" class="card-id">ENG-1110</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">D0 Prompt 系统清理：5 个结构性问题修复</div>
+            <div class="card-foot">
+              <span class="card-assignee">Jin Xu</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="hanliang" data-layer="ai" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1096/methodology-data-source-audit-framework-for-discovering-donut-tool" target="_blank" rel="noopener" class="card-id">ENG-1096</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">[Methodology] Data source audit framework for discovering DONUT tool gaps and conflicts</div>
+            <div class="card-foot">
+              <span class="card-assignee">Liang Han</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="tao" data-layer="ai" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-827/collect-more-user-scenarios-and-related-data-sources" target="_blank" rel="noopener" class="card-id">ENG-827</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">Collect more user scenarios and related data sources</div>
+            <div class="card-foot">
+              <span class="card-assignee">Tao</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+        
+          <!-- PRODUCT issues (紫色) -->
+          <div class="card active" data-assignee="xujin" data-layer="ai" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1963" target="_blank" rel="noopener" class="card-id">PRODUCT-1963</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 Cloud Eval Harness</div>
+            <div class="card-foot"><span class="card-assignee">Jin Xu</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="fei" data-layer="ai" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1591" target="_blank" rel="noopener" class="card-id">PRODUCT-1591</a><span class="priority-dot" style="background:#3b82f6"></span></div>
+            <div class="card-title">Eval 003-1 主动埋点</div>
+            <div class="card-foot"><span class="card-assignee">Fei</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="fei" data-layer="ai" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1947" target="_blank" rel="noopener" class="card-id">PRODUCT-1947</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">Eval Harness Spec</div>
+            <div class="card-foot"><span class="card-assignee">Fei</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="jackjun" data-layer="ai" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1948" target="_blank" rel="noopener" class="card-id">PRODUCT-1948</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 hard use case</div>
+            <div class="card-foot"><span class="card-assignee">JackJun</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="jim" data-layer="ai" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1705" target="_blank" rel="noopener" class="card-id">PRODUCT-1705</a><span class="priority-dot" style="background:#3b82f6"></span></div>
+            <div class="card-title">支持 polymarket</div>
+            <div class="card-foot"><span class="card-assignee">Jim</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card todo" data-assignee="hanliang" data-layer="ai" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1945" target="_blank" rel="noopener" class="card-id">PRODUCT-1945</a><span class="priority-dot" style="background:#ef4444"></span></div>
+            <div class="card-title">MCP tool bugs</div>
+            <div class="card-foot"><span class="card-assignee">Liang Han</span><span class="card-state" style="--state-color:#71717a">○ Todo · P1</span></div>
+          </div>
+          <div class="card todo" data-assignee="regison" data-layer="ai" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1972" target="_blank" rel="noopener" class="card-id">PRODUCT-1972</a><span class="priority-dot" style="background:#ef4444"></span></div>
+            <div class="card-title">数据质量审查</div>
+            <div class="card-foot"><span class="card-assignee">Regison</span><span class="card-state" style="--state-color:#71717a">○ Todo · P1</span></div>
+          </div>
+          <div class="card todo" data-assignee="xujin" data-layer="ai" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1978" target="_blank" rel="noopener" class="card-id">PRODUCT-1978</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">高质量 Cron Jobs</div>
+            <div class="card-foot"><span class="card-assignee">Jin Xu</span><span class="card-state" style="--state-color:#71717a">○ Todo</span></div>
+          </div>
+          <div class="card todo" data-assignee="kevin" data-layer="ai" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1992" target="_blank" rel="noopener" class="card-id">PRODUCT-1992</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 E2E 自动化测试</div>
+            <div class="card-foot"><span class="card-assignee">Kevin</span><span class="card-state" style="--state-color:#71717a">○ Todo</span></div>
+          </div>
+          <div class="card todo" data-assignee="unassigned" data-layer="ai" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1586" target="_blank" rel="noopener" class="card-id">PRODUCT-1586</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 Chat → Agent Creation</div>
+            <div class="card-foot"><span class="card-assignee">—</span><span class="card-state" style="--state-color:#71717a">○ Todo · P2</span></div>
+          </div>
+          <div class="card todo" data-assignee="unassigned" data-layer="ai" data-state="unstarted" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank" rel="noopener" class="card-id">PRODUCT-2008</a><span class="priority-dot" style="background:#ef4444"></span></div>
+            <div class="card-title">HIL 反馈审计</div>
+            <div class="card-foot"><span class="card-assignee">—</span><span class="card-state" style="--state-color:#71717a">○ Todo · P1</span></div>
+          </div>
+</div>
       </div>
 
       <!-- ─── 交易层 ─── -->
-      <div class="section" data-layer-key="trading" style="--accent:#ef4444;--accent-bg:rgba(239,68,68,.06)">
+      <div class="section" style="--accent:#ef4444;--accent-bg:rgba(239,68,68,.06)">
         <div class="section-head">
           <div class="section-title">
             <span class="section-icon">📊</span>
             <span class="section-name">交易层</span>
             <span class="section-sub">Trading</span>
           </div>
-          <div class="section-meta" id="meta-trading"></div>
+          <div class="section-meta">
+            <span class="meta-count">6 active</span>
+            <span class="meta-sep">·</span>
+            <span class="meta-count">2 done</span>
+          </div>
         </div>
-        <div class="progress-bar" id="progress-trading"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-trading"></div>
+        <div class="progress-bar">
+          <div class="progress-done" style="width:25%"></div>
+          <div class="progress-active" style="width:75%"></div>
+        </div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="alex" data-layer="trading" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1127/position-tpsl-多空不平-流水断裂-死锁风险分析报告-featureadd-tpsl" target="_blank" rel="noopener" class="card-id">ENG-1127</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">[Position TPSL] 多空不平 / 流水断裂 / 死锁风险分析报告 — feature/add_tpsl</div>
+            <div class="card-foot">
+              <span class="card-assignee">Alex</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span>
+            </div>
+          </div>
+          <div class="card active" data-assignee="ethan" data-layer="trading" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1062/fix-build-transfer-api-500-helius-priority-fee-encoding-mismatch" target="_blank" rel="noopener" class="card-id">ENG-1062</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">fix: build-transfer API 500 - Helius priority fee encoding mismatch</div>
+            <div class="card-foot">
+              <span class="card-assignee">Ethan</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Review</span>
+            </div>
+          </div>
+          <div class="card active" data-assignee="jackjun" data-layer="trading" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-824/add-birdeye-ohlcv-fallback-to-hummingbot-api-market-data-endpoints" target="_blank" rel="noopener" class="card-id">ENG-824</a>
+              <span class="priority-dot" style="background:#3b82f6"></span>
+            </div>
+            <div class="card-title">Add Birdeye OHLCV fallback to hummingbot-api market data endpoints</div>
+            <div class="card-foot">
+              <span class="card-assignee">JackJun</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Review</span>
+            </div>
+          </div>
+          <div class="card active" data-assignee="alex" data-layer="trading" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-967/d0-cli-gh85-功能改进-平仓后自动取消对应token的止盈止损订单-perps-auto-cleanup-005" target="_blank" rel="noopener" class="card-id">ENG-967</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">[d0-cli] GH#85: 💡 功能改进: 平仓后自动取消对应token的止盈止损订单 (PERPS-AUTO-CLEANUP-005)</div>
+            <div class="card-foot">
+              <span class="card-assignee">Alex</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span>
+            </div>
+          </div>
+          <div class="card triage" data-assignee="ethan" data-layer="trading" data-state="triage">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1126/polymarket-信号生产到执行全流程-pipeline" target="_blank" rel="noopener" class="card-id">ENG-1126</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">Polymarket 信号生产到执行全流程 Pipeline</div>
+            <div class="card-foot">
+              <span class="card-assignee">Ethan</span>
+              <span class="card-state" style="--state-color:#a78bfa">◎ Triage</span>
+            </div>
+          </div>
+          <div class="card todo" data-assignee="ethan" data-layer="trading" data-state="unstarted">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-970/d0-cli-gh75-donut-hl-withdraw未告知提现手续费影响用户资金预期" target="_blank" rel="noopener" class="card-id">ENG-970</a>
+              <span class="priority-dot" style="background:#ef4444"></span>
+            </div>
+            <div class="card-title">[d0-cli] GH#75: DONUT_HL_WITHDRAW未告知提现手续费，影响用户资金预期</div>
+            <div class="card-foot">
+              <span class="card-assignee">Ethan</span>
+              <span class="card-state" style="--state-color:#71717a">○ Todo</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-997/polymarket完成情況與overall-tracker" target="_blank" rel="noopener" class="card-id">ENG-997</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">polymarket完成情況與overall tracker</div>
+            <div class="card-foot">
+              <span class="card-assignee">Liang Han</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-962/implement-polymarket-clob-and-data-api-tools-for-d0-cli-order" target="_blank" rel="noopener" class="card-id">ENG-962</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">Implement Polymarket CLOB &amp; Data API Tools for d0-cli (Order Management + Positions)</div>
+            <div class="card-foot">
+              <span class="card-assignee">Liang Han</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+        
+          <!-- PRODUCT issues (紫色) -->
+          <div class="card active" data-assignee="alex" data-layer="trading" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1917" target="_blank" rel="noopener" class="card-id">PRODUCT-1917</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">Position TPSL 集成自测</div>
+            <div class="card-foot"><span class="card-assignee">Alex</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="alex" data-layer="trading" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1852" target="_blank" rel="noopener" class="card-id">PRODUCT-1852</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">PositionTpslService 核心服务</div>
+            <div class="card-foot"><span class="card-assignee">Alex</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+          <div class="card active" data-assignee="lirui" data-layer="trading" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1950" target="_blank" rel="noopener" class="card-id">PRODUCT-1950</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">GRPS SigNoz 监控</div>
+            <div class="card-foot"><span class="card-assignee">Rui Li</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+</div>
       </div>
 
       <!-- ─── 基础设施 ─── -->
-      <div class="section" data-layer-key="infra" style="--accent:#a78bfa;--accent-bg:rgba(167,139,250,.06)">
+      <div class="section" style="--accent:#a78bfa;--accent-bg:rgba(167,139,250,.06)">
         <div class="section-head">
           <div class="section-title">
             <span class="section-icon">🏗</span>
             <span class="section-name">基础设施</span>
             <span class="section-sub">Infrastructure</span>
           </div>
-          <div class="section-meta" id="meta-infra"></div>
+          <div class="section-meta">
+            <span class="meta-count">3 active</span>
+            <span class="meta-sep">·</span>
+            <span class="meta-count">11 done</span>
+          </div>
         </div>
-        <div class="progress-bar" id="progress-infra"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:0%"></div></div>
-        <div class="card-grid" id="grid-infra"></div>
+        <div class="progress-bar">
+          <div class="progress-done" style="width:73%"></div>
+          <div class="progress-active" style="width:20%"></div>
+        </div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="unassigned" data-layer="infra" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-861/p0-生产服务全单副本-添加多副本-pdb" target="_blank" rel="noopener" class="card-id">ENG-861</a>
+              <span class="priority-dot" style="background:#ef4444"></span>
+            </div>
+            <div class="card-title">[P0] 生产服务全单副本 — 添加多副本 + PDB</div>
+            <div class="card-foot">
+              <span class="card-assignee">Unassigned</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span>
+            </div>
+          </div>
+          <div class="card active" data-assignee="wenzhang" data-layer="infra" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-860/infra-k8s-生产基础设施运维问题修复" target="_blank" rel="noopener" class="card-id">ENG-860</a>
+              <span class="priority-dot" style="background:#ef4444"></span>
+            </div>
+            <div class="card-title">[Infra] K8s 生产基础设施运维问题修复</div>
+            <div class="card-foot">
+              <span class="card-assignee">Wenzhang</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span>
+            </div>
+          </div>
+          <div class="card active" data-assignee="jim" data-layer="infra" data-state="started">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1017/bug-test-env-wallet-serviceturnkeyauthrefresh-returns-401-after-fresh" target="_blank" rel="noopener" class="card-id">ENG-1017</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">[Bug] Test env: /wallet-service/turnkey/auth/refresh returns 401 after fresh login</div>
+            <div class="card-foot">
+              <span class="card-assignee">Jim</span>
+              <span class="card-state" style="--state-color:#f59e0b">◉ In Review</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1089/shared-模式禁用-qmd-embed回退-bm25-keyword-搜索" target="_blank" rel="noopener" class="card-id">ENG-1089</a>
+              <span class="priority-dot" style="background:#ef4444"></span>
+            </div>
+            <div class="card-title">shared 模式禁用 qmd embed，回退 BM25 keyword 搜索</div>
+            <div class="card-foot">
+              <span class="card-assignee">Wenzhang</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1107/冲突数据可观测性统计用户触发的-workspace-sync-冲突并暴露数据" target="_blank" rel="noopener" class="card-id">ENG-1107</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">冲突数据可观测性：统计用户触发的 workspace-sync 冲突并暴露数据</div>
+            <div class="card-foot">
+              <span class="card-assignee">Wenzhang</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1103/workspace-syncsh-用户自定义配置与官方更新的合并冲突处理" target="_blank" rel="noopener" class="card-id">ENG-1103</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">workspace-sync.sh: 用户自定义配置与官方更新的合并冲突处理</div>
+            <div class="card-foot">
+              <span class="card-assignee">Wenzhang</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="jiagui" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1043/d0-bot-监控signoz-告警规则-healthd0-心跳端点" target="_blank" rel="noopener" class="card-id">ENG-1043</a>
+              <span class="priority-dot" style="background:#f59e0b"></span>
+            </div>
+            <div class="card-title">D0 Bot 监控：SigNoz 告警规则 + /health/d0 心跳端点</div>
+            <div class="card-foot">
+              <span class="card-assignee">Jiagui</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="unassigned" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-1095/docsd0-openclaw-dashboard-服务运维信息及重启恢复记录" target="_blank" rel="noopener" class="card-id">ENG-1095</a>
+              <span class="priority-dot" style="background:#22c55e"></span>
+            </div>
+            <div class="card-title">docs(d0): openclaw-dashboard 服务运维信息及重启恢复记录</div>
+            <div class="card-foot">
+              <span class="card-assignee">Unassigned</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-819/k8s线上环境pod的replica变成2-先在test环境测试一下" target="_blank" rel="noopener" class="card-id">ENG-819</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">K8s线上环境pod的replica变成2 先在test环境测试一下</div>
+            <div class="card-foot">
+              <span class="card-assignee">Justin</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-814/调整kubernetes节点编排并升级on-demand节点" target="_blank" rel="noopener" class="card-id">ENG-814</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">调整Kubernetes节点编排并升级on-demand节点</div>
+            <div class="card-foot">
+              <span class="card-assignee">Justin</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-801/开发者本地环境的统一-env-管理平台" target="_blank" rel="noopener" class="card-id">ENG-801</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">开发者本地环境的统一 .env 管理平台</div>
+            <div class="card-foot">
+              <span class="card-assignee">Justin</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-836/nofx-update-tracking" target="_blank" rel="noopener" class="card-id">ENG-836</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">nofx update tracking</div>
+            <div class="card-foot">
+              <span class="card-assignee">Justin</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="jiagui" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-806/browser-research" target="_blank" rel="noopener" class="card-id">ENG-806</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">browser research</div>
+            <div class="card-foot">
+              <span class="card-assignee">Jiagui</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed">
+            <div class="card-head">
+              <a href="https://linear.app/donutbrowser/issue/ENG-831/suna-long-lived-connection-draining-during-rolling-update" target="_blank" rel="noopener" class="card-id">ENG-831</a>
+              <span class="priority-dot" style="background:#52525b"></span>
+            </div>
+            <div class="card-title">Suna: long-lived connection draining during rolling update</div>
+            <div class="card-foot">
+              <span class="card-assignee">Justin</span>
+              <span class="card-state" style="--state-color:#22c55e">✓ Done</span>
+            </div>
+          </div>
+        
+          <!-- PRODUCT issues (紫色) -->
+          <div class="card active" data-assignee="jiagui" data-layer="infra" data-state="started" style="--accent:var(--purple)">
+            <div class="card-head"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1899" target="_blank" rel="noopener" class="card-id">PRODUCT-1899</a><span class="priority-dot" style="background:#f59e0b"></span></div>
+            <div class="card-title">D0 灾备故障恢复</div>
+            <div class="card-foot"><span class="card-assignee">Jiagui</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div>
+          </div>
+</div>
       </div>
-    </div><!-- /view-layer -->
+
+        </div><!-- /view-layer -->
 
     <div id="view-person">
-      <!-- Rendered dynamically by renderCycle -->
+      <!-- ─── Ethan ─── -->
+      <div class="section" style="--accent:#ef4444">
+        <div class="section-head">
+          <div class="section-title">
+            <span class="person-avatar">E</span>
+            <span class="section-name">Ethan</span>
+            <span class="section-sub" style="color:#ef4444">📊 交易层</span>
+          </div>
+          <div class="section-meta"><span class="meta-count">3 active</span><span class="meta-sep">·</span><span class="meta-count">0 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:100%"></div></div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="ethan" data-layer="trading" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1062/fix-build-transfer-api-500-helius-priority-fee-encoding-mismatch" target="_blank" rel="noopener" class="card-id">ENG-1062</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">fix: build-transfer API 500 - Helius priority fee encoding mismatch</div><div class="card-foot"><span class="card-assignee">Ethan</span><span class="card-state" style="--state-color:#f59e0b">◉ In Review</span></div></div>
+          <div class="card triage" data-assignee="ethan" data-layer="trading" data-state="triage"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1126/polymarket-信号生产到执行全流程-pipeline" target="_blank" rel="noopener" class="card-id">ENG-1126</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">Polymarket 信号生产到执行全流程 Pipeline</div><div class="card-foot"><span class="card-assignee">Ethan</span><span class="card-state" style="--state-color:#a78bfa">◎ Triage</span></div></div>
+          <div class="card todo" data-assignee="ethan" data-layer="trading" data-state="unstarted"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-970/d0-cli-gh75-donut-hl-withdraw未告知提现手续费影响用户资金预期" target="_blank" rel="noopener" class="card-id">ENG-970</a><span class="priority-dot" style="background:#ef4444"></span></div><div class="card-title">[d0-cli] GH#75: DONUT_HL_WITHDRAW未告知提现手续费，影响用户资金预期</div><div class="card-foot"><span class="card-assignee">Ethan</span><span class="card-state" style="--state-color:#71717a">○ Todo</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Jim ─── -->
+      <div class="section" style="--accent:#f59e0b">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">J</span><span class="section-name">Jim</span><span class="section-sub" style="color:#f59e0b">🧠 AI 层</span></div>
+          <div class="section-meta"><span class="meta-count">2 active</span><span class="meta-sep">·</span><span class="meta-count">2 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:50%"></div><div class="progress-active" style="width:50%"></div></div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="jim" data-layer="ai" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1019/实现-d0-用户行为记忆系统v30" target="_blank" rel="noopener" class="card-id">ENG-1019</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">实现 D0 用户行为记忆系统（v3.0）</div><div class="card-foot"><span class="card-assignee">Jim</span><span class="card-state" style="--state-color:#f59e0b">◉ In Review</span></div></div>
+          <div class="card active" data-assignee="jim" data-layer="infra" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1017/bug-test-env-wallet-serviceturnkeyauthrefresh-returns-401-after-fresh" target="_blank" rel="noopener" class="card-id">ENG-1017</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">[Bug] Test env: /wallet-service/turnkey/auth/refresh returns 401 after fresh login</div><div class="card-foot"><span class="card-assignee">Jim</span><span class="card-state" style="--state-color:#f59e0b">◉ In Review</span></div></div>
+          <div class="card done" data-assignee="jim" data-layer="ai" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1091/bug-shared-llm-日配额每天早上耗尽-opussonnet-100percent-满额导致服务不可用" target="_blank" rel="noopener" class="card-id">ENG-1091</a><span class="priority-dot" style="background:#ef4444"></span></div><div class="card-title">[Bug] Shared LLM 日配额每天早上耗尽 — Opus/Sonnet 100% 满额导致服务不可用</div><div class="card-foot"><span class="card-assignee">Jim</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="jim" data-layer="experience" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1087/openclaw-profile-plugin用-sqlite-替代-workspace-json-文件存储-user-profile" target="_blank" rel="noopener" class="card-id">ENG-1087</a><span class="priority-dot" style="background:#3b82f6"></span></div><div class="card-title">OpenClaw Profile Plugin：用 SQLite 替代 workspace JSON 文件存储 user profile</div><div class="card-foot"><span class="card-assignee">Jim</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Alex ─── -->
+      <div class="section" style="--accent:#ef4444">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">A</span><span class="section-name">Alex</span><span class="section-sub" style="color:#ef4444">📊 交易层</span></div>
+          <div class="section-meta"><span class="meta-count">2 active</span><span class="meta-sep">·</span><span class="meta-count">0 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:100%"></div></div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="alex" data-layer="trading" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1127/position-tpsl-多空不平-流水断裂-死锁风险分析报告-featureadd-tpsl" target="_blank" rel="noopener" class="card-id">ENG-1127</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">[Position TPSL] 多空不平 / 流水断裂 / 死锁风险分析报告 — feature/add_tpsl</div><div class="card-foot"><span class="card-assignee">Alex</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div></div>
+          <div class="card active" data-assignee="alex" data-layer="trading" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-967/d0-cli-gh85-功能改进-平仓后自动取消对应token的止盈止损订单-perps-auto-cleanup-005" target="_blank" rel="noopener" class="card-id">ENG-967</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">[d0-cli] GH#85: 💡 功能改进: 平仓后自动取消对应token的止盈止损订单 (PERPS-AUTO-CLEANUP-005)</div><div class="card-foot"><span class="card-assignee">Alex</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Justin ─── -->
+      <div class="section" style="--accent:#a78bfa">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">J</span><span class="section-name">Justin</span><span class="section-sub" style="color:#a78bfa">🏗 基础设施</span></div>
+          <div class="section-meta"><span class="meta-count">1 active</span><span class="meta-sep">·</span><span class="meta-count">7 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:88%"></div><div class="progress-active" style="width:13%"></div></div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="justin" data-layer="experience" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1000/tgbot中消息顺序的问题" target="_blank" rel="noopener" class="card-id">ENG-1000</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">tgbot中消息顺序的问题</div><div class="card-foot"><span class="card-assignee">Justin</span><span class="card-state" style="--state-color:#f59e0b">◉ In Review</span></div></div>
+          <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-925/research-d0-独享-agent-vs-multi-agent-共享功能与安全对比分析" target="_blank" rel="noopener" class="card-id">ENG-925</a><span class="priority-dot" style="background:#3b82f6"></span></div><div class="card-title">[Research] D0 独享 Agent vs Multi-Agent 共享：功能与安全对比分析</div><div class="card-foot"><span class="card-assignee">Justin</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-924/research-d0-cloud-成本分析hetzner-独享-vs-aws-ec2-vs-multi-agent-共享" target="_blank" rel="noopener" class="card-id">ENG-924</a><span class="priority-dot" style="background:#3b82f6"></span></div><div class="card-title">[Research] D0 Cloud 成本分析：Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享</div><div class="card-foot"><span class="card-assignee">Justin</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-819/k8s线上环境pod的replica变成2-先在test环境测试一下" target="_blank" rel="noopener" class="card-id">ENG-819</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">K8s线上环境pod的replica变成2 先在test环境测试一下</div><div class="card-foot"><span class="card-assignee">Justin</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-814/调整kubernetes节点编排并升级on-demand节点" target="_blank" rel="noopener" class="card-id">ENG-814</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">调整Kubernetes节点编排并升级on-demand节点</div><div class="card-foot"><span class="card-assignee">Justin</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-801/开发者本地环境的统一-env-管理平台" target="_blank" rel="noopener" class="card-id">ENG-801</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">开发者本地环境的统一 .env 管理平台</div><div class="card-foot"><span class="card-assignee">Justin</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-836/nofx-update-tracking" target="_blank" rel="noopener" class="card-id">ENG-836</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">nofx update tracking</div><div class="card-foot"><span class="card-assignee">Justin</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="justin" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-831/suna-long-lived-connection-draining-during-rolling-update" target="_blank" rel="noopener" class="card-id">ENG-831</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">Suna: long-lived connection draining during rolling update</div><div class="card-foot"><span class="card-assignee">Justin</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Wenzhang ─── -->
+      <div class="section" style="--accent:#a78bfa">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">W</span><span class="section-name">Wenzhang</span><span class="section-sub" style="color:#a78bfa">🏗 基础设施</span></div>
+          <div class="section-meta"><span class="meta-count">1 active</span><span class="meta-sep">·</span><span class="meta-count">4 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:80%"></div><div class="progress-active" style="width:20%"></div></div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="wenzhang" data-layer="infra" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-860/infra-k8s-生产基础设施运维问题修复" target="_blank" rel="noopener" class="card-id">ENG-860</a><span class="priority-dot" style="background:#ef4444"></span></div><div class="card-title">[Infra] K8s 生产基础设施运维问题修复</div><div class="card-foot"><span class="card-assignee">Wenzhang</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div></div>
+          <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1089/shared-模式禁用-qmd-embed回退-bm25-keyword-搜索" target="_blank" rel="noopener" class="card-id">ENG-1089</a><span class="priority-dot" style="background:#ef4444"></span></div><div class="card-title">shared 模式禁用 qmd embed，回退 BM25 keyword 搜索</div><div class="card-foot"><span class="card-assignee">Wenzhang</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="wenzhang" data-layer="experience" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1111/onboarding-状态机文档化-前后端状态流转-触发条件-边界-case" target="_blank" rel="noopener" class="card-id">ENG-1111</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">Onboarding 状态机文档化 — 前后端状态流转 + 触发条件 + 边界 case</div><div class="card-foot"><span class="card-assignee">Wenzhang</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1107/冲突数据可观测性统计用户触发的-workspace-sync-冲突并暴露数据" target="_blank" rel="noopener" class="card-id">ENG-1107</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">冲突数据可观测性：统计用户触发的 workspace-sync 冲突并暴露数据</div><div class="card-foot"><span class="card-assignee">Wenzhang</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1103/workspace-syncsh-用户自定义配置与官方更新的合并冲突处理" target="_blank" rel="noopener" class="card-id">ENG-1103</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">workspace-sync.sh: 用户自定义配置与官方更新的合并冲突处理</div><div class="card-foot"><span class="card-assignee">Wenzhang</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Unassigned ─── -->
+      <div class="section" style="--accent:#a78bfa">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">U</span><span class="section-name">Unassigned</span><span class="section-sub" style="color:#a78bfa">🏗 基础设施</span></div>
+          <div class="section-meta"><span class="meta-count">1 active</span><span class="meta-sep">·</span><span class="meta-count">1 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:50%"></div><div class="progress-active" style="width:50%"></div></div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="unassigned" data-layer="infra" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-861/p0-生产服务全单副本-添加多副本-pdb" target="_blank" rel="noopener" class="card-id">ENG-861</a><span class="priority-dot" style="background:#ef4444"></span></div><div class="card-title">[P0] 生产服务全单副本 — 添加多副本 + PDB</div><div class="card-foot"><span class="card-assignee">Unassigned</span><span class="card-state" style="--state-color:#f59e0b">◉ In Progress</span></div></div>
+          <div class="card done" data-assignee="unassigned" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1095/docsd0-openclaw-dashboard-服务运维信息及重启恢复记录" target="_blank" rel="noopener" class="card-id">ENG-1095</a><span class="priority-dot" style="background:#22c55e"></span></div><div class="card-title">docs(d0): openclaw-dashboard 服务运维信息及重启恢复记录</div><div class="card-foot"><span class="card-assignee">Unassigned</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Fei ─── -->
+      <div class="section" style="--accent:#f59e0b">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">F</span><span class="section-name">Fei</span><span class="section-sub" style="color:#f59e0b">🧠 AI 层</span></div>
+          <div class="section-meta"><span class="meta-count">1 active</span><span class="meta-sep">·</span><span class="meta-count">0 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:100%"></div></div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="fei" data-layer="ai" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-853/eval001-atomandinvariant-level-evaluation" target="_blank" rel="noopener" class="card-id">ENG-853</a><span class="priority-dot" style="background:#3b82f6"></span></div><div class="card-title">[Eval001] Atom&amp;Invariant Level Evaluation</div><div class="card-foot"><span class="card-assignee">Fei</span><span class="card-state" style="--state-color:#f59e0b">◉ In Review</span></div></div>
+        </div>
+      </div>
+      <!-- ─── JackJun ─── -->
+      <div class="section" style="--accent:#ef4444">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">J</span><span class="section-name">JackJun</span><span class="section-sub" style="color:#ef4444">📊 交易层</span></div>
+          <div class="section-meta"><span class="meta-count">1 active</span><span class="meta-sep">·</span><span class="meta-count">0 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:0%"></div><div class="progress-active" style="width:100%"></div></div>
+        <div class="card-grid">
+          <div class="card active" data-assignee="jackjun" data-layer="trading" data-state="started"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-824/add-birdeye-ohlcv-fallback-to-hummingbot-api-market-data-endpoints" target="_blank" rel="noopener" class="card-id">ENG-824</a><span class="priority-dot" style="background:#3b82f6"></span></div><div class="card-title">Add Birdeye OHLCV fallback to hummingbot-api market data endpoints</div><div class="card-foot"><span class="card-assignee">JackJun</span><span class="card-state" style="--state-color:#f59e0b">◉ In Review</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Liang Han ─── -->
+      <div class="section" style="--accent:#ef4444">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">L</span><span class="section-name">Liang Han</span><span class="section-sub" style="color:#ef4444">📊 交易层</span></div>
+          <div class="section-meta"><span class="meta-count">0 active</span><span class="meta-sep">·</span><span class="meta-count">3 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:100%"></div><div class="progress-active" style="width:0%"></div></div>
+        <div class="card-grid">
+          <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-997/polymarket完成情況與overall-tracker" target="_blank" rel="noopener" class="card-id">ENG-997</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">polymarket完成情況與overall tracker</div><div class="card-foot"><span class="card-assignee">Liang Han</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-962/implement-polymarket-clob-and-data-api-tools-for-d0-cli-order" target="_blank" rel="noopener" class="card-id">ENG-962</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">Implement Polymarket CLOB &amp; Data API Tools for d0-cli (Order Management + Positions)</div><div class="card-foot"><span class="card-assignee">Liang Han</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="hanliang" data-layer="ai" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1096/methodology-data-source-audit-framework-for-discovering-donut-tool" target="_blank" rel="noopener" class="card-id">ENG-1096</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">[Methodology] Data source audit framework for discovering DONUT tool gaps and conflicts</div><div class="card-foot"><span class="card-assignee">Liang Han</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Jiagui ─── -->
+      <div class="section" style="--accent:#a78bfa">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">J</span><span class="section-name">Jiagui</span><span class="section-sub" style="color:#a78bfa">🏗 基础设施</span></div>
+          <div class="section-meta"><span class="meta-count">0 active</span><span class="meta-sep">·</span><span class="meta-count">2 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:67%"></div><div class="progress-active" style="width:0%"></div></div>
+        <div class="card-grid">
+          <div class="card done" data-assignee="jiagui" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1043/d0-bot-监控signoz-告警规则-healthd0-心跳端点" target="_blank" rel="noopener" class="card-id">ENG-1043</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">D0 Bot 监控：SigNoz 告警规则 + /health/d0 心跳端点</div><div class="card-foot"><span class="card-assignee">Jiagui</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+          <div class="card done" data-assignee="jiagui" data-layer="infra" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-806/browser-research" target="_blank" rel="noopener" class="card-id">ENG-806</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">browser research</div><div class="card-foot"><span class="card-assignee">Jiagui</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Jin Xu ─── -->
+      <div class="section" style="--accent:#f59e0b">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">J</span><span class="section-name">Jin Xu</span><span class="section-sub" style="color:#f59e0b">🧠 AI 层</span></div>
+          <div class="section-meta"><span class="meta-count">0 active</span><span class="meta-sep">·</span><span class="meta-count">1 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:100%"></div><div class="progress-active" style="width:0%"></div></div>
+        <div class="card-grid">
+          <div class="card done" data-assignee="xujin" data-layer="ai" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1110/d0-prompt-系统清理5-个结构性问题修复" target="_blank" rel="noopener" class="card-id">ENG-1110</a><span class="priority-dot" style="background:#f59e0b"></span></div><div class="card-title">D0 Prompt 系统清理：5 个结构性问题修复</div><div class="card-foot"><span class="card-assignee">Jin Xu</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Ye Zou ─── -->
+      <div class="section" style="--accent:#f59e0b">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">Y</span><span class="section-name">Ye Zou</span><span class="section-sub" style="color:#f59e0b">🧠 AI 层</span></div>
+          <div class="section-meta"><span class="meta-count">0 active</span><span class="meta-sep">·</span><span class="meta-count">1 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:100%"></div><div class="progress-active" style="width:0%"></div></div>
+        <div class="card-grid">
+          <div class="card done" data-assignee="zouye" data-layer="ai" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-1011/llm-token-用量配额按用户账户限制与会员权益挂钩" target="_blank" rel="noopener" class="card-id">ENG-1011</a><span class="priority-dot" style="background:#ef4444"></span></div><div class="card-title">LLM Token 用量配额：按用户账户限制，与会员权益挂钩</div><div class="card-foot"><span class="card-assignee">Ye Zou</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+        </div>
+      </div>
+      <!-- ─── Tao ─── -->
+      <div class="section" style="--accent:#f59e0b">
+        <div class="section-head">
+          <div class="section-title"><span class="person-avatar">T</span><span class="section-name">Tao</span><span class="section-sub" style="color:#f59e0b">🧠 AI 层</span></div>
+          <div class="section-meta"><span class="meta-count">0 active</span><span class="meta-sep">·</span><span class="meta-count">1 done</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-done" style="width:100%"></div><div class="progress-active" style="width:0%"></div></div>
+        <div class="card-grid">
+          <div class="card done" data-assignee="tao" data-layer="ai" data-state="completed"><div class="card-head"><a href="https://linear.app/donutbrowser/issue/ENG-827/collect-more-user-scenarios-and-related-data-sources" target="_blank" rel="noopener" class="card-id">ENG-827</a><span class="priority-dot" style="background:#52525b"></span></div><div class="card-title">Collect more user scenarios and related data sources</div><div class="card-foot"><span class="card-assignee">Tao</span><span class="card-state" style="--state-color:#22c55e">✓ Done</span></div></div>
+        </div>
+      </div>
     </div><!-- /view-person -->
   </div><!-- /tab-sprint -->
 
@@ -1827,291 +2479,18 @@ a:hover { text-decoration: underline; }
   </div><!-- /tab-voice -->
 
   <div class="footer">
-    D0 Product Dashboard v8 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Multi-Cycle View
+    D0 Product Dashboard v7.2 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Sprint 22 (3/15 → 3/29)
   </div>
 
 </div><!-- /page -->
 
 <script>
-/* ══════════════════════════════════════════════════════════
-   CYCLES DATA
-   ══════════════════════════════════════════════════════════ */
-const CYCLES = {
-  eng22: {
-    label: 'ENG Sprint 22', dates: '3/15 → 3/29', status: 'active', team: 'ENG',
-    issues: [
-      { id:'ENG-1000', title:'tgbot中消息顺序的问题', assignee:'justin', layer:'experience', state:'started', stateLabel:'In Review', priority:'none', team:'ENG' },
-      { id:'ENG-1111', title:'Onboarding 状态机文档化 — 前后端状态流转 + 触发条件 + 边界 case', assignee:'wenzhang', layer:'experience', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1087', title:'OpenClaw Profile Plugin：用 SQLite 替代 workspace JSON 文件存储 user profile', assignee:'jim', layer:'experience', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
-      { id:'ENG-925', title:'[Research] D0 独享 Agent vs Multi-Agent 共享：功能与安全对比分析', assignee:'justin', layer:'experience', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
-      { id:'ENG-924', title:'[Research] D0 Cloud 成本分析：Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享', assignee:'justin', layer:'experience', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
-      { id:'ENG-1019', title:'实现 D0 用户行为记忆系统（v3.0）', assignee:'jim', layer:'ai', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
-      { id:'ENG-853', title:'[Eval001] Atom\u0026Invariant Level Evaluation', assignee:'fei', layer:'ai', state:'started', stateLabel:'In Review', priority:'medium', team:'ENG' },
-      { id:'ENG-1091', title:'[Bug] Shared LLM 日配额每天早上耗尽 — Opus/Sonnet 100% 满额导致服务不可用', assignee:'jim', layer:'ai', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
-      { id:'ENG-1011', title:'LLM Token 用量配额：按用户账户限制，与会员权益挂钩', assignee:'zouye', layer:'ai', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
-      { id:'ENG-1110', title:'D0 Prompt 系统清理：5 个结构性问题修复', assignee:'xujin', layer:'ai', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1096', title:'[Methodology] Data source audit framework for discovering DONUT tool gaps and conflicts', assignee:'hanliang', layer:'ai', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-827', title:'Collect more user scenarios and related data sources', assignee:'tao', layer:'ai', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-1127', title:'[Position TPSL] 多空不平 / 流水断裂 / 死锁风险分析报告', assignee:'alex', layer:'trading', state:'started', stateLabel:'In Progress', priority:'high', team:'ENG' },
-      { id:'ENG-1062', title:'fix: build-transfer API 500 - Helius priority fee encoding mismatch', assignee:'ethan', layer:'trading', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
-      { id:'ENG-824', title:'Add Birdeye OHLCV fallback to hummingbot-api market data endpoints', assignee:'jackjun', layer:'trading', state:'started', stateLabel:'In Review', priority:'medium', team:'ENG' },
-      { id:'ENG-967', title:'[d0-cli] GH#85: 功能改进: 平仓后自动取消对应token的止盈止损订单', assignee:'alex', layer:'trading', state:'started', stateLabel:'In Progress', priority:'none', team:'ENG' },
-      { id:'ENG-1126', title:'Polymarket 信号生产到执行全流程 Pipeline', assignee:'ethan', layer:'trading', state:'triage', stateLabel:'Triage', priority:'high', team:'ENG' },
-      { id:'ENG-970', title:'[d0-cli] GH#75: DONUT_HL_WITHDRAW未告知提现手续费', assignee:'ethan', layer:'trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'ENG' },
-      { id:'ENG-997', title:'polymarket完成情況與overall tracker', assignee:'hanliang', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-962', title:'Implement Polymarket CLOB \u0026 Data API Tools for d0-cli', assignee:'hanliang', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-861', title:'[P0] 生产服务全单副本 — 添加多副本 + PDB', assignee:'unassigned', layer:'infra', state:'started', stateLabel:'In Progress', priority:'urgent', team:'ENG' },
-      { id:'ENG-860', title:'[Infra] K8s 生产基础设施运维问题修复', assignee:'wenzhang', layer:'infra', state:'started', stateLabel:'In Progress', priority:'urgent', team:'ENG' },
-      { id:'ENG-1017', title:'[Bug] Test env: /wallet-service/turnkey/auth/refresh returns 401', assignee:'jim', layer:'infra', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
-      { id:'ENG-1089', title:'shared 模式禁用 qmd embed，回退 BM25 keyword 搜索', assignee:'wenzhang', layer:'infra', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
-      { id:'ENG-1107', title:'冲突数据可观测性：统计用户触发的 workspace-sync 冲突并暴露数据', assignee:'wenzhang', layer:'infra', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1103', title:'workspace-sync.sh: 用户自定义配置与官方更新的合并冲突处理', assignee:'wenzhang', layer:'infra', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1043', title:'D0 Bot 监控：SigNoz 告警规则 + /health/d0 心跳端点', assignee:'jiagui', layer:'infra', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1095', title:'docs(d0): openclaw-dashboard 服务运维信息及重启恢复记录', assignee:'unassigned', layer:'infra', state:'completed', stateLabel:'Done', priority:'low', team:'ENG' },
-      { id:'ENG-819', title:'K8s线上环境pod的replica变成2', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-814', title:'调整Kubernetes节点编排并升级on-demand节点', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-801', title:'开发者本地环境的统一 .env 管理平台', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-836', title:'nofx update tracking', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-806', title:'browser research', assignee:'jiagui', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-831', title:'Suna: long-lived connection draining during rolling update', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' }
-    ]
-  },
-  prod23: {
-    label: 'PRODUCT Sprint 23', dates: '3/23 → 4/3', status: 'upcoming', team: 'PRODUCT',
-    issues: [
-      { id:'PRODUCT-2008', title:'[审计] HIL 用户反馈 → D0 迁移完整现状', assignee:'unassigned', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-2007', title:'图表能力策略决策', assignee:'sylvia', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1997', title:'Safari 登录跳回后参数未正确处理', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1996', title:'Safari 登录 redirect 不正确', assignee:'gary', layer:'experience', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1992', title:'D0 E2E 自动化测试接入 CI', assignee:'kevin', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-2002', title:'/d0/status 轮询间隔过长', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-1972', title:'数据质量与集成度审查', assignee:'regison', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1994', title:'月度 LLM 用量 resetsAt UTC', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-1993', title:'邀请码校验 loading', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-2001', title:'LLM USAGE 进度条不对称', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-2000', title:'动画需缩小', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-1945', title:'MCP tool bugs + data gaps', assignee:'hanliang', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1939', title:'EVM Native Token 转账预留 Gas', assignee:'ethan', layer:'trading', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1999', title:'Landing Page iframe 路由重构', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
-      { id:'PRODUCT-1915', title:'Position TPSL 下单触发价校验', assignee:'kevin', layer:'trading', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1998', title:'谷歌登录新邮箱界面问题', assignee:'gary', layer:'experience', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
-      { id:'PRODUCT-1765', title:'GRPS AutoProtect', assignee:'kevin', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1763', title:'GRPS 授权管理', assignee:'kevin', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1586', title:'D0 Chat → Agent Creation PRD', assignee:'unassigned', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1502', title:'D0 Backtest Skill PRD', assignee:'sylvia', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1475', title:'confidence 0% 自动平仓', assignee:'unassigned', layer:'ai', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1474', title:'编辑策略时编辑币种', assignee:'unassigned', layer:'ai', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1443', title:'策略编辑后重新评估风险', assignee:'unassigned', layer:'ai', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1442', title:'创建后追加资金', assignee:'unassigned', layer:'ai', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1441', title:'TG通知 + TG交互修改', assignee:'unassigned', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' }
-    ]
-  },
-  eng23: {
-    label: 'ENG Sprint 23', dates: '3/29 → 4/12', status: 'next', team: 'ENG',
-    issues: []
-  }
-};
-
-/* ── Shared Mappings ───────────────────────────────────── */
-const nameMap = {jackjun:'JackJun',fei:'Fei',xujin:'Jin Xu',gary:'Gary',ethan:'Ethan',alex:'Alex',lirui:'Rui Li',regison:'Regison',wenzhang:'Wenzhang',jiagui:'Jiagui',peter:'Peter',zouye:'Ye Zou',sylvia:'Sylvia',yixintan:'Yi Tan',hanliang:'Liang Han',tao:'Tao Yuan',jim:'Jim',kevin:'Kevin',justin:'Justin',unassigned:'—'};
-const priorityColors = {urgent:'#ef4444',high:'#f59e0b',medium:'#3b82f6',low:'#22c55e',none:'#52525b'};
-const layerAccents = {acquisition:'#3b82f6',experience:'#14b8a6',ai:'#f59e0b',trading:'#ef4444',infra:'#a78bfa'};
-const layerIcons = {acquisition:'📣',experience:'✨',ai:'🧠',trading:'📊',infra:'🏗'};
-const layerNames = {acquisition:'获客层',experience:'体验层',ai:'AI 层',trading:'交易层',infra:'基础设施'};
-const LAYERS = ['acquisition','experience','ai','trading','infra'];
-
-let activeCycleKey = 'prod23';
-
-/* ══════════════════════════════════════════════════════════
-   CYCLE RENDERING
-   ══════════════════════════════════════════════════════════ */
-function switchCycle(key) {
-  activeCycleKey = key;
-  document.querySelectorAll('.cycle-btn').forEach(b => b.classList.remove('active'));
-  const btn = document.getElementById('btn-' + key);
-  if (btn) btn.classList.add('active');
-  renderCycle(key);
-  // Reset state filter to all
-  document.querySelectorAll('#tab-sprint .ctrl-group:last-child .ctrl-btn').forEach(b => b.classList.remove('active'));
-  const allBtn = document.querySelector('#tab-sprint .ctrl-group:last-child .ctrl-btn[data-filter="all"]');
-  if (allBtn) allBtn.classList.add('active');
-}
-
-function renderCycle(key) {
-  const cycle = CYCLES[key];
-  if (!cycle) return;
-  const issues = cycle.issues;
-
-  // Update cycle label
-  const labelEl = document.getElementById('cycleLabel');
-  if (labelEl) labelEl.textContent = cycle.label + ' · ' + cycle.dates;
-
-  // Compute stats
-  const total = issues.length;
-  const active = issues.filter(i => i.state === 'started' || i.state === 'triage').length;
-  const done = issues.filter(i => i.state === 'completed').length;
-  const canceled = issues.filter(i => i.state === 'canceled').length;
-  const completion = total > 0 ? Math.round(((done + canceled) / total) * 100) : 0;
-  const people = new Set(issues.filter(i => i.assignee !== 'unassigned').map(i => i.assignee)).size;
-
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-active').textContent = active;
-  document.getElementById('stat-done').textContent = done;
-  document.getElementById('stat-completion').textContent = completion + '%';
-  document.getElementById('stat-people').textContent = people;
-
-  // Render layer view
-  LAYERS.forEach(layer => {
-    const grid = document.getElementById('grid-' + layer);
-    const metaEl = document.getElementById('meta-' + layer);
-    const progressEl = document.getElementById('progress-' + layer);
-    if (!grid) return;
-
-    const layerIssues = issues.filter(i => i.layer === layer);
-    const layerActive = layerIssues.filter(i => i.state === 'started' || i.state === 'triage').length;
-    const layerDone = layerIssues.filter(i => i.state === 'completed').length;
-    const layerTotal = layerIssues.length;
-
-    // Update meta
-    if (metaEl) {
-      metaEl.innerHTML = '<span class="meta-count">' + layerActive + ' active</span><span class="meta-sep">·</span><span class="meta-count">' + layerDone + ' done</span>';
-    }
-
-    // Update progress bar
-    if (progressEl && layerTotal > 0) {
-      const doneP = Math.round((layerDone / layerTotal) * 100);
-      const activeP = Math.round((layerActive / layerTotal) * 100);
-      progressEl.innerHTML = '<div class="progress-done" style="width:' + doneP + '%"></div><div class="progress-active" style="width:' + activeP + '%"></div>';
-      progressEl.style.display = '';
-    } else if (progressEl) {
-      progressEl.style.display = 'none';
-    }
-
-    // Render cards
-    if (layerIssues.length === 0) {
-      grid.innerHTML = '<div class="empty-state">当前 Cycle 暂无 issue</div>';
-    } else {
-      grid.innerHTML = layerIssues.map(renderCardHTML).join('');
-    }
-  });
-
-  // Render person view
-  renderPersonView(issues);
-  save();
-}
-
-function renderCardHTML(issue) {
-  const pColor = priorityColors[issue.priority] || '#52525b';
-  const isProduct = issue.team === 'PRODUCT';
-  const accentStyle = isProduct ? ' style="--accent:var(--purple)"' : '';
-  let stateColor, stateText, cardClass;
-  switch(issue.state) {
-    case 'started': stateColor = '#f59e0b'; stateText = '◉ ' + issue.stateLabel; cardClass = 'active'; break;
-    case 'completed': stateColor = '#22c55e'; stateText = '✓ Done'; cardClass = 'done'; break;
-    case 'canceled': stateColor = '#71717a'; stateText = '✕ Canceled'; cardClass = 'done'; break;
-    case 'triage': stateColor = '#a78bfa'; stateText = '◎ Triage'; cardClass = 'triage'; break;
-    default: stateColor = '#71717a'; stateText = '○ Todo'; cardClass = 'todo';
-  }
-  // Add priority tag for todo items
-  if (issue.state === 'unstarted' && issue.priority !== 'none') {
-    const pLabels = {urgent:'P1',high:'P2',medium:'P3',low:'P4'};
-    if (pLabels[issue.priority]) stateText += ' · ' + pLabels[issue.priority];
-  }
-  const assigneeName = nameMap[issue.assignee] || issue.assignee;
-  const href = 'https://linear.app/donutbrowser/issue/' + issue.id;
-  const safeTitle = issue.title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-  return '<div class="card ' + cardClass + '" data-assignee="' + issue.assignee + '" data-layer="' + issue.layer + '" data-state="' + issue.state + '"' + accentStyle + '>'
-    + '<div class="card-head"><a href="' + href + '" target="_blank" rel="noopener" class="card-id">' + issue.id + '</a>'
-    + '<span class="priority-dot" style="background:' + pColor + '"></span></div>'
-    + '<div class="card-title">' + safeTitle + '</div>'
-    + '<div class="card-foot"><span class="card-assignee">' + assigneeName + '</span>'
-    + '<span class="card-state" onclick="cycleCardState(this)" style="--state-color:' + stateColor + '">' + stateText + '</span></div></div>';
-}
-
-function renderPersonView(issues) {
-  const personView = document.getElementById('view-person');
-  if (!personView) return;
-
-  // Group by assignee
-  const groups = {};
-  issues.forEach(i => {
-    const a = i.assignee;
-    if (!groups[a]) groups[a] = [];
-    groups[a].push(i);
-  });
-
-  // Sort assignees: by active count desc, then by name
-  const sortedAssignees = Object.keys(groups).sort((a, b) => {
-    const aActive = groups[a].filter(i => i.state === 'started' || i.state === 'triage').length;
-    const bActive = groups[b].filter(i => i.state === 'started' || i.state === 'triage').length;
-    if (bActive !== aActive) return bActive - aActive;
-    return (nameMap[a] || a).localeCompare(nameMap[b] || b);
-  });
-
-  if (sortedAssignees.length === 0) {
-    personView.innerHTML = '<div class="empty-state" style="padding:var(--space-8);text-align:center">当前 Cycle 暂无 issue</div>';
-    return;
-  }
-
-  personView.innerHTML = sortedAssignees.map(assignee => {
-    const cards = groups[assignee];
-    const active = cards.filter(i => i.state === 'started' || i.state === 'triage').length;
-    const done = cards.filter(i => i.state === 'completed').length;
-    const total = cards.length;
-    const doneP = total > 0 ? Math.round((done / total) * 100) : 0;
-    const activeP = total > 0 ? Math.round((active / total) * 100) : 0;
-    // Find primary layer
-    const layerCounts = {};
-    cards.forEach(c => { layerCounts[c.layer] = (layerCounts[c.layer] || 0) + 1; });
-    const primaryLayer = Object.keys(layerCounts).sort((a, b) => layerCounts[b] - layerCounts[a])[0] || 'infra';
-    const accent = layerAccents[primaryLayer] || 'var(--fg-subtle)';
-    const icon = layerIcons[primaryLayer] || '🏗';
-    const layerLabel = layerNames[primaryLayer] || primaryLayer;
-    const displayName = nameMap[assignee] || assignee;
-    const initial = displayName.charAt(0).toUpperCase();
-
-    return '<div class="section" style="--accent:' + accent + '">'
-      + '<div class="section-head"><div class="section-title">'
-      + '<span class="person-avatar">' + initial + '</span>'
-      + '<span class="section-name">' + displayName + '</span>'
-      + '<span class="section-sub" style="color:' + accent + '">' + icon + ' ' + layerLabel + '</span></div>'
-      + '<div class="section-meta"><span class="meta-count">' + active + ' active</span><span class="meta-sep">·</span><span class="meta-count">' + done + ' done</span></div></div>'
-      + '<div class="progress-bar"><div class="progress-done" style="width:' + doneP + '%"></div><div class="progress-active" style="width:' + activeP + '%"></div></div>'
-      + '<div class="card-grid">' + cards.map(renderCardHTML).join('') + '</div></div>';
-  }).join('');
-}
-
-/* ── Sprint Card State Cycling ─────────────────────────── */
-const cardStateCycle = [
-  { state:'unstarted', label:'○ Todo', color:'#71717a' },
-  { state:'started', label:'◉ In Progress', color:'#f59e0b' },
-  { state:'completed', label:'✓ Done', color:'#22c55e' }
-];
-function cycleCardState(el) {
-  const card = el.closest('.card');
-  if (!card) return;
-  const cur = card.dataset.state;
-  const idx = cardStateCycle.findIndex(s => s.state === cur);
-  const next = cardStateCycle[(idx + 1) % cardStateCycle.length];
-  card.dataset.state = next.state;
-  card.className = 'card ' + (next.state === 'completed' ? 'done' : next.state === 'started' ? 'active' : 'todo');
-  // Preserve accent for PRODUCT cards
-  if (el.closest('[style*="--accent:var(--purple)"]')) {
-    card.style.setProperty('--accent', 'var(--purple)');
-  }
-  el.style.setProperty('--state-color', next.color);
-  el.textContent = next.label;
-  save();
-}
-
 /* ── Tab Switching ─────────────────────────────────────── */
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   event.currentTarget.classList.add('active');
-  if (tab === 'myboard') renderMyBoard(window._currentMyFilter || 'all');
 }
 
 /* ── Sprint Board: View Switching ──────────────────────── */
@@ -2209,8 +2588,8 @@ document.querySelectorAll('.k-card').forEach(initDrag);
 document.querySelectorAll('.k-col').forEach(initColDrop);
 
 /* ── Auto-save / localStorage ──────────────────────────── */
-const SAVE_KEY = 'd0-board-v8';
-const VER_KEY = 'd0-board-v8-vers';
+const SAVE_KEY = 'd0-board-v73';
+const VER_KEY = 'd0-board-v73-vers';
 let saveTimer;
 
 function save() {
@@ -2239,8 +2618,7 @@ function rebindAll() {
   document.querySelectorAll('.k-col').forEach(initColDrop);
 }
 
-// Don't auto-load from localStorage on first load — render fresh from CYCLES data
-// loadSaved();
+loadSaved();
 
 /* ── Version Management ────────────────────────────────── */
 function getVersions() {
@@ -2295,7 +2673,8 @@ function resetData() {
 setTimeout(updateVersionList, 100);
 
 /* ── My Board: Personal Kanban ─────────────────────────── */
-const CUSTOM_KEY = 'd0-board-v8-custom';
+const CUSTOM_KEY = 'd0-board-v73-custom';
+const nameMap = {jackjun:'JackJun',fei:'Fei',xujin:'Jin Xu',gary:'Gary',ethan:'Ethan',alex:'Alex',lirui:'Rui Li',regison:'Regison',wenzhang:'Wenzhang',jiagui:'Jiagui',peter:'Peter',zouye:'Ye Zou',sylvia:'Sylvia',yixintan:'Yi Tan',hanliang:'Liang Han',tao:'Tao Yuan',jim:'Jim',kevin:'Kevin',justin:'Justin',unassigned:'Unassigned'};
 const layerColors = {experience:'var(--teal)',ai:'var(--warning)',trading:'var(--error)',infra:'var(--purple)',acquisition:'var(--info)'};
 
 function getCustomIssues() { try { return JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]') } catch { return [] } }
@@ -2326,6 +2705,7 @@ function renderMyBoard(filterAssignee) {
   if (filterAssignee && filterAssignee !== 'all') {
     all = all.filter(c => c.assignee === filterAssignee);
   }
+  // Sort: active first, then todo, then done
   const stateOrder = {started:0, triage:1, unstarted:2, completed:3, canceled:4};
   all.sort((a,b) => (stateOrder[a.state]??2) - (stateOrder[b.state]??2));
 
@@ -2342,7 +2722,7 @@ function renderMyBoard(filterAssignee) {
     const delBtn = c.source==='custom' ? '<button onclick="removeCustomIssue(\''+c.id+'\')" style="position:absolute;top:6px;right:8px;background:none;border:none;color:var(--fg-subtle);cursor:pointer;font-size:.7rem;opacity:.4" onmouseover="this.style.opacity=1;this.style.color=\'var(--error)\'" onmouseout="this.style.opacity=.4;this.style.color=\'var(--fg-subtle)\'">✕</button>' : '';
     return '<div class="card '+(isDone?'done':'')+'" style="--accent:'+layerBg+';position:relative">'
       + delBtn
-      + '<div class="card-head"><a href="'+(c.href||'https://linear.app/donutbrowser/issue/'+c.id)+'" target="_blank" class="card-id" style="font-family:var(--font-mono);font-size:.65rem;color:var(--fg-subtle)">'+c.id+'</a>'
+      + '<div class="card-head"><a href="'+(c.href||'https://linear.app/donutbrowser/issue/'+c.id.replace(/^([A-Z]+)-/,(m,t)=>t+'-'))+'" target="_blank" class="card-id" style="font-family:var(--font-mono);font-size:.65rem;color:var(--fg-subtle)">'+c.id+'</a>'
       + '<span class="priority-dot" style="background:'+c.pColor+'"></span></div>'
       + '<div class="card-title" style="font-size:.82rem;font-weight:500;margin-bottom:var(--space-2)">'+c.title+'</div>'
       + '<div class="card-foot" style="display:flex;justify-content:space-between;align-items:center">'
@@ -2368,7 +2748,8 @@ function addMyIssue() {
   const assignee = assigneeEl.value;
   if (!id) { idEl.focus(); return }
   if (!title) { titleEl.focus(); return }
-  const href = 'https://linear.app/donutbrowser/issue/' + id;
+  const slug = id.toLowerCase().replace(/\s+/g,'-');
+  const href = 'https://linear.app/donutbrowser/issue/' + slug;
   const customs = getCustomIssues();
   customs.push({id, title, assignee: assignee||'unassigned', layer:'', state:'unstarted', href, pColor:'#52525b'});
   saveCustomIssues(customs);
@@ -2383,10 +2764,21 @@ function removeCustomIssue(id) {
   renderMyBoard(window._currentMyFilter || 'all');
 }
 
+// Init my board when tab switches to it
 window._currentMyFilter = 'all';
-
-/* ── Init: Default to PRODUCT Sprint 23 ────────────────── */
-switchCycle('prod23');
+const _origSwitchTab = window.switchTab || switchTab;
+</script>
+<script>
+// Override switchTab to init myboard
+const __switchTab = function(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (tab === 'myboard') renderMyBoard(window._currentMyFilter || 'all');
+};
+// Rebind switchTab globally
+window.switchTab = __switchTab;
 </script>
 </body>
 </html>
