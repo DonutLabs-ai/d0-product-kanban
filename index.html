@@ -162,10 +162,12 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
   </div>
   <div class="actions">
     <span class="save-indicator" id="saveInd">✓ saved</span>
-    <button class="btn primary" onclick="exportHTML()">⤓ 导出 HTML</button>
+    <button class="btn primary" onclick="saveVersion()">💾 保存版本</button>
+    <button class="btn" onclick="exportHTML()">⤓ 导出 HTML</button>
     <button class="btn danger" onclick="resetData()">↺ 重置</button>
   </div>
 </div>
+<div id="versionList" style="padding:.3rem 0;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center"></div>
 
 <!-- HERO -->
 <div class="hero">
@@ -481,23 +483,85 @@ function loadSaved() {
 }
 loadSaved();
 
+// ====== VERSION MANAGEMENT ======
+const VER_KEY = 'd0-kanban-versions';
+function getVersions() { try { return JSON.parse(localStorage.getItem(VER_KEY) || '[]'); } catch { return []; } }
+
+function saveVersion() {
+  const name = prompt('版本名称:', 'v' + (getVersions().length + 1) + ' — ' + new Date().toLocaleDateString('zh-CN'));
+  if (!name) return;
+  const versions = getVersions();
+  versions.push({ name, ts: new Date().toISOString(), html: document.querySelector('.page').innerHTML });
+  localStorage.setItem(VER_KEY, JSON.stringify(versions));
+  showSaveInd('✓ 版本已保存: ' + name);
+  updateVersionList();
+}
+
+function loadVersion(idx) {
+  const versions = getVersions();
+  if (versions[idx] && confirm('加载版本「' + versions[idx].name + '」? 当前未保存的编辑会丢失。')) {
+    document.querySelector('.page').innerHTML = versions[idx].html;
+    rebindAll();
+    save();
+  }
+}
+
+function updateVersionList() {
+  const vl = document.getElementById('versionList');
+  if (!vl) return;
+  const versions = getVersions();
+  if (!versions.length) { vl.innerHTML = '<span style="color:var(--text-muted);font-size:.7rem">暂无保存版本</span>'; return; }
+  vl.innerHTML = versions.map((v, i) =>
+    '<div style="display:flex;align-items:center;gap:.4rem;margin:.2rem 0">' +
+    '<span style="font-size:.72rem;color:var(--text)">' + v.name + '</span>' +
+    '<span style="font-size:.6rem;color:var(--text-muted)">' + new Date(v.ts).toLocaleString('zh-CN') + '</span>' +
+    '<button class="btn" style="font-size:.6rem;padding:.15rem .4rem" onclick="loadVersion(' + i + ')">加载</button>' +
+    '</div>'
+  ).join('');
+}
+
 // ====== EXPORT ======
 function exportHTML() {
+  const name = prompt('文件名:', 'd0-kanban-' + new Date().toISOString().slice(0,10));
+  if (!name) return;
   const html = '<!DOCTYPE html>' + document.documentElement.outerHTML;
   const blob = new Blob([html], {type: 'text/html'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'd0-kanban-' + new Date().toISOString().slice(0,10) + '.html';
+  a.download = name + '.html';
   a.click();
+}
+
+function showSaveInd(msg) {
+  const ind = document.getElementById('saveInd');
+  ind.textContent = msg || '✓ saved';
+  ind.classList.add('show');
+  setTimeout(() => ind.classList.remove('show'), 2000);
 }
 
 // ====== RESET ======
 function resetData() {
-  if (confirm('重置所有编辑到初始状态?')) {
+  if (confirm('重置所有编辑到初始状态? (保存的版本不会丢失)')) {
     localStorage.removeItem(SAVE_KEY);
     location.reload();
   }
 }
+
+// ====== REBIND AFTER VERSION LOAD ======
+function rebindAll() {
+  document.querySelectorAll('.k-card').forEach(initDrag);
+  document.querySelectorAll('.k-col').forEach(col => {
+    col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('drag-over'); });
+    col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+    col.addEventListener('drop', e => {
+      e.preventDefault(); col.classList.remove('drag-over');
+      if (dragCard) { col.querySelector('.k-body').appendChild(dragCard); save(); }
+    });
+  });
+}
+
+// Init version list
+setTimeout(updateVersionList, 100);
 </script>
 </body>
 </html>
