@@ -899,6 +899,23 @@ a:hover { text-decoration: underline; }
 <body>
 <div class="page">
 
+  <!-- ══ Usage Guide ══ -->
+  <div id="guideBox" style="background:var(--bg-subtle);border:1px solid var(--border-emphasis);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-6);margin-bottom:var(--space-4);position:relative;line-height:1.7">
+    <button onclick="this.parentElement.style.display='none'" style="position:absolute;top:var(--space-2);right:var(--space-3);background:none;border:none;color:var(--fg-subtle);cursor:pointer;font-size:1rem">✕</button>
+    <div style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:var(--space-2)">📋 How to use this board</div>
+    <div style="font-size:.82rem;color:var(--fg-muted)">
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">每周工作流:</strong> 每位工程师在「👤 我的看板」tab 里管理自己每周的优先级。选择你的名字 → 看到你所有 issue → 按优先级排序执行。</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">添加 Issue:</strong> 在「👤 我的看板」里点击「+ 添加 Issue」，输入 Linear Issue ID（如 ENG-1234），会自动生成链接。也可以直接在 <a href="https://linear.app/donutbrowser/team/ENG/cycle/active" target="_blank" style="color:var(--info);font-family:var(--font-mono);font-size:.78rem">Linear → Active Cycle</a> 创建，下次 sync 自动出现。</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">编辑:</strong> 所有文字可直接点击编辑。状态标签点击可切换。卡片可拖拽移动。</p>
+      <p><strong style="color:var(--fg-base)">保存:</strong> 编辑自动保存到浏览器。点「💾 保存版本」命名快照。点「⤓ 导出」下载 HTML 存档。</p>
+    </div>
+    <div style="margin-top:var(--space-3);display:flex;gap:var(--space-2);flex-wrap:wrap">
+      <a href="https://linear.app/donutbrowser/team/ENG/cycle/active" target="_blank" style="font-family:var(--font-mono);font-size:.7rem;padding:var(--space-1) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:100px;color:var(--fg-muted);text-decoration:none">ENG Active Cycle ↗</a>
+      <a href="https://linear.app/donutbrowser/team/PRODUCT/cycle/upcoming" target="_blank" style="font-family:var(--font-mono);font-size:.7rem;padding:var(--space-1) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:100px;color:var(--fg-muted);text-decoration:none">PRODUCT Upcoming ↗</a>
+      <a href="https://linear.app/donutbrowser/team/TES/cycle/active" target="_blank" style="font-family:var(--font-mono);font-size:.7rem;padding:var(--space-1) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:100px;color:var(--fg-muted);text-decoration:none">TES Active Cycle ↗</a>
+    </div>
+  </div>
+
   <header class="header">
     <h1>D0 Product Dashboard</h1>
     <div class="subtitle">Sprint 22 · 组织 · 产品 · 工程 · 风险</div>
@@ -915,6 +932,7 @@ a:hover { text-decoration: underline; }
     <button class="tab-btn" onclick="switchTab('product')">🗺 产品全景</button>
     <button class="tab-btn" onclick="switchTab('eng')">⚙️ 工程 Scope</button>
     <button class="tab-btn" onclick="switchTab('risk')">⚠️ 风险 &amp; 规划</button>
+    <button class="tab-btn" onclick="switchTab('myboard')">👤 我的看板</button>
   </div>
 
   <!-- ══ Toolbar ══ -->
@@ -1897,6 +1915,86 @@ a:hover { text-decoration: underline; }
     <div class="pending-box" contenteditable>待决: ① PRODUCT-1834 / 1800 owner 指派 ② Peter 交易标准文档 ③ Ethan buddy reviewer 确认 ④ Jiagui Extension 文档化</div>
   </div><!-- /tab-risk -->
 
+  <!-- ══════════════════════════════════════════════════════
+       TAB 6: MY BOARD (个人看板)
+       ══════════════════════════════════════════════════════ -->
+  <div id="tab-myboard" class="tab-panel">
+
+    <div style="text-align:center;margin:var(--space-4) 0 var(--space-6)">
+      <div style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:var(--space-2)">选择你的名字 → 查看和管理你的 Issues</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:var(--space-4)" id="personBtns">
+        <button class="ctrl-btn active" onclick="filterPerson('all')">All (全部)</button>
+        <button class="ctrl-btn" onclick="filterPerson('jackjun')">JackJun</button>
+        <button class="ctrl-btn" onclick="filterPerson('fei')">Fei</button>
+        <button class="ctrl-btn" onclick="filterPerson('xujin')">Jin Xu</button>
+        <button class="ctrl-btn" onclick="filterPerson('gary')">Gary</button>
+        <button class="ctrl-btn" onclick="filterPerson('ethan')">Ethan</button>
+        <button class="ctrl-btn" onclick="filterPerson('alex')">Alex</button>
+        <button class="ctrl-btn" onclick="filterPerson('lirui')">Rui Li</button>
+        <button class="ctrl-btn" onclick="filterPerson('regison')">Regison</button>
+        <button class="ctrl-btn" onclick="filterPerson('wenzhang')">Wenzhang</button>
+        <button class="ctrl-btn" onclick="filterPerson('jiagui')">Jiagui</button>
+        <button class="ctrl-btn" onclick="filterPerson('peter')">Peter</button>
+        <button class="ctrl-btn" onclick="filterPerson('zouye')">Ye Zou</button>
+        <button class="ctrl-btn" onclick="filterPerson('sylvia')">Sylvia</button>
+        <button class="ctrl-btn" onclick="filterPerson('yixintan')">Yi Tan</button>
+        <button class="ctrl-btn" onclick="filterPerson('hanliang')">Liang Han</button>
+        <button class="ctrl-btn" onclick="filterPerson('tao')">Tao Yuan</button>
+        <button class="ctrl-btn" onclick="filterPerson('jim')">Jim</button>
+        <button class="ctrl-btn" onclick="filterPerson('kevin')">Kevin</button>
+        <button class="ctrl-btn" onclick="filterPerson('justin')">Justin</button>
+      </div>
+    </div>
+
+    <!-- Personal Issue Cards -->
+    <div id="myBoardGrid" class="card-grid" style="margin-bottom:var(--space-6)">
+      <!-- JS will populate from Sprint Board data + custom issues -->
+    </div>
+
+    <!-- Add Issue Form -->
+    <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-6)">
+      <div style="font-family:var(--font-mono);font-size:.75rem;font-weight:600;margin-bottom:var(--space-3);color:var(--fg-muted)">+ 添加 Issue</div>
+      <div style="display:grid;grid-template-columns:120px 120px 1fr auto;gap:var(--space-2);align-items:center">
+        <input id="newIssueId" type="text" placeholder="ENG-1234" style="font-family:var(--font-mono);font-size:.78rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
+        <select id="newIssueAssignee" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
+          <option value="">负责人</option>
+          <option value="jackjun">JackJun</option>
+          <option value="fei">Fei</option>
+          <option value="xujin">Jin Xu</option>
+          <option value="gary">Gary</option>
+          <option value="ethan">Ethan</option>
+          <option value="alex">Alex</option>
+          <option value="lirui">Rui Li</option>
+          <option value="regison">Regison</option>
+          <option value="wenzhang">Wenzhang</option>
+          <option value="jiagui">Jiagui</option>
+          <option value="peter">Peter</option>
+          <option value="zouye">Ye Zou</option>
+          <option value="sylvia">Sylvia</option>
+          <option value="yixintan">Yi Tan</option>
+          <option value="hanliang">Liang Han</option>
+          <option value="tao">Tao Yuan</option>
+          <option value="jim">Jim</option>
+          <option value="kevin">Kevin</option>
+          <option value="justin">Justin</option>
+        </select>
+        <input id="newIssueTitle" type="text" placeholder="Issue 标题" style="font-family:var(--font-sans);font-size:.82rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
+        <button onclick="addMyIssue()" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2) var(--space-4);background:var(--info);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap">添加</button>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:.62rem;color:var(--fg-subtle);margin-top:var(--space-2)">输入 Issue ID（如 ENG-1234 / PRODUCT-1834）自动生成 Linear 链接。或在 <a href="https://linear.app/donutbrowser/team/ENG/cycle/active" target="_blank" style="color:var(--info)">Linear</a> 创建后 sync。</div>
+    </div>
+
+    <!-- My Board Legend -->
+    <div style="display:flex;gap:var(--space-4);flex-wrap:wrap;font-family:var(--font-mono);font-size:.65rem;color:var(--fg-subtle);justify-content:center">
+      <span>◉ <span style="color:var(--warning)">Active</span></span>
+      <span>○ <span style="color:var(--fg-subtle)">Todo</span></span>
+      <span>✓ <span style="color:var(--success)">Done</span></span>
+      <span style="color:var(--error)">● P0</span>
+      <span style="color:var(--warning)">● P1</span>
+      <span style="color:var(--info)">● P2</span>
+    </div>
+  </div><!-- /tab-myboard -->
+
   <div class="footer">
     D0 Product Dashboard v7 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Sprint 22 (3/15 → 3/29)
   </div>
@@ -2090,6 +2188,114 @@ function resetData() {
 }
 
 setTimeout(updateVersionList, 100);
+
+/* ── My Board: Personal Kanban ─────────────────────────── */
+const CUSTOM_KEY = 'd0-board-v7-custom';
+const nameMap = {jackjun:'JackJun',fei:'Fei',xujin:'Jin Xu',gary:'Gary',ethan:'Ethan',alex:'Alex',lirui:'Rui Li',regison:'Regison',wenzhang:'Wenzhang',jiagui:'Jiagui',peter:'Peter',zouye:'Ye Zou',sylvia:'Sylvia',yixintan:'Yi Tan',hanliang:'Liang Han',tao:'Tao Yuan',jim:'Jim',kevin:'Kevin',justin:'Justin',unassigned:'Unassigned'};
+const layerColors = {experience:'var(--teal)',ai:'var(--warning)',trading:'var(--error)',infra:'var(--purple)',acquisition:'var(--info)'};
+
+function getCustomIssues() { try { return JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]') } catch { return [] } }
+function saveCustomIssues(arr) { localStorage.setItem(CUSTOM_KEY, JSON.stringify(arr)); save(); }
+
+function collectSprintCards() {
+  const cards = [];
+  document.querySelectorAll('#tab-sprint .card').forEach(c => {
+    const id = c.querySelector('.card-id')?.textContent || '';
+    const title = c.querySelector('.card-title')?.textContent || '';
+    const assignee = c.dataset.assignee || 'unassigned';
+    const layer = c.dataset.layer || '';
+    const state = c.dataset.state || '';
+    const href = c.querySelector('.card-id')?.href || '';
+    const pDot = c.querySelector('.priority-dot');
+    const pColor = pDot ? pDot.style.background : '#52525b';
+    cards.push({id, title, assignee, layer, state, href, pColor, source:'sprint'});
+  });
+  return cards;
+}
+
+function renderMyBoard(filterAssignee) {
+  const grid = document.getElementById('myBoardGrid');
+  if (!grid) return;
+  const sprintCards = collectSprintCards();
+  const customCards = getCustomIssues();
+  let all = [...sprintCards, ...customCards.map(c => ({...c, source:'custom'}))];
+  if (filterAssignee && filterAssignee !== 'all') {
+    all = all.filter(c => c.assignee === filterAssignee);
+  }
+  // Sort: active first, then todo, then done
+  const stateOrder = {started:0, triage:1, unstarted:2, completed:3, canceled:4};
+  all.sort((a,b) => (stateOrder[a.state]??2) - (stateOrder[b.state]??2));
+
+  if (!all.length) {
+    grid.innerHTML = '<div style="text-align:center;padding:var(--space-8);color:var(--fg-faint);font-style:italic">没有匹配的 Issue。选择其他人或添加新 Issue。</div>';
+    return;
+  }
+
+  grid.innerHTML = all.map(c => {
+    const stateLabel = c.state==='completed' ? '✓ Done' : c.state==='started' ? '◉ Active' : c.state==='triage' ? '◎ Triage' : c.state==='canceled' ? '✕ Cancel' : '○ Todo';
+    const stateColor = c.state==='completed' ? 'var(--success)' : c.state==='started' ? 'var(--warning)' : c.state==='triage' ? 'var(--purple)' : 'var(--fg-subtle)';
+    const layerBg = layerColors[c.layer] || 'var(--fg-faint)';
+    const isDone = c.state==='completed' || c.state==='canceled';
+    const delBtn = c.source==='custom' ? '<button onclick="removeCustomIssue(\''+c.id+'\')" style="position:absolute;top:6px;right:8px;background:none;border:none;color:var(--fg-subtle);cursor:pointer;font-size:.7rem;opacity:.4" onmouseover="this.style.opacity=1;this.style.color=\'var(--error)\'" onmouseout="this.style.opacity=.4;this.style.color=\'var(--fg-subtle)\'">✕</button>' : '';
+    return '<div class="card '+(isDone?'done':'')+'" style="--accent:'+layerBg+';position:relative">'
+      + delBtn
+      + '<div class="card-head"><a href="'+(c.href||'https://linear.app/donutbrowser/issue/'+c.id.replace(/^([A-Z]+)-/,(m,t)=>t+'-'))+'" target="_blank" class="card-id" style="font-family:var(--font-mono);font-size:.65rem;color:var(--fg-subtle)">'+c.id+'</a>'
+      + '<span class="priority-dot" style="background:'+c.pColor+'"></span></div>'
+      + '<div class="card-title" style="font-size:.82rem;font-weight:500;margin-bottom:var(--space-2)">'+c.title+'</div>'
+      + '<div class="card-foot" style="display:flex;justify-content:space-between;align-items:center">'
+      + '<span class="card-assignee" style="font-family:var(--font-mono);font-size:.62rem;color:var(--fg-subtle);background:var(--bg-muted);padding:2px var(--space-2);border-radius:100px">'+(nameMap[c.assignee]||c.assignee)+'</span>'
+      + '<span style="font-family:var(--font-mono);font-size:.62rem;font-weight:500;color:'+stateColor+'">'+stateLabel+'</span>'
+      + '</div></div>';
+  }).join('');
+}
+
+function filterPerson(assignee) {
+  document.querySelectorAll('#personBtns .ctrl-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  renderMyBoard(assignee);
+  window._currentMyFilter = assignee;
+}
+
+function addMyIssue() {
+  const idEl = document.getElementById('newIssueId');
+  const titleEl = document.getElementById('newIssueTitle');
+  const assigneeEl = document.getElementById('newIssueAssignee');
+  const id = idEl.value.trim().toUpperCase();
+  const title = titleEl.value.trim();
+  const assignee = assigneeEl.value;
+  if (!id) { idEl.focus(); return }
+  if (!title) { titleEl.focus(); return }
+  const slug = id.toLowerCase().replace(/\s+/g,'-');
+  const href = 'https://linear.app/donutbrowser/issue/' + slug;
+  const customs = getCustomIssues();
+  customs.push({id, title, assignee: assignee||'unassigned', layer:'', state:'unstarted', href, pColor:'#52525b'});
+  saveCustomIssues(customs);
+  idEl.value = ''; titleEl.value = ''; assigneeEl.value = '';
+  renderMyBoard(window._currentMyFilter || 'all');
+}
+
+function removeCustomIssue(id) {
+  if (!confirm('删除 ' + id + '?')) return;
+  const customs = getCustomIssues().filter(c => c.id !== id);
+  saveCustomIssues(customs);
+  renderMyBoard(window._currentMyFilter || 'all');
+}
+
+// Init my board when tab switches to it
+window._currentMyFilter = 'all';
+const _origSwitchTab = window.switchTab || switchTab;
+</script>
+<script>
+// Override switchTab to init myboard
+const __switchTab = function(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (tab === 'myboard') renderMyBoard(window._currentMyFilter || 'all');
+};
+// Rebind switchTab globally
+window.switchTab = __switchTab;
 </script>
 </body>
 </html>
