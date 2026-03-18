@@ -3,92 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D0 Team Architecture — 组织架构图</title>
+<title>D0 Team Architecture v5</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0c1220;--surface:#131d32;--s2:#182640;--s3:#1e304e;--border:rgba(255,255,255,.06);--ba:rgba(212,167,58,.3);--text:#e8e4dc;--dim:#8a9ab5;--muted:#5a6a85;--gold:#d4a73a;--gd:rgba(212,167,58,.1);--red:#ef4444;--rd:rgba(239,68,68,.1);--green:#22c55e;--grd:rgba(34,197,94,.1);--amber:#f59e0b;--ad:rgba(245,158,11,.1);--blue:#3b82f6;--bd:rgba(59,130,246,.1);--teal:#14b8a6;--td:rgba(20,184,166,.1);--purple:#a78bfa;--pd:rgba(167,139,250,.1);--fd:'Instrument Serif',Georgia,serif;--fb:'DM Sans',system-ui,sans-serif;--fm:'JetBrains Mono',monospace}
-@media(prefers-color-scheme:light){:root{--bg:#f4f0e6;--surface:#fff;--s2:#f8f5ee;--s3:#efe9dd;--border:rgba(0,0,0,.07);--ba:rgba(180,130,30,.25);--text:#1a1a2e;--dim:#5a5a7a;--muted:#9a9ab0}}
+:root{--bg:#0c1220;--sf:#131d32;--s2:#182640;--s3:#1e304e;--bdr:rgba(255,255,255,.06);--ba:rgba(212,167,58,.3);--tx:#e8e4dc;--dim:#8a9ab5;--mut:#5a6a85;--gold:#d4a73a;--gd:rgba(212,167,58,.1);--red:#ef4444;--rd:rgba(239,68,68,.1);--grn:#22c55e;--grd:rgba(34,197,94,.1);--amb:#f59e0b;--ad:rgba(245,158,11,.1);--blu:#3b82f6;--bld:rgba(59,130,246,.1);--tl:#14b8a6;--tld:rgba(20,184,166,.1);--pur:#a78bfa;--pd:rgba(167,139,250,.1);--fd:'Instrument Serif',Georgia,serif;--fb:'DM Sans',system-ui,sans-serif;--fm:'JetBrains Mono',monospace}
+@media(prefers-color-scheme:light){:root{--bg:#f4f0e6;--sf:#fff;--s2:#f8f5ee;--s3:#efe9dd;--bdr:rgba(0,0,0,.07);--ba:rgba(180,130,30,.25);--tx:#1a1a2e;--dim:#5a5a7a;--mut:#9a9ab0}}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.5}
-.page{max-width:1400px;margin:0 auto;padding:1.5rem}
+body{font-family:var(--fb);background:var(--bg);color:var(--tx);line-height:1.5}
+a{color:var(--blu);text-decoration:none;font-family:var(--fm);font-size:.6rem}
+a:hover{text-decoration:underline}
+.page{max-width:1400px;margin:0 auto;padding:1rem 1.5rem 3rem}
 [contenteditable]{outline:none;border-radius:3px;transition:background .15s}
 [contenteditable]:hover{background:rgba(255,255,255,.04)}
 [contenteditable]:focus{background:rgba(212,167,58,.08);box-shadow:0 0 0 1px var(--gold)}
 
-/* TOOLBAR */
-.toolbar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:.5rem 0;margin-bottom:1.5rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
-.btn{font-family:var(--fm);font-size:.66rem;padding:.25rem .6rem;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--dim);cursor:pointer;transition:all .2s;white-space:nowrap}
+.toolbar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--bdr);padding:.5rem 0;margin-bottom:1rem;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap}
+.btn{font-family:var(--fm);font-size:.64rem;padding:.22rem .55rem;border-radius:100px;border:1px solid var(--bdr);background:var(--sf);color:var(--dim);cursor:pointer;transition:all .2s;white-space:nowrap}
 .btn:hover{border-color:var(--gold);color:var(--gold)}
 .btn.primary{background:var(--gd);color:var(--gold);border-color:var(--ba)}
-.btn.danger{color:var(--red);border-color:rgba(239,68,68,.3)}
-.save-ind{font-family:var(--fm);font-size:.6rem;color:var(--green);opacity:0;transition:opacity .3s;margin-left:auto}
+.btn.danger{color:var(--red)}
+.save-ind{font-family:var(--fm);font-size:.58rem;color:var(--grn);opacity:0;transition:opacity .3s;margin-left:auto}
 .save-ind.show{opacity:1}
-#verList{display:flex;flex-wrap:wrap;gap:.4rem;padding:.2rem 0}
+#verList{display:flex;flex-wrap:wrap;gap:.3rem;padding:.15rem 0}
 
-/* HERO */
-.hero{text-align:center;padding:1.5rem 0 1rem}
-.hero h1{font-family:var(--fd);font-size:2.2rem;font-weight:400}
-.hero .sub{font-family:var(--fm);font-size:.75rem;color:var(--dim);margin-top:.25rem}
-.hero .badge{display:inline-block;margin-top:.5rem;padding:.15rem .7rem;background:var(--gd);color:var(--gold);font-family:var(--fm);font-size:.68rem;border-radius:100px;border:1px solid var(--ba)}
-
-/* ORG CHART */
-.org{display:flex;flex-direction:column;align-items:center;gap:0;margin:2rem 0}
+.hero{text-align:center;padding:1rem 0 .75rem}
+.hero h1{font-family:var(--fd);font-size:2rem;font-weight:400}
+.hero .sub{font-family:var(--fm);font-size:.72rem;color:var(--dim);margin-top:.2rem}
 
 /* CEO */
-.ceo-card{background:linear-gradient(135deg,var(--s2),var(--s3));border:1.5px solid var(--ba);border-radius:12px;padding:1rem 2rem;text-align:center;position:relative}
-.ceo-card .name{font-family:var(--fd);font-size:1.4rem}
-.ceo-card .role{font-family:var(--fm);font-size:.72rem;color:var(--gold)}
+.ceo{text-align:center;margin:1.5rem 0 .5rem}
+.ceo-card{display:inline-block;background:linear-gradient(135deg,var(--s2),var(--s3));border:1.5px solid var(--ba);border-radius:12px;padding:.8rem 2rem;text-align:center}
+.ceo-card .name{font-family:var(--fd);font-size:1.3rem}
+.ceo-card .role{font-family:var(--fm);font-size:.68rem;color:var(--gold)}
+.ceo-card a{margin-left:.5rem}
 
-/* Connector lines */
-.connector{width:1px;height:2rem;background:var(--border)}
-.connector-h{display:flex;align-items:flex-start;justify-content:center;position:relative;width:100%;padding-top:0}
-.connector-h::before{content:'';position:absolute;top:0;left:calc(50% - min(45%,500px));right:calc(50% - min(45%,500px));height:1px;background:var(--border)}
+/* Vertical connector */
+.vline{width:1px;height:1.5rem;background:var(--bdr);margin:0 auto}
 
-/* Department grid */
-.dept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;width:100%;margin-top:0}
+/* Division */
+.divisions{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:.5rem}
+@media(max-width:1100px){.divisions{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.divisions{grid-template-columns:1fr}}
 
-/* Department card */
-.dept{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s}
-.dept:hover{border-color:var(--ba)}
-.dept-head{padding:.6rem .8rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--border)}
-.dept-head .d-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.dept-head .d-name{font-family:var(--fm);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
-.dept-head .d-count{font-family:var(--fm);font-size:.6rem;color:var(--muted);margin-left:auto}
-.dept-body{padding:.5rem .8rem}
+.division{background:var(--sf);border:1px solid var(--bdr);border-radius:10px;overflow:hidden}
+.division.engineering{grid-column:span 2;grid-row:span 2}
+@media(max-width:1100px){.division.engineering{grid-column:span 2}}
+@media(max-width:700px){.division.engineering{grid-column:span 1;grid-row:auto}}
 
-/* Person row */
-.person{display:flex;align-items:baseline;gap:.4rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.02)}
+.div-head{padding:.5rem .75rem;display:flex;align-items:center;gap:.4rem;border-bottom:1px solid var(--bdr)}
+.div-head .dh-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.div-head .dh-name{font-family:var(--fm);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.div-head .dh-count{font-family:var(--fm);font-size:.58rem;color:var(--mut);margin-left:auto;background:var(--s2);padding:.1rem .35rem;border-radius:100px}
+
+/* Sub-teams inside Engineering */
+.sub-teams{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:700px){.sub-teams{grid-template-columns:1fr}}
+.sub-team{border-right:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:.5rem .65rem}
+.sub-team:nth-child(even){border-right:none}
+.sub-team:nth-last-child(-n+2){border-bottom:none}
+@media(max-width:700px){.sub-team{border-right:none}}
+.st-head{font-family:var(--fm);font-size:.65rem;font-weight:600;color:var(--dim);margin-bottom:.35rem;display:flex;align-items:center;gap:.3rem}
+.st-head .st-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.st-head .st-label{padding:.08rem .3rem;border-radius:3px;font-size:.55rem;font-weight:400;color:var(--mut);background:var(--s2)}
+
+/* Simple division body */
+.div-body{padding:.4rem .65rem}
+
+/* Person */
+.person{display:flex;align-items:baseline;gap:.35rem;padding:.25rem 0;border-bottom:1px solid rgba(255,255,255,.02)}
 .person:last-child{border-bottom:none}
-.person .p-name{font-size:.85rem;font-weight:600;min-width:80px}
-.person .p-role{font-size:.75rem;color:var(--dim);flex:1}
-.person .p-tag{font-family:var(--fm);font-size:.58rem;padding:.08rem .35rem;border-radius:100px;white-space:nowrap}
+.person .p-name{font-size:.82rem;font-weight:600;white-space:nowrap}
+.person .p-role{font-size:.72rem;color:var(--dim);flex:1}
+.person .p-link{flex-shrink:0}
+.p-tag{font-family:var(--fm);font-size:.55rem;padding:.06rem .3rem;border-radius:100px;white-space:nowrap;flex-shrink:0}
 .p-tag.lead{background:var(--gd);color:var(--gold)}
-.p-tag.solo{background:var(--rd);color:var(--red)}
+.p-tag.xfn{background:var(--tld);color:var(--tl);border:1px dashed rgba(20,184,166,.3)}
 
-/* Color coding per department */
-.dept.ai .dept-head{background:rgba(212,167,58,.06)}
-.dept.product .dept-head{background:rgba(20,184,166,.06)}
-.dept.interface .dept-head{background:rgba(59,130,246,.06)}
-.dept.infra .dept-head{background:rgba(167,139,250,.06)}
-.dept.trading .dept-head{background:rgba(239,68,68,.06)}
-.dept.research .dept-head{background:rgba(245,158,11,.06)}
-.dept.data .dept-head{background:rgba(20,184,166,.06)}
-.dept.qa .dept-head{background:rgba(107,114,128,.06)}
-.dept.gtm .dept-head{background:rgba(59,130,246,.06)}
-.dept.support .dept-head{background:rgba(107,114,128,.06)}
+/* Cross-functional indicator */
+.xfn-note{font-family:var(--fm);font-size:.58rem;color:var(--tl);background:var(--tld);padding:.2rem .5rem;border-radius:4px;margin:.3rem 0 .1rem;border-left:2px solid var(--tl)}
 
-/* Summary section */
-.summary{margin:2rem 0;padding:1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px}
-.summary h3{font-family:var(--fd);font-size:1.1rem;margin-bottom:.5rem}
-.summary .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.5rem}
-.stat{text-align:center;padding:.5rem;background:var(--s2);border-radius:6px}
-.stat .num{font-family:var(--fm);font-size:1.4rem;font-weight:700;color:var(--gold)}
-.stat .label{font-size:.72rem;color:var(--dim)}
+/* Stats */
+.stats{margin:1.5rem 0;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center}
+.stat{text-align:center;padding:.4rem .8rem;background:var(--sf);border:1px solid var(--bdr);border-radius:8px;min-width:100px}
+.stat .num{font-family:var(--fm);font-size:1.2rem;font-weight:700;color:var(--gold)}
+.stat .label{font-size:.68rem;color:var(--dim)}
 
-@media(max-width:800px){.dept-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:500px){.dept-grid{grid-template-columns:1fr}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.anim{animation:fadeUp .4s ease-out both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeUp .35s ease-out both}
 @media(prefers-reduced-motion:reduce){.anim{animation:none}}
 </style>
 </head>
@@ -105,311 +106,260 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.
 
 <div class="hero anim">
   <h1 contenteditable>D0 Team Architecture</h1>
-  <div class="sub">组织架构 · 点击任意文字编辑 · 自动保存</div>
-  <div class="badge">2026-03-18</div>
+  <div class="sub">6 Divisions · 点击编辑 · 人名链接 Linear 看板</div>
 </div>
 
-<!-- ORG CHART -->
-<div class="org">
-
-  <!-- CEO -->
-  <div class="ceo-card anim">
+<!-- CEO -->
+<div class="ceo anim">
+  <div class="ceo-card">
     <div class="name" contenteditable>Chris Zhu</div>
     <div class="role" contenteditable>CEO · Direction & Final Call</div>
+    <a href="https://linear.app/donutbrowser/user/chriszhu/assigned" target="_blank">Linear ↗</a>
   </div>
-  <div class="connector"></div>
+</div>
+<div class="vline"></div>
 
-  <!-- DEPARTMENTS -->
-  <div class="dept-grid">
+<!-- 6 DIVISIONS -->
+<div class="divisions">
 
-    <!-- AI -->
-    <div class="dept ai anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:var(--gold)"></span>
-        <span class="d-name" contenteditable>AI</span>
-        <span class="d-count">2</span>
-      </div>
-      <div class="dept-body">
+  <!-- ========== ENGINEERING (spans 2 cols + 2 rows) ========== -->
+  <div class="division engineering anim">
+    <div class="div-head" style="background:rgba(59,130,246,.04)">
+      <span class="dh-dot" style="background:var(--blu)"></span>
+      <span class="dh-name" contenteditable>Engineering</span>
+      <span class="dh-count">12</span>
+    </div>
+    <div class="sub-teams">
+
+      <!-- AI Engineering -->
+      <div class="sub-team">
+        <div class="st-head"><span class="st-dot" style="background:var(--gold)"></span> <span contenteditable>AI Engineering</span></div>
         <div class="person">
           <span class="p-name" contenteditable>JackJun</span>
-          <span class="p-role" contenteditable>AI Lead — 引擎架构 / D0 核心 / LLM Routing</span>
+          <span class="p-role" contenteditable>AI Engineering Lead — 引擎架构 / LLM Routing / D0 核心</span>
           <span class="p-tag lead">LEAD</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/jackjun/assigned" target="_blank">Linear ↗</a>
         </div>
         <div class="person">
           <span class="p-name" contenteditable>Fei</span>
-          <span class="p-role" contenteditable>Feedback Loop / Eval Lead — AI Checklist / Frontier / Security</span>
+          <span class="p-role" contenteditable>AI Eval & Research Lead — Eval 体系 / Frontier / Security + Engineering 落地</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/fei/assigned" target="_blank">Linear ↗</a>
         </div>
       </div>
-    </div>
 
-    <!-- Product -->
-    <div class="dept product anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:var(--teal)"></span>
-        <span class="d-name" contenteditable>Product</span>
-        <span class="d-count">3</span>
-      </div>
-      <div class="dept-body">
-        <div class="person">
-          <span class="p-name" contenteditable>Peter</span>
-          <span class="p-role" contenteditable>Trading Team Lead</span>
-          <span class="p-tag lead">LEAD</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Yi Tan</span>
-          <span class="p-role" contenteditable>UI/UX Design</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Sylvia</span>
-          <span class="p-role" contenteditable>Trading PM</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Interface Engineering -->
-    <div class="dept interface anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:var(--blue)"></span>
-        <span class="d-name" contenteditable>Interface Engineering</span>
-        <span class="d-count">3</span>
-      </div>
-      <div class="dept-body">
+      <!-- Interface Engineering -->
+      <div class="sub-team">
+        <div class="st-head"><span class="st-dot" style="background:var(--blu)"></span> <span contenteditable>Interface Engineering</span></div>
         <div class="person">
           <span class="p-name" contenteditable>Jin Xu</span>
-          <span class="p-role" contenteditable>CLI / Skills / Front-end</span>
+          <span class="p-role" contenteditable>d0-cli / Skills / New Interface Owner / 前端</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/xujin/assigned" target="_blank">Linear ↗</a>
         </div>
         <div class="person">
           <span class="p-name" contenteditable>Gary</span>
-          <span class="p-role" contenteditable>Dashboard / Onboarding</span>
+          <span class="p-role" contenteditable>Dashboard / Onboarding / 前端</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/gary/assigned" target="_blank">Linear ↗</a>
         </div>
         <div class="person">
           <span class="p-name" contenteditable>Ethan</span>
-          <span class="p-role" contenteditable>iOS + 全栈 — Trading 对接 + Deposit</span>
+          <span class="p-role" contenteditable>Full-stack Asset & Platform — 多链资产 / D0 Dashboard / Deposit·Withdraw·Transfer / iOS</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/ethan/assigned" target="_blank">Linear ↗</a>
         </div>
       </div>
-    </div>
 
-    <!-- Infrastructure -->
-    <div class="dept infra anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:var(--purple)"></span>
-        <span class="d-name" contenteditable>Infrastructure</span>
-        <span class="d-count">3</span>
-      </div>
-      <div class="dept-body">
-        <div class="person">
-          <span class="p-name" contenteditable>Regison</span>
-          <span class="p-role" contenteditable>Crypto Backend & Middleware — 后端核心 / MCP / DeFi 集成</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Wenzhang</span>
-          <span class="p-role" contenteditable>Infrastructure / DevOps — K8s / ArgoCD / 监控 / Admin / Eval Harness Infra / sub2api / 多副本</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Jiagui</span>
-          <span class="p-role" contenteditable>Safety & Container — 浏览器安全 / 容器隔离 / Extension</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Trading -->
-    <div class="dept trading anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:var(--red)"></span>
-        <span class="d-name" contenteditable>Trading</span>
-        <span class="d-count">2</span>
-      </div>
-      <div class="dept-body">
+      <!-- Trading Engineering -->
+      <div class="sub-team">
+        <div class="st-head"><span class="st-dot" style="background:var(--red)"></span> <span contenteditable>Trading Engineering</span> <span class="st-label">Peter leads ↗</span></div>
+        <div class="xfn-note">← Peter (Product) cross-leads Trading 方向</div>
         <div class="person">
           <span class="p-name" contenteditable>Alex</span>
           <span class="p-role" contenteditable>Perps 撮合引擎 / TPSL / API</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/alex/assigned" target="_blank">Linear ↗</a>
         </div>
         <div class="person">
           <span class="p-name" contenteditable>Rui Li</span>
           <span class="p-role" contenteditable>GRPS 风控 / 对账 / 资产</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/lirui/assigned" target="_blank">Linear ↗</a>
         </div>
       </div>
+
+      <!-- Infrastructure -->
+      <div class="sub-team">
+        <div class="st-head"><span class="st-dot" style="background:var(--pur)"></span> <span contenteditable>Infrastructure</span></div>
+        <div class="person">
+          <span class="p-name" contenteditable>Regison</span>
+          <span class="p-role" contenteditable>Crypto Backend & Middleware — 后端核心 / MCP / DeFi</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/regison/assigned" target="_blank">Linear ↗</a>
+        </div>
+        <div class="person">
+          <span class="p-name" contenteditable>Wenzhang</span>
+          <span class="p-role" contenteditable>DevOps — K8s / ArgoCD / 监控 / Admin / Eval Infra / sub2api / 多副本</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/wenzhang/assigned" target="_blank">Linear ↗</a>
+        </div>
+        <div class="person">
+          <span class="p-name" contenteditable>Jiagui</span>
+          <span class="p-role" contenteditable>Safety & Container — 浏览器安全 / 容器隔离 / Extension</span>
+          <a class="p-link" href="https://linear.app/donutbrowser/user/jiagui/assigned" target="_blank">Linear ↗</a>
+        </div>
+      </div>
+
     </div>
-
-    <!-- AI-first Trading Strategies Research -->
-    <div class="dept research anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:var(--amber)"></span>
-        <span class="d-name" contenteditable>AI-first Trading Strategies Research</span>
-        <span class="d-count">1</span>
-      </div>
-      <div class="dept-body">
-        <div class="person">
-          <span class="p-name" contenteditable>Liang Han</span>
-          <span class="p-role" contenteditable>量化策略 / 风控模型 / Discovery 数据</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Data -->
-    <div class="dept data anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:var(--teal)"></span>
-        <span class="d-name" contenteditable>Data</span>
-        <span class="d-count">1</span>
-      </div>
-      <div class="dept-body">
-        <div class="person">
-          <span class="p-name" contenteditable>Tao Yuan</span>
-          <span class="p-role" contenteditable>数据工程 / 策略回测</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- QA -->
-    <div class="dept qa anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:#6b7280"></span>
-        <span class="d-name" contenteditable>QA</span>
-        <span class="d-count">2</span>
-      </div>
-      <div class="dept-body">
-        <div class="person">
-          <span class="p-name" contenteditable>Jim</span>
-          <span class="p-role" contenteditable>测试工程师</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Kevin Wang</span>
-          <span class="p-role" contenteditable>测试工程师</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- GTM -->
-    <div class="dept gtm anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:var(--blue)"></span>
-        <span class="d-name" contenteditable>增长 / GTM</span>
-        <span class="d-count">4</span>
-      </div>
-      <div class="dept-body">
-        <div class="person">
-          <span class="p-name" contenteditable>Ruqi Hu</span>
-          <span class="p-role" contenteditable>增长 APAC + 用户反馈归档</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Melvin</span>
-          <span class="p-role" contenteditable>社交媒体运营</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Javier Ruedas</span>
-          <span class="p-role" contenteditable>社交媒体与社区运营</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Hongwei Feng</span>
-          <span class="p-role" contenteditable>GTM / Social Frontier Tracking</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Support -->
-    <div class="dept support anim">
-      <div class="dept-head">
-        <span class="d-dot" style="background:#6b7280"></span>
-        <span class="d-name" contenteditable>综合支持</span>
-        <span class="d-count">3</span>
-      </div>
-      <div class="dept-body">
-        <div class="person">
-          <span class="p-name" contenteditable>Yutong Li</span>
-          <span class="p-role" contenteditable>Legal / Finance / HR (HK)</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Ginger</span>
-          <span class="p-role" contenteditable>财务</span>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Mond Wonder</span>
-          <span class="p-role" contenteditable>战略洞察 / Researcher</span>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- dept-grid -->
-</div><!-- org -->
-
-<!-- SUMMARY -->
-<div class="summary anim">
-  <h3>Team Overview</h3>
-  <div class="stat-grid">
-    <div class="stat"><div class="num">24</div><div class="label">Total Headcount</div></div>
-    <div class="stat"><div class="num">10</div><div class="label">Departments</div></div>
-    <div class="stat"><div class="num">12</div><div class="label">Engineering</div></div>
-    <div class="stat"><div class="num">4</div><div class="label">GTM</div></div>
-    <div class="stat"><div class="num">3</div><div class="label">Product/Design</div></div>
-    <div class="stat"><div class="num">3</div><div class="label">Support</div></div>
   </div>
+
+  <!-- ========== PRODUCT & DESIGN ========== -->
+  <div class="division anim">
+    <div class="div-head" style="background:rgba(20,184,166,.04)">
+      <span class="dh-dot" style="background:var(--tl)"></span>
+      <span class="dh-name" contenteditable>Product & Design</span>
+      <span class="dh-count">4</span>
+    </div>
+    <div class="div-body">
+      <div class="person">
+        <span class="p-name" contenteditable>Peter</span>
+        <span class="p-role" contenteditable>Trading Team Lead</span>
+        <span class="p-tag xfn">→ Trading Eng</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/peter/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Ye Zou</span>
+        <span class="p-role" contenteditable>Product Architecture & Interaction Design</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/zouye/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Sylvia</span>
+        <span class="p-role" contenteditable>Trading PM</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/sylvia/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Yi Tan</span>
+        <span class="p-role" contenteditable>UI/UX Design</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/yixintan/assigned" target="_blank">Linear ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== RESEARCH & DATA ========== -->
+  <div class="division anim">
+    <div class="div-head" style="background:rgba(245,158,11,.04)">
+      <span class="dh-dot" style="background:var(--amb)"></span>
+      <span class="dh-name" contenteditable>Research & Data</span>
+      <span class="dh-count">2</span>
+    </div>
+    <div class="div-body">
+      <div class="person">
+        <span class="p-name" contenteditable>Liang Han</span>
+        <span class="p-role" contenteditable>AI-first Trading Research — 量化策略 / 风控模型 / Discovery</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/hanliang/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Tao Yuan</span>
+        <span class="p-role" contenteditable>Data Engineering — 回测 / 数据管线</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/tao/assigned" target="_blank">Linear ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 质量工程 ========== -->
+  <div class="division anim">
+    <div class="div-head" style="background:rgba(107,114,128,.04)">
+      <span class="dh-dot" style="background:#6b7280"></span>
+      <span class="dh-name" contenteditable>质量工程 QA</span>
+      <span class="dh-count">2</span>
+    </div>
+    <div class="div-body">
+      <div class="person">
+        <span class="p-name" contenteditable>Jim</span>
+        <span class="p-role" contenteditable>测试工程师</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/jim/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Kevin Wang</span>
+        <span class="p-role" contenteditable>测试工程师</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/kevin/assigned" target="_blank">Linear ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== GTM / Growth ========== -->
+  <div class="division anim">
+    <div class="div-head" style="background:rgba(59,130,246,.04)">
+      <span class="dh-dot" style="background:var(--blu)"></span>
+      <span class="dh-name" contenteditable>GTM / Growth</span>
+      <span class="dh-count">4</span>
+    </div>
+    <div class="div-body">
+      <div class="person">
+        <span class="p-name" contenteditable>Ruqi Hu</span>
+        <span class="p-role" contenteditable>增长 APAC + 用户反馈归档</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/ruqihu/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Melvin</span>
+        <span class="p-role" contenteditable>社交媒体运营</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/melvin/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Javier Ruedas</span>
+        <span class="p-role" contenteditable>社交媒体与社区运营</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/javier/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Hongwei Feng</span>
+        <span class="p-role" contenteditable>GTM / Social Frontier Tracking</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/hongweifeng/assigned" target="_blank">Linear ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Operations & Strategy ========== -->
+  <div class="division anim">
+    <div class="div-head" style="background:rgba(107,114,128,.04)">
+      <span class="dh-dot" style="background:#6b7280"></span>
+      <span class="dh-name" contenteditable>Operations & Strategy</span>
+      <span class="dh-count">3</span>
+    </div>
+    <div class="div-body">
+      <div class="person">
+        <span class="p-name" contenteditable>Yutong Li</span>
+        <span class="p-role" contenteditable>Legal / Finance / HR (HK)</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/liyutong/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Ginger</span>
+        <span class="p-role" contenteditable>财务</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/lilei/assigned" target="_blank">Linear ↗</a>
+      </div>
+      <div class="person">
+        <span class="p-name" contenteditable>Mond Wonder</span>
+        <span class="p-role" contenteditable>战略洞察 / Researcher</span>
+        <a class="p-link" href="https://linear.app/donutbrowser/user/wondermond/assigned" target="_blank">Linear ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- divisions -->
+
+<!-- STATS -->
+<div class="stats anim">
+  <div class="stat"><div class="num">27</div><div class="label">Total (incl. Chris)</div></div>
+  <div class="stat"><div class="num">6</div><div class="label">Divisions</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Engineering</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">Product & Design</div></div>
+  <div class="stat"><div class="num">2</div><div class="label">Research & Data</div></div>
 </div>
 
-</div><!-- page -->
-
+</div>
 <script>
-const SAVE_KEY='d0-org-v4';
-const VER_KEY='d0-org-versions';
-let saveTimer;
-
-function save(){
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>{
-    localStorage.setItem(SAVE_KEY,document.querySelector('.page').innerHTML);
-    const ind=document.getElementById('saveInd');
-    if(ind){ind.textContent='✓ saved';ind.classList.add('show');setTimeout(()=>ind.classList.remove('show'),1500)}
-  },500);
-}
+const SAVE_KEY='d0-org-v5';const VER_KEY='d0-org-v5-vers';let saveTimer;
+function save(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{localStorage.setItem(SAVE_KEY,document.querySelector('.page').innerHTML);const i=document.getElementById('saveInd');if(i){i.textContent='✓ saved';i.classList.add('show');setTimeout(()=>i.classList.remove('show'),1500)}},500)}
 document.addEventListener('input',e=>{if(e.target.closest('[contenteditable]'))save()});
-
 function getVersions(){try{return JSON.parse(localStorage.getItem(VER_KEY)||'[]')}catch{return[]}}
-
-function saveVersion(){
-  const name=prompt('版本名称:','v'+(getVersions().length+1)+' — '+new Date().toLocaleDateString('zh-CN'));
-  if(!name)return;
-  const versions=getVersions();
-  versions.push({name,ts:new Date().toISOString(),html:document.querySelector('.page').innerHTML});
-  localStorage.setItem(VER_KEY,JSON.stringify(versions));
-  const ind=document.getElementById('saveInd');
-  if(ind){ind.textContent='✓ 版本已保存: '+name;ind.classList.add('show');setTimeout(()=>ind.classList.remove('show'),2500)}
-  updateVersionList();
-}
-
-function loadVersion(idx){
-  const versions=getVersions();
-  if(versions[idx]&&confirm('加载「'+versions[idx].name+'」?')){
-    document.querySelector('.page').innerHTML=versions[idx].html;
-    save();
-    updateVersionList();
-  }
-}
-
-function updateVersionList(){
-  const vl=document.getElementById('verList');
-  if(!vl)return;
-  const versions=getVersions();
-  if(!versions.length){vl.innerHTML='';return}
-  vl.innerHTML=versions.map((v,i)=>'<button class="btn" style="font-size:.6rem" onclick="loadVersion('+i+')">'+v.name+'</button>').join('');
-}
-
-function exportHTML(){
-  const name=prompt('文件名:','d0-org-'+new Date().toISOString().slice(0,10));
-  if(!name)return;
-  const blob=new Blob(['<!DOCTYPE html>'+document.documentElement.outerHTML],{type:'text/html'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name+'.html';a.click();
-}
-
-function resetData(){
-  if(confirm('重置?')){localStorage.removeItem(SAVE_KEY);location.reload()}
-}
-
-// Load saved
-(function(){
-  const saved=localStorage.getItem(SAVE_KEY);
-  if(saved)document.querySelector('.page').innerHTML=saved;
-  updateVersionList();
-})();
+function saveVersion(){const n=prompt('版本名称:','v'+(getVersions().length+1)+' — '+new Date().toLocaleDateString('zh-CN'));if(!n)return;const v=getVersions();v.push({name:n,ts:new Date().toISOString(),html:document.querySelector('.page').innerHTML});localStorage.setItem(VER_KEY,JSON.stringify(v));const i=document.getElementById('saveInd');if(i){i.textContent='✓ '+n;i.classList.add('show');setTimeout(()=>i.classList.remove('show'),2500)}updateVersionList()}
+function loadVersion(idx){const v=getVersions();if(v[idx]&&confirm('加载「'+v[idx].name+'」?')){document.querySelector('.page').innerHTML=v[idx].html;save();updateVersionList()}}
+function updateVersionList(){const el=document.getElementById('verList');if(!el)return;const v=getVersions();el.innerHTML=v.length?v.map((x,i)=>'<button class="btn" style="font-size:.58rem" onclick="loadVersion('+i+')">'+x.name+'</button>').join(''):''}
+function exportHTML(){const n=prompt('文件名:','d0-org-'+new Date().toISOString().slice(0,10));if(!n)return;const b=new Blob(['<!DOCTYPE html>'+document.documentElement.outerHTML],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n+'.html';a.click()}
+function resetData(){if(confirm('重置?')){localStorage.removeItem(SAVE_KEY);location.reload()}}
+(function(){const s=localStorage.getItem(SAVE_KEY);if(s)document.querySelector('.page').innerHTML=s;updateVersionList()})();
 </script>
 </body>
 </html>
