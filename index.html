@@ -3,363 +3,1065 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D0 Team Architecture v5</title>
+<title>D0 Product Kanban — Linear Cycle View</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0c1220;--sf:#131d32;--s2:#182640;--s3:#1e304e;--bdr:rgba(255,255,255,.06);--ba:rgba(212,167,58,.3);--tx:#e8e4dc;--dim:#8a9ab5;--mut:#5a6a85;--gold:#d4a73a;--gd:rgba(212,167,58,.1);--red:#ef4444;--rd:rgba(239,68,68,.1);--grn:#22c55e;--grd:rgba(34,197,94,.1);--amb:#f59e0b;--ad:rgba(245,158,11,.1);--blu:#3b82f6;--bld:rgba(59,130,246,.1);--tl:#14b8a6;--tld:rgba(20,184,166,.1);--pur:#a78bfa;--pd:rgba(167,139,250,.1);--fd:'Instrument Serif',Georgia,serif;--fb:'DM Sans',system-ui,sans-serif;--fm:'JetBrains Mono',monospace}
-@media(prefers-color-scheme:light){:root{--bg:#f4f0e6;--sf:#fff;--s2:#f8f5ee;--s3:#efe9dd;--bdr:rgba(0,0,0,.07);--ba:rgba(180,130,30,.25);--tx:#1a1a2e;--dim:#5a5a7a;--mut:#9a9ab0}}
+:root{--bg:#0c1220;--surface:#131d32;--s2:#182640;--s3:#1e304e;--border:rgba(255,255,255,.06);--ba:rgba(212,167,58,.3);--text:#e8e4dc;--dim:#8a9ab5;--muted:#5a6a85;--gold:#d4a73a;--gd:rgba(212,167,58,.1);--red:#ef4444;--rd:rgba(239,68,68,.1);--green:#22c55e;--grd:rgba(34,197,94,.1);--amber:#f59e0b;--ad:rgba(245,158,11,.1);--blue:#3b82f6;--bd:rgba(59,130,246,.1);--teal:#14b8a6;--td:rgba(20,184,166,.1);--purple:#a78bfa;--pd:rgba(167,139,250,.1);--fd:'Instrument Serif',Georgia,serif;--fb:'DM Sans',system-ui,sans-serif;--fm:'JetBrains Mono',monospace}
+@media(prefers-color-scheme:light){:root{--bg:#f4f0e6;--surface:#fff;--s2:#f8f5ee;--s3:#efe9dd;--border:rgba(0,0,0,.07);--ba:rgba(180,130,30,.25);--text:#1a1a2e;--dim:#5a5a7a;--muted:#9a9ab0;--green:#16a34a;--red:#dc2626;--amber:#d97706;--blue:#2563eb;--teal:#0d9488;--purple:#7c3aed;--gold:#b8860b}}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--fb);background:var(--bg);color:var(--tx);line-height:1.5}
-a{color:var(--blu);text-decoration:none;font-family:var(--fm);font-size:.6rem}
-a:hover{text-decoration:underline}
-.page{max-width:1400px;margin:0 auto;padding:1rem 1.5rem 3rem}
-[contenteditable]{outline:none;border-radius:3px;transition:background .15s}
-[contenteditable]:hover{background:rgba(255,255,255,.04)}
-[contenteditable]:focus{background:rgba(212,167,58,.08);box-shadow:0 0 0 1px var(--gold)}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{max-width:1400px;margin:0 auto;padding:1.5rem}
 
-.toolbar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--bdr);padding:.5rem 0;margin-bottom:1rem;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap}
-.btn{font-family:var(--fm);font-size:.64rem;padding:.22rem .55rem;border-radius:100px;border:1px solid var(--bdr);background:var(--sf);color:var(--dim);cursor:pointer;transition:all .2s;white-space:nowrap}
-.btn:hover{border-color:var(--gold);color:var(--gold)}
-.btn.primary{background:var(--gd);color:var(--gold);border-color:var(--ba)}
-.btn.danger{color:var(--red)}
-.save-ind{font-family:var(--fm);font-size:.58rem;color:var(--grn);opacity:0;transition:opacity .3s;margin-left:auto}
-.save-ind.show{opacity:1}
-#verList{display:flex;flex-wrap:wrap;gap:.3rem;padding:.15rem 0}
+/* HERO */
+.hero{text-align:center;padding:1.5rem 0 .5rem}
+.hero h1{font-family:var(--fd);font-size:2.2rem;font-weight:400}
+.hero .sub{font-family:var(--fm);font-size:.72rem;color:var(--dim);margin-top:.25rem}
+.hero .badge{display:inline-block;margin-top:.4rem;padding:.15rem .7rem;background:var(--gd);color:var(--gold);font-family:var(--fm);font-size:.65rem;border-radius:100px;border:1px solid var(--ba)}
 
-.hero{text-align:center;padding:1rem 0 .75rem}
-.hero h1{font-family:var(--fd);font-size:2rem;font-weight:400}
-.hero .sub{font-family:var(--fm);font-size:.72rem;color:var(--dim);margin-top:.2rem}
-
-/* CEO */
-.ceo{text-align:center;margin:1.5rem 0 .5rem}
-.ceo-card{display:inline-block;background:linear-gradient(135deg,var(--s2),var(--s3));border:1.5px solid var(--ba);border-radius:12px;padding:.8rem 2rem;text-align:center}
-.ceo-card .name{font-family:var(--fd);font-size:1.3rem}
-.ceo-card .role{font-family:var(--fm);font-size:.68rem;color:var(--gold)}
-.ceo-card a{margin-left:.5rem}
-
-/* Vertical connector */
-.vline{width:1px;height:1.5rem;background:var(--bdr);margin:0 auto}
-
-/* Division */
-.divisions{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:.5rem}
-@media(max-width:1100px){.divisions{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.divisions{grid-template-columns:1fr}}
-
-.division{background:var(--sf);border:1px solid var(--bdr);border-radius:10px;overflow:hidden}
-.division.engineering{grid-column:span 2;grid-row:span 2}
-@media(max-width:1100px){.division.engineering{grid-column:span 2}}
-@media(max-width:700px){.division.engineering{grid-column:span 1;grid-row:auto}}
-
-.div-head{padding:.5rem .75rem;display:flex;align-items:center;gap:.4rem;border-bottom:1px solid var(--bdr)}
-.div-head .dh-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.div-head .dh-name{font-family:var(--fm);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
-.div-head .dh-count{font-family:var(--fm);font-size:.58rem;color:var(--mut);margin-left:auto;background:var(--s2);padding:.1rem .35rem;border-radius:100px}
-
-/* Sub-teams inside Engineering */
-.sub-teams{display:grid;grid-template-columns:1fr 1fr;gap:0}
-@media(max-width:700px){.sub-teams{grid-template-columns:1fr}}
-.sub-team{border-right:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:.5rem .65rem}
-.sub-team:nth-child(even){border-right:none}
-.sub-team:nth-last-child(-n+2){border-bottom:none}
-@media(max-width:700px){.sub-team{border-right:none}}
-.st-head{font-family:var(--fm);font-size:.65rem;font-weight:600;color:var(--dim);margin-bottom:.35rem;display:flex;align-items:center;gap:.3rem}
-.st-head .st-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.st-head .st-label{padding:.08rem .3rem;border-radius:3px;font-size:.55rem;font-weight:400;color:var(--mut);background:var(--s2)}
-
-/* Simple division body */
-.div-body{padding:.4rem .65rem}
-
-/* Person */
-.person{display:flex;align-items:baseline;gap:.35rem;padding:.25rem 0;border-bottom:1px solid rgba(255,255,255,.02)}
-.person:last-child{border-bottom:none}
-.person .p-name{font-size:.82rem;font-weight:600;white-space:nowrap}
-.person .p-role{font-size:.72rem;color:var(--dim);flex:1}
-.person .p-link{flex-shrink:0}
-.p-tag{font-family:var(--fm);font-size:.55rem;padding:.06rem .3rem;border-radius:100px;white-space:nowrap;flex-shrink:0}
-.p-tag.lead{background:var(--gd);color:var(--gold)}
-.p-tag.xfn{background:var(--tld);color:var(--tl);border:1px dashed rgba(20,184,166,.3)}
-
-/* Cross-functional indicator */
-.xfn-note{font-family:var(--fm);font-size:.58rem;color:var(--tl);background:var(--tld);padding:.2rem .5rem;border-radius:4px;margin:.3rem 0 .1rem;border-left:2px solid var(--tl)}
-
-/* Stats */
-.stats{margin:1.5rem 0;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center}
-.stat{text-align:center;padding:.4rem .8rem;background:var(--sf);border:1px solid var(--bdr);border-radius:8px;min-width:100px}
-.stat .num{font-family:var(--fm);font-size:1.2rem;font-weight:700;color:var(--gold)}
+/* STATS BAR */
+.stats{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 1.5rem}
+.stat{text-align:center;padding:.5rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;min-width:100px}
+.stat .num{font-family:var(--fm);font-size:1.3rem;font-weight:700;color:var(--gold)}
 .stat .label{font-size:.68rem;color:var(--dim)}
 
+/* VIEW TOGGLE */
+.toggle-bar{display:flex;justify-content:center;gap:.3rem;margin-bottom:1.5rem}
+.toggle-btn{font-family:var(--fm);font-size:.72rem;padding:.4rem 1rem;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--dim);cursor:pointer;transition:all .2s}
+.toggle-btn:hover{border-color:var(--gold);color:var(--gold)}
+.toggle-btn.active{background:var(--gd);color:var(--gold);border-color:var(--ba)}
+
+/* FILTER BAR */
+.filter-bar{display:flex;justify-content:center;gap:.3rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.filter-btn{font-family:var(--fm);font-size:.65rem;padding:.25rem .7rem;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--dim);cursor:pointer;transition:all .2s}
+.filter-btn:hover{border-color:var(--gold);color:var(--text)}
+.filter-btn.active{background:var(--s2);color:var(--text);border-color:var(--gold)}
+
+/* LAYER SECTION */
+.layer-section,.person-section{margin-bottom:1.5rem}
+.layer-head,.person-head{display:flex;align-items:center;gap:.5rem;padding:.5rem .8rem;margin-bottom:.5rem;border-bottom:2px solid var(--layer-color,var(--gold))}
+.layer-icon{font-size:1.1rem}
+.layer-name,.person-name{font-family:var(--fd);font-size:1.2rem;font-weight:400}
+.layer-count,.person-count{font-family:var(--fm);font-size:.65rem;color:var(--muted);margin-left:auto}
+.person-layer{font-family:var(--fm);font-size:.65rem;margin-left:.5rem}
+
+/* CARD GRID */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.5rem}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;transition:all .2s;border-left:3px solid var(--layer-color,var(--border))}
+.card:hover{border-color:var(--ba);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.card.done{opacity:.55}
+.card.cancel{opacity:.35;text-decoration:line-through}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem}
+.card-id{font-family:var(--fm);font-size:.65rem;color:var(--gold);text-decoration:none}
+.card-id:hover{text-decoration:underline}
+.card-priority{font-size:.7rem}
+.card-title{font-size:.82rem;line-height:1.4;margin-bottom:.3rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.card-assignee{font-family:var(--fm);font-size:.62rem;color:var(--dim);background:var(--s2);padding:.1rem .4rem;border-radius:100px}
+.card-state{font-family:var(--fm);font-size:.62rem;font-weight:600}
+
+/* VIEWS */
+#view-layer,#view-person{display:none}
+#view-layer.active,#view-person.active{display:block}
+
+/* FOOTER */
+.footer{text-align:center;padding:1.5rem 0 .5rem;font-family:var(--fm);font-size:.62rem;color:var(--muted)}
+.footer a{color:var(--gold);text-decoration:none}
+
+@media(max-width:700px){.card-grid{grid-template-columns:1fr}.stats{gap:.3rem}.stat{min-width:70px;padding:.4rem .6rem}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .anim{animation:fadeUp .35s ease-out both}
-@media(prefers-reduced-motion:reduce){.anim{animation:none}}
 </style>
 </head>
 <body>
 <div class="page">
 
-<div class="toolbar">
-  <button class="btn primary" onclick="saveVersion()">💾 保存版本</button>
-  <button class="btn" onclick="exportHTML()">⤓ 导出</button>
-  <button class="btn danger" onclick="resetData()">↺ 重置</button>
-  <span class="save-ind" id="saveInd">✓ saved</span>
-</div>
-<div id="verList"></div>
-
 <div class="hero anim">
-  <h1 contenteditable>D0 Team Architecture</h1>
-  <div class="sub">6 Divisions · 点击编辑 · 人名链接 Linear 看板</div>
+  <h1>D0 Product Kanban</h1>
+  <div class="sub">Linear Cycle 联动 · GTM #5 · ENG #22 · TES #8 · 2026-03-15 → 2026-03-29</div>
+  <div class="badge">Generated 2026-03-18 · Ring for Donut</div>
 </div>
 
-<!-- CEO -->
-<div class="ceo anim">
-  <div class="ceo-card">
-    <div class="name" contenteditable>Chris Zhu</div>
-    <div class="role" contenteditable>CEO · Direction & Final Call</div>
-    <a href="https://linear.app/donutbrowser/user/chriszhu/assigned" target="_blank">Linear ↗</a>
-  </div>
-</div>
-<div class="vline"></div>
-
-<!-- 6 DIVISIONS -->
-<div class="divisions">
-
-  <!-- ========== ENGINEERING (spans 2 cols + 2 rows) ========== -->
-  <div class="division engineering anim">
-    <div class="div-head" style="background:rgba(59,130,246,.04)">
-      <span class="dh-dot" style="background:var(--blu)"></span>
-      <span class="dh-name" contenteditable>Engineering</span>
-      <span class="dh-count">12</span>
-    </div>
-    <div class="sub-teams">
-
-      <!-- AI Engineering -->
-      <div class="sub-team">
-        <div class="st-head"><span class="st-dot" style="background:var(--gold)"></span> <span contenteditable>AI Engineering</span></div>
-        <div class="person">
-          <span class="p-name" contenteditable>JackJun</span>
-          <span class="p-role" contenteditable>AI Engineering Lead — 引擎架构 / LLM Routing / D0 核心</span>
-          <span class="p-tag lead">LEAD</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/jackjun/assigned" target="_blank">Linear ↗</a>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Fei</span>
-          <span class="p-role" contenteditable>AI Eval & Research Lead — Eval 体系 / Frontier / Security + Engineering 落地</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/fei/assigned" target="_blank">Linear ↗</a>
-        </div>
-      </div>
-
-      <!-- Interface Engineering -->
-      <div class="sub-team">
-        <div class="st-head"><span class="st-dot" style="background:var(--blu)"></span> <span contenteditable>Interface Engineering</span></div>
-        <div class="person">
-          <span class="p-name" contenteditable>Jin Xu</span>
-          <span class="p-role" contenteditable>d0-cli / Skills / New Interface Owner / 前端</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/xujin/assigned" target="_blank">Linear ↗</a>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Gary</span>
-          <span class="p-role" contenteditable>Dashboard / Onboarding / 前端</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/gary/assigned" target="_blank">Linear ↗</a>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Ethan</span>
-          <span class="p-role" contenteditable>Full-stack Asset & Platform — 多链资产 / D0 Dashboard / Deposit·Withdraw·Transfer / iOS</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/ethan/assigned" target="_blank">Linear ↗</a>
-        </div>
-      </div>
-
-      <!-- Trading Engineering -->
-      <div class="sub-team">
-        <div class="st-head"><span class="st-dot" style="background:var(--red)"></span> <span contenteditable>Trading Engineering</span> <span class="st-label">Peter leads ↗</span></div>
-        <div class="xfn-note">← Peter (Product) cross-leads Trading 方向</div>
-        <div class="person">
-          <span class="p-name" contenteditable>Alex</span>
-          <span class="p-role" contenteditable>Perps 撮合引擎 / TPSL / API</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/alex/assigned" target="_blank">Linear ↗</a>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Rui Li</span>
-          <span class="p-role" contenteditable>GRPS 风控 / 对账 / 资产</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/lirui/assigned" target="_blank">Linear ↗</a>
-        </div>
-      </div>
-
-      <!-- Infrastructure -->
-      <div class="sub-team">
-        <div class="st-head"><span class="st-dot" style="background:var(--pur)"></span> <span contenteditable>Infrastructure</span></div>
-        <div class="person">
-          <span class="p-name" contenteditable>Regison</span>
-          <span class="p-role" contenteditable>Crypto Backend & Middleware — 后端核心 / MCP / DeFi</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/regison/assigned" target="_blank">Linear ↗</a>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Wenzhang</span>
-          <span class="p-role" contenteditable>DevOps — K8s / ArgoCD / 监控 / Admin / Eval Infra / sub2api / 多副本</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/wenzhang/assigned" target="_blank">Linear ↗</a>
-        </div>
-        <div class="person">
-          <span class="p-name" contenteditable>Jiagui</span>
-          <span class="p-role" contenteditable>Safety & Container — 浏览器安全 / 容器隔离 / Extension</span>
-          <a class="p-link" href="https://linear.app/donutbrowser/user/jiagui/assigned" target="_blank">Linear ↗</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ========== PRODUCT & DESIGN ========== -->
-  <div class="division anim">
-    <div class="div-head" style="background:rgba(20,184,166,.04)">
-      <span class="dh-dot" style="background:var(--tl)"></span>
-      <span class="dh-name" contenteditable>Product & Design</span>
-      <span class="dh-count">4</span>
-    </div>
-    <div class="div-body">
-      <div class="person">
-        <span class="p-name" contenteditable>Peter</span>
-        <span class="p-role" contenteditable>Trading Team Lead</span>
-        <span class="p-tag xfn">→ Trading Eng</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/peter/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Ye Zou</span>
-        <span class="p-role" contenteditable>Product Architecture & Interaction Design</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/zouye/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Sylvia</span>
-        <span class="p-role" contenteditable>Trading PM</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/sylvia/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Yi Tan</span>
-        <span class="p-role" contenteditable>UI/UX Design</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/yixintan/assigned" target="_blank">Linear ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== RESEARCH & DATA ========== -->
-  <div class="division anim">
-    <div class="div-head" style="background:rgba(245,158,11,.04)">
-      <span class="dh-dot" style="background:var(--amb)"></span>
-      <span class="dh-name" contenteditable>Research & Data</span>
-      <span class="dh-count">2</span>
-    </div>
-    <div class="div-body">
-      <div class="person">
-        <span class="p-name" contenteditable>Liang Han</span>
-        <span class="p-role" contenteditable>AI-first Trading Research — 量化策略 / 风控模型 / Discovery</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/hanliang/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Tao Yuan</span>
-        <span class="p-role" contenteditable>Data Engineering — 回测 / 数据管线</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/tao/assigned" target="_blank">Linear ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== 质量工程 ========== -->
-  <div class="division anim">
-    <div class="div-head" style="background:rgba(107,114,128,.04)">
-      <span class="dh-dot" style="background:#6b7280"></span>
-      <span class="dh-name" contenteditable>质量工程 QA</span>
-      <span class="dh-count">2</span>
-    </div>
-    <div class="div-body">
-      <div class="person">
-        <span class="p-name" contenteditable>Jim</span>
-        <span class="p-role" contenteditable>测试工程师</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/jim/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Kevin Wang</span>
-        <span class="p-role" contenteditable>测试工程师</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/kevin/assigned" target="_blank">Linear ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== GTM / Growth ========== -->
-  <div class="division anim">
-    <div class="div-head" style="background:rgba(59,130,246,.04)">
-      <span class="dh-dot" style="background:var(--blu)"></span>
-      <span class="dh-name" contenteditable>GTM / Growth</span>
-      <span class="dh-count">4</span>
-    </div>
-    <div class="div-body">
-      <div class="person">
-        <span class="p-name" contenteditable>Ruqi Hu</span>
-        <span class="p-role" contenteditable>增长 APAC + 用户反馈归档</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/ruqihu/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Melvin</span>
-        <span class="p-role" contenteditable>社交媒体运营</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/melvin/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Javier Ruedas</span>
-        <span class="p-role" contenteditable>社交媒体与社区运营</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/javier/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Hongwei Feng</span>
-        <span class="p-role" contenteditable>GTM / Social Frontier Tracking</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/hongweifeng/assigned" target="_blank">Linear ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== Operations & Strategy ========== -->
-  <div class="division anim">
-    <div class="div-head" style="background:rgba(107,114,128,.04)">
-      <span class="dh-dot" style="background:#6b7280"></span>
-      <span class="dh-name" contenteditable>Operations & Strategy</span>
-      <span class="dh-count">3</span>
-    </div>
-    <div class="div-body">
-      <div class="person">
-        <span class="p-name" contenteditable>Yutong Li</span>
-        <span class="p-role" contenteditable>Legal / Finance / HR (HK)</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/liyutong/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Ginger</span>
-        <span class="p-role" contenteditable>财务</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/lilei/assigned" target="_blank">Linear ↗</a>
-      </div>
-      <div class="person">
-        <span class="p-name" contenteditable>Mond Wonder</span>
-        <span class="p-role" contenteditable>战略洞察 / Researcher</span>
-        <a class="p-link" href="https://linear.app/donutbrowser/user/wondermond/assigned" target="_blank">Linear ↗</a>
-      </div>
-    </div>
-  </div>
-
-</div><!-- divisions -->
-
-<!-- STATS -->
 <div class="stats anim">
-  <div class="stat"><div class="num">27</div><div class="label">Total (incl. Chris)</div></div>
-  <div class="stat"><div class="num">6</div><div class="label">Divisions</div></div>
-  <div class="stat"><div class="num">12</div><div class="label">Engineering</div></div>
-  <div class="stat"><div class="num">4</div><div class="label">Product & Design</div></div>
-  <div class="stat"><div class="num">2</div><div class="label">Research & Data</div></div>
+  <div class="stat"><div class="num">35</div><div class="label">Total Issues</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">Active</div></div>
+  <div class="stat"><div class="num">22</div><div class="label">Done</div></div>
+  <div class="stat"><div class="num">1</div><div class="label">Canceled</div></div>
+  <div class="stat"><div class="num">12</div><div class="label">People</div></div>
+</div>
+
+<div class="toggle-bar anim">
+  <button class="toggle-btn active" onclick="switchView('layer')">🏗 五层架构</button>
+  <button class="toggle-btn" onclick="switchView('person')">👤 按人员</button>
+</div>
+
+<div class="filter-bar anim">
+  <button class="filter-btn active" data-filter="all" onclick="filterState('all')">All</button>
+  <button class="filter-btn" data-filter="active" onclick="filterState('active')">🔥 Active</button>
+  <button class="filter-btn" data-filter="done" onclick="filterState('done')">✓ Done</button>
+</div>
+
+<div id="view-layer" class="active anim">
+  
+      <div class="layer-section" style="--layer-color:#3b82f6;--layer-bg:rgba(59,130,246,.08)">
+        <div class="layer-head">
+          <span class="layer-icon">📣</span>
+          <span class="layer-name">获客层 Acquisition</span>
+          <span class="layer-count">0 active · 0 done</span>
+        </div>
+        <div class="card-grid">
+          
+        </div>
+      </div>
+      <div class="layer-section" style="--layer-color:#14b8a6;--layer-bg:rgba(20,184,166,.08)">
+        <div class="layer-head">
+          <span class="layer-icon">✨</span>
+          <span class="layer-name">体验层 Experience</span>
+          <span class="layer-count">3 active · 10 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="jim" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1091/bug-shared-llm-日配额每天早上耗尽-opussonnet-100percent-满额导致服务不可用" target="_blank" class="card-id">ENG-1091</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">[Bug] Shared LLM 日配额每天早上耗尽 — Opus/Sonnet 100% 满额导致服务不可用</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jim</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="jim" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1087/openclaw-profile-plugin用-sqlite-替代-workspace-json-文件存储-user-profile" target="_blank" class="card-id">ENG-1087</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">OpenClaw Profile Plugin：用 SQLite 替代 workspace JSON 文件存储 user profile</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jim</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="jim" data-layer="experience" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1019/实现-d0-用户行为记忆系统v30" target="_blank" class="card-id">ENG-1019</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">实现 D0 用户行为记忆系统（v3.0）</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jim</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="jim" data-layer="experience" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1017/bug-test-env-wallet-serviceturnkeyauthrefresh-returns-401-after-fresh" target="_blank" class="card-id">ENG-1017</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">[Bug] Test env: /wallet-service/turnkey/auth/refresh returns 401 after fresh login</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jim</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="zouye" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1011/llm-token-用量配额按用户账户限制与会员权益挂钩" target="_blank" class="card-id">ENG-1011</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">LLM Token 用量配额：按用户账户限制，与会员权益挂钩</div>
+      <div class="card-foot">
+        <span class="card-assignee">Ye Zou</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="justin" data-layer="experience" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1000/tgbot中消息顺序的问题" target="_blank" class="card-id">ENG-1000</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">tgbot中消息顺序的问题</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-925/research-d0-独享-agent-vs-multi-agent-共享功能与安全对比分析" target="_blank" class="card-id">ENG-925</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">[Research] D0 独享 Agent vs Multi-Agent 共享：功能与安全对比分析</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-924/research-d0-cloud-成本分析hetzner-独享-vs-aws-ec2-vs-multi-agent-共享" target="_blank" class="card-id">ENG-924</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">[Research] D0 Cloud 成本分析：Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-819/k8s线上环境pod的replica变成2-先在test环境测试一下" target="_blank" class="card-id">ENG-819</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">K8s线上环境pod的replica变成2 先在test环境测试一下</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-814/调整kubernetes节点编排并升级on-demand节点" target="_blank" class="card-id">ENG-814</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">调整Kubernetes节点编排并升级on-demand节点</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-801/开发者本地环境的统一-env-管理平台" target="_blank" class="card-id">ENG-801</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">开发者本地环境的统一 .env 管理平台</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-836/nofx-update-tracking" target="_blank" class="card-id">ENG-836</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">nofx update tracking</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-831/suna-long-lived-connection-draining-during-rolling-update" target="_blank" class="card-id">ENG-831</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">Suna: long-lived connection draining during rolling update</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="layer-section" style="--layer-color:#d4a73a;--layer-bg:rgba(212,167,58,.08)">
+        <div class="layer-head">
+          <span class="layer-icon">🧠</span>
+          <span class="layer-name">AI / Intelligence</span>
+          <span class="layer-count">2 active · 2 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="xujin" data-layer="ai" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1110/d0-prompt-系统清理5-个结构性问题修复" target="_blank" class="card-id">ENG-1110</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">D0 Prompt 系统清理：5 个结构性问题修复</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jin Xu</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="fei" data-layer="ai" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-853/eval001-atomandinvariant-level-evaluation" target="_blank" class="card-id">ENG-853</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">[Eval001] Atom&amp;Invariant Level Evaluation</div>
+      <div class="card-foot">
+        <span class="card-assignee">Fei</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="jackjun" data-layer="ai" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-824/add-birdeye-ohlcv-fallback-to-hummingbot-api-market-data-endpoints" target="_blank" class="card-id">ENG-824</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">Add Birdeye OHLCV fallback to hummingbot-api market data endpoints</div>
+      <div class="card-foot">
+        <span class="card-assignee">JackJun</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="tao" data-layer="ai" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-827/collect-more-user-scenarios-and-related-data-sources" target="_blank" class="card-id">ENG-827</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">Collect more user scenarios and related data sources</div>
+      <div class="card-foot">
+        <span class="card-assignee">Tao</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="layer-section" style="--layer-color:#ef4444;--layer-bg:rgba(239,68,68,.08)">
+        <div class="layer-head">
+          <span class="layer-icon">📊</span>
+          <span class="layer-name">交易层 Trading</span>
+          <span class="layer-count">5 active · 3 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card active" data-assignee="alex" data-layer="trading" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1127/position-tpsl-多空不平-流水断裂-死锁风险分析报告-featureadd-tpsl" target="_blank" class="card-id">ENG-1127</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">[Position TPSL] 多空不平 / 流水断裂 / 死锁风险分析报告 — feature/add_tpsl</div>
+      <div class="card-foot">
+        <span class="card-assignee">Alex</span>
+        <span class="card-state" style="color:#f59e0b">In Progress</span>
+      </div>
+    </div>
+    <div class="card triage" data-assignee="ethan" data-layer="trading" data-state="triage">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1126/polymarket-信号生产到执行全流程-pipeline" target="_blank" class="card-id">ENG-1126</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">Polymarket 信号生产到执行全流程 Pipeline</div>
+      <div class="card-foot">
+        <span class="card-assignee">Ethan</span>
+        <span class="card-state" style="color:#a78bfa">Triage</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1096/methodology-data-source-audit-framework-for-discovering-donut-tool" target="_blank" class="card-id">ENG-1096</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">[Methodology] Data source audit framework for discovering DONUT tool gaps and conflicts</div>
+      <div class="card-foot">
+        <span class="card-assignee">Liang Han</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="ethan" data-layer="trading" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1062/fix-build-transfer-api-500-helius-priority-fee-encoding-mismatch" target="_blank" class="card-id">ENG-1062</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">fix: build-transfer API 500 - Helius priority fee encoding mismatch</div>
+      <div class="card-foot">
+        <span class="card-assignee">Ethan</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-997/polymarket完成情況與overall-tracker" target="_blank" class="card-id">ENG-997</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">polymarket完成情況與overall tracker</div>
+      <div class="card-foot">
+        <span class="card-assignee">Liang Han</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card todo" data-assignee="ethan" data-layer="trading" data-state="unstarted">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-970/d0-cli-gh75-donut-hl-withdraw未告知提现手续费影响用户资金预期" target="_blank" class="card-id">ENG-970</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">[d0-cli] GH#75: DONUT_HL_WITHDRAW未告知提现手续费，影响用户资金预期</div>
+      <div class="card-foot">
+        <span class="card-assignee">Ethan</span>
+        <span class="card-state" style="color:#8a9ab5">Todo</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="alex" data-layer="trading" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-967/d0-cli-gh85-功能改进-平仓后自动取消对应token的止盈止损订单-perps-auto-cleanup-005" target="_blank" class="card-id">ENG-967</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">[d0-cli] GH#85: 💡 功能改进: 平仓后自动取消对应token的止盈止损订单 (PERPS-AUTO-CLEANUP-005)</div>
+      <div class="card-foot">
+        <span class="card-assignee">Alex</span>
+        <span class="card-state" style="color:#f59e0b">In Progress</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-962/implement-polymarket-clob-and-data-api-tools-for-d0-cli-order" target="_blank" class="card-id">ENG-962</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">Implement Polymarket CLOB &amp; Data API Tools for d0-cli (Order Management + Positions)</div>
+      <div class="card-foot">
+        <span class="card-assignee">Liang Han</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="layer-section" style="--layer-color:#a78bfa;--layer-bg:rgba(167,139,250,.08)">
+        <div class="layer-head">
+          <span class="layer-icon">🏗</span>
+          <span class="layer-name">基础设施 Infra</span>
+          <span class="layer-count">2 active · 7 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1111/onboarding-状态机文档化-前后端状态流转-触发条件-边界-case" target="_blank" class="card-id">ENG-1111</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">Onboarding 状态机文档化 — 前后端状态流转 + 触发条件 + 边界 case</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1107/冲突数据可观测性统计用户触发的-workspace-sync-冲突并暴露数据" target="_blank" class="card-id">ENG-1107</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">冲突数据可观测性：统计用户触发的 workspace-sync 冲突并暴露数据</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1103/workspace-syncsh-用户自定义配置与官方更新的合并冲突处理" target="_blank" class="card-id">ENG-1103</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">workspace-sync.sh: 用户自定义配置与官方更新的合并冲突处理</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="unassigned" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1095/docsd0-openclaw-dashboard-服务运维信息及重启恢复记录" target="_blank" class="card-id">ENG-1095</a>
+        <span class="card-priority p-low">🟢</span>
+      </div>
+      <div class="card-title">docs(d0): openclaw-dashboard 服务运维信息及重启恢复记录</div>
+      <div class="card-foot">
+        <span class="card-assignee">⚠ Unassigned</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1089/shared-模式禁用-qmd-embed回退-bm25-keyword-搜索" target="_blank" class="card-id">ENG-1089</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">shared 模式禁用 qmd embed，回退 BM25 keyword 搜索</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="jiagui" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1043/d0-bot-监控signoz-告警规则-healthd0-心跳端点" target="_blank" class="card-id">ENG-1043</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">D0 Bot 监控：SigNoz 告警规则 + /health/d0 心跳端点</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jiagui</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="unassigned" data-layer="infra" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-861/p0-生产服务全单副本-添加多副本-pdb" target="_blank" class="card-id">ENG-861</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">[P0] 生产服务全单副本 — 添加多副本 + PDB</div>
+      <div class="card-foot">
+        <span class="card-assignee">⚠ Unassigned</span>
+        <span class="card-state" style="color:#f59e0b">In Progress</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="wenzhang" data-layer="infra" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-860/infra-k8s-生产基础设施运维问题修复" target="_blank" class="card-id">ENG-860</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">[Infra] K8s 生产基础设施运维问题修复</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#f59e0b">In Progress</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="jiagui" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-806/browser-research" target="_blank" class="card-id">ENG-806</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">browser research</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jiagui</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+</div>
+
+<div id="view-person" class="anim">
+  
+      <div class="person-section" style="--layer-color:#14b8a6;--layer-bg:rgba(20,184,166,.08)">
+        <div class="person-head">
+          <span class="person-name">Justin</span>
+          <span class="person-layer" style="color:#14b8a6">✨ 体验层 Experience</span>
+          <span class="person-count">1 active · 7 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card active" data-assignee="justin" data-layer="experience" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1000/tgbot中消息顺序的问题" target="_blank" class="card-id">ENG-1000</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">tgbot中消息顺序的问题</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-925/research-d0-独享-agent-vs-multi-agent-共享功能与安全对比分析" target="_blank" class="card-id">ENG-925</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">[Research] D0 独享 Agent vs Multi-Agent 共享：功能与安全对比分析</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-924/research-d0-cloud-成本分析hetzner-独享-vs-aws-ec2-vs-multi-agent-共享" target="_blank" class="card-id">ENG-924</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">[Research] D0 Cloud 成本分析：Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-819/k8s线上环境pod的replica变成2-先在test环境测试一下" target="_blank" class="card-id">ENG-819</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">K8s线上环境pod的replica变成2 先在test环境测试一下</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-814/调整kubernetes节点编排并升级on-demand节点" target="_blank" class="card-id">ENG-814</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">调整Kubernetes节点编排并升级on-demand节点</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-801/开发者本地环境的统一-env-管理平台" target="_blank" class="card-id">ENG-801</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">开发者本地环境的统一 .env 管理平台</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-836/nofx-update-tracking" target="_blank" class="card-id">ENG-836</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">nofx update tracking</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="justin" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-831/suna-long-lived-connection-draining-during-rolling-update" target="_blank" class="card-id">ENG-831</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">Suna: long-lived connection draining during rolling update</div>
+      <div class="card-foot">
+        <span class="card-assignee">Justin</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#a78bfa;--layer-bg:rgba(167,139,250,.08)">
+        <div class="person-head">
+          <span class="person-name">Wenzhang</span>
+          <span class="person-layer" style="color:#a78bfa">🏗 基础设施 Infra</span>
+          <span class="person-count">1 active · 4 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1111/onboarding-状态机文档化-前后端状态流转-触发条件-边界-case" target="_blank" class="card-id">ENG-1111</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">Onboarding 状态机文档化 — 前后端状态流转 + 触发条件 + 边界 case</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1107/冲突数据可观测性统计用户触发的-workspace-sync-冲突并暴露数据" target="_blank" class="card-id">ENG-1107</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">冲突数据可观测性：统计用户触发的 workspace-sync 冲突并暴露数据</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1103/workspace-syncsh-用户自定义配置与官方更新的合并冲突处理" target="_blank" class="card-id">ENG-1103</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">workspace-sync.sh: 用户自定义配置与官方更新的合并冲突处理</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="wenzhang" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1089/shared-模式禁用-qmd-embed回退-bm25-keyword-搜索" target="_blank" class="card-id">ENG-1089</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">shared 模式禁用 qmd embed，回退 BM25 keyword 搜索</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="wenzhang" data-layer="infra" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-860/infra-k8s-生产基础设施运维问题修复" target="_blank" class="card-id">ENG-860</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">[Infra] K8s 生产基础设施运维问题修复</div>
+      <div class="card-foot">
+        <span class="card-assignee">Wenzhang</span>
+        <span class="card-state" style="color:#f59e0b">In Progress</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#14b8a6;--layer-bg:rgba(20,184,166,.08)">
+        <div class="person-head">
+          <span class="person-name">Jim</span>
+          <span class="person-layer" style="color:#14b8a6">✨ 体验层 Experience</span>
+          <span class="person-count">2 active · 2 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="jim" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1091/bug-shared-llm-日配额每天早上耗尽-opussonnet-100percent-满额导致服务不可用" target="_blank" class="card-id">ENG-1091</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">[Bug] Shared LLM 日配额每天早上耗尽 — Opus/Sonnet 100% 满额导致服务不可用</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jim</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="jim" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1087/openclaw-profile-plugin用-sqlite-替代-workspace-json-文件存储-user-profile" target="_blank" class="card-id">ENG-1087</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">OpenClaw Profile Plugin：用 SQLite 替代 workspace JSON 文件存储 user profile</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jim</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="jim" data-layer="experience" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1019/实现-d0-用户行为记忆系统v30" target="_blank" class="card-id">ENG-1019</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">实现 D0 用户行为记忆系统（v3.0）</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jim</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="jim" data-layer="experience" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1017/bug-test-env-wallet-serviceturnkeyauthrefresh-returns-401-after-fresh" target="_blank" class="card-id">ENG-1017</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">[Bug] Test env: /wallet-service/turnkey/auth/refresh returns 401 after fresh login</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jim</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#ef4444;--layer-bg:rgba(239,68,68,.08)">
+        <div class="person-head">
+          <span class="person-name">Ethan</span>
+          <span class="person-layer" style="color:#ef4444">📊 交易层 Trading</span>
+          <span class="person-count">3 active · 0 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card triage" data-assignee="ethan" data-layer="trading" data-state="triage">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1126/polymarket-信号生产到执行全流程-pipeline" target="_blank" class="card-id">ENG-1126</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">Polymarket 信号生产到执行全流程 Pipeline</div>
+      <div class="card-foot">
+        <span class="card-assignee">Ethan</span>
+        <span class="card-state" style="color:#a78bfa">Triage</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="ethan" data-layer="trading" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1062/fix-build-transfer-api-500-helius-priority-fee-encoding-mismatch" target="_blank" class="card-id">ENG-1062</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">fix: build-transfer API 500 - Helius priority fee encoding mismatch</div>
+      <div class="card-foot">
+        <span class="card-assignee">Ethan</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+    <div class="card todo" data-assignee="ethan" data-layer="trading" data-state="unstarted">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-970/d0-cli-gh75-donut-hl-withdraw未告知提现手续费影响用户资金预期" target="_blank" class="card-id">ENG-970</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">[d0-cli] GH#75: DONUT_HL_WITHDRAW未告知提现手续费，影响用户资金预期</div>
+      <div class="card-foot">
+        <span class="card-assignee">Ethan</span>
+        <span class="card-state" style="color:#8a9ab5">Todo</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#ef4444;--layer-bg:rgba(239,68,68,.08)">
+        <div class="person-head">
+          <span class="person-name">Liang Han</span>
+          <span class="person-layer" style="color:#ef4444">📊 交易层 Trading</span>
+          <span class="person-count">0 active · 3 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1096/methodology-data-source-audit-framework-for-discovering-donut-tool" target="_blank" class="card-id">ENG-1096</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">[Methodology] Data source audit framework for discovering DONUT tool gaps and conflicts</div>
+      <div class="card-foot">
+        <span class="card-assignee">Liang Han</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-997/polymarket完成情況與overall-tracker" target="_blank" class="card-id">ENG-997</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">polymarket完成情況與overall tracker</div>
+      <div class="card-foot">
+        <span class="card-assignee">Liang Han</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="hanliang" data-layer="trading" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-962/implement-polymarket-clob-and-data-api-tools-for-d0-cli-order" target="_blank" class="card-id">ENG-962</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">Implement Polymarket CLOB &amp; Data API Tools for d0-cli (Order Management + Positions)</div>
+      <div class="card-foot">
+        <span class="card-assignee">Liang Han</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#a78bfa;--layer-bg:rgba(167,139,250,.08)">
+        <div class="person-head">
+          <span class="person-name">Jiagui</span>
+          <span class="person-layer" style="color:#a78bfa">🏗 基础设施 Infra</span>
+          <span class="person-count">0 active · 2 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="jiagui" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1043/d0-bot-监控signoz-告警规则-healthd0-心跳端点" target="_blank" class="card-id">ENG-1043</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">D0 Bot 监控：SigNoz 告警规则 + /health/d0 心跳端点</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jiagui</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card done" data-assignee="jiagui" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-806/browser-research" target="_blank" class="card-id">ENG-806</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">browser research</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jiagui</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#ef4444;--layer-bg:rgba(239,68,68,.08)">
+        <div class="person-head">
+          <span class="person-name">Alex</span>
+          <span class="person-layer" style="color:#ef4444">📊 交易层 Trading</span>
+          <span class="person-count">2 active · 0 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card active" data-assignee="alex" data-layer="trading" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1127/position-tpsl-多空不平-流水断裂-死锁风险分析报告-featureadd-tpsl" target="_blank" class="card-id">ENG-1127</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">[Position TPSL] 多空不平 / 流水断裂 / 死锁风险分析报告 — feature/add_tpsl</div>
+      <div class="card-foot">
+        <span class="card-assignee">Alex</span>
+        <span class="card-state" style="color:#f59e0b">In Progress</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="alex" data-layer="trading" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-967/d0-cli-gh85-功能改进-平仓后自动取消对应token的止盈止损订单-perps-auto-cleanup-005" target="_blank" class="card-id">ENG-967</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">[d0-cli] GH#85: 💡 功能改进: 平仓后自动取消对应token的止盈止损订单 (PERPS-AUTO-CLEANUP-005)</div>
+      <div class="card-foot">
+        <span class="card-assignee">Alex</span>
+        <span class="card-state" style="color:#f59e0b">In Progress</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#a78bfa;--layer-bg:rgba(167,139,250,.08)">
+        <div class="person-head">
+          <span class="person-name">⚠ Unassigned</span>
+          <span class="person-layer" style="color:#a78bfa">🏗 基础设施 Infra</span>
+          <span class="person-count">1 active · 1 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="unassigned" data-layer="infra" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1095/docsd0-openclaw-dashboard-服务运维信息及重启恢复记录" target="_blank" class="card-id">ENG-1095</a>
+        <span class="card-priority p-low">🟢</span>
+      </div>
+      <div class="card-title">docs(d0): openclaw-dashboard 服务运维信息及重启恢复记录</div>
+      <div class="card-foot">
+        <span class="card-assignee">⚠ Unassigned</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+    <div class="card active" data-assignee="unassigned" data-layer="infra" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-861/p0-生产服务全单副本-添加多副本-pdb" target="_blank" class="card-id">ENG-861</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">[P0] 生产服务全单副本 — 添加多副本 + PDB</div>
+      <div class="card-foot">
+        <span class="card-assignee">⚠ Unassigned</span>
+        <span class="card-state" style="color:#f59e0b">In Progress</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#d4a73a;--layer-bg:rgba(212,167,58,.08)">
+        <div class="person-head">
+          <span class="person-name">Jin Xu</span>
+          <span class="person-layer" style="color:#d4a73a">🧠 AI / Intelligence</span>
+          <span class="person-count">0 active · 1 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="xujin" data-layer="ai" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1110/d0-prompt-系统清理5-个结构性问题修复" target="_blank" class="card-id">ENG-1110</a>
+        <span class="card-priority p-high">🟠</span>
+      </div>
+      <div class="card-title">D0 Prompt 系统清理：5 个结构性问题修复</div>
+      <div class="card-foot">
+        <span class="card-assignee">Jin Xu</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#14b8a6;--layer-bg:rgba(20,184,166,.08)">
+        <div class="person-head">
+          <span class="person-name">Ye Zou</span>
+          <span class="person-layer" style="color:#14b8a6">✨ 体验层 Experience</span>
+          <span class="person-count">0 active · 1 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="zouye" data-layer="experience" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-1011/llm-token-用量配额按用户账户限制与会员权益挂钩" target="_blank" class="card-id">ENG-1011</a>
+        <span class="card-priority p-urgent">🔴</span>
+      </div>
+      <div class="card-title">LLM Token 用量配额：按用户账户限制，与会员权益挂钩</div>
+      <div class="card-foot">
+        <span class="card-assignee">Ye Zou</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#d4a73a;--layer-bg:rgba(212,167,58,.08)">
+        <div class="person-head">
+          <span class="person-name">Fei</span>
+          <span class="person-layer" style="color:#d4a73a">🧠 AI / Intelligence</span>
+          <span class="person-count">1 active · 0 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card active" data-assignee="fei" data-layer="ai" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-853/eval001-atomandinvariant-level-evaluation" target="_blank" class="card-id">ENG-853</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">[Eval001] Atom&amp;Invariant Level Evaluation</div>
+      <div class="card-foot">
+        <span class="card-assignee">Fei</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#d4a73a;--layer-bg:rgba(212,167,58,.08)">
+        <div class="person-head">
+          <span class="person-name">JackJun</span>
+          <span class="person-layer" style="color:#d4a73a">🧠 AI / Intelligence</span>
+          <span class="person-count">1 active · 0 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card active" data-assignee="jackjun" data-layer="ai" data-state="started">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-824/add-birdeye-ohlcv-fallback-to-hummingbot-api-market-data-endpoints" target="_blank" class="card-id">ENG-824</a>
+        <span class="card-priority p-medium">🟡</span>
+      </div>
+      <div class="card-title">Add Birdeye OHLCV fallback to hummingbot-api market data endpoints</div>
+      <div class="card-foot">
+        <span class="card-assignee">JackJun</span>
+        <span class="card-state" style="color:#f59e0b">In Review</span>
+      </div>
+    </div>
+        </div>
+      </div>
+      <div class="person-section" style="--layer-color:#d4a73a;--layer-bg:rgba(212,167,58,.08)">
+        <div class="person-head">
+          <span class="person-name">Tao</span>
+          <span class="person-layer" style="color:#d4a73a">🧠 AI / Intelligence</span>
+          <span class="person-count">0 active · 1 done</span>
+        </div>
+        <div class="card-grid">
+          
+    <div class="card done" data-assignee="tao" data-layer="ai" data-state="completed">
+      <div class="card-head">
+        <a href="https://linear.app/donutbrowser/issue/ENG-827/collect-more-user-scenarios-and-related-data-sources" target="_blank" class="card-id">ENG-827</a>
+        <span class="card-priority p-none">⚪</span>
+      </div>
+      <div class="card-title">Collect more user scenarios and related data sources</div>
+      <div class="card-foot">
+        <span class="card-assignee">Tao</span>
+        <span class="card-state" style="color:#22c55e">✓ Done</span>
+      </div>
+    </div>
+        </div>
+      </div>
+</div>
+
+<div class="footer">
+  Auto-generated from <a href="https://linear.app/donutbrowser">Linear</a> active cycles · Updated every 6h via GitHub Actions
 </div>
 
 </div>
+
 <script>
-const SAVE_KEY='d0-org-v5';const VER_KEY='d0-org-v5-vers';let saveTimer;
-function save(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{localStorage.setItem(SAVE_KEY,document.querySelector('.page').innerHTML);const i=document.getElementById('saveInd');if(i){i.textContent='✓ saved';i.classList.add('show');setTimeout(()=>i.classList.remove('show'),1500)}},500)}
-document.addEventListener('input',e=>{if(e.target.closest('[contenteditable]'))save()});
-function getVersions(){try{return JSON.parse(localStorage.getItem(VER_KEY)||'[]')}catch{return[]}}
-function saveVersion(){const n=prompt('版本名称:','v'+(getVersions().length+1)+' — '+new Date().toLocaleDateString('zh-CN'));if(!n)return;const v=getVersions();v.push({name:n,ts:new Date().toISOString(),html:document.querySelector('.page').innerHTML});localStorage.setItem(VER_KEY,JSON.stringify(v));const i=document.getElementById('saveInd');if(i){i.textContent='✓ '+n;i.classList.add('show');setTimeout(()=>i.classList.remove('show'),2500)}updateVersionList()}
-function loadVersion(idx){const v=getVersions();if(v[idx]&&confirm('加载「'+v[idx].name+'」?')){document.querySelector('.page').innerHTML=v[idx].html;save();updateVersionList()}}
-function updateVersionList(){const el=document.getElementById('verList');if(!el)return;const v=getVersions();el.innerHTML=v.length?v.map((x,i)=>'<button class="btn" style="font-size:.58rem" onclick="loadVersion('+i+')">'+x.name+'</button>').join(''):''}
-function exportHTML(){const n=prompt('文件名:','d0-org-'+new Date().toISOString().slice(0,10));if(!n)return;const b=new Blob(['<!DOCTYPE html>'+document.documentElement.outerHTML],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n+'.html';a.click()}
-function resetData(){if(confirm('重置?')){localStorage.removeItem(SAVE_KEY);location.reload()}}
-(function(){const s=localStorage.getItem(SAVE_KEY);if(s)document.querySelector('.page').innerHTML=s;updateVersionList()})();
+function switchView(view) {
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#view-layer,#view-person').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function filterState(filter) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    const state = card.dataset.state;
+    if (filter === 'all') card.style.display = '';
+    else if (filter === 'active') card.style.display = ['completed','canceled'].includes(state) ? 'none' : '';
+    else if (filter === 'done') card.style.display = state === 'completed' ? '' : 'none';
+  });
+}
 </script>
 </body>
 </html>
