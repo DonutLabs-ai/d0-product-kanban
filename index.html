@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D0 Product Dashboard — v8.1</title>
+<title>D0 Product Dashboard — v8.2</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── Design System Tokens ──────────────────────────────── */
@@ -62,111 +62,27 @@ a:hover { text-decoration: underline; }
 [contenteditable]:focus { background: rgba(59,130,246,.08); box-shadow: 0 0 0 1px var(--info) }
 
 /* ── Header ────────────────────────────────────────────── */
-.header {
-  text-align: center;
-  padding: var(--space-6) 0 var(--space-3);
-}
-.header h1 {
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-.header .subtitle {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--fg-subtle);
-  margin-top: var(--space-2);
-  letter-spacing: 0.02em;
-}
-.header .cycle-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-3);
-  padding: var(--space-1) var(--space-4);
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: 100px;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--fg-muted);
-}
-.cycle-badge .pulse {
-  width: 6px; height: 6px;
-  background: var(--success);
-  border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
-}
+.header { text-align: center; padding: var(--space-6) 0 var(--space-3) }
+.header h1 { font-family: var(--font-display); font-size: 2.5rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1 }
+.header .subtitle { font-family: var(--font-mono); font-size: 0.72rem; color: var(--fg-subtle); margin-top: var(--space-2); letter-spacing: 0.02em }
+.header .cycle-badge { display: inline-flex; align-items: center; gap: var(--space-2); margin-top: var(--space-3); padding: var(--space-1) var(--space-4); background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: 100px; font-family: var(--font-mono); font-size: 0.68rem; color: var(--fg-muted) }
+.cycle-badge .pulse { width: 6px; height: 6px; background: var(--success); border-radius: 50%; animation: pulse 2s ease-in-out infinite }
 @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .4 } }
 
 /* ── Top Tab Navigation ───────────────────────────────── */
-.tab-bar {
-  display: flex;
-  gap: 1px;
-  background: var(--border-base);
-  border-radius: 100px;
-  overflow: hidden;
-  margin: var(--space-4) 0 var(--space-4);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 20px rgba(0,0,0,.3);
-}
-.tab-btn {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: var(--space-2) var(--space-4);
-  background: var(--bg-subtle);
-  color: var(--fg-muted);
-  border: none;
-  cursor: pointer;
-  transition: all var(--duration-fast);
-  white-space: nowrap;
-  flex: 1;
-  text-align: center;
-}
+.tab-bar { display: flex; gap: 1px; background: var(--border-base); border-radius: 100px; overflow: hidden; margin: var(--space-4) 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,.3) }
+.tab-btn { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; padding: var(--space-2) var(--space-4); background: var(--bg-subtle); color: var(--fg-muted); border: none; cursor: pointer; transition: all var(--duration-fast); white-space: nowrap; flex: 1; text-align: center }
 .tab-btn:hover { color: var(--fg-base); background: var(--bg-muted) }
 .tab-btn.active { color: var(--fg-base); background: var(--bg-muted); font-weight: 600 }
-@media (max-width: 800px) {
-  .tab-bar { border-radius: var(--radius-md); flex-wrap: wrap; }
-  .tab-btn { flex: none; padding: var(--space-2) var(--space-3); font-size: 0.68rem }
-}
+@media (max-width: 800px) { .tab-bar { border-radius: var(--radius-md); flex-wrap: wrap } .tab-btn { flex: none; padding: var(--space-2) var(--space-3); font-size: 0.68rem } }
 
-/* ── Toolbar (save/export) ─────────────────────────────── */
-.toolbar {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  margin-bottom: var(--space-4);
-  padding: var(--space-2) 0;
-}
-.btn {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  padding: var(--space-1) var(--space-3);
-  border-radius: 100px;
-  border: 1px solid var(--border-base);
-  background: var(--bg-subtle);
-  color: var(--fg-muted);
-  cursor: pointer;
-  transition: all var(--duration-normal);
-  white-space: nowrap;
-}
+/* ── Toolbar ─────────────────────────────────────────────── */
+.toolbar { display: flex; align-items: center; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; margin-bottom: var(--space-4); padding: var(--space-2) 0 }
+.btn { font-family: var(--font-mono); font-size: 0.64rem; padding: var(--space-1) var(--space-3); border-radius: 100px; border: 1px solid var(--border-base); background: var(--bg-subtle); color: var(--fg-muted); cursor: pointer; transition: all var(--duration-normal); white-space: nowrap }
 .btn:hover { border-color: var(--border-emphasis); color: var(--fg-base) }
 .btn.primary { background: rgba(59,130,246,.1); color: var(--info); border-color: rgba(59,130,246,.3) }
 .btn.danger { color: var(--error) }
-.save-ind {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  color: var(--success);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
+.save-ind { font-family: var(--font-mono); font-size: 0.58rem; color: var(--success); opacity: 0; transition: opacity 0.3s }
 .save-ind.show { opacity: 1 }
 #verList { display: flex; flex-wrap: wrap; gap: var(--space-2); padding: var(--space-1) 0 }
 
@@ -174,1003 +90,298 @@ a:hover { text-decoration: underline; }
 .tab-panel { display: none }
 .tab-panel.active { display: block; animation: fadeUp 0.3s var(--ease-out) both }
 
-/* ══════════════════════════════════════════════════════════
-   SPRINT BOARD STYLES
-   ══════════════════════════════════════════════════════════ */
-.stats {
-  display: flex;
-  gap: var(--space-3);
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: var(--space-4) 0 var(--space-6);
-}
-.stat {
-  text-align: center;
-  padding: var(--space-3) var(--space-6);
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-lg);
-  min-width: 110px;
-  transition: border-color var(--duration-normal) var(--ease-out);
-}
+/* ══ SPRINT BOARD STYLES ═══════════════════════════════ */
+.stats { display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap; margin: var(--space-4) 0 var(--space-6) }
+.stat { text-align: center; padding: var(--space-3) var(--space-6); background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-lg); min-width: 110px; transition: border-color var(--duration-normal) var(--ease-out) }
 .stat:hover { border-color: var(--border-emphasis) }
-.stat .num {
-  font-family: var(--font-mono);
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
-}
-.stat .label {
-  font-size: 0.68rem;
-  color: var(--fg-subtle);
-  margin-top: var(--space-1);
-}
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-6);
-  flex-wrap: wrap;
-}
-.ctrl-group {
-  display: flex;
-  gap: 1px;
-  background: var(--border-base);
-  border-radius: 100px;
-  overflow: hidden;
-}
-.ctrl-btn {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: var(--space-2) var(--space-4);
-  background: var(--bg-subtle);
-  color: var(--fg-muted);
-  border: none;
-  cursor: pointer;
-  transition: all var(--duration-fast);
-  white-space: nowrap;
-}
+.stat .num { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; line-height: 1 }
+.stat .label { font-size: 0.68rem; color: var(--fg-subtle); margin-top: var(--space-1) }
+.controls { display: flex; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-6); flex-wrap: wrap }
+.ctrl-group { display: flex; gap: 1px; background: var(--border-base); border-radius: 100px; overflow: hidden }
+.ctrl-btn { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; padding: var(--space-2) var(--space-4); background: var(--bg-subtle); color: var(--fg-muted); border: none; cursor: pointer; transition: all var(--duration-fast); white-space: nowrap }
 .ctrl-btn:hover { color: var(--fg-base); background: var(--bg-muted) }
 .ctrl-btn.active { color: var(--fg-base); background: var(--bg-muted) }
 
 /* Section (person view) */
-.section {
-  margin-bottom: var(--space-8);
-  animation: fadeUp 0.4s var(--ease-out) both;
-}
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-3) 0;
-  border-bottom: 1px solid var(--border-base);
-  margin-bottom: var(--space-3);
-}
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
+.section { margin-bottom: var(--space-8); animation: fadeUp 0.4s var(--ease-out) both }
+.section-head { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3) 0; border-bottom: 1px solid var(--border-base); margin-bottom: var(--space-3) }
+.section-title { display: flex; align-items: center; gap: var(--space-3) }
 .section-icon { font-size: 1.2rem }
-.section-name {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 400;
-}
-.section-sub {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--fg-subtle);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.section-meta {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--fg-subtle);
-}
+.section-name { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400 }
+.section-sub { font-family: var(--font-mono); font-size: 0.65rem; color: var(--fg-subtle); text-transform: uppercase; letter-spacing: 0.05em }
+.section-meta { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-mono); font-size: 0.65rem; color: var(--fg-subtle) }
 .meta-sep { opacity: 0.3 }
-.person-avatar {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--accent, var(--bg-muted));
-  color: var(--bg-base);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.72rem; font-weight: 600; flex-shrink: 0;
-}
-.progress-bar {
-  height: 2px;
-  background: var(--bg-muted);
-  border-radius: 1px;
-  display: flex;
-  overflow: hidden;
-  margin-bottom: var(--space-4);
-}
+.person-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--accent, var(--bg-muted)); color: var(--bg-base); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 600; flex-shrink: 0 }
+.progress-bar { height: 2px; background: var(--bg-muted); border-radius: 1px; display: flex; overflow: hidden; margin-bottom: var(--space-4) }
 .progress-done { background: var(--success); transition: width 0.6s var(--ease-out) }
 .progress-active { background: var(--warning); transition: width 0.6s var(--ease-out) }
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-3);
-}
-.card {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-  transition: all var(--duration-normal) var(--ease-out);
-  position: relative;
-}
-.card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--accent, var(--fg-faint));
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
-  opacity: 0.6;
-}
-.card:hover {
-  border-color: var(--border-emphasis);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(0,0,0,.15);
-}
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-3) }
+.card { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); transition: all var(--duration-normal) var(--ease-out); position: relative }
+.card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent, var(--fg-faint)); border-radius: var(--radius-md) 0 0 var(--radius-md); opacity: 0.6 }
+.card:hover { border-color: var(--border-emphasis); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,.15) }
 .card.done { opacity: 0.5 }
 .card.done:hover { opacity: 0.7 }
 .card.cancel { opacity: 0.3 }
 .card.filtered-out { display: none }
-.card-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-1);
-}
-.card-id {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--fg-subtle);
-  text-decoration: none;
-  transition: color var(--duration-fast);
-}
+.card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-1) }
+.card-id { font-family: var(--font-mono); font-size: 0.65rem; color: var(--fg-subtle); text-decoration: none; transition: color var(--duration-fast) }
 .card-id:hover { color: var(--fg-base) }
-.priority-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.card-title {
-  font-size: 0.82rem;
-  font-weight: 500;
-  line-height: 1.4;
-  margin-bottom: var(--space-2);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.card-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-}
-.card-assignee {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: var(--fg-subtle);
-  background: var(--bg-muted);
-  padding: 2px var(--space-2);
-  border-radius: 100px;
-}
-.card-state {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 500;
-  color: var(--state-color, var(--fg-subtle));
-}
-.card-team-badge {
-  font-family: var(--font-mono);
-  font-size: 0.52rem;
-  padding: 1px 5px;
-  border-radius: 3px;
-  margin-left: var(--space-1);
-}
+.priority-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0 }
+.card-title { font-size: 0.82rem; font-weight: 500; line-height: 1.4; margin-bottom: var(--space-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden }
+.card-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2) }
+.card-assignee { font-family: var(--font-mono); font-size: 0.62rem; color: var(--fg-subtle); background: var(--bg-muted); padding: 2px var(--space-2); border-radius: 100px }
+.card-state { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 500; color: var(--state-color, var(--fg-subtle)) }
+.card-team-badge { font-family: var(--font-mono); font-size: 0.52rem; padding: 1px 5px; border-radius: 3px; margin-left: var(--space-1) }
 .card-team-badge.eng { background: rgba(20,184,166,.1); color: var(--teal) }
 .card-team-badge.product { background: rgba(167,139,250,.1); color: var(--purple) }
-.card-custom-del {
-  position: absolute;
-  top: 6px; right: 8px;
-  background: none; border: none;
-  color: var(--fg-subtle); cursor: pointer;
-  font-size: 0.65rem; opacity: 0;
-  transition: opacity 0.15s;
-  width: 16px; height: 16px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-}
+.card-custom-del { position: absolute; top: 6px; right: 8px; background: none; border: none; color: var(--fg-subtle); cursor: pointer; font-size: 0.65rem; opacity: 0; transition: opacity 0.15s; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 50% }
 .card:hover .card-custom-del { opacity: .5 }
 .card-custom-del:hover { opacity: 1 !important; color: var(--error); background: rgba(239,68,68,.1) }
-.empty-state {
-  text-align: center;
-  padding: var(--space-8) var(--space-4);
-  color: var(--fg-faint);
-  font-size: 0.82rem;
-  font-style: italic;
-}
+.empty-state { text-align: center; padding: var(--space-8) var(--space-4); color: var(--fg-faint); font-size: 0.82rem; font-style: italic }
 #view-layer, #view-person { display: none }
 #view-layer.active, #view-person.active { display: block }
 
-/* ── Module Section (v8.1) ─────────────────────────────── */
-.module-section {
-  margin-bottom: var(--space-4);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-.module-header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  background: var(--bg-subtle);
-  cursor: pointer;
-  user-select: none;
-  transition: background var(--duration-normal);
-}
+/* ── Module Section (kept for person view grouping) ──── */
+.module-section { margin-bottom: var(--space-4); border: 1px solid var(--border-base); border-radius: var(--radius-lg); overflow: hidden }
+.module-header { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--bg-subtle); cursor: pointer; user-select: none; transition: background var(--duration-normal) }
 .module-header:hover { background: var(--bg-muted) }
 .module-header .module-icon { font-size: 1.2rem }
 .module-header .module-name { font-weight: 600; color: var(--fg-base); flex: 1 }
-.module-header .module-count {
-  font-size: 0.75rem;
-  padding: 2px 8px;
-  background: var(--bg-muted);
-  border-radius: 99px;
-  color: var(--fg-muted);
-  font-family: var(--font-mono);
-}
-.module-header .module-meta {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--fg-subtle);
-}
-.module-header .chevron {
-  color: var(--fg-muted);
-  transition: transform var(--duration-normal);
-  font-size: 0.8rem;
-}
+.module-header .module-count { font-size: 0.75rem; padding: 2px 8px; background: var(--bg-muted); border-radius: 99px; color: var(--fg-muted); font-family: var(--font-mono) }
+.module-header .module-meta { font-family: var(--font-mono); font-size: 0.6rem; color: var(--fg-subtle) }
+.module-header .chevron { color: var(--fg-muted); transition: transform var(--duration-normal); font-size: 0.8rem }
 .module-section.collapsed .chevron { transform: rotate(-90deg) }
 .module-section.collapsed .module-body { display: none }
 .module-body { padding: var(--space-3) }
 
-/* ── Delivery Pipeline (v8.1) ──────────────────────────── */
-.delivery-pipeline {
-  display: flex;
-  gap: 2px;
-  margin: var(--space-2) 0;
-  font-size: 0.6rem;
-}
-.pipeline-step {
-  flex: 1;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--bg-emphasis);
-  transition: background var(--duration-normal);
-}
+/* ── Delivery Pipeline ─────────────────────────────────── */
+.delivery-pipeline { display: flex; gap: 2px; margin: var(--space-2) 0; font-size: 0.6rem }
+.pipeline-step { flex: 1; height: 3px; border-radius: 2px; background: var(--bg-emphasis); transition: background var(--duration-normal) }
 .pipeline-step.reached { background: var(--success) }
 .pipeline-step.current { background: var(--warning) }
 
-/* ══════════════════════════════════════════════════════════
-   ORG CHART STYLES
-   ══════════════════════════════════════════════════════════ */
+/* ══ PRODUCT TREE (v8.2 — Nested <details>) ════════════ */
+.ptree { margin: var(--space-4) 0 }
+.ptree-node { margin-left: 0; border: none; background: none }
+.ptree-node.level-1 { margin-left: var(--space-6) }
+.ptree-node.level-2 { margin-left: calc(var(--space-6) * 2) }
+.ptree-label { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); cursor: pointer; user-select: none; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--fg-base) }
+.ptree-label:hover { background: var(--bg-muted) }
+.ptree-icon { font-size: 1.1rem }
+.ptree-name { font-weight: 600 }
+.ptree-repo { font-size: 0.7rem; font-family: var(--font-mono); color: var(--fg-subtle); background: var(--bg-muted); padding: 1px 6px; border-radius: var(--radius-sm) }
+.ptree-owners { font-size: 0.65rem; font-family: var(--font-mono); color: var(--fg-subtle) }
+.ptree-count { font-size: 0.7rem; color: var(--fg-muted); margin-left: auto; font-family: var(--font-mono) }
+.ptree-children { padding: var(--space-1) 0 }
+.ptree-node > summary { list-style: none }
+.ptree-node > summary::-webkit-details-marker { display: none }
+.ptree-node > summary::before { content: '▸'; display: inline-block; width: 1em; transition: transform 0.15s; color: var(--fg-subtle); margin-right: var(--space-1) }
+.ptree-node[open] > summary::before { transform: rotate(90deg) }
+.ptree-issues { padding: var(--space-2) 0 var(--space-2) var(--space-6) }
+
+/* ══ ORG CHART STYLES ══════════════════════════════════ */
 .ceo { text-align: center; margin: var(--space-4) 0 var(--space-2) }
-.ceo-card {
-  display: inline-block;
-  background: linear-gradient(135deg, var(--bg-subtle), var(--bg-muted));
-  border: 1.5px solid rgba(59,130,246,.3);
-  border-radius: var(--radius-lg);
-  padding: var(--space-3) var(--space-8);
-  text-align: center;
-}
+.ceo-card { display: inline-block; background: linear-gradient(135deg, var(--bg-subtle), var(--bg-muted)); border: 1.5px solid rgba(59,130,246,.3); border-radius: var(--radius-lg); padding: var(--space-3) var(--space-8); text-align: center }
 .ceo-card .name { font-family: var(--font-display); font-size: 1.15rem }
 .ceo-card .role { font-family: var(--font-mono); font-size: 0.64rem; color: var(--info) }
 .ceo-card a { font-family: var(--font-mono); font-size: 0.6rem }
 .vline { width: 1px; height: 1rem; background: var(--border-base); margin: 0 auto }
-.divisions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-  margin-top: var(--space-2);
-}
+.divisions { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-top: var(--space-2) }
 @media(max-width:1100px) { .divisions { grid-template-columns: repeat(2,1fr) } }
 @media(max-width:700px) { .divisions { grid-template-columns: 1fr } }
-.division {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
+.division { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); overflow: hidden }
 .division.engineering { grid-column: span 2; grid-row: span 2 }
 @media(max-width:700px) { .division.engineering { grid-column: 1; grid-row: auto } }
-.div-head {
-  padding: var(--space-2) var(--space-3);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  border-bottom: 1px solid var(--border-base);
-  background: var(--bg-muted);
-}
+.div-head { padding: var(--space-2) var(--space-3); display: flex; align-items: center; gap: var(--space-2); border-bottom: 1px solid var(--border-base); background: var(--bg-muted) }
 .dh-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0 }
-.dh-name {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.dh-count {
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  color: var(--fg-subtle);
-  margin-left: auto;
-  background: var(--bg-base);
-  padding: 0.08rem 0.3rem;
-  border-radius: 100px;
-}
-.sub-teams {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-}
+.dh-name { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em }
+.dh-count { font-family: var(--font-mono); font-size: 0.55rem; color: var(--fg-subtle); margin-left: auto; background: var(--bg-base); padding: 0.08rem 0.3rem; border-radius: 100px }
+.sub-teams { display: grid; grid-template-columns: 1fr 1fr; gap: 0 }
 @media(max-width:700px) { .sub-teams { grid-template-columns: 1fr } }
-.sub-team {
-  border-right: 1px solid var(--border-base);
-  border-bottom: 1px solid var(--border-base);
-  padding: var(--space-2) var(--space-3);
-}
+.sub-team { border-right: 1px solid var(--border-base); border-bottom: 1px solid var(--border-base); padding: var(--space-2) var(--space-3) }
 .sub-team:nth-child(even) { border-right: none }
 .sub-team:nth-last-child(-n+2) { border-bottom: none }
 @media(max-width:700px) { .sub-team { border-right: none } }
-.st-head {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 600;
-  color: var(--fg-muted);
-  margin-bottom: var(--space-1);
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-}
+.st-head { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; color: var(--fg-muted); margin-bottom: var(--space-1); display: flex; align-items: center; gap: var(--space-1) }
 .st-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0 }
-.st-label {
-  padding: 0.06rem 0.25rem;
-  border-radius: 3px;
-  font-size: 0.52rem;
-  font-weight: 400;
-  color: var(--fg-subtle);
-  background: var(--bg-muted);
-}
+.st-label { padding: 0.06rem 0.25rem; border-radius: 3px; font-size: 0.52rem; font-weight: 400; color: var(--fg-subtle); background: var(--bg-muted) }
 .div-body { padding: var(--space-2) var(--space-3) }
-.person {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  padding: var(--space-1) 0;
-  border-bottom: 1px solid rgba(255,255,255,.02);
-  flex-wrap: wrap;
-}
+.person { display: flex; align-items: baseline; gap: var(--space-2); padding: var(--space-1) 0; border-bottom: 1px solid rgba(255,255,255,.02); flex-wrap: wrap }
 .person:last-child { border-bottom: none }
 .person .p-name { font-size: 0.78rem; font-weight: 600; white-space: nowrap }
 .person .p-role { font-size: 0.68rem; color: var(--fg-muted); flex: 1; min-width: 80px }
 .person .p-link { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.6rem }
-.p-tag {
-  font-family: var(--font-mono);
-  font-size: 0.52rem;
-  padding: 0.05rem 0.25rem;
-  border-radius: 100px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
+.p-tag { font-family: var(--font-mono); font-size: 0.52rem; padding: 0.05rem 0.25rem; border-radius: 100px; white-space: nowrap; flex-shrink: 0 }
 .p-tag.lead { background: rgba(59,130,246,.1); color: var(--info) }
 .p-tag.xfn { background: rgba(20,184,166,.1); color: var(--teal); border: 1px dashed rgba(20,184,166,.3) }
-.xfn-note {
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  color: var(--teal);
-  background: rgba(20,184,166,.08);
-  padding: 0.15rem 0.4rem;
-  border-radius: 3px;
-  margin: 0.2rem 0 0.05rem;
-  border-left: 2px solid var(--teal);
-}
+.xfn-note { font-family: var(--font-mono); font-size: 0.55rem; color: var(--teal); background: rgba(20,184,166,.08); padding: 0.15rem 0.4rem; border-radius: 3px; margin: 0.2rem 0 0.05rem; border-left: 2px solid var(--teal) }
 
-/* ══════════════════════════════════════════════════════════
-   PRODUCT TREE STYLES
-   ══════════════════════════════════════════════════════════ */
-.sec {
-  margin: var(--space-8) 0 0;
-}
-.sec-head {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-3);
-  padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--border-base);
-}
-.sec-num {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: var(--info);
-  background: rgba(59,130,246,.1);
-  padding: 0.12rem 0.45rem;
-  border-radius: 4px;
-  letter-spacing: 0.1em;
-}
-.sec-head h2 {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 400;
-}
-.hint {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  color: var(--fg-faint);
-  font-style: italic;
-  margin-bottom: var(--space-2);
-}
-.tree { padding: var(--space-2) 0 }
-.tree ul { list-style: none; padding-left: 0 }
-.tree > ul > li { position: relative; padding-left: 0 }
-.tree li { position: relative; padding: 0.15rem 0 0.15rem 1.8rem }
-.tree li::before { content: ''; position: absolute; left: 0.5rem; top: 0; bottom: 0; width: 1px; background: var(--border-base) }
-.tree li::after { content: ''; position: absolute; left: 0.5rem; top: 0.85rem; width: 1rem; height: 1px; background: var(--border-base) }
-.tree > ul > li::before, .tree > ul > li::after { display: none }
-.t-root {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  padding: var(--space-2) var(--space-3);
-  background: var(--bg-subtle);
-  border: 1px solid rgba(59,130,246,.3);
-  border-radius: var(--radius-sm);
-  display: inline-block;
-  margin-bottom: var(--space-2);
-}
-.t-layer {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: 5px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0.1rem 0;
-}
-.t-layer .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0 }
-.t-owner {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  padding: 0.08rem 0.4rem;
-  border-radius: 100px;
-  margin-left: 0.25rem;
-}
-.t-owner.assigned { background: rgba(34,197,94,.1); color: var(--success) }
-.t-owner.gap { background: rgba(239,68,68,.1); color: var(--error) }
-.t-owner.new { background: rgba(59,130,246,.1); color: var(--info) }
-.t-module { font-size: 0.76rem; color: var(--fg-muted) }
-.t-module strong { color: var(--fg-base); font-weight: 600 }
-.t-person { font-family: var(--font-mono); font-size: 0.62rem; color: var(--fg-subtle) }
-.t-linear {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--info);
-  background: rgba(59,130,246,.1);
-  padding: 0.06rem 0.3rem;
-  border-radius: 3px;
-  margin-left: 0.2rem;
-  text-decoration: none;
-}
-.t-risk {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--error);
-  background: rgba(239,68,68,.1);
-  padding: 0.06rem 0.3rem;
-  border-radius: 3px;
-  margin-left: 0.2rem;
-}
-.t-done {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--success);
-  background: rgba(34,197,94,.1);
-  padding: 0.06rem 0.3rem;
-  border-radius: 3px;
-  margin-left: 0.2rem;
-}
+/* ══ PRODUCT PANORAMA STYLES (v8.2) ════════════════════ */
+.sec { margin: var(--space-8) 0 0 }
+.sec-head { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--border-base) }
+.sec-num { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700; color: var(--info); background: rgba(59,130,246,.1); padding: 0.12rem 0.45rem; border-radius: 4px; letter-spacing: 0.1em }
+.sec-head h2 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 400 }
+.hint { font-family: var(--font-mono); font-size: 0.58rem; color: var(--fg-faint); font-style: italic; margin-bottom: var(--space-2) }
 
-/* ══════════════════════════════════════════════════════════
-   KANBAN STYLES
-   ══════════════════════════════════════════════════════════ */
-.kanban {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: var(--space-3);
-  margin: var(--space-3) 0;
-  overflow-x: auto;
-}
+.pano-category { margin-bottom: var(--space-4); border: 1px solid var(--border-base); border-radius: var(--radius-lg); overflow: hidden }
+.pano-cat-head { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--bg-subtle); cursor: pointer; user-select: none }
+.pano-cat-head:hover { background: var(--bg-muted) }
+.pano-cat-head .pano-icon { font-size: 1.2rem }
+.pano-cat-head .pano-name { font-weight: 700; font-size: 0.95rem }
+.pano-cat-head .pano-chevron { color: var(--fg-muted); transition: transform var(--duration-normal); font-size: 0.8rem; margin-left: auto }
+.pano-category:not([open]) .pano-chevron { transform: rotate(-90deg) }
+.pano-cat-body { padding: var(--space-2) }
+.pano-module { background: var(--bg-muted); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); margin-bottom: var(--space-2); display: grid; grid-template-columns: 1fr auto; gap: var(--space-2); align-items: start }
+.pano-module:last-child { margin-bottom: 0 }
+.pano-mod-name { font-weight: 600; font-size: 0.85rem }
+.pano-mod-owner { font-family: var(--font-mono); font-size: 0.65rem; color: var(--fg-subtle) }
+.pano-mod-desc { font-size: 0.72rem; color: var(--fg-muted); margin-top: var(--space-1) }
+.pano-mod-stats { text-align: right; font-family: var(--font-mono); font-size: 0.6rem; color: var(--fg-subtle); white-space: nowrap }
+
+/* ══ KANBAN STYLES ═════════════════════════════════════ */
+.kanban { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-3); margin: var(--space-3) 0; overflow-x: auto }
 @media(max-width:1200px) { .kanban { grid-template-columns: repeat(3,1fr) } }
 @media(max-width:800px) { .kanban { grid-template-columns: 1fr 1fr } }
-.k-col {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-md);
-  min-width: 190px;
-  display: flex;
-  flex-direction: column;
-}
-.k-header {
-  padding: var(--space-2) var(--space-3);
-  border-bottom: 1px solid var(--border-base);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
+.k-col { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); min-width: 190px; display: flex; flex-direction: column }
+.k-header { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border-base); display: flex; align-items: center; gap: var(--space-2) }
 .k-header .k-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0 }
-.k-header .k-title {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
+.k-header .k-title { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em }
 .k-header .k-owner { font-family: var(--font-mono); font-size: 0.6rem; color: var(--fg-subtle); margin-left: auto }
 .k-body { padding: var(--space-2); flex: 1; min-height: 50px }
-.k-card {
-  background: var(--bg-muted);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-sm);
-  padding: var(--space-2) var(--space-3);
-  margin-bottom: var(--space-2);
-  position: relative;
-  transition: border-color var(--duration-normal);
-  cursor: default;
-}
+.k-card { background: var(--bg-muted); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); margin-bottom: var(--space-2); position: relative; transition: border-color var(--duration-normal); cursor: default }
 .k-card:hover { border-color: var(--border-emphasis) }
 .k-card .kc-title { font-size: 0.74rem; font-weight: 600; margin-bottom: 0.1rem; padding-right: 1rem }
 .k-card .kc-people { font-family: var(--font-mono); font-size: 0.6rem; color: var(--fg-subtle) }
 .k-card .kc-link { font-family: var(--font-mono); font-size: 0.56rem; margin-top: 0.15rem }
 .k-card .kc-link a { color: var(--info) }
-.k-card .kc-status {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  padding: 0.06rem 0.25rem;
-  border-radius: 3px;
-  margin-top: 0.15rem;
-  cursor: pointer;
-  user-select: none;
-}
+.k-card .kc-status { display: inline-block; font-family: var(--font-mono); font-size: 0.55rem; padding: 0.06rem 0.25rem; border-radius: 3px; margin-top: 0.15rem; cursor: pointer; user-select: none }
 .kc-status.p0 { background: rgba(239,68,68,.1); color: var(--error) }
 .kc-status.active { background: rgba(245,158,11,.1); color: var(--warning) }
 .kc-status.done { background: rgba(34,197,94,.1); color: var(--success) }
 .kc-status.blocked { background: rgba(239,68,68,.1); color: var(--error) }
 .kc-status.gap { background: rgba(239,68,68,.08); color: var(--error); border: 1px dashed rgba(239,68,68,.25) }
-.k-card .card-del {
-  position: absolute;
-  top: 0.3rem; right: 0.35rem;
-  font-size: 0.65rem;
-  color: var(--fg-subtle);
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.15s;
-  width: 16px; height: 16px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-}
+.k-card .card-del { position: absolute; top: 0.3rem; right: 0.35rem; font-size: 0.65rem; color: var(--fg-subtle); cursor: pointer; opacity: 0; transition: opacity 0.15s; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 50% }
 .k-card:hover .card-del { opacity: .6 }
 .k-card .card-del:hover { opacity: 1; color: var(--error); background: rgba(239,68,68,.1) }
-.k-add {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  padding: var(--space-2);
-  margin: 0.15rem var(--space-2) var(--space-2);
-  border: 1px dashed var(--border-base);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--fg-subtle);
-  cursor: pointer;
-  transition: all var(--duration-normal);
-}
+.k-add { display: flex; align-items: center; justify-content: center; gap: 0.25rem; padding: var(--space-2); margin: 0.15rem var(--space-2) var(--space-2); border: 1px dashed var(--border-base); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.6rem; color: var(--fg-subtle); cursor: pointer; transition: all var(--duration-normal) }
 .k-add:hover { border-color: var(--info); color: var(--info); background: rgba(59,130,246,.05) }
 .k-card.dragging { opacity: .4; border: 1px dashed var(--info) }
 .k-col.drag-over { background: var(--bg-muted); border-color: var(--info) }
 
-/* ══════════════════════════════════════════════════════════
-   ENG OWNERSHIP STYLES
-   ══════════════════════════════════════════════════════════ */
-.eng-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-3);
-  margin: var(--space-3) 0;
-}
-.eng-card {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-md);
-  padding: var(--space-3);
-}
-.eng-card .ec-repo {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-bottom: var(--space-2);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-.eng-card .ec-stack {
-  font-size: 0.55rem;
-  color: var(--fg-subtle);
-  font-weight: 400;
-  padding: 0.06rem 0.3rem;
-  background: var(--bg-muted);
-  border-radius: 3px;
-}
-.eng-card .ec-owner { display: flex; flex-wrap: wrap; gap: 0.2rem; margin-bottom: var(--space-2) }
-.ec-tag {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  padding: 0.1rem 0.35rem;
-  border-radius: 100px;
-}
-.ec-tag.primary { background: rgba(59,130,246,.1); color: var(--info) }
-.ec-tag.secondary { background: var(--bg-muted); color: var(--fg-muted) }
-.eng-card .ec-scope { font-size: 0.72rem; color: var(--fg-muted); line-height: 1.4 }
-.eng-card .ec-risk { font-family: var(--font-mono); font-size: 0.62rem; color: var(--error); margin-top: var(--space-2) }
+/* ══ ENG SCOPE — REPO CATALOG (v8.2) ══════════════════ */
+.repo-group { margin-bottom: var(--space-6) }
+.repo-group-title { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--border-base); display: flex; align-items: center; gap: var(--space-2) }
+.repo-group-title .rg-icon { font-size: 1rem }
+.repo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-3) }
+.repo-card { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); transition: border-color var(--duration-normal); display: flex; flex-direction: column; gap: var(--space-2) }
+.repo-card:hover { border-color: var(--border-emphasis) }
+.repo-card .rc-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2) }
+.repo-card .rc-name { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600 }
+.repo-card .rc-link { font-family: var(--font-mono); font-size: 0.62rem; color: var(--info); white-space: nowrap }
+.repo-card .rc-desc { font-size: 0.72rem; color: var(--fg-muted) }
+.repo-card .rc-meta { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap }
+.rc-date { font-family: var(--font-mono); font-size: 0.6rem; padding: 2px 6px; border-radius: 100px }
+.rc-date.recent { background: rgba(34,197,94,.1); color: var(--success) }
+.rc-date.week { background: rgba(245,158,11,.1); color: var(--warning) }
+.rc-date.old { background: var(--bg-muted); color: var(--fg-subtle) }
+.rc-owner { font-family: var(--font-mono); font-size: 0.58rem; padding: 2px 6px; border-radius: 100px; background: rgba(59,130,246,.08); color: var(--info) }
 
-/* ══════════════════════════════════════════════════════════
-   RISK / PLAN / CHALLENGE STYLES
-   ══════════════════════════════════════════════════════════ */
+/* ══ RISK / PLAN / CHALLENGE STYLES ═══════════════════ */
 .risk-grid { display: grid; gap: var(--space-3); margin: var(--space-3) 0 }
-.risk-item {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-  display: grid;
-  grid-template-columns: 50px 1fr 1fr;
-  gap: var(--space-3);
-  align-items: start;
-}
+.risk-item { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); display: grid; grid-template-columns: 50px 1fr 1fr; gap: var(--space-3); align-items: start }
 @media(max-width:900px) { .risk-item { grid-template-columns: 50px 1fr } }
-.ri-sev {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  font-weight: 700;
-  padding: 0.12rem 0.35rem;
-  border-radius: 4px;
-  text-align: center;
-  white-space: nowrap;
-}
+.ri-sev { font-family: var(--font-mono); font-size: 0.58rem; font-weight: 700; padding: 0.12rem 0.35rem; border-radius: 4px; text-align: center; white-space: nowrap }
 .ri-sev.critical { background: rgba(239,68,68,.1); color: var(--error) }
 .ri-sev.high { background: rgba(245,158,11,.1); color: var(--warning) }
 .ri-sev.med { background: rgba(59,130,246,.1); color: var(--info) }
 .ri-problem { font-size: 0.78rem }
 .ri-problem strong { color: var(--fg-base); font-weight: 600 }
-.ri-fix {
-  font-size: 0.74rem;
-  color: var(--teal);
-  background: rgba(20,184,166,.06);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  border-left: 2px solid var(--teal);
-}
+.ri-fix { font-size: 0.74rem; color: var(--teal); background: rgba(20,184,166,.06); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); border-left: 2px solid var(--teal) }
 .ri-fix strong { color: var(--teal); font-weight: 600 }
-
-/* Plan Table */
-.plan-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: var(--space-3) 0;
-  font-size: 0.74rem;
-}
-.plan-table th {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--fg-subtle);
-  text-align: left;
-  padding: var(--space-2) var(--space-3);
-  border-bottom: 1px solid var(--border-base);
-  background: var(--bg-base);
-  position: sticky;
-  top: 36px;
-  z-index: 5;
-}
-.plan-table td {
-  padding: var(--space-2) var(--space-3);
-  border-bottom: 1px solid var(--border-base);
-  vertical-align: top;
-}
+.plan-table { width: 100%; border-collapse: collapse; margin: var(--space-3) 0; font-size: 0.74rem }
+.plan-table th { font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-subtle); text-align: left; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border-base); background: var(--bg-base); position: sticky; top: 36px; z-index: 5 }
+.plan-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border-base); vertical-align: top }
 .plan-table tr:hover td { background: var(--bg-subtle) }
-.layer-dot {
-  display: inline-block;
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  margin-right: 0.3rem;
-  vertical-align: middle;
-}
-
-/* Challenge */
+.layer-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 0.3rem; vertical-align: middle }
 .cr-grid { display: grid; gap: var(--space-2); margin: var(--space-3) 0 }
-.cr-item {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-md);
-  padding: var(--space-2) var(--space-3);
-  display: grid;
-  grid-template-columns: 24px 1fr auto;
-  gap: var(--space-3);
-  align-items: center;
-}
+.cr-item { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); display: grid; grid-template-columns: 24px 1fr auto; gap: var(--space-3); align-items: center }
 .cr-num { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: var(--info) }
 .cr-text { font-size: 0.74rem }
 .cr-text strong { font-weight: 600 }
-.cr-resolution {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  padding: 0.12rem 0.45rem;
-  border-radius: 100px;
-  white-space: nowrap;
-  cursor: pointer;
-  user-select: none;
-}
+.cr-resolution { font-family: var(--font-mono); font-size: 0.62rem; padding: 0.12rem 0.45rem; border-radius: 100px; white-space: nowrap; cursor: pointer; user-select: none }
 .cr-resolution.resolved { background: rgba(34,197,94,.1); color: var(--success) }
 .cr-resolution.action { background: rgba(245,158,11,.1); color: var(--warning) }
 .cr-resolution.discuss { background: rgba(59,130,246,.1); color: var(--info) }
-
-.pending-box {
-  margin-top: var(--space-4);
-  padding: var(--space-3);
-  border: 1px dashed var(--border-base);
-  border-radius: var(--radius-md);
-  text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--fg-subtle);
-}
+.pending-box { margin-top: var(--space-4); padding: var(--space-3); border: 1px dashed var(--border-base); border-radius: var(--radius-md); text-align: center; font-family: var(--font-mono); font-size: 0.68rem; color: var(--fg-subtle) }
 .plan-highlight td { background: rgba(59,130,246,.05) }
 
-/* ── Footer ────────────────────────────────────────────── */
-.footer {
-  text-align: center;
-  padding: var(--space-8) 0 var(--space-4);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: var(--fg-faint);
-}
-.footer a { color: var(--fg-subtle); text-decoration: none }
-.footer a:hover { color: var(--fg-base) }
+/* ══ STATUS POPUP (v8.2 — My Board) ═══════════════════ */
+.status-popup { position: fixed; background: var(--bg-subtle); border: 1px solid var(--border-emphasis); border-radius: var(--radius-md); padding: var(--space-1); z-index: 1000; box-shadow: 0 8px 30px rgba(0,0,0,.4); min-width: 150px; display: none }
+.sp-option { padding: var(--space-2) var(--space-3); font-size: 0.75rem; cursor: pointer; border-radius: var(--radius-sm); transition: background var(--duration-fast); display: flex; align-items: center; gap: var(--space-2) }
+.sp-option:hover { background: var(--bg-muted) }
+.sp-option.current { background: var(--bg-muted); font-weight: 600 }
 
-/* ── Responsive ────────────────────────────────────────── */
-@media (max-width: 700px) {
-  .page { padding: var(--space-4) }
-  .card-grid { grid-template-columns: 1fr }
-  .stats { gap: var(--space-2) }
-  .stat { min-width: 80px; padding: var(--space-2) var(--space-4) }
-  .header h1 { font-size: 1.8rem }
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px) }
-  to { opacity: 1; transform: translateY(0) }
-}
-@media (prefers-reduced-motion: reduce) { .section { animation: none } .tab-panel.active { animation: none } }
-
-/* ══════════════════════════════════════════════════════════
-   USER VOICE PIPELINE STYLES
-   ══════════════════════════════════════════════════════════ */
-.voice-pipeline {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  margin: var(--space-6) 0;
-  flex-wrap: nowrap;
-}
-.voice-pipeline .vp-stage {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-  text-align: center;
-  min-width: 140px;
-  transition: border-color var(--duration-normal);
-}
+/* ══ USER VOICE PIPELINE STYLES ═══════════════════════ */
+.voice-pipeline { display: flex; align-items: center; justify-content: center; gap: 0; margin: var(--space-6) 0; flex-wrap: nowrap }
+.voice-pipeline .vp-stage { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); text-align: center; min-width: 140px; transition: border-color var(--duration-normal) }
 .voice-pipeline .vp-stage:hover { border-color: var(--border-emphasis) }
 .voice-pipeline .vp-icon { font-size: 1.3rem; margin-bottom: var(--space-1) }
-.voice-pipeline .vp-label {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--fg-muted);
-  margin-bottom: var(--space-1);
-}
-.voice-pipeline .vp-count {
-  font-family: var(--font-mono);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--fg-base);
-}
-.voice-pipeline .vp-arrow {
-  font-size: 1.2rem;
-  color: var(--fg-faint);
-  padding: 0 var(--space-2);
-  flex-shrink: 0;
-}
-@media (max-width: 700px) {
-  .voice-pipeline { flex-direction: column; gap: var(--space-2) }
-  .voice-pipeline .vp-arrow { transform: rotate(90deg) }
-  .voice-pipeline .vp-stage { min-width: auto; width: 100% }
-}
-.voice-section-title {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 400;
-  margin: var(--space-6) 0 var(--space-3);
-  padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--border-base);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
+.voice-pipeline .vp-label { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; color: var(--fg-muted); margin-bottom: var(--space-1) }
+.voice-pipeline .vp-count { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--fg-base) }
+.voice-pipeline .vp-arrow { font-size: 1.2rem; color: var(--fg-faint); padding: 0 var(--space-2); flex-shrink: 0 }
+@media (max-width: 700px) { .voice-pipeline { flex-direction: column; gap: var(--space-2) } .voice-pipeline .vp-arrow { transform: rotate(90deg) } .voice-pipeline .vp-stage { min-width: auto; width: 100% } }
+.voice-section-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 400; margin: var(--space-6) 0 var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--border-base); display: flex; align-items: center; gap: var(--space-2) }
 .voice-section-title .vs-icon { font-size: 1rem }
-.hil-grid {
-  display: grid;
-  gap: var(--space-2);
-  margin: var(--space-3) 0;
-}
-.hil-card {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-sm);
-  padding: var(--space-2) var(--space-3);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  transition: border-color var(--duration-normal);
-}
+.hil-grid { display: grid; gap: var(--space-2); margin: var(--space-3) 0 }
+.hil-card { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); transition: border-color var(--duration-normal) }
 .hil-card:hover { border-color: var(--border-emphasis) }
-.hil-left {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  flex: 1;
-  min-width: 0;
-}
-.hil-category {
-  font-size: 0.78rem;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.hil-count {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--fg-muted);
-  background: var(--bg-muted);
-  padding: 0.1rem 0.4rem;
-  border-radius: 100px;
-  flex-shrink: 0;
-  min-width: 28px;
-  text-align: center;
-}
-.hil-badge {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 500;
-  padding: 0.12rem 0.5rem;
-  border-radius: 100px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
+.hil-left { display: flex; align-items: center; gap: var(--space-3); flex: 1; min-width: 0 }
+.hil-category { font-size: 0.78rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.hil-count { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; color: var(--fg-muted); background: var(--bg-muted); padding: 0.1rem 0.4rem; border-radius: 100px; flex-shrink: 0; min-width: 28px; text-align: center }
+.hil-badge { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 500; padding: 0.12rem 0.5rem; border-radius: 100px; white-space: nowrap; flex-shrink: 0 }
 .hil-badge.partial { background: rgba(245,158,11,.1); color: var(--warning) }
 .hil-badge.aligned { background: rgba(34,197,94,.1); color: var(--success) }
 .hil-badge.unconfirmed { background: rgba(239,68,68,.08); color: var(--error); border: 1px dashed rgba(239,68,68,.2) }
 .hil-badge.unresolved { background: rgba(239,68,68,.1); color: var(--error) }
 .hil-badge.inprogress { background: rgba(167,139,250,.1); color: var(--purple) }
-.voice-issue-grid {
-  display: grid;
-  gap: var(--space-2);
-  margin: var(--space-3) 0;
-}
-.voice-issue-card {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-sm);
-  padding: var(--space-2) var(--space-3);
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  gap: var(--space-3);
-  align-items: center;
-  transition: border-color var(--duration-normal);
-}
+.voice-issue-grid { display: grid; gap: var(--space-2); margin: var(--space-3) 0 }
+.voice-issue-card { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); display: grid; grid-template-columns: auto 1fr auto auto; gap: var(--space-3); align-items: center; transition: border-color var(--duration-normal) }
 .voice-issue-card:hover { border-color: var(--border-emphasis) }
 .voice-issue-card .vi-icon { font-size: 0.9rem; flex-shrink: 0 }
-.voice-issue-card .vi-id {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--fg-subtle);
-}
-.voice-issue-card .vi-title {
-  font-size: 0.78rem;
-  font-weight: 500;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.voice-issue-card .vi-status {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  padding: 0.1rem 0.4rem;
-  border-radius: 100px;
-  white-space: nowrap;
-}
-.voice-issue-card .vi-assignee {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: var(--fg-subtle);
-  white-space: nowrap;
-}
-@media (max-width: 700px) {
-  .voice-issue-card { grid-template-columns: auto 1fr; }
-  .voice-issue-card .vi-status,
-  .voice-issue-card .vi-assignee { grid-column: 2; }
-}
+.voice-issue-card .vi-id { font-family: var(--font-mono); font-size: 0.65rem; color: var(--fg-subtle) }
+.voice-issue-card .vi-title { font-size: 0.78rem; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.voice-issue-card .vi-status { font-family: var(--font-mono); font-size: 0.62rem; padding: 0.1rem 0.4rem; border-radius: 100px; white-space: nowrap }
+.voice-issue-card .vi-assignee { font-family: var(--font-mono); font-size: 0.62rem; color: var(--fg-subtle); white-space: nowrap }
+@media (max-width: 700px) { .voice-issue-card { grid-template-columns: auto 1fr } .voice-issue-card .vi-status, .voice-issue-card .vi-assignee { grid-column: 2 } }
+
+/* ── Voice Refresh Bar (v8.2) ──────────────────────────── */
+.voice-refresh-bar { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); margin-bottom: var(--space-4); flex-wrap: wrap }
+.voice-refresh-bar .vr-info { font-family: var(--font-mono); font-size: 0.68rem; color: var(--fg-subtle); flex: 1 }
+.voice-refresh-bar .vr-btn { font-family: var(--font-mono); font-size: 0.7rem; padding: var(--space-1) var(--space-3); background: rgba(59,130,246,.1); color: var(--info); border: 1px solid rgba(59,130,246,.3); border-radius: 100px; cursor: pointer; transition: all var(--duration-normal); white-space: nowrap }
+.voice-refresh-bar .vr-btn:hover { background: rgba(59,130,246,.2); border-color: var(--info) }
+.voice-refresh-bar .vr-note { font-size: 0.62rem; color: var(--fg-faint); width: 100% }
 
 /* Sprint Board: Cycle Selector */
-.cycle-selector {
-  display: flex; gap: var(--space-2); margin-bottom: var(--space-4);
-  padding: var(--space-2); background: var(--bg-subtle); border-radius: var(--radius-md);
-  border: 1px solid var(--border-base); flex-wrap: wrap;
-}
-.cycle-btn {
-  padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm);
-  font-size: 0.8rem; font-family: var(--font-sans); cursor: pointer;
-  background: transparent; border: 1px solid var(--border-base); color: var(--fg-muted);
-  transition: all var(--duration-normal) var(--ease-out);
-}
+.cycle-selector { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); padding: var(--space-2); background: var(--bg-subtle); border-radius: var(--radius-md); border: 1px solid var(--border-base); flex-wrap: wrap }
+.cycle-btn { padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); font-size: 0.8rem; font-family: var(--font-sans); cursor: pointer; background: transparent; border: 1px solid var(--border-base); color: var(--fg-muted); transition: all var(--duration-normal) var(--ease-out) }
 .cycle-btn:hover { color: var(--fg-base); border-color: var(--fg-muted) }
 .cycle-btn.active { background: var(--bg-muted); color: var(--fg-base); border-color: var(--fg-base); font-weight: 600 }
-.cycle-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--fg-subtle);
-  text-align: center;
-  margin-bottom: var(--space-2);
-}
-.sprint-legend {
-  display: flex;
-  gap: var(--space-4);
-  margin-bottom: var(--space-4);
-  font-size: 0.75rem;
-  color: var(--fg-muted);
-  justify-content: center;
-}
+.cycle-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--fg-subtle); text-align: center; margin-bottom: var(--space-2) }
+.sprint-legend { display: flex; gap: var(--space-4); margin-bottom: var(--space-4); font-size: 0.75rem; color: var(--fg-muted); justify-content: center }
+
+/* ── Footer ────────────────────────────────────────────── */
+.footer { text-align: center; padding: var(--space-8) 0 var(--space-4); font-family: var(--font-mono); font-size: 0.62rem; color: var(--fg-faint) }
+.footer a { color: var(--fg-subtle); text-decoration: none }
+.footer a:hover { color: var(--fg-base) }
+
+/* ── Responsive / Animations ───────────────────────────── */
+@media (max-width: 700px) { .page { padding: var(--space-4) } .card-grid { grid-template-columns: 1fr } .stats { gap: var(--space-2) } .stat { min-width: 80px; padding: var(--space-2) var(--space-4) } .header h1 { font-size: 1.8rem } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: translateY(0) } }
+@media (prefers-reduced-motion: reduce) { .section { animation: none } .tab-panel.active { animation: none } }
+
+/* ── My Board Instruction (v8.2) ───────────────────────── */
+.myboard-guide { background: var(--bg-subtle); border: 1px solid rgba(59,130,246,.2); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin-bottom: var(--space-4); font-size: 0.78rem; color: var(--fg-muted); line-height: 1.6 }
+.myboard-guide strong { color: var(--fg-base) }
 </style>
 </head>
 <body>
@@ -1183,10 +394,9 @@ a:hover { text-decoration: underline; }
     <div style="font-size:.82rem;color:var(--fg-muted)">
       <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">① 选择 Sprint</strong> — 用上方的 cycle 切换器查看当前/下个 sprint（ENG + PRODUCT 合并显示）</p>
       <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">② 找到你的 Issues</strong> — 点「👤 我的看板」→ 选你的名字，看到你所有 issue</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">③ 管理优先级</strong> — 在卡片上点击状态标签循环切换（待开始 → 开发中 → 已完成）</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">④ 添加 Issue</strong> — 在 Sprint Board 底部或「👤 我的看板」里点「+ 添加 Issue」</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">⑤ D0 功能模块</strong> — Issue 按 7 个产品模块分组（AI · Trading · Wallet · Dashboard · Agent · Infra · Growth）</p>
-      <p style="margin-top:var(--space-3);font-size:.78rem;color:var(--fg-subtle)">💡 ENG 🟢 和 PRODUCT 🟣 issue 在同一个 Sprint 里按功能模块管理<br>💡 编辑内容自动保存到浏览器（点「保存版本」可以回退）</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">③ 管理状态</strong> — 在卡片上点击状态标签 → 选择新状态，编辑自动保存到浏览器</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">④ 功能模块树</strong> — Issue 按产品线 nested tree 分组（Frontend · AI · Trading · Infra · Quality · GTM）</p>
+      <p style="margin-top:var(--space-3);font-size:.78rem;color:var(--fg-subtle)">💡 ENG 🟢 和 PRODUCT 🟣 issue 在同一个 Sprint 里按产品线管理<br>💡 编辑内容自动保存到浏览器（点「保存版本」可以回退）</p>
     </div>
     <div style="margin-top:var(--space-3);display:flex;gap:var(--space-2);flex-wrap:wrap">
       <a href="https://linear.app/donutbrowser/team/ENG/cycle/active" target="_blank" style="font-family:var(--font-mono);font-size:.7rem;padding:var(--space-1) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:100px;color:var(--fg-muted);text-decoration:none">ENG Active Cycle ↗</a>
@@ -1198,10 +408,7 @@ a:hover { text-decoration: underline; }
   <header class="header">
     <h1>D0 Product Dashboard</h1>
     <div class="subtitle">Unified Sprint · 组织 · 产品 · 工程 · 风险</div>
-    <div class="cycle-badge">
-      <span class="pulse"></span>
-      v8.1 · 2026-03-18
-    </div>
+    <div class="cycle-badge"><span class="pulse"></span>v8.2 · 2026-03-19</div>
   </header>
 
   <!-- ══ Tab Navigation ══ -->
@@ -1228,15 +435,11 @@ a:hover { text-decoration: underline; }
        TAB 1: SPRINT BOARD
        ══════════════════════════════════════════════════════ -->
   <div id="tab-sprint" class="tab-panel active">
-
-    <!-- Cycle Selector (Unified: ENG + PRODUCT merged) -->
     <div class="cycle-selector" id="cycleSelector">
       <button class="cycle-btn" onclick="switchCycle('sprint22')" id="btn-sprint22">🏃 Sprint 22 (当前 3/15→3/29)</button>
       <button class="cycle-btn active" onclick="switchCycle('sprint23')" id="btn-sprint23">📋 Sprint 23 (upcoming 3/23→4/3)</button>
     </div>
-
     <div class="cycle-label" id="cycleLabel"></div>
-
     <div class="stats" id="sprintStats">
       <div class="stat"><div class="num" id="stat-total">0</div><div class="label">Total</div></div>
       <div class="stat"><div class="num" id="stat-active" style="color:var(--warning)">0</div><div class="label">Active</div></div>
@@ -1244,15 +447,10 @@ a:hover { text-decoration: underline; }
       <div class="stat"><div class="num" id="stat-completion">0%</div><div class="label">Completion</div></div>
       <div class="stat"><div class="num" id="stat-people">0</div><div class="label">People</div></div>
     </div>
-
-    <div class="sprint-legend">
-      <span>🟢 ENG issues</span>
-      <span>🟣 PRODUCT issues</span>
-    </div>
-
+    <div class="sprint-legend"><span>🟢 ENG issues</span><span>🟣 PRODUCT issues</span></div>
     <div class="controls">
       <div class="ctrl-group">
-        <button class="ctrl-btn active" onclick="switchView('layer')">📦 功能模块</button>
+        <button class="ctrl-btn active" onclick="switchView('layer')">🌳 产品线树</button>
         <button class="ctrl-btn" onclick="switchView('person')">👤 按人员</button>
       </div>
       <div class="ctrl-group">
@@ -1261,19 +459,11 @@ a:hover { text-decoration: underline; }
         <button class="ctrl-btn" data-filter="done" onclick="filterState('done')">Done</button>
       </div>
     </div>
-
-    <div id="view-layer" class="active">
-      <!-- Rendered dynamically by renderCycle — 7 D0 functional modules -->
-    </div>
-
-    <div id="view-person">
-      <!-- Rendered dynamically by renderCycle -->
-    </div>
-
-    <!-- Add Issue to Current Cycle -->
+    <div id="view-layer" class="active"></div>
+    <div id="view-person"></div>
     <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);margin-top:var(--space-6)">
       <div style="font-family:var(--font-mono);font-size:.75rem;font-weight:600;margin-bottom:var(--space-3);color:var(--fg-muted)">+ 添加 Issue 到当前 Cycle</div>
-      <div style="display:grid;grid-template-columns:120px 1fr 120px 140px auto;gap:var(--space-2);align-items:center">
+      <div style="display:grid;grid-template-columns:120px 1fr 120px 180px auto;gap:var(--space-2);align-items:center">
         <input id="cycleIssueId" type="text" placeholder="ENG-1234" style="font-family:var(--font-mono);font-size:.78rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
         <input id="cycleIssueTitle" type="text" placeholder="Issue 标题" style="font-family:var(--font-sans);font-size:.82rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
         <select id="cycleIssueAssignee" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
@@ -1287,262 +477,68 @@ a:hover { text-decoration: underline; }
         </select>
         <select id="cycleIssueModule" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
           <option value="">模块</option>
-          <option value="ai">🧠 AI Engine</option><option value="trading">💰 Trading</option><option value="wallet">👛 Wallet</option>
-          <option value="dashboard">📊 Dashboard</option><option value="agent">🤖 Agent</option><option value="infra">🔌 Infra</option>
-          <option value="growth">📣 Growth</option>
+          <option value="frontend.dashboard">📊 Dashboard</option><option value="frontend.hil">📊 HIL Webapp</option><option value="frontend.extension">📊 Extension</option>
+          <option value="ai.tools">🧠 d0-cli</option><option value="ai.eval">🧠 Eval</option><option value="ai.llmproxy">🧠 LLM Proxy</option><option value="ai.agent">🧠 Agent</option>
+          <option value="trading.perps">💰 Perps</option><option value="trading.spot">💰 Spot</option><option value="trading.agents">💰 Agents Backend</option><option value="trading.wallet">💰 Wallet</option>
+          <option value="infra.backend">🔌 donut-backend</option><option value="infra.k8s">🔌 K8s</option><option value="infra.devops">🔌 DevOps</option><option value="infra.cron">🔌 Cron</option>
+          <option value="quality.e2e">🧪 E2E</option><option value="quality.triage">🧪 Bug Triage</option>
+          <option value="growth.seo">📣 SEO</option><option value="growth.referral">📣 Referral</option><option value="growth.voice">📣 User Voice</option>
         </select>
         <button onclick="addIssueToCycle()" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2) var(--space-4);background:var(--info);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap">添加</button>
       </div>
-      <div style="font-family:var(--font-mono);font-size:.62rem;color:var(--fg-subtle);margin-top:var(--space-2)">输入 Issue ID（如 ENG-1234 / PRODUCT-2008）+ 标题，添加到当前显示的 Cycle。自动生成 <a href="https://linear.app/donutbrowser" target="_blank" style="color:var(--info)">Linear</a> 链接。</div>
     </div>
-
-  </div><!-- /tab-sprint -->
+  </div>
 
   <!-- ══════════════════════════════════════════════════════
-       TAB 2: 组织架构
+       TAB 2: 组织架构 (unchanged)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-org" class="tab-panel">
-    <div class="sec">
-      <div class="sec-head"><span class="sec-num">01</span><h2>组织架构 — 6 Divisions</h2></div>
-    </div>
-    <div class="ceo">
-      <div class="ceo-card">
-        <div class="name" contenteditable>Chris Zhu</div>
-        <div class="role" contenteditable>CEO · Direction &amp; Final Call</div>
-        <a href="https://linear.app/donutbrowser/user/chriszhu/assigned" target="_blank">Linear ↗</a>
-      </div>
-    </div>
+    <div class="sec"><div class="sec-head"><span class="sec-num">01</span><h2>组织架构 — 6 Divisions</h2></div></div>
+    <div class="ceo"><div class="ceo-card"><div class="name" contenteditable>Chris Zhu</div><div class="role" contenteditable>CEO · Direction &amp; Final Call</div><a href="https://linear.app/donutbrowser/user/chriszhu/assigned" target="_blank">Linear ↗</a></div></div>
     <div class="vline"></div>
     <div class="divisions">
       <div class="division engineering">
         <div class="div-head"><span class="dh-dot" style="background:var(--info)"></span><span class="dh-name" contenteditable>Engineering</span><span class="dh-count">12</span></div>
         <div class="sub-teams">
-          <div class="sub-team">
-            <div class="st-head"><span class="st-dot" style="background:var(--gold)"></span> <span contenteditable>AI Engineering</span></div>
-            <div class="person"><span class="p-name" contenteditable>JackJun</span><span class="p-role" contenteditable>AI Engineering Lead — 引擎架构 / LLM Routing / D0 核心</span><span class="p-tag lead">LEAD</span><a class="p-link" href="https://linear.app/donutbrowser/user/jackjun/assigned" target="_blank">Linear ↗</a></div>
-            <div class="person"><span class="p-name" contenteditable>Fei</span><span class="p-role" contenteditable>AI Eval &amp; Research Lead — Eval 体系 / Frontier / Security + Engineering 落地</span><a class="p-link" href="https://linear.app/donutbrowser/user/fei/assigned" target="_blank">Linear ↗</a></div>
-          </div>
-          <div class="sub-team">
-            <div class="st-head"><span class="st-dot" style="background:var(--info)"></span> <span contenteditable>Interface Engineering</span></div>
-            <div class="person"><span class="p-name" contenteditable>Jin Xu</span><span class="p-role" contenteditable>d0-cli / Skills / New Interface Owner / 前端</span><a class="p-link" href="https://linear.app/donutbrowser/user/xujin/assigned" target="_blank">Linear ↗</a></div>
-            <div class="person"><span class="p-name" contenteditable>Gary</span><span class="p-role" contenteditable>Dashboard / Onboarding / 前端</span><a class="p-link" href="https://linear.app/donutbrowser/user/gary/assigned" target="_blank">Linear ↗</a></div>
-            <div class="person"><span class="p-name" contenteditable>Ethan</span><span class="p-role" contenteditable>Full-stack Asset &amp; Platform — 多链资产 / D0 Dashboard / Deposit·Withdraw·Transfer / iOS</span><a class="p-link" href="https://linear.app/donutbrowser/user/ethan/assigned" target="_blank">Linear ↗</a></div>
-          </div>
-          <div class="sub-team">
-            <div class="st-head"><span class="st-dot" style="background:var(--error)"></span> <span contenteditable>Trading Engineering</span> <span class="st-label">Peter leads ↗</span></div>
-            <div class="xfn-note">← Peter (Product) cross-leads Trading 方向</div>
-            <div class="person"><span class="p-name" contenteditable>Alex</span><span class="p-role" contenteditable>Perps 撮合引擎 / TPSL / API</span><a class="p-link" href="https://linear.app/donutbrowser/user/alex/assigned" target="_blank">Linear ↗</a></div>
-            <div class="person"><span class="p-name" contenteditable>Rui Li</span><span class="p-role" contenteditable>GRPS 风控 / 对账 / 资产</span><a class="p-link" href="https://linear.app/donutbrowser/user/lirui/assigned" target="_blank">Linear ↗</a></div>
-          </div>
-          <div class="sub-team">
-            <div class="st-head"><span class="st-dot" style="background:var(--purple)"></span> <span contenteditable>Infrastructure</span></div>
-            <div class="person"><span class="p-name" contenteditable>Regison</span><span class="p-role" contenteditable>Crypto Backend &amp; Middleware — 后端核心 / MCP / DeFi</span><a class="p-link" href="https://linear.app/donutbrowser/user/regison/assigned" target="_blank">Linear ↗</a></div>
-            <div class="person"><span class="p-name" contenteditable>Wenzhang</span><span class="p-role" contenteditable>DevOps — K8s / ArgoCD / 监控 / Admin / Eval Infra / sub2api / 多副本</span><a class="p-link" href="https://linear.app/donutbrowser/user/wenzhang/assigned" target="_blank">Linear ↗</a></div>
-            <div class="person"><span class="p-name" contenteditable>Jiagui</span><span class="p-role" contenteditable>Safety &amp; Container — 浏览器安全 / 容器隔离 / Extension</span><a class="p-link" href="https://linear.app/donutbrowser/user/jiagui/assigned" target="_blank">Linear ↗</a></div>
-          </div>
+          <div class="sub-team"><div class="st-head"><span class="st-dot" style="background:var(--gold)"></span> <span contenteditable>AI Engineering</span></div><div class="person"><span class="p-name" contenteditable>JackJun</span><span class="p-role" contenteditable>AI Engineering Lead — 引擎架构 / LLM Routing / D0 核心</span><span class="p-tag lead">LEAD</span><a class="p-link" href="https://linear.app/donutbrowser/user/jackjun/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Fei</span><span class="p-role" contenteditable>AI Eval &amp; Research Lead — Eval 体系 / Frontier / Security + Engineering 落地</span><a class="p-link" href="https://linear.app/donutbrowser/user/fei/assigned" target="_blank">Linear ↗</a></div></div>
+          <div class="sub-team"><div class="st-head"><span class="st-dot" style="background:var(--info)"></span> <span contenteditable>Interface Engineering</span></div><div class="person"><span class="p-name" contenteditable>Jin Xu</span><span class="p-role" contenteditable>d0-cli / Skills / New Interface Owner / 前端</span><a class="p-link" href="https://linear.app/donutbrowser/user/xujin/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Gary</span><span class="p-role" contenteditable>Dashboard / Onboarding / 前端</span><a class="p-link" href="https://linear.app/donutbrowser/user/gary/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Ethan</span><span class="p-role" contenteditable>Full-stack Asset &amp; Platform — 多链资产 / D0 Dashboard / Deposit·Withdraw·Transfer / iOS</span><a class="p-link" href="https://linear.app/donutbrowser/user/ethan/assigned" target="_blank">Linear ↗</a></div></div>
+          <div class="sub-team"><div class="st-head"><span class="st-dot" style="background:var(--error)"></span> <span contenteditable>Trading Engineering</span> <span class="st-label">Peter leads ↗</span></div><div class="xfn-note">← Peter (Product) cross-leads Trading 方向</div><div class="person"><span class="p-name" contenteditable>Alex</span><span class="p-role" contenteditable>Perps 撮合引擎 / TPSL / API</span><a class="p-link" href="https://linear.app/donutbrowser/user/alex/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Rui Li</span><span class="p-role" contenteditable>GRPS 风控 / 对账 / 资产</span><a class="p-link" href="https://linear.app/donutbrowser/user/lirui/assigned" target="_blank">Linear ↗</a></div></div>
+          <div class="sub-team"><div class="st-head"><span class="st-dot" style="background:var(--purple)"></span> <span contenteditable>Infrastructure</span></div><div class="person"><span class="p-name" contenteditable>Regison</span><span class="p-role" contenteditable>Crypto Backend &amp; Middleware — 后端核心 / MCP / DeFi</span><a class="p-link" href="https://linear.app/donutbrowser/user/regison/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Wenzhang</span><span class="p-role" contenteditable>DevOps — K8s / ArgoCD / 监控 / Admin / Eval Infra / sub2api / 多副本</span><a class="p-link" href="https://linear.app/donutbrowser/user/wenzhang/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Jiagui</span><span class="p-role" contenteditable>Safety &amp; Container — 浏览器安全 / 容器隔离 / Extension</span><a class="p-link" href="https://linear.app/donutbrowser/user/jiagui/assigned" target="_blank">Linear ↗</a></div></div>
         </div>
       </div>
-      <div class="division">
-        <div class="div-head"><span class="dh-dot" style="background:var(--teal)"></span><span class="dh-name" contenteditable>Product &amp; Design</span><span class="dh-count">4</span></div>
-        <div class="div-body">
-          <div class="person"><span class="p-name" contenteditable>Peter</span><span class="p-role" contenteditable>Trading Team Lead</span><span class="p-tag xfn">→ Trading Eng</span><a class="p-link" href="https://linear.app/donutbrowser/user/peter/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Ye Zou</span><span class="p-role" contenteditable>Product Architecture &amp; Interaction Design</span><a class="p-link" href="https://linear.app/donutbrowser/user/zouye/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Sylvia</span><span class="p-role" contenteditable>Trading PM</span><a class="p-link" href="https://linear.app/donutbrowser/user/sylvia/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Yi Tan</span><span class="p-role" contenteditable>UI/UX Design</span><a class="p-link" href="https://linear.app/donutbrowser/user/yixintan/assigned" target="_blank">Linear ↗</a></div>
-        </div>
-      </div>
-      <div class="division">
-        <div class="div-head"><span class="dh-dot" style="background:var(--warning)"></span><span class="dh-name" contenteditable>Research &amp; Data</span><span class="dh-count">2</span></div>
-        <div class="div-body">
-          <div class="person"><span class="p-name" contenteditable>Liang Han</span><span class="p-role" contenteditable>AI-first Trading Research — 量化策略 / 风控模型 / Discovery</span><a class="p-link" href="https://linear.app/donutbrowser/user/hanliang/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Tao Yuan</span><span class="p-role" contenteditable>Data Engineering — 回测 / 数据管线</span><a class="p-link" href="https://linear.app/donutbrowser/user/tao/assigned" target="_blank">Linear ↗</a></div>
-        </div>
-      </div>
-      <div class="division">
-        <div class="div-head"><span class="dh-dot" style="background:var(--fg-subtle)"></span><span class="dh-name" contenteditable>质量工程 QA</span><span class="dh-count">2</span></div>
-        <div class="div-body">
-          <div class="person"><span class="p-name" contenteditable>Jim</span><span class="p-role" contenteditable>测试工程师</span><a class="p-link" href="https://linear.app/donutbrowser/user/jim/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Kevin Wang</span><span class="p-role" contenteditable>测试工程师</span><a class="p-link" href="https://linear.app/donutbrowser/user/kevin/assigned" target="_blank">Linear ↗</a></div>
-        </div>
-      </div>
-      <div class="division">
-        <div class="div-head"><span class="dh-dot" style="background:var(--info)"></span><span class="dh-name" contenteditable>GTM / Growth</span><span class="dh-count">4</span></div>
-        <div class="div-body">
-          <div class="person"><span class="p-name" contenteditable>Ruqi Hu</span><span class="p-role" contenteditable>增长 APAC + 用户反馈归档</span><a class="p-link" href="https://linear.app/donutbrowser/user/ruqihu/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Melvin</span><span class="p-role" contenteditable>社交媒体运营</span><a class="p-link" href="https://linear.app/donutbrowser/user/melvin/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Javier Ruedas</span><span class="p-role" contenteditable>社交媒体与社区运营</span><a class="p-link" href="https://linear.app/donutbrowser/user/javier/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Hongwei Feng</span><span class="p-role" contenteditable>GTM / Social Frontier Tracking</span><a class="p-link" href="https://linear.app/donutbrowser/user/hongweifeng/assigned" target="_blank">Linear ↗</a></div>
-        </div>
-      </div>
-      <div class="division">
-        <div class="div-head"><span class="dh-dot" style="background:var(--fg-subtle)"></span><span class="dh-name" contenteditable>Operations &amp; Strategy</span><span class="dh-count">3</span></div>
-        <div class="div-body">
-          <div class="person"><span class="p-name" contenteditable>Yutong Li</span><span class="p-role" contenteditable>Legal / Finance / HR (HK)</span><a class="p-link" href="https://linear.app/donutbrowser/user/liyutong/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Ginger</span><span class="p-role" contenteditable>财务</span><a class="p-link" href="https://linear.app/donutbrowser/user/lilei/assigned" target="_blank">Linear ↗</a></div>
-          <div class="person"><span class="p-name" contenteditable>Mond Wonder</span><span class="p-role" contenteditable>战略洞察 / Researcher</span><a class="p-link" href="https://linear.app/donutbrowser/user/wondermond/assigned" target="_blank">Linear ↗</a></div>
-        </div>
-      </div>
+      <div class="division"><div class="div-head"><span class="dh-dot" style="background:var(--teal)"></span><span class="dh-name" contenteditable>Product &amp; Design</span><span class="dh-count">4</span></div><div class="div-body"><div class="person"><span class="p-name" contenteditable>Peter</span><span class="p-role" contenteditable>Trading Team Lead</span><span class="p-tag xfn">→ Trading Eng</span><a class="p-link" href="https://linear.app/donutbrowser/user/peter/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Ye Zou</span><span class="p-role" contenteditable>Product Architecture &amp; Interaction Design</span><a class="p-link" href="https://linear.app/donutbrowser/user/zouye/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Sylvia</span><span class="p-role" contenteditable>Trading PM</span><a class="p-link" href="https://linear.app/donutbrowser/user/sylvia/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Yi Tan</span><span class="p-role" contenteditable>UI/UX Design</span><a class="p-link" href="https://linear.app/donutbrowser/user/yixintan/assigned" target="_blank">Linear ↗</a></div></div></div>
+      <div class="division"><div class="div-head"><span class="dh-dot" style="background:var(--warning)"></span><span class="dh-name" contenteditable>Research &amp; Data</span><span class="dh-count">2</span></div><div class="div-body"><div class="person"><span class="p-name" contenteditable>Liang Han</span><span class="p-role" contenteditable>AI-first Trading Research — 量化策略 / 风控模型 / Discovery</span><a class="p-link" href="https://linear.app/donutbrowser/user/hanliang/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Tao Yuan</span><span class="p-role" contenteditable>Data Engineering — 回测 / 数据管线</span><a class="p-link" href="https://linear.app/donutbrowser/user/tao/assigned" target="_blank">Linear ↗</a></div></div></div>
+      <div class="division"><div class="div-head"><span class="dh-dot" style="background:var(--fg-subtle)"></span><span class="dh-name" contenteditable>质量工程 QA</span><span class="dh-count">2</span></div><div class="div-body"><div class="person"><span class="p-name" contenteditable>Jim</span><span class="p-role" contenteditable>测试工程师</span><a class="p-link" href="https://linear.app/donutbrowser/user/jim/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Kevin Wang</span><span class="p-role" contenteditable>测试工程师</span><a class="p-link" href="https://linear.app/donutbrowser/user/kevin/assigned" target="_blank">Linear ↗</a></div></div></div>
+      <div class="division"><div class="div-head"><span class="dh-dot" style="background:var(--info)"></span><span class="dh-name" contenteditable>GTM / Growth</span><span class="dh-count">4</span></div><div class="div-body"><div class="person"><span class="p-name" contenteditable>Ruqi Hu</span><span class="p-role" contenteditable>增长 APAC + 用户反馈归档</span><a class="p-link" href="https://linear.app/donutbrowser/user/ruqihu/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Melvin</span><span class="p-role" contenteditable>社交媒体运营</span><a class="p-link" href="https://linear.app/donutbrowser/user/melvin/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Javier Ruedas</span><span class="p-role" contenteditable>社交媒体与社区运营</span><a class="p-link" href="https://linear.app/donutbrowser/user/javier/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Hongwei Feng</span><span class="p-role" contenteditable>GTM / Social Frontier Tracking</span><a class="p-link" href="https://linear.app/donutbrowser/user/hongweifeng/assigned" target="_blank">Linear ↗</a></div></div></div>
+      <div class="division"><div class="div-head"><span class="dh-dot" style="background:var(--fg-subtle)"></span><span class="dh-name" contenteditable>Operations &amp; Strategy</span><span class="dh-count">3</span></div><div class="div-body"><div class="person"><span class="p-name" contenteditable>Yutong Li</span><span class="p-role" contenteditable>Legal / Finance / HR (HK)</span><a class="p-link" href="https://linear.app/donutbrowser/user/liyutong/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Ginger</span><span class="p-role" contenteditable>财务</span><a class="p-link" href="https://linear.app/donutbrowser/user/lilei/assigned" target="_blank">Linear ↗</a></div><div class="person"><span class="p-name" contenteditable>Mond Wonder</span><span class="p-role" contenteditable>战略洞察 / Researcher</span><a class="p-link" href="https://linear.app/donutbrowser/user/wondermond/assigned" target="_blank">Linear ↗</a></div></div></div>
     </div>
-  </div><!-- /tab-org -->
+  </div>
 
   <!-- ══════════════════════════════════════════════════════
-       TAB 3: 产品全景 (Tree + Kanban)
+       TAB 3: 产品全景 (v8.2 — Product-line Tree)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-product" class="tab-panel">
-    <div class="sec">
-      <div class="sec-head"><span class="sec-num">02</span><h2>产品 × 人员 树状图</h2></div>
-      <div class="hint">点击文字编辑 · Linear issue 可点击跳转</div>
+    <div class="sec"><div class="sec-head"><span class="sec-num">02</span><h2>D0 产品全景 — 功能地图</h2></div>
+      <div class="hint">产品线 × Owner × 关键指标 · 与 Sprint Board 功能模块 Tree 对齐</div>
     </div>
-    <div class="tree">
-      <ul><li>
-        <div class="t-root" contenteditable>D0 产品主线 — 北极星: 7日交易留存 > 20%</div>
-        <ul>
-          <li>
-            <div class="t-layer" style="background:rgba(245,158,11,.1)"><span class="dot" style="background:var(--warning)"></span> <span contenteditable>获客层 Acquisition</span></div>
-            <span class="t-owner new" contenteditable>GTM / Growth 团队</span>
-            <ul>
-              <li><span class="t-module"><strong contenteditable>SEO / UGC 四层引擎</strong></span> <span class="t-person" contenteditable>Ruqi · Hongwei</span> <a href="https://linear.app/donutbrowser/issue/GTM-251" class="t-linear">GTM-251</a></li>
-              <li><span class="t-module"><strong contenteditable>KOL 合作</strong> — <span contenteditable>目标 5 个合作</span></span> <span class="t-person" contenteditable>Melvin · Javier</span></li>
-              <li><span class="t-module"><strong contenteditable>品牌叙事 / Social</strong></span> <span class="t-person" contenteditable>Hongwei</span></li>
-            </ul>
-          </li>
-          <li>
-            <div class="t-layer" style="background:rgba(20,184,166,.1)"><span class="dot" style="background:var(--teal)"></span> <span contenteditable>体验层 Experience</span></div>
-            <span class="t-owner assigned" contenteditable>Ye Zou (架构) + Sylvia (体验) + Yi Tan (UI/UX)</span>
-            <ul>
-              <li><span class="t-module"><strong contenteditable>Onboarding → 转化率 >30%</strong></span> <span class="t-person" contenteditable>Ye Zou · Gary</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1062" class="t-linear">PRODUCT-1062</a></li>
-              <li><span class="t-module"><strong contenteditable>简报 1.0</strong></span> <span class="t-person" contenteditable>Ye Zou · Regison</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1691" class="t-linear">PRODUCT-1691</a></li>
-              <li><span class="t-module"><strong contenteditable>对话体验 / TG Tuning</strong></span> <span class="t-person" contenteditable>JackJun · Jin Xu</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1743" class="t-linear">PRODUCT-1743</a></li>
-              <li><span class="t-module"><strong contenteditable>Dashboard v2</strong></span> <span class="t-person" contenteditable>Gary · Ethan · Yi Tan</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1941" class="t-linear">PRODUCT-1941</a></li>
-              <li><span class="t-module"><strong contenteditable>Aha Moment 定义</strong></span> <span class="t-person" contenteditable>Sylvia</span> <span class="t-risk">无指标</span></li>
-            </ul>
-          </li>
-          <li>
-            <div class="t-layer" style="background:rgba(59,130,246,.08)"><span class="dot" style="background:var(--gold)"></span> <span contenteditable>AI Engineering — 核心竞争力层</span></div>
-            <span class="t-owner assigned" contenteditable>JackJun (引擎) + Fei (Eval &amp; Research)</span>
-            <ul>
-              <li><span class="t-module"><strong contenteditable>LLM 引擎</strong> — <span contenteditable>模型路由 + Prompt + Context</span></span> <span class="t-person" contenteditable>JackJun · Wenzhang</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1720" class="t-linear">PRODUCT-1720</a></li>
-              <li><span class="t-module"><strong contenteditable>d0-cli 工具集</strong> — <span contenteditable>261 tools, 13 域</span></span> <span class="t-person" contenteditable>Jin Xu · Regison · Tao · Liang Han</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1945" class="t-linear">PRODUCT-1945</a> <span class="t-risk">工具爆炸</span></li>
-              <li><span class="t-module"><strong contenteditable>Eval Harness</strong></span> <span class="t-person" contenteditable>Fei · Jin Xu</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1963" class="t-linear">PRODUCT-1963</a></li>
-              <li><span class="t-module"><strong contenteditable>确定性分析引擎</strong></span> <span class="t-person" contenteditable>⚠ 无 owner</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1834" class="t-linear">PRODUCT-1834</a> <span class="t-risk">核心缺失</span></li>
-              <li><span class="t-module"><strong contenteditable>预缓存层</strong></span> <span class="t-person" contenteditable>⚠ 无 owner</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1800" class="t-linear">PRODUCT-1800</a> <span class="t-risk">核心缺失</span></li>
-              <li><span class="t-module"><strong contenteditable>Frontier System</strong></span> <span class="t-person" contenteditable>Fei</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1438" class="t-linear">PRODUCT-1438</a></li>
-            </ul>
-          </li>
-          <li>
-            <div class="t-layer" style="background:rgba(59,130,246,.1)"><span class="dot" style="background:var(--info)"></span> <span contenteditable>交易层 Trading</span></div>
-            <span class="t-owner assigned" contenteditable>Peter (Team Lead) · Alex + Rui Li (Engineering)</span>
-            <ul>
-              <li><span class="t-module"><strong contenteditable>Spot Trading</strong></span> <span class="t-person" contenteditable>Regison · Jin Xu</span></li>
-              <li><span class="t-module"><strong contenteditable>Agent Trading API</strong></span> <span class="t-person" contenteditable>Ethan (sole, Go)</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1958" class="t-linear">PRODUCT-1958</a> <span class="t-risk">Bus=1</span></li>
-              <li><span class="t-module"><strong contenteditable>Perps 撮合引擎</strong></span> <span class="t-person" contenteditable>Alex + Rui Li (GRPS)</span></li>
-              <li><span class="t-module"><strong contenteditable>TP/SL + Trailing</strong></span> <span class="t-person" contenteditable>Alex</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1968" class="t-linear">PRODUCT-1968</a></li>
-              <li><span class="t-module"><strong contenteditable>事件管线</strong></span> <span class="t-person" contenteditable>待定</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1959" class="t-linear">PRODUCT-1959</a></li>
-              <li><span class="t-module"><strong contenteditable>3 个预置策略</strong></span> <span class="t-person" contenteditable>Peter · Liang Han · Tao</span></li>
-            </ul>
-          </li>
-          <li>
-            <div class="t-layer" style="background:rgba(107,114,128,.1);opacity:.8"><span class="dot" style="background:var(--fg-subtle)"></span> <span contenteditable>基础设施 Infrastructure</span></div>
-            <span class="t-owner assigned" contenteditable>Wenzhang (DevOps) · Regison (Backend) · Jiagui (Safety)</span>
-            <ul>
-              <li><span class="t-module"><strong contenteditable>K8s / 多副本</strong></span> <span class="t-person" contenteditable>Wenzhang · JackJun</span> <a href="https://linear.app/donutbrowser/issue/ENG-861" class="t-linear">ENG-861</a></li>
-              <li><span class="t-module"><strong contenteditable>监控 / 可观测</strong></span> <span class="t-person" contenteditable>Wenzhang · Fei</span> <a href="https://linear.app/donutbrowser/issue/ENG-1043" class="t-linear">ENG-1043</a> <span class="t-done">✓</span></li>
-              <li><span class="t-module"><strong contenteditable>灾备</strong></span> <span class="t-person" contenteditable>Wenzhang</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1899" class="t-linear">PRODUCT-1899</a></li>
-              <li><span class="t-module"><strong contenteditable>Safety &amp; Container</strong></span> <span class="t-person" contenteditable>Jiagui</span></li>
-              <li><span class="t-module"><strong contenteditable>安全</strong></span> <span class="t-person" contenteditable>Fei · JackJun</span> <a href="https://linear.app/donutbrowser/issue/PRODUCT-1714" class="t-linear">PRODUCT-1714</a> <span class="t-done">✓</span></li>
-            </ul>
-          </li>
-        </ul>
-      </li></ul>
-    </div>
-
-    <!-- Kanban Board -->
-    <div class="sec" style="margin-top:var(--space-8)">
-      <div class="sec-head"><span class="sec-num">03</span><h2>产品全景看板</h2></div>
-      <div class="hint">编辑文字 · 点状态切换 · 拖拽移动 · + 新增</div>
-    </div>
-    <div class="kanban" id="kanbanBoard">
-      <div class="k-col" data-col="acq">
-        <div class="k-header"><span class="k-dot" style="background:var(--warning)"></span><span class="k-title">获客</span><span class="k-owner" contenteditable>GTM/Growth</span></div>
-        <div class="k-body">
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>SEO/UGC 四层引擎</div><div class="kc-people" contenteditable>Ruqi · Hongwei</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/GTM-251">GTM-251</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>KOL 合作 (5 个)</div><div class="kc-people" contenteditable>Melvin · Javier</div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>品牌叙事</div><div class="kc-people" contenteditable>Hongwei</div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-        </div>
-        <div class="k-add" onclick="addCard(this)">+ 新增</div>
-      </div>
-      <div class="k-col" data-col="exp">
-        <div class="k-header"><span class="k-dot" style="background:var(--teal)"></span><span class="k-title">体验</span><span class="k-owner" contenteditable>Ye Zou + Sylvia</span></div>
-        <div class="k-body">
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>Onboarding → 转化率 >30%</div><div class="kc-people" contenteditable>Ye Zou · Gary</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1062">PRODUCT-1062</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>简报 1.0</div><div class="kc-people" contenteditable>Ye Zou · Regison</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1691">PRODUCT-1691</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>对话体验 / TG Tuning</div><div class="kc-people" contenteditable>JackJun · Jin Xu</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1743">PRODUCT-1743</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>Dashboard v2</div><div class="kc-people" contenteditable>Gary · Ethan · Yi Tan</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1941">PRODUCT-1941</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>Aha Moment 定义</div><div class="kc-people" contenteditable>Sylvia</div><span class="kc-status gap" onclick="cycleStatus(this)">需定义</span></div>
-        </div>
-        <div class="k-add" onclick="addCard(this)">+ 新增</div>
-      </div>
-      <div class="k-col" data-col="ai" style="border-color:rgba(59,130,246,.3)">
-        <div class="k-header"><span class="k-dot" style="background:var(--gold)"></span><span class="k-title">AI Engineering</span><span class="k-owner" contenteditable>JackJun + Fei</span></div>
-        <div class="k-body">
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>确定性分析引擎 ⚠</div><div class="kc-people" contenteditable>⚠ 无 owner — 需指派</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1834">PRODUCT-1834</a></div><span class="kc-status gap" onclick="cycleStatus(this)">核心缺失</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>预缓存层 ⚠</div><div class="kc-people" contenteditable>⚠ 无 owner — 需指派</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1800">PRODUCT-1800</a></div><span class="kc-status gap" onclick="cycleStatus(this)">核心缺失</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>Eval Harness</div><div class="kc-people" contenteditable>Fei · Jin Xu</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1963">PRODUCT-1963</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>d0-cli 工具审计</div><div class="kc-people" contenteditable>Jin Xu · Regison · Liang Han</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1945">PRODUCT-1945</a></div><span class="kc-status p0" onclick="cycleStatus(this)">P0</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>LLM 引擎 / Super Bot</div><div class="kc-people" contenteditable>JackJun · Wenzhang</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1720">PRODUCT-1720</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-        </div>
-        <div class="k-add" onclick="addCard(this)">+ 新增</div>
-      </div>
-      <div class="k-col" data-col="trade">
-        <div class="k-header"><span class="k-dot" style="background:var(--info)"></span><span class="k-title">交易</span><span class="k-owner" contenteditable>Peter (lead)</span></div>
-        <div class="k-body">
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>Agent Trading API</div><div class="kc-people" contenteditable>Ethan (Full-stack)</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1958">PRODUCT-1958</a></div><span class="kc-status p0" onclick="cycleStatus(this)">P0</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>TP/SL + Trailing</div><div class="kc-people" contenteditable>Alex</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1968">PRODUCT-1968</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>GRPS 风控</div><div class="kc-people" contenteditable>Rui Li</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1964">PRODUCT-1964</a></div><span class="kc-status blocked" onclick="cycleStatus(this)">BLOCKED</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>事件管线</div><div class="kc-people" contenteditable>待定</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1959">PRODUCT-1959</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>3 个预置策略</div><div class="kc-people" contenteditable>Peter · Liang Han · Tao</div><span class="kc-status gap" onclick="cycleStatus(this)">需定义</span></div>
-        </div>
-        <div class="k-add" onclick="addCard(this)">+ 新增</div>
-      </div>
-      <div class="k-col" data-col="infra" style="opacity:.85">
-        <div class="k-header"><span class="k-dot" style="background:var(--fg-subtle)"></span><span class="k-title">基础设施</span><span class="k-owner" contenteditable>Wenzhang</span></div>
-        <div class="k-body">
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>多副本总协调</div><div class="kc-people" contenteditable>Wenzhang · JackJun</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/ENG-861">ENG-861</a></div><span class="kc-status p0" onclick="cycleStatus(this)">P0</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>灾备</div><div class="kc-people" contenteditable>Wenzhang</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1899">PRODUCT-1899</a></div><span class="kc-status active" onclick="cycleStatus(this)">进行中</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>监控</div><div class="kc-people" contenteditable>Wenzhang · Fei</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/ENG-1043">ENG-1043</a></div><span class="kc-status done" onclick="cycleStatus(this)">✓ Done</span></div>
-          <div class="k-card" draggable="true"><span class="card-del" onclick="delCard(this)">×</span><div class="kc-title" contenteditable>安全</div><div class="kc-people" contenteditable>Fei · JackJun</div><div class="kc-link"><a href="https://linear.app/donutbrowser/issue/PRODUCT-1714">PRODUCT-1714</a></div><span class="kc-status done" onclick="cycleStatus(this)">✓ Done</span></div>
-        </div>
-        <div class="k-add" onclick="addCard(this)">+ 新增</div>
-      </div>
-    </div>
-  </div><!-- /tab-product -->
+    <div id="productPanorama"></div>
+  </div>
 
   <!-- ══════════════════════════════════════════════════════
-       TAB 4: 工程 Scope
+       TAB 4: 工程 Scope (v8.2 — Full Repo Catalog)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-eng" class="tab-panel">
-    <div class="sec">
-      <div class="sec-head"><span class="sec-num">04</span><h2>工程 Ownership Scope</h2></div>
+    <div class="sec"><div class="sec-head"><span class="sec-num">03</span><h2>工程 Repo Catalog</h2></div>
+      <div class="hint">完整代码仓库地图 · 最近 commit 日期 · Owner</div>
     </div>
-    <div class="eng-grid">
-      <div class="eng-card"><div class="ec-repo">donut-backend <span class="ec-stack">TS · NestJS</span></div><div class="ec-owner"><span class="ec-tag primary">Regison 390c</span><span class="ec-tag primary">Wenzhang 47c</span><span class="ec-tag secondary">JackJun 101c</span><span class="ec-tag secondary">Jin Xu 20c</span></div><div class="ec-scope" contenteditable>D0 模块 · LLM Proxy · Trading · MCP Server · Quant</div></div>
-      <div class="eng-card"><div class="ec-repo">d0-cli <span class="ec-stack">TS · NestJS</span></div><div class="ec-owner"><span class="ec-tag primary">Jin Xu 142c</span><span class="ec-tag secondary">Regison</span><span class="ec-tag secondary">Tao · Liang Han</span></div><div class="ec-scope" contenteditable>261 MCP 工具 · 13 域 · CLI</div><div class="ec-risk">⚠ 工具爆炸 v1.0.7 +28K行</div></div>
-      <div class="eng-card"><div class="ec-repo">donut-perpetual <span class="ec-stack">Java · Spring Boot</span></div><div class="ec-owner"><span class="ec-tag primary">Alex 435c</span><span class="ec-tag primary">Rui Li (GRPS)</span><span class="ec-tag secondary">Wenzhang 109c</span></div><div class="ec-scope" contenteditable>撮合引擎 · 风控 · 清算 · GRPS · API</div></div>
-      <div class="eng-card" style="border-color:rgba(239,68,68,.3)"><div class="ec-repo">agents-backend <span class="ec-stack">Go · Echo</span></div><div class="ec-owner"><span class="ec-tag primary">Ethan 684c SOLE</span></div><div class="ec-scope" contenteditable>AI Agent 交易 · HyperLiquid · 回测</div><div class="ec-risk">🔴 Bus factor = 1</div></div>
-      <div class="eng-card"><div class="ec-repo">HIL-frontend <span class="ec-stack">React 19 · Vite</span></div><div class="ec-owner"><span class="ec-tag primary">Jin Xu 853c</span><span class="ec-tag primary">Gary 67c</span><span class="ec-tag secondary">Ethan</span></div><div class="ec-scope" contenteditable>Web 交易平台 · Dashboard · Onboarding</div></div>
-      <div class="eng-card"><div class="ec-repo">DonutExtension <span class="ec-stack">WXT · React</span></div><div class="ec-owner"><span class="ec-tag primary">Jiagui SOLE</span></div><div class="ec-scope" contenteditable>Chrome 扩展 · Safety · Container</div><div class="ec-risk">🔴 Bus factor = 1</div></div>
-      <div class="eng-card"><div class="ec-repo">donut-aigemix <span class="ec-stack">Python</span></div><div class="ec-owner"><span class="ec-tag primary">JackJun 778c</span><span class="ec-tag secondary">Regison 25c</span></div><div class="ec-scope" contenteditable>AI 场景引擎 · Gasless Swap</div></div>
-      <div class="eng-card"><div class="ec-repo">k8s-infra <span class="ec-stack">Helm · ArgoCD</span></div><div class="ec-owner"><span class="ec-tag primary">Wenzhang 46c</span><span class="ec-tag secondary">Ethan 37c</span></div><div class="ec-scope" contenteditable>生产集群 · 部署 · 监控</div></div>
-    </div>
-  </div><!-- /tab-eng -->
+    <div id="repoCatalog"></div>
+  </div>
 
   <!-- ══════════════════════════════════════════════════════
-       TAB 5: 风险 & 规划
+       TAB 5: 风险 & 规划 (unchanged)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-risk" class="tab-panel">
-    <div class="sec">
-      <div class="sec-head"><span class="sec-num">05</span><h2>风险消解</h2></div>
-    </div>
+    <div class="sec"><div class="sec-head"><span class="sec-num">04</span><h2>风险消解</h2></div></div>
     <div class="risk-grid">
       <div class="risk-item"><div><div class="ri-sev critical">CRITICAL</div></div><div class="ri-problem" contenteditable><strong>Ethan = Agents 单点故障</strong><br>agents-backend 684c sole. 多链资产/Deposit/Withdraw/Transfer + iOS 全压一人。</div><div class="ri-fix" contenteditable><strong>行动:</strong> Regison 做 buddy reviewer · Ethan 输出架构文档 · 招聘 Go 后端优先</div></div>
       <div class="risk-item"><div><div class="ri-sev critical">CRITICAL</div></div><div class="ri-problem" contenteditable><strong>AI 层两核心模块无 Owner</strong><br>确定性分析引擎 (1834) + 预缓存层 (1800)</div><div class="ri-fix" contenteditable><strong>行动:</strong> 1834 → Regison/Liang Han · 1800 → Jin Xu + Wenzhang · 进 Sprint P0</div></div>
@@ -1551,9 +547,7 @@ a:hover { text-decoration: underline; }
       <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem" contenteditable><strong>Jiagui = DonutExtension 单点</strong><br>浏览器安全 + 容器隔离 sole owner。</div><div class="ri-fix" contenteditable><strong>行动:</strong> Jin Xu 或 Gary 做 Extension buddy · 文档化</div></div>
       <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem" contenteditable><strong>多副本无总 Owner</strong><br>各服务自行处理，无统筹。</div><div class="ri-fix" contenteditable><strong>行动:</strong> Wenzhang 总 owner · 优先级: Perps > Backend > Wallet > Agents</div></div>
     </div>
-    <div class="sec">
-      <div class="sec-head"><span class="sec-num">06</span><h2>五层架构 Q2 规划</h2></div>
-    </div>
+    <div class="sec"><div class="sec-head"><span class="sec-num">05</span><h2>五层架构 Q2 规划</h2></div></div>
     <table class="plan-table">
       <thead><tr><th>层</th><th>Owner</th><th>团队</th><th>北极星</th><th>Q2 关键交付</th></tr></thead>
       <tbody>
@@ -1564,9 +558,7 @@ a:hover { text-decoration: underline; }
         <tr style="opacity:.75"><td><span class="layer-dot" style="background:var(--fg-subtle)"></span><strong>基础设施</strong></td><td contenteditable>Wenzhang</td><td contenteditable>Regison · Jiagui · JackJun</td><td contenteditable>可用性>99.9%</td><td contenteditable>多副本 · 灾备 · Safety &amp; Container</td></tr>
       </tbody>
     </table>
-    <div class="sec">
-      <div class="sec-head"><span class="sec-num">07</span><h2>Challenge 决议</h2></div>
-    </div>
+    <div class="sec"><div class="sec-head"><span class="sec-num">06</span><h2>Challenge 决议</h2></div></div>
     <div class="cr-grid">
       <div class="cr-item"><div class="cr-num">1</div><div class="cr-text" contenteditable><strong>四柱缺 AI 层</strong> → 新增 AI Engineering 层，JackJun (引擎) + Fei (Eval &amp; Research) co-own</div><div class="cr-resolution resolved" onclick="cycleRes(this)">✓ 已修正</div></div>
       <div class="cr-item"><div class="cr-num">2</div><div class="cr-text" contenteditable><strong>基础设施人员</strong> → Jiagui = Safety &amp; Container, Wenzhang = DevOps, Regison = Backend</div><div class="cr-resolution resolved" onclick="cycleRes(this)">✓ 已修正</div></div>
@@ -1578,12 +570,16 @@ a:hover { text-decoration: underline; }
       <div class="cr-item"><div class="cr-num">8</div><div class="cr-text" contenteditable><strong>d0-cli 工具爆炸</strong> → 审计 + pruning + gate</div><div class="cr-resolution action" onclick="cycleRes(this)">→ 执行中</div></div>
     </div>
     <div class="pending-box" contenteditable>待决: ① PRODUCT-1834 / 1800 owner 指派 ② Peter 交易标准文档 ③ Ethan buddy reviewer 确认 ④ Jiagui Extension 文档化</div>
-  </div><!-- /tab-risk -->
+  </div>
 
   <!-- ══════════════════════════════════════════════════════
-       TAB 6: MY BOARD (个人看板)
+       TAB 6: MY BOARD (v8.2 — Interactive Status)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-myboard" class="tab-panel">
+    <div class="myboard-guide">
+      💡 <strong>使用方法:</strong> 选你的名字 → 看到你的 issue → 点状态标签切换进度 → 编辑会自动保存<br>
+      需要在 Linear 正式更新？点卡片左上角 issue 编号跳转 ↗
+    </div>
     <div style="text-align:center;margin:var(--space-4) 0 var(--space-6)">
       <div style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:var(--space-2)">选择你的名字 → 查看和管理你的 Issues</div>
       <div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:var(--space-4)" id="personBtns">
@@ -1612,7 +608,7 @@ a:hover { text-decoration: underline; }
     <div id="myBoardGrid" style="margin-bottom:var(--space-6)"></div>
     <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-6)">
       <div style="font-family:var(--font-mono);font-size:.75rem;font-weight:600;margin-bottom:var(--space-3);color:var(--fg-muted)">+ 添加 Issue</div>
-      <div style="display:grid;grid-template-columns:120px 120px 1fr 120px auto;gap:var(--space-2);align-items:center">
+      <div style="display:grid;grid-template-columns:120px 120px 1fr 180px auto;gap:var(--space-2);align-items:center">
         <input id="newIssueId" type="text" placeholder="ENG-1234" style="font-family:var(--font-mono);font-size:.78rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
         <select id="newIssueAssignee" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
           <option value="">负责人</option>
@@ -1626,31 +622,34 @@ a:hover { text-decoration: underline; }
         <input id="newIssueTitle" type="text" placeholder="Issue 标题" style="font-family:var(--font-sans);font-size:.82rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
         <select id="newIssueModule" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
           <option value="">模块</option>
-          <option value="ai">🧠 AI</option><option value="trading">💰 Trading</option><option value="wallet">👛 Wallet</option>
-          <option value="dashboard">📊 Dashboard</option><option value="agent">🤖 Agent</option><option value="infra">🔌 Infra</option>
-          <option value="growth">📣 Growth</option>
+          <option value="frontend.dashboard">📊 Dashboard</option><option value="frontend.hil">📊 HIL</option><option value="frontend.extension">📊 Extension</option>
+          <option value="ai.tools">🧠 d0-cli</option><option value="ai.eval">🧠 Eval</option><option value="ai.agent">🧠 Agent</option>
+          <option value="trading.perps">💰 Perps</option><option value="trading.wallet">💰 Wallet</option>
+          <option value="infra.k8s">🔌 K8s</option><option value="infra.devops">🔌 DevOps</option>
+          <option value="quality.e2e">🧪 E2E</option>
+          <option value="growth.seo">📣 Growth</option>
         </select>
         <button onclick="addMyIssue()" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2) var(--space-4);background:var(--info);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap">添加</button>
       </div>
-      <div style="font-family:var(--font-mono);font-size:.62rem;color:var(--fg-subtle);margin-top:var(--space-2)">输入 Issue ID（如 ENG-1234 / PRODUCT-1834）自动生成 Linear 链接。</div>
     </div>
     <div style="display:flex;gap:var(--space-4);flex-wrap:wrap;font-family:var(--font-mono);font-size:.65rem;color:var(--fg-subtle);justify-content:center">
-      <span>🔨 <span style="color:var(--warning)">开发中</span></span>
-      <span>📝 <span style="color:var(--fg-subtle)">待开始</span></span>
-      <span>✅ <span style="color:var(--success)">已完成</span></span>
-      <span style="color:var(--error)">● P0</span>
-      <span style="color:var(--warning)">● P1</span>
-      <span style="color:var(--info)">● P2</span>
+      <span>📝 待开始</span><span>🔨 <span style="color:var(--warning)">开发中</span></span><span>👀 <span style="color:var(--purple)">Review 中</span></span><span>🧪 <span style="color:var(--teal)">测试中</span></span><span>✅ <span style="color:var(--success)">已完成</span></span>
     </div>
-  </div><!-- /tab-myboard -->
+  </div>
 
   <!-- ══════════════════════════════════════════════════════
-       TAB 7: USER VOICE PIPELINE
+       TAB 7: USER VOICE PIPELINE (v8.2 — Refresh Button)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-voice" class="tab-panel">
-    <div class="voice-section-title" style="margin-top:var(--space-4)">
-      <span class="vs-icon">🔄</span> User Voice Pipeline
+    <div class="voice-section-title" style="margin-top:var(--space-4)"><span class="vs-icon">🔄</span> User Voice Pipeline</div>
+
+    <!-- v8.2: Refresh Bar -->
+    <div class="voice-refresh-bar">
+      <div class="vr-info">📅 数据来源: 2026-03-18 快照 · 下次自动更新: 周五 16:00</div>
+      <button class="vr-btn" onclick="window.open('https://linear.app/donutbrowser/team/GTM/issues?filter=label:user%20feedback','_blank')">🔄 刷新数据</button>
+      <div class="vr-note">自动更新由 Ring 每周五执行。需要立即更新？联系 @Ring</div>
     </div>
+
     <div class="voice-pipeline">
       <div class="vp-stage" style="border-color:rgba(59,130,246,.3)"><div class="vp-icon">📥</div><div class="vp-label">收集</div><div class="vp-count">89</div></div>
       <div class="vp-arrow">→</div>
@@ -1689,112 +688,177 @@ a:hover { text-decoration: underline; }
   </div><!-- /tab-voice -->
 
   <div class="footer">
-    D0 Product Dashboard v8.1 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View
+    D0 Product Dashboard v8.2 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View
   </div>
 
 </div><!-- /page -->
 
+<!-- Status Popup (v8.2) -->
+<div class="status-popup" id="statusPopup">
+  <div class="sp-option" data-status="unstarted" onclick="applyStatus('unstarted')">📝 待开始</div>
+  <div class="sp-option" data-status="started" onclick="applyStatus('started')">🔨 开发中</div>
+  <div class="sp-option" data-status="review" onclick="applyStatus('review')">👀 Review 中</div>
+  <div class="sp-option" data-status="testing" onclick="applyStatus('testing')">🧪 测试中</div>
+  <div class="sp-option" data-status="completed" onclick="applyStatus('completed')">✅ 已完成</div>
+</div>
+
 <script>
 /* ══════════════════════════════════════════════════════════
-   UNIFIED CYCLES DATA (v8.1 — ENG + PRODUCT merged)
+   PRODUCT TREE DEFINITION (v8.2)
+   ══════════════════════════════════════════════════════════ */
+const PRODUCT_TREE = [
+  { key:'frontend', icon:'📊', name:'Frontend', children:[
+    { key:'frontend.dashboard', name:'Dashboard', repo:'donut-d0', owners:'Gary, Ye Zou' },
+    { key:'frontend.hil', name:'HIL Webapp', repo:'dount-HIL-frontend', owners:'Justin, Ethan' },
+    { key:'frontend.extension', name:'Extension', repo:'DonutExtension', owners:'Jiagui' }
+  ]},
+  { key:'ai', icon:'🧠', name:'AI Engine', children:[
+    { key:'ai.tools', name:'d0-cli (261 MCP tools)', repo:'d0-cli', owners:'JackJun, Jin Xu' },
+    { key:'ai.eval', name:'Eval System', repo:'d0-skill-eval', owners:'Fei, Jin Xu' },
+    { key:'ai.llmproxy', name:'LLM Proxy', owners:'Regison, Wenzhang' },
+    { key:'ai.agent', name:'Agent', owners:'JackJun' }
+  ]},
+  { key:'trading', icon:'💰', name:'Trading', children:[
+    { key:'trading.perps', name:'Perps', repo:'donut-perpetual', owners:'Alex, Rui Li' },
+    { key:'trading.spot', name:'Spot', repo:'donut-backend', owners:'Regison' },
+    { key:'trading.agents', name:'Agents Backend (Go)', repo:'donut-agents-backend', owners:'Ethan' },
+    { key:'trading.wallet', name:'Wallet Service', repo:'donut-wallet-service', owners:'Regison, Wenzhang' }
+  ]},
+  { key:'infra', icon:'🔌', name:'Backend & Infra', children:[
+    { key:'infra.backend', name:'donut-backend (NestJS)', repo:'donut-backend', owners:'Regison, Wenzhang, Jin Xu' },
+    { key:'infra.k8s', name:'K8s Infra', repo:'k8s-infrastructure', owners:'Wenzhang' },
+    { key:'infra.devops', name:'DevOps/CI', owners:'Wenzhang, Kevin' },
+    { key:'infra.cron', name:'Cron/Admin', owners:'Jin Xu' }
+  ]},
+  { key:'quality', icon:'🧪', name:'Quality', children:[
+    { key:'quality.e2e', name:'E2E 测试', owners:'Kevin, Jim' },
+    { key:'quality.triage', name:'Bug Triage', owners:'Jim' }
+  ]},
+  { key:'growth', icon:'📣', name:'Growth & GTM', children:[
+    { key:'growth.seo', name:'SEO', owners:'Qiaochu' },
+    { key:'growth.referral', name:'Referral', owners:'Ruqi' },
+    { key:'growth.voice', name:'User Feedback Pipeline' }
+  ]}
+];
+
+/* ══════════════════════════════════════════════════════════
+   UNIFIED CYCLES DATA (v8.2 — with module field)
    ══════════════════════════════════════════════════════════ */
 const CYCLES = {
   sprint22: {
     label: 'Sprint 22', dates: '3/15 → 3/29', status: 'active',
     issues: [
-      // ─── ENG Sprint 22 ───
-      { id:'ENG-1000', title:'tgbot中消息顺序的问题', assignee:'justin', layer:'agent', state:'started', stateLabel:'In Review', priority:'none', team:'ENG' },
-      { id:'ENG-1111', title:'Onboarding 状态机文档化 — 前后端状态流转 + 触发条件 + 边界 case', assignee:'wenzhang', layer:'dashboard', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1087', title:'OpenClaw Profile Plugin：用 SQLite 替代 workspace JSON 文件存储 user profile', assignee:'jim', layer:'infra', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
-      { id:'ENG-925', title:'[Research] D0 独享 Agent vs Multi-Agent 共享：功能与安全对比分析', assignee:'justin', layer:'agent', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
-      { id:'ENG-924', title:'[Research] D0 Cloud 成本分析：Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
-      { id:'ENG-1019', title:'实现 D0 用户行为记忆系统（v3.0）', assignee:'jim', layer:'ai', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
-      { id:'ENG-853', title:'[Eval001] Atom\u0026Invariant Level Evaluation', assignee:'fei', layer:'ai', state:'started', stateLabel:'In Review', priority:'medium', team:'ENG' },
-      { id:'ENG-1091', title:'[Bug] Shared LLM 日配额每天早上耗尽 — Opus/Sonnet 100% 满额导致服务不可用', assignee:'jim', layer:'ai', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
-      { id:'ENG-1011', title:'LLM Token 用量配额：按用户账户限制，与会员权益挂钩', assignee:'zouye', layer:'ai', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
-      { id:'ENG-1110', title:'D0 Prompt 系统清理：5 个结构性问题修复', assignee:'xujin', layer:'ai', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1096', title:'[Methodology] Data source audit framework for discovering DONUT tool gaps and conflicts', assignee:'hanliang', layer:'ai', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-827', title:'Collect more user scenarios and related data sources', assignee:'tao', layer:'ai', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-1127', title:'[Position TPSL] 多空不平 / 流水断裂 / 死锁风险分析报告', assignee:'alex', layer:'trading', state:'started', stateLabel:'In Progress', priority:'high', team:'ENG' },
-      { id:'ENG-1062', title:'fix: build-transfer API 500 - Helius priority fee encoding mismatch', assignee:'ethan', layer:'wallet', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
-      { id:'ENG-824', title:'Add Birdeye OHLCV fallback to hummingbot-api market data endpoints', assignee:'jackjun', layer:'trading', state:'started', stateLabel:'In Review', priority:'medium', team:'ENG' },
-      { id:'ENG-967', title:'[d0-cli] GH#85: 功能改进: 平仓后自动取消对应token的止盈止损订单', assignee:'alex', layer:'trading', state:'started', stateLabel:'In Progress', priority:'none', team:'ENG' },
-      { id:'ENG-1126', title:'Polymarket 信号生产到执行全流程 Pipeline', assignee:'ethan', layer:'trading', state:'triage', stateLabel:'Triage', priority:'high', team:'ENG' },
-      { id:'ENG-970', title:'[d0-cli] GH#75: DONUT_HL_WITHDRAW未告知提现手续费', assignee:'ethan', layer:'wallet', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'ENG' },
-      { id:'ENG-997', title:'polymarket完成情況與overall tracker', assignee:'hanliang', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-962', title:'Implement Polymarket CLOB \u0026 Data API Tools for d0-cli', assignee:'hanliang', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-861', title:'[P0] 生产服务全单副本 — 添加多副本 + PDB', assignee:'unassigned', layer:'infra', state:'started', stateLabel:'In Progress', priority:'urgent', team:'ENG' },
-      { id:'ENG-860', title:'[Infra] K8s 生产基础设施运维问题修复', assignee:'wenzhang', layer:'infra', state:'started', stateLabel:'In Progress', priority:'urgent', team:'ENG' },
-      { id:'ENG-1017', title:'[Bug] Test env: /wallet-service/turnkey/auth/refresh returns 401', assignee:'jim', layer:'infra', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
-      { id:'ENG-1089', title:'shared 模式禁用 qmd embed，回退 BM25 keyword 搜索', assignee:'wenzhang', layer:'infra', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
-      { id:'ENG-1107', title:'冲突数据可观测性：统计用户触发的 workspace-sync 冲突并暴露数据', assignee:'wenzhang', layer:'infra', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1103', title:'workspace-sync.sh: 用户自定义配置与官方更新的合并冲突处理', assignee:'wenzhang', layer:'infra', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1043', title:'D0 Bot 监控：SigNoz 告警规则 + /health/d0 心跳端点', assignee:'jiagui', layer:'infra', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1095', title:'docs(d0): openclaw-dashboard 服务运维信息及重启恢复记录', assignee:'unassigned', layer:'infra', state:'completed', stateLabel:'Done', priority:'low', team:'ENG' },
-      { id:'ENG-819', title:'K8s线上环境pod的replica变成2', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-814', title:'调整Kubernetes节点编排并升级on-demand节点', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-801', title:'开发者本地环境的统一 .env 管理平台', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-836', title:'nofx update tracking', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-806', title:'browser research', assignee:'jiagui', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
-      { id:'ENG-831', title:'Suna: long-lived connection draining during rolling update', assignee:'justin', layer:'infra', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' }
+      { id:'ENG-1000', title:'tgbot中消息顺序的问题', assignee:'justin', layer:'agent', module:'ai.agent', state:'started', stateLabel:'In Review', priority:'none', team:'ENG' },
+      { id:'ENG-1111', title:'Onboarding 状态机文档化 — 前后端状态流转 + 触发条件 + 边界 case', assignee:'wenzhang', layer:'dashboard', module:'frontend.dashboard', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-1087', title:'OpenClaw Profile Plugin：用 SQLite 替代 workspace JSON 文件存储 user profile', assignee:'jim', layer:'infra', module:'infra.devops', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
+      { id:'ENG-925', title:'[Research] D0 独享 Agent vs Multi-Agent 共享：功能与安全对比分析', assignee:'justin', layer:'agent', module:'ai.agent', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
+      { id:'ENG-924', title:'[Research] D0 Cloud 成本分析：Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享', assignee:'justin', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
+      { id:'ENG-1019', title:'实现 D0 用户行为记忆系统（v3.0）', assignee:'jim', layer:'ai', module:'ai.tools', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
+      { id:'ENG-853', title:'[Eval001] Atom&Invariant Level Evaluation', assignee:'fei', layer:'ai', module:'ai.eval', state:'started', stateLabel:'In Review', priority:'medium', team:'ENG' },
+      { id:'ENG-1091', title:'[Bug] Shared LLM 日配额每天早上耗尽 — Opus/Sonnet 100% 满额导致服务不可用', assignee:'jim', layer:'ai', module:'ai.llmproxy', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
+      { id:'ENG-1011', title:'LLM Token 用量配额：按用户账户限制，与会员权益挂钩', assignee:'zouye', layer:'ai', module:'ai.llmproxy', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
+      { id:'ENG-1110', title:'D0 Prompt 系统清理：5 个结构性问题修复', assignee:'xujin', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-1096', title:'[Methodology] Data source audit framework for discovering DONUT tool gaps and conflicts', assignee:'hanliang', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
+      { id:'ENG-827', title:'Collect more user scenarios and related data sources', assignee:'tao', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
+      { id:'ENG-1127', title:'[Position TPSL] 多空不平 / 流水断裂 / 死锁风险分析报告', assignee:'alex', layer:'trading', module:'trading.perps', state:'started', stateLabel:'In Progress', priority:'high', team:'ENG' },
+      { id:'ENG-1062', title:'fix: build-transfer API 500 - Helius priority fee encoding mismatch', assignee:'ethan', layer:'wallet', module:'trading.wallet', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
+      { id:'ENG-824', title:'Add Birdeye OHLCV fallback to hummingbot-api market data endpoints', assignee:'jackjun', layer:'trading', module:'trading.spot', state:'started', stateLabel:'In Review', priority:'medium', team:'ENG' },
+      { id:'ENG-967', title:'[d0-cli] GH#85: 功能改进: 平仓后自动取消对应token的止盈止损订单', assignee:'alex', layer:'trading', module:'trading.perps', state:'started', stateLabel:'In Progress', priority:'none', team:'ENG' },
+      { id:'ENG-1126', title:'Polymarket 信号生产到执行全流程 Pipeline', assignee:'ethan', layer:'trading', module:'ai.agent', state:'triage', stateLabel:'Triage', priority:'high', team:'ENG' },
+      { id:'ENG-970', title:'[d0-cli] GH#75: DONUT_HL_WITHDRAW未告知提现手续费', assignee:'ethan', layer:'wallet', module:'trading.wallet', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'ENG' },
+      { id:'ENG-997', title:'polymarket完成情況與overall tracker', assignee:'hanliang', layer:'trading', module:'ai.agent', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-962', title:'Implement Polymarket CLOB & Data API Tools for d0-cli', assignee:'hanliang', layer:'trading', module:'ai.agent', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-861', title:'[P0] 生产服务全单副本 — 添加多副本 + PDB', assignee:'unassigned', layer:'infra', module:'infra.k8s', state:'started', stateLabel:'In Progress', priority:'urgent', team:'ENG' },
+      { id:'ENG-860', title:'[Infra] K8s 生产基础设施运维问题修复', assignee:'wenzhang', layer:'infra', module:'infra.k8s', state:'started', stateLabel:'In Progress', priority:'urgent', team:'ENG' },
+      { id:'ENG-1017', title:'[Bug] Test env: /wallet-service/turnkey/auth/refresh returns 401', assignee:'jim', layer:'infra', module:'infra.devops', state:'started', stateLabel:'In Review', priority:'high', team:'ENG' },
+      { id:'ENG-1089', title:'shared 模式禁用 qmd embed，回退 BM25 keyword 搜索', assignee:'wenzhang', layer:'infra', module:'infra.devops', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
+      { id:'ENG-1107', title:'冲突数据可观测性：统计用户触发的 workspace-sync 冲突并暴露数据', assignee:'wenzhang', layer:'infra', module:'infra.devops', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-1103', title:'workspace-sync.sh: 用户自定义配置与官方更新的合并冲突处理', assignee:'wenzhang', layer:'infra', module:'infra.devops', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-1043', title:'D0 Bot 监控：SigNoz 告警规则 + /health/d0 心跳端点', assignee:'jiagui', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-1095', title:'docs(d0): openclaw-dashboard 服务运维信息及重启恢复记录', assignee:'unassigned', layer:'infra', module:'infra.devops', state:'completed', stateLabel:'Done', priority:'low', team:'ENG' },
+      { id:'ENG-819', title:'K8s线上环境pod的replica变成2', assignee:'justin', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
+      { id:'ENG-814', title:'调整Kubernetes节点编排并升级on-demand节点', assignee:'justin', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
+      { id:'ENG-801', title:'开发者本地环境的统一 .env 管理平台', assignee:'justin', layer:'infra', module:'infra.devops', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
+      { id:'ENG-836', title:'nofx update tracking', assignee:'justin', layer:'infra', module:'infra.devops', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
+      { id:'ENG-806', title:'browser research', assignee:'jiagui', layer:'infra', module:'frontend.extension', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' },
+      { id:'ENG-831', title:'Suna: long-lived connection draining during rolling update', assignee:'justin', layer:'infra', module:'infra.devops', state:'completed', stateLabel:'Done', priority:'none', team:'ENG' }
     ]
   },
   sprint23: {
     label: 'Sprint 23', dates: '3/23 → 4/3', status: 'upcoming',
     issues: [
-      // ─── PRODUCT Sprint 23 ───
-      { id:'PRODUCT-2008', title:'[审计] HIL 用户反馈 → D0 迁移完整现状', assignee:'unassigned', layer:'agent', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-2007', title:'图表能力策略决策', assignee:'sylvia', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1997', title:'Safari 登录跳回后参数未正确处理', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1996', title:'Safari 登录 redirect 不正确', assignee:'gary', layer:'dashboard', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1992', title:'D0 E2E 自动化测试接入 CI', assignee:'kevin', layer:'infra', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-2002', title:'/d0/status 轮询间隔过长', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-1972', title:'数据质量与集成度审查', assignee:'regison', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1994', title:'月度 LLM 用量 resetsAt UTC', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-1993', title:'邀请码校验 loading', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-2001', title:'LLM USAGE 进度条不对称', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-2000', title:'动画需缩小', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
-      { id:'PRODUCT-1945', title:'MCP tool bugs + data gaps', assignee:'hanliang', layer:'ai', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1939', title:'EVM Native Token 转账预留 Gas', assignee:'ethan', layer:'wallet', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1999', title:'Landing Page iframe 路由重构', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
-      { id:'PRODUCT-1915', title:'Position TPSL 下单触发价校验', assignee:'kevin', layer:'trading', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1998', title:'谷歌登录新邮箱界面问题', assignee:'gary', layer:'dashboard', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
-      { id:'PRODUCT-1765', title:'GRPS AutoProtect', assignee:'kevin', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1763', title:'GRPS 授权管理', assignee:'kevin', layer:'trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1586', title:'D0 Chat → Agent Creation PRD', assignee:'unassigned', layer:'agent', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1502', title:'D0 Backtest Skill PRD', assignee:'sylvia', layer:'agent', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
-      { id:'PRODUCT-1475', title:'confidence 0% 自动平仓', assignee:'unassigned', layer:'agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1474', title:'编辑策略时编辑币种', assignee:'unassigned', layer:'agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1443', title:'策略编辑后重新评估风险', assignee:'unassigned', layer:'agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1442', title:'创建后追加资金', assignee:'unassigned', layer:'agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
-      { id:'PRODUCT-1441', title:'TG通知 + TG交互修改', assignee:'unassigned', layer:'agent', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' }
+      { id:'PRODUCT-2008', title:'[审计] HIL 用户反馈 → D0 迁移完整现状', assignee:'unassigned', layer:'agent', module:'ai.agent', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
+      { id:'PRODUCT-2007', title:'图表能力策略决策', assignee:'sylvia', layer:'dashboard', module:'frontend.dashboard', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1997', title:'Safari 登录跳回后参数未正确处理', assignee:'gary', layer:'dashboard', module:'frontend.dashboard', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1996', title:'Safari 登录 redirect 不正确', assignee:'gary', layer:'dashboard', module:'frontend.dashboard', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1992', title:'D0 E2E 自动化测试接入 CI', assignee:'kevin', layer:'infra', module:'quality.e2e', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-2002', title:'/d0/status 轮询间隔过长', assignee:'gary', layer:'dashboard', module:'frontend.dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
+      { id:'PRODUCT-1972', title:'数据质量与集成度审查', assignee:'regison', layer:'ai', module:'ai.tools', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
+      { id:'PRODUCT-1994', title:'月度 LLM 用量 resetsAt UTC', assignee:'gary', layer:'dashboard', module:'frontend.dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
+      { id:'PRODUCT-1993', title:'邀请码校验 loading', assignee:'gary', layer:'dashboard', module:'frontend.dashboard', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-2001', title:'LLM USAGE 进度条不对称', assignee:'gary', layer:'dashboard', module:'frontend.dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
+      { id:'PRODUCT-2000', title:'动画需缩小', assignee:'gary', layer:'dashboard', module:'frontend.dashboard', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT' },
+      { id:'PRODUCT-1945', title:'MCP tool bugs + data gaps', assignee:'hanliang', layer:'ai', module:'ai.tools', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
+      { id:'PRODUCT-1939', title:'EVM Native Token 转账预留 Gas', assignee:'ethan', layer:'wallet', module:'trading.wallet', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT' },
+      { id:'PRODUCT-1999', title:'Landing Page iframe 路由重构', assignee:'gary', layer:'dashboard', module:'frontend.dashboard', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
+      { id:'PRODUCT-1915', title:'Position TPSL 下单触发价校验', assignee:'kevin', layer:'trading', module:'trading.perps', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1998', title:'谷歌登录新邮箱界面问题', assignee:'gary', layer:'dashboard', module:'frontend.dashboard', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT' },
+      { id:'PRODUCT-1765', title:'GRPS AutoProtect', assignee:'kevin', layer:'trading', module:'trading.perps', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1763', title:'GRPS 授权管理', assignee:'kevin', layer:'trading', module:'trading.perps', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1586', title:'D0 Chat → Agent Creation PRD', assignee:'unassigned', layer:'agent', module:'ai.agent', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1502', title:'D0 Backtest Skill PRD', assignee:'sylvia', layer:'agent', module:'ai.agent', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT' },
+      { id:'PRODUCT-1475', title:'confidence 0% 自动平仓', assignee:'unassigned', layer:'agent', module:'ai.agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1474', title:'编辑策略时编辑币种', assignee:'unassigned', layer:'agent', module:'ai.agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1443', title:'策略编辑后重新评估风险', assignee:'unassigned', layer:'agent', module:'ai.agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1442', title:'创建后追加资金', assignee:'unassigned', layer:'agent', module:'ai.agent', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT' },
+      { id:'PRODUCT-1441', title:'TG通知 + TG交互修改', assignee:'unassigned', layer:'agent', module:'ai.agent', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT' }
     ]
   }
 };
 
-/* ── Module Definitions (v8.1 — 7 D0 Functional Modules) ─ */
-const MODULES = ['ai','trading','wallet','dashboard','agent','infra','growth'];
-const moduleIcons = {ai:'🧠',trading:'💰',wallet:'👛',dashboard:'📊',agent:'🤖',infra:'🔌',growth:'📣'};
-const moduleNames = {ai:'AI Engine',trading:'Trading',wallet:'Wallet & Assets',dashboard:'Dashboard',agent:'Agent',infra:'Infrastructure',growth:'Growth & GTM'};
-const moduleAccents = {ai:'#f59e0b',trading:'#ef4444',wallet:'#14b8a6',dashboard:'#3b82f6',agent:'#a78bfa',infra:'#71717a',growth:'#22c55e'};
-
 /* ── Shared Mappings ───────────────────────────────────── */
 const nameMap = {jackjun:'JackJun',fei:'Fei',xujin:'Jin Xu',gary:'Gary',ethan:'Ethan',alex:'Alex',lirui:'Rui Li',regison:'Regison',wenzhang:'Wenzhang',jiagui:'Jiagui',peter:'Peter',zouye:'Ye Zou',sylvia:'Sylvia',yixintan:'Yi Tan',hanliang:'Liang Han',tao:'Tao Yuan',jim:'Jim',kevin:'Kevin',justin:'Justin',unassigned:'—'};
 const priorityColors = {urgent:'#ef4444',high:'#f59e0b',medium:'#3b82f6',low:'#22c55e',none:'#52525b'};
+const moduleAccents = {'frontend':'#3b82f6','ai':'#f59e0b','trading':'#ef4444','infra':'#71717a','quality':'#14b8a6','growth':'#22c55e'};
+const FLAT_MODULES = ['frontend.dashboard','frontend.hil','frontend.extension','ai.tools','ai.eval','ai.llmproxy','ai.agent','trading.perps','trading.spot','trading.agents','trading.wallet','infra.backend','infra.k8s','infra.devops','infra.cron','quality.e2e','quality.triage','growth.seo','growth.referral','growth.voice'];
 
 let activeCycleKey = 'sprint23';
 
-/* ── localStorage Keys (v8.1) ──────────────────────────── */
-const SAVE_KEY = 'd0-board-v81';
-const VER_KEY = 'd0-board-v81-vers';
-const CUSTOM_KEY = 'd0-board-v81-custom';
-const CYCLE_ADDS_KEY = 'd0-board-v81-cycle-adds';
+/* ── localStorage Keys (v8.2) ──────────────────────────── */
+const SAVE_KEY = 'd0-board-v82';
+const VER_KEY = 'd0-board-v82-vers';
+const CUSTOM_KEY = 'd0-board-v82-custom';
+const CYCLE_ADDS_KEY = 'd0-board-v82-cycle-adds';
+const STATUS_KEY = 'd0-board-v82-status';
 
-/* ── Cycle Additions (localStorage) ────────────────────── */
-function getCycleAdditions(key) {
-  try { const a = JSON.parse(localStorage.getItem(CYCLE_ADDS_KEY)||'{}'); return a[key]||[]; }
-  catch { return []; }
+/* ── Status Override Management (v8.2) ─────────────────── */
+function getStatusOverrides() { try { return JSON.parse(localStorage.getItem(STATUS_KEY)||'{}') } catch { return {} } }
+function setStatusOverride(issueId, status) {
+  const o = getStatusOverrides();
+  o[issueId] = status;
+  localStorage.setItem(STATUS_KEY, JSON.stringify(o));
+  save();
 }
+function getEffectiveState(issue) {
+  const overrides = getStatusOverrides();
+  if (overrides[issue.id]) return overrides[issue.id];
+  return issue.state;
+}
+function getEffectiveStateLabel(issue) {
+  const overrides = getStatusOverrides();
+  if (overrides[issue.id]) {
+    const s = overrides[issue.id];
+    if (s === 'unstarted') return 'Todo';
+    if (s === 'started') return 'In Progress';
+    if (s === 'review') return 'In Review';
+    if (s === 'testing') return 'Testing';
+    if (s === 'completed') return 'Done';
+  }
+  return issue.stateLabel;
+}
+
+/* ── Cycle Additions ───────────────────────────────────── */
+function getCycleAdditions(key) { try { const a = JSON.parse(localStorage.getItem(CYCLE_ADDS_KEY)||'{}'); return a[key]||[]; } catch { return []; } }
 function saveCycleAddition(key, issue) {
   const a = JSON.parse(localStorage.getItem(CYCLE_ADDS_KEY)||'{}');
   if (!a[key]) a[key] = [];
@@ -1809,7 +873,7 @@ function removeCycleAddition(key, issueId) {
 }
 
 /* ══════════════════════════════════════════════════════════
-   CYCLE RENDERING
+   CYCLE RENDERING (v8.2 — Product Tree)
    ══════════════════════════════════════════════════════════ */
 function switchCycle(key) {
   activeCycleKey = key;
@@ -1843,29 +907,47 @@ function renderCycle(key) {
   document.getElementById('stat-completion').textContent = completion+'%';
   document.getElementById('stat-people').textContent = people;
 
-  // Module View
+  // Product Tree View (v8.2)
   const layerView = document.getElementById('view-layer');
-  layerView.innerHTML = MODULES.map(mod => {
-    const mi = issues.filter(i => i.layer === mod);
-    if (mi.length === 0) return '';
-    const mActive = mi.filter(i => i.state==='started'||i.state==='triage').length;
-    const mDone = mi.filter(i => i.state==='completed').length;
-    const mCanceled = mi.filter(i => i.state==='canceled').length;
-    const mTotal = mi.length;
-    const doneP = mTotal>0 ? Math.round(((mDone+mCanceled)/mTotal)*100) : 0;
-    const activeP = mTotal>0 ? Math.round((mActive/mTotal)*100) : 0;
-    return '<div class="module-section">'
-      +'<div class="module-header" onclick="this.parentElement.classList.toggle(\'collapsed\')">'
-      +'<span class="module-icon">'+moduleIcons[mod]+'</span>'
-      +'<span class="module-name">'+moduleNames[mod]+'</span>'
-      +'<span class="module-count">'+mTotal+'</span>'
-      +'<span class="module-meta">'+mActive+' active · '+mDone+' done</span>'
-      +'<span class="chevron">▼</span></div>'
-      +'<div class="module-body">'
-      +'<div class="progress-bar"><div class="progress-done" style="width:'+doneP+'%"></div><div class="progress-active" style="width:'+activeP+'%"></div></div>'
-      +'<div class="card-grid">'+mi.map(renderCardHTML).join('')+'</div>'
-      +'</div></div>';
-  }).join('');
+  let treeHTML = '<div class="ptree">';
+  PRODUCT_TREE.forEach(cat => {
+    const catIssues = issues.filter(i => (i.module||i.layer||'').startsWith(cat.key));
+    const catTotal = catIssues.length;
+    if (catTotal === 0) return;
+    const catActive = catIssues.filter(i => i.state==='started'||i.state==='triage').length;
+    const catDone = catIssues.filter(i => i.state==='completed').length;
+
+    treeHTML += '<details open class="ptree-node level-0"><summary class="ptree-label">'
+      + '<span class="ptree-icon">'+cat.icon+'</span>'
+      + '<span class="ptree-name">'+cat.name+'</span>'
+      + '<span class="ptree-count">'+catTotal+' issues · '+catActive+' active · '+catDone+' done</span>'
+      + '</summary><div class="ptree-children">';
+
+    cat.children.forEach(sub => {
+      const subIssues = issues.filter(i => i.module === sub.key);
+      if (subIssues.length === 0) return;
+      const subActive = subIssues.filter(i => i.state==='started'||i.state==='triage').length;
+      const subDone = subIssues.filter(i => i.state==='completed').length;
+      const subTotal = subIssues.length;
+      const doneP = subTotal>0?Math.round(((subDone)/subTotal)*100):0;
+      const activeP = subTotal>0?Math.round((subActive/subTotal)*100):0;
+
+      treeHTML += '<details open class="ptree-node level-1"><summary class="ptree-label">'
+        + '<span class="ptree-name">'+sub.name+'</span>'
+        + (sub.repo ? '<span class="ptree-repo">'+sub.repo+'</span>' : '')
+        + '<span class="ptree-owners">'+( sub.owners||'')+'</span>'
+        + '<span class="ptree-count">'+subTotal+'</span>'
+        + '</summary><div class="ptree-children">'
+        + '<div class="progress-bar" style="margin:var(--space-1) 0 var(--space-2) var(--space-6)"><div class="progress-done" style="width:'+doneP+'%"></div><div class="progress-active" style="width:'+activeP+'%"></div></div>'
+        + '<div class="card-grid" style="padding-left:var(--space-6)">'
+        + subIssues.map(renderCardHTML).join('')
+        + '</div></div></details>';
+    });
+
+    treeHTML += '</div></details>';
+  });
+  treeHTML += '</div>';
+  layerView.innerHTML = treeHTML;
 
   renderPersonView(issues);
   save();
@@ -1914,9 +996,9 @@ function renderCardHTML(issue) {
   const teamBadge = '<span class="card-team-badge '+(issue.team==='PRODUCT'?'product':'eng')+'">'+issue.team+'</span>';
   const delBtn = issue.source==='cycle-add' ? '<button class="card-custom-del" onclick="removeCycleIssueAndRefresh(\''+issue.id+'\')">✕</button>' : '';
 
-  return '<div class="card '+cardClass+'" data-assignee="'+issue.assignee+'" data-layer="'+issue.layer+'" data-state="'+issue.state+'" style="--accent:'+teamAccent+'">'
+  return '<div class="card '+cardClass+'" data-assignee="'+issue.assignee+'" data-layer="'+(issue.module||issue.layer)+'" data-state="'+issue.state+'" data-id="'+issue.id+'" style="--accent:'+teamAccent+'">'
     +delBtn
-    +'<div class="card-head"><a href="'+href+'" target="_blank" rel="noopener" class="card-id">'+issue.id+'</a>'
+    +'<div class="card-head"><a href="'+href+'" target="_blank" rel="noopener" class="card-id">'+issue.id+' ↗</a>'
     +teamBadge
     +'<span class="priority-dot" style="background:'+pColor+'"></span></div>'
     +'<div class="card-title">'+safeTitle+'</div>'
@@ -1950,11 +1032,11 @@ function renderPersonView(issues) {
     const t = cards.length;
     const dP = t>0?Math.round((dn/t)*100):0;
     const aP = t>0?Math.round((ac/t)*100):0;
-    const lc = {}; cards.forEach(c => { lc[c.layer]=(lc[c.layer]||0)+1; });
-    const pl = Object.keys(lc).sort((a,b) => lc[b]-lc[a])[0]||'infra';
-    const accent = moduleAccents[pl]||'var(--fg-subtle)';
-    const icon = moduleIcons[pl]||'🔌';
-    const ln = moduleNames[pl]||pl;
+    const catKey = (cards[0].module||cards[0].layer||'infra').split('.')[0];
+    const accent = moduleAccents[catKey]||'var(--fg-subtle)';
+    const catDef = PRODUCT_TREE.find(c => c.key===catKey);
+    const icon = catDef?catDef.icon:'🔌';
+    const ln = catDef?catDef.name:catKey;
     const dn2 = nameMap[assignee]||assignee;
     const init = dn2.charAt(0).toUpperCase();
     return '<div class="section" style="--accent:'+accent+'">'
@@ -1962,7 +1044,7 @@ function renderPersonView(issues) {
       +'<span class="person-avatar">'+init+'</span>'
       +'<span class="section-name">'+dn2+'</span>'
       +'<span class="section-sub" style="color:'+accent+'">'+icon+' '+ln+'</span></div>'
-      +'<div class="section-meta"><span class="meta-count">'+ac+' active</span><span class="meta-sep">·</span><span class="meta-count">'+dn+' done</span></div></div>'
+      +'<div class="section-meta"><span>'+ac+' active</span><span class="meta-sep">·</span><span>'+dn+' done</span></div></div>'
       +'<div class="progress-bar"><div class="progress-done" style="width:'+dP+'%"></div><div class="progress-active" style="width:'+aP+'%"></div></div>'
       +'<div class="card-grid">'+cards.map(renderCardHTML).join('')+'</div></div>';
   }).join('');
@@ -1994,6 +1076,8 @@ function switchTab(tab) {
   document.getElementById('tab-'+tab).classList.add('active');
   event.currentTarget.classList.add('active');
   if (tab==='myboard') renderMyBoard(window._currentMyFilter||'all');
+  if (tab==='product') renderProductPanorama();
+  if (tab==='eng') renderRepoCatalog();
 }
 
 /* ── Sprint Board: View Switching ──────────────────────── */
@@ -2014,10 +1098,10 @@ function filterState(filter) {
     else if (filter==='active') card.classList.toggle('filtered-out', ['completed','canceled'].includes(state));
     else if (filter==='done') card.classList.toggle('filtered-out', state!=='completed');
   });
-  document.querySelectorAll('#view-layer .module-section').forEach(s => {
+  document.querySelectorAll('#view-layer .ptree-node.level-1').forEach(s => {
     const total = s.querySelectorAll('.card').length;
     const hidden = s.querySelectorAll('.card.filtered-out').length;
-    s.style.display = (total===hidden)?'none':'';
+    if (total===hidden && total>0) s.style.display = 'none'; else s.style.display = '';
   });
 }
 
@@ -2026,10 +1110,11 @@ function addIssueToCycle() {
   const id = document.getElementById('cycleIssueId').value.trim().toUpperCase();
   const title = document.getElementById('cycleIssueTitle').value.trim();
   const assignee = document.getElementById('cycleIssueAssignee').value||'unassigned';
-  const layer = document.getElementById('cycleIssueModule').value||'infra';
+  const mod = document.getElementById('cycleIssueModule').value||'infra.devops';
   if (!id||!title) { alert('请输入 Issue ID 和标题'); return; }
   const team = id.startsWith('PRODUCT')?'PRODUCT':id.startsWith('TES')?'TES':'ENG';
-  const issue = {id, title, assignee, layer, state:'unstarted', stateLabel:'Todo', priority:'none', team};
+  const layer = mod.split('.')[0]||'infra';
+  const issue = {id, title, assignee, layer, module:mod, state:'unstarted', stateLabel:'Todo', priority:'none', team};
   if (saveCycleAddition(activeCycleKey, issue)) {
     renderCycle(activeCycleKey);
     document.getElementById('cycleIssueId').value='';
@@ -2140,13 +1225,15 @@ function resetData() {
 }
 setTimeout(updateVersionList, 100);
 
-/* ── My Board ──────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   MY BOARD (v8.2 — Interactive Status Popup)
+   ══════════════════════════════════════════════════════════ */
 function collectSprintIssues() {
   const cycle = CYCLES[activeCycleKey];
   if (!cycle) return [];
   const added = getCycleAdditions(activeCycleKey);
   return [...cycle.issues, ...added].map(i => ({
-    id:i.id, title:i.title, assignee:i.assignee, layer:i.layer,
+    id:i.id, title:i.title, assignee:i.assignee, layer:i.layer, module:i.module||i.layer,
     state:i.state, stateLabel:i.stateLabel, priority:i.priority, team:i.team,
     href:'https://linear.app/donutbrowser/issue/'+i.id,
     pColor:priorityColors[i.priority]||'#52525b', source:'sprint'
@@ -2155,21 +1242,87 @@ function collectSprintIssues() {
 function getCustomIssues() { try { return JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]') } catch { return [] } }
 function saveCustomIssues(arr) { localStorage.setItem(CUSTOM_KEY, JSON.stringify(arr)); save(); }
 
+const MY_STATUS_OPTIONS = [
+  { key:'unstarted', label:'📝 待开始', color:'var(--fg-subtle)' },
+  { key:'started', label:'🔨 开发中', color:'var(--warning)' },
+  { key:'review', label:'👀 Review 中', color:'var(--purple)' },
+  { key:'testing', label:'🧪 测试中', color:'var(--teal)' },
+  { key:'completed', label:'✅ 已完成', color:'var(--success)' }
+];
+
+function getMyStatusInfo(issue) {
+  const eff = getEffectiveState(issue);
+  const opt = MY_STATUS_OPTIONS.find(o => o.key === eff);
+  if (opt) return opt;
+  // Map original states
+  if (eff === 'started') return MY_STATUS_OPTIONS[1];
+  if (eff === 'completed') return MY_STATUS_OPTIONS[4];
+  if (eff === 'canceled') return { key:'canceled', label:'✕ 已取消', color:'var(--fg-subtle)' };
+  if (eff === 'triage') return { key:'triage', label:'📝 待分类', color:'var(--purple)' };
+  return MY_STATUS_OPTIONS[0];
+}
+
 function renderMyBoardCard(c) {
-  const stL = c.state==='completed'?'✅ 已完成':c.state==='started'?(c.stateLabel==='In Review'?'👀 Review 中':'🔨 开发中'):c.state==='triage'?'📝 待分类':c.state==='canceled'?'✕ 已取消':'📝 待开始';
-  const stC = c.state==='completed'?'var(--success)':c.state==='started'?'var(--warning)':c.state==='triage'?'var(--purple)':'var(--fg-subtle)';
-  const lBg = moduleAccents[c.layer]||'var(--fg-faint)';
-  const isDone = c.state==='completed'||c.state==='canceled';
+  const si = getMyStatusInfo(c);
+  const isDone = si.key==='completed'||si.key==='canceled';
   const del = c.source==='custom'?'<button onclick="removeCustomIssue(\''+c.id+'\')" style="position:absolute;top:6px;right:8px;background:none;border:none;color:var(--fg-subtle);cursor:pointer;font-size:.7rem;opacity:.4" onmouseover="this.style.opacity=1;this.style.color=\'var(--error)\'" onmouseout="this.style.opacity=.4;this.style.color=\'var(--fg-subtle)\'">✕</button>':'';
   const teamAccent = (c.team==='PRODUCT')?'#a78bfa':'#14b8a6';
-  return '<div class="card '+(isDone?'done':'')+'" style="--accent:'+teamAccent+';position:relative">'+del
-    +'<div class="card-head"><a href="'+(c.href||'https://linear.app/donutbrowser/issue/'+c.id)+'" target="_blank" class="card-id">'+c.id+'</a>'
+  return '<div class="card '+(isDone?'done':'')+'" style="--accent:'+teamAccent+';position:relative" data-id="'+c.id+'">'+del
+    +'<div class="card-head"><a href="'+(c.href||'https://linear.app/donutbrowser/issue/'+c.id)+'" target="_blank" class="card-id">'+c.id+' ↗</a>'
     +'<span class="priority-dot" style="background:'+c.pColor+'"></span></div>'
     +'<div class="card-title" style="font-size:.82rem;font-weight:500;margin-bottom:var(--space-2)">'+c.title+'</div>'
-    +getPipelineHTML(c.state, c.stateLabel||'')
     +'<div class="card-foot"><span class="card-assignee">'+(nameMap[c.assignee]||c.assignee)+'</span>'
-    +'<span style="font-family:var(--font-mono);font-size:.62rem;font-weight:500;color:'+stC+'">'+stL+'</span></div></div>';
+    +'<span class="card-state" data-issue-id="'+c.id+'" onclick="showStatusPopup(event, this)" style="--state-color:'+si.color+';cursor:pointer">'+si.label+'</span></div></div>';
 }
+
+/* ── Status Popup Logic (v8.2) ─────────────────────────── */
+let _activeStatusEl = null;
+function showStatusPopup(evt, el) {
+  evt.stopPropagation();
+  _activeStatusEl = el;
+  const popup = document.getElementById('statusPopup');
+  const issueId = el.dataset.issueId;
+  const currentStatus = getEffectiveState({id: issueId, state: 'unstarted'});
+
+  // Highlight current
+  popup.querySelectorAll('.sp-option').forEach(opt => {
+    opt.classList.toggle('current', opt.dataset.status === currentStatus);
+  });
+
+  // Position near the clicked element
+  const rect = el.getBoundingClientRect();
+  popup.style.display = 'block';
+  popup.style.left = Math.min(rect.left, window.innerWidth - 180) + 'px';
+  popup.style.top = (rect.bottom + 4) + 'px';
+}
+
+function applyStatus(status) {
+  if (!_activeStatusEl) return;
+  const issueId = _activeStatusEl.dataset.issueId;
+  setStatusOverride(issueId, status);
+  const opt = MY_STATUS_OPTIONS.find(o => o.key === status);
+  if (opt) {
+    _activeStatusEl.textContent = opt.label;
+    _activeStatusEl.style.setProperty('--state-color', opt.color);
+    const card = _activeStatusEl.closest('.card');
+    if (card) {
+      if (status === 'completed') card.classList.add('done');
+      else card.classList.remove('done');
+    }
+  }
+  document.getElementById('statusPopup').style.display = 'none';
+  _activeStatusEl = null;
+  save();
+}
+
+// Close popup on click outside
+document.addEventListener('click', e => {
+  const popup = document.getElementById('statusPopup');
+  if (popup && !popup.contains(e.target) && !e.target.closest('.card-state[data-issue-id]')) {
+    popup.style.display = 'none';
+    _activeStatusEl = null;
+  }
+});
 
 function renderMyBoard(filterAssignee) {
   const grid = document.getElementById('myBoardGrid');
@@ -2179,32 +1332,29 @@ function renderMyBoard(filterAssignee) {
   let all = [...sprint, ...custom];
   if (filterAssignee && filterAssignee!=='all') {
     all = all.filter(c => c.assignee===filterAssignee);
-    // Flat list sorted by state
-    const stOrd = {started:0,triage:1,unstarted:2,completed:3,canceled:4};
-    all.sort((a,b) => (stOrd[a.state]??2)-(stOrd[b.state]??2));
+    const stOrd = {started:0,triage:1,unstarted:2,review:3,testing:4,completed:5,canceled:6};
+    all.sort((a,b) => (stOrd[getEffectiveState(a)]??2)-(stOrd[getEffectiveState(b)]??2));
     if (!all.length) { grid.innerHTML='<div class="empty-state">没有匹配的 Issue。</div>'; return; }
     grid.innerHTML='<div class="card-grid">'+all.map(renderMyBoardCard).join('')+'</div>';
   } else {
-    // Group by module, sorted by issue number within each
+    // Group by tree category
     const groups = {};
-    MODULES.forEach(m => { groups[m]=[]; });
-    all.forEach(c => { const m=c.layer||'infra'; if (!groups[m]) groups[m]=[]; groups[m].push(c); });
-    Object.values(groups).forEach(arr => {
-      arr.sort((a,b) => {
-        const nA=parseInt(a.id.replace(/\D+/g,''))||0;
-        const nB=parseInt(b.id.replace(/\D+/g,''))||0;
-        return nA-nB;
-      });
+    PRODUCT_TREE.forEach(cat => { groups[cat.key] = []; });
+    all.forEach(c => {
+      const catKey = (c.module||c.layer||'infra').split('.')[0];
+      if (!groups[catKey]) groups[catKey] = [];
+      groups[catKey].push(c);
     });
-    const html = MODULES.filter(m => groups[m].length>0).map(mod => {
+    const html = PRODUCT_TREE.filter(cat => (groups[cat.key]||[]).length > 0).map(cat => {
+      const items = groups[cat.key];
       return '<div class="module-section">'
         +'<div class="module-header" onclick="this.parentElement.classList.toggle(\'collapsed\')">'
-        +'<span class="module-icon">'+moduleIcons[mod]+'</span>'
-        +'<span class="module-name">'+moduleNames[mod]+'</span>'
-        +'<span class="module-count">'+groups[mod].length+'</span>'
+        +'<span class="module-icon">'+cat.icon+'</span>'
+        +'<span class="module-name">'+cat.name+'</span>'
+        +'<span class="module-count">'+items.length+'</span>'
         +'<span class="chevron">▼</span></div>'
         +'<div class="module-body"><div class="card-grid">'
-        +groups[mod].map(renderMyBoardCard).join('')
+        +items.map(renderMyBoardCard).join('')
         +'</div></div></div>';
     }).join('');
     grid.innerHTML = html || '<div class="empty-state">没有匹配的 Issue。</div>';
@@ -2226,13 +1376,13 @@ function addMyIssue() {
   const id=idEl.value.trim().toUpperCase();
   const title=titleEl.value.trim();
   const assignee=assigneeEl.value;
-  const layer=moduleEl?moduleEl.value:'';
+  const mod=moduleEl?moduleEl.value:'';
   if (!id) { idEl.focus(); return }
   if (!title) { titleEl.focus(); return }
   const team = id.startsWith('PRODUCT')?'PRODUCT':'ENG';
   const href='https://linear.app/donutbrowser/issue/'+id;
   const customs=getCustomIssues();
-  customs.push({id,title,assignee:assignee||'unassigned',layer:layer||'infra',state:'unstarted',stateLabel:'Todo',priority:'none',team,href,pColor:'#52525b'});
+  customs.push({id,title,assignee:assignee||'unassigned',layer:(mod||'infra').split('.')[0],module:mod||'infra.devops',state:'unstarted',stateLabel:'Todo',priority:'none',team,href,pColor:'#52525b'});
   saveCustomIssues(customs);
   idEl.value=''; titleEl.value=''; assigneeEl.value='';
   if (moduleEl) moduleEl.value='';
@@ -2248,7 +1398,134 @@ function removeCustomIssue(id) {
 
 window._currentMyFilter = 'all';
 
-/* ── Init: Default to Sprint 23 ────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   PRODUCT PANORAMA (v8.2 — Aligned with Product Tree)
+   ══════════════════════════════════════════════════════════ */
+const PANORAMA_DATA = [
+  { key:'frontend', icon:'📊', name:'Frontend', modules:[
+    { name:'Dashboard', owner:'Gary, Ye Zou', desc:'Safari compat + 图表策略 + Onboarding + Landing Page', issues:10, updated:'2026-03-18' },
+    { name:'HIL Webapp', owner:'Justin, Ethan', desc:'Legacy, 迁移中 → D0 Web App', issues:2, updated:'2026-03-18' },
+    { name:'Extension', owner:'Jiagui', desc:'浏览器自动化 · 容器隔离 · Chrome 扩展', issues:1, updated:'2026-03-16' }
+  ]},
+  { key:'ai', icon:'🧠', name:'AI Engine', modules:[
+    { name:'d0-cli', owner:'JackJun, Jin Xu', desc:'261 tools, 13 domains · Skill/Tool 质量 + Data Honesty', issues:6, updated:'2026-03-17' },
+    { name:'Eval System', owner:'Fei, Jin Xu', desc:'Eval Harness + 埋点/Analytics + Benchmark', issues:3, updated:'2026-03-18' },
+    { name:'LLM Proxy', owner:'Regison, Wenzhang', desc:'配额 + 路由 + 多模型管理', issues:2, updated:'2026-03-17' },
+    { name:'Agent', owner:'JackJun', desc:'Agent Creation (PRD) + 策略管理 + Backtest + Polymarket', issues:8, updated:'2026-03-18' }
+  ]},
+  { key:'trading', icon:'💰', name:'Trading', modules:[
+    { name:'Perps', owner:'Alex, Rui Li', desc:'TPSL + GRPS 风控 + 多副本高可用 · donut-perpetual (Java)', issues:4, updated:'2026-03-18' },
+    { name:'Spot', owner:'Regison', desc:'donut-backend Spot Trading', issues:1, updated:'2026-03-18' },
+    { name:'Agents Backend', owner:'Ethan', desc:'HyperLiquid + Deposit/Withdraw/Transfer · Go', issues:2, updated:'2026-03-13' },
+    { name:'Wallet Service', owner:'Regison, Wenzhang', desc:'余额同步 + Gas 管理 + EVM Token 转账', issues:2, updated:'2026-03-11' }
+  ]},
+  { key:'infra', icon:'🔌', name:'Backend & Infra', modules:[
+    { name:'donut-backend', owner:'Regison, Wenzhang, Jin Xu', desc:'NestJS Monorepo · D0 模块 · LLM Proxy · Trading · MCP', issues:5, updated:'2026-03-18' },
+    { name:'K8s Infra', owner:'Wenzhang', desc:'ArgoCD/Helm + 监控/SigNoz + 灾备', issues:4, updated:'2026-03-18' },
+    { name:'DevOps/CI', owner:'Wenzhang, Kevin', desc:'CI pipeline + .env 管理 + 部署自动化', issues:3, updated:'2026-03-18' },
+    { name:'Cron/Admin', owner:'Jin Xu', desc:'定时任务 · 管理后台', issues:1, updated:'2026-03-17' }
+  ]},
+  { key:'quality', icon:'🧪', name:'Quality', modules:[
+    { name:'E2E 测试', owner:'Kevin, Jim', desc:'E2E 自动化测试 · CI 集成', issues:1, updated:'2026-03-18' },
+    { name:'Bug Triage', owner:'Jim', desc:'Bug 分类 · 回归验证', issues:0, updated:'2026-03-17' }
+  ]},
+  { key:'growth', icon:'📣', name:'Growth & GTM', modules:[
+    { name:'SEO', owner:'Qiaochu', desc:'SEO/UGC 四层引擎', issues:1, updated:'2026-03-15' },
+    { name:'Referral', owner:'Ruqi', desc:'推荐系统 · 增长 APAC', issues:1, updated:'2026-03-14' },
+    { name:'User Voice', owner:'—', desc:'Auto-triage pipeline · Ring 每周五更新', issues:2, updated:'2026-03-18' }
+  ]}
+];
+
+function renderProductPanorama() {
+  const el = document.getElementById('productPanorama');
+  if (!el) return;
+  el.innerHTML = PANORAMA_DATA.map(cat => {
+    return '<details open class="pano-category"><summary class="pano-cat-head">'
+      +'<span class="pano-icon">'+cat.icon+'</span>'
+      +'<span class="pano-name">'+cat.name+'</span>'
+      +'<span class="pano-chevron">▼</span>'
+      +'</summary><div class="pano-cat-body">'
+      + cat.modules.map(mod => {
+        return '<div class="pano-module">'
+          +'<div><div class="pano-mod-name">'+mod.name+'</div>'
+          +'<div class="pano-mod-owner">Owner: '+mod.owner+'</div>'
+          +'<div class="pano-mod-desc">'+mod.desc+'</div></div>'
+          +'<div class="pano-mod-stats">'
+          +(mod.issues>0 ? mod.issues+' active issues<br>' : '')
+          +'更新: '+mod.updated
+          +'</div></div>';
+      }).join('')
+      +'</div></details>';
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════════════
+   ENGINEERING SCOPE — REPO CATALOG (v8.2)
+   ══════════════════════════════════════════════════════════ */
+const REPO_CATALOG = [
+  { group:'D0 核心', icon:'🎯', repos:[
+    { name:'donut-d0', desc:'D0 Bot 平台', lastCommit:'3/3', owners:['JackJun'], link:'https://github.com/DonutLabs-ai/donut-d0' },
+    { name:'d0-cli', desc:'261 MCP tools', lastCommit:'3/17', owners:['Jin Xu','Regison'], link:'https://github.com/DonutLabs-ai/d0-cli' },
+    { name:'d0-skill-eval', desc:'Skill 评测', lastCommit:'3/18', owners:['Fei','Jin Xu'], link:'https://github.com/DonutLabs-ai/d0-skill-eval' },
+    { name:'d0-e2e-tests', desc:'E2E 自动化测试', lastCommit:'3/18', owners:['Kevin','Jim'], link:'https://github.com/DonutLabs-ai/d0-e2e-tests' }
+  ]},
+  { group:'后端服务', icon:'⚡', repos:[
+    { name:'donut-backend', desc:'NestJS Monorepo', lastCommit:'3/18', owners:['Regison','Wenzhang','Jin Xu'], link:'https://github.com/DonutLabs-ai/donut-backend' },
+    { name:'donut-wallet-service', desc:'钱包服务', lastCommit:'3/11', owners:['Regison','Wenzhang'], link:'https://github.com/DonutLabs-ai/donut-wallet-service' },
+    { name:'donut-perpetual', desc:'Perps 交易引擎 (Java)', lastCommit:'3/13', owners:['Alex','Rui Li'], link:'https://github.com/DonutLabs-ai/donut-perpetual' },
+    { name:'donut-agents-backend', desc:'Agent Go 后端', lastCommit:'3/13', owners:['Ethan'], link:'https://github.com/DonutLabs-ai/donut-agents-backend' }
+  ]},
+  { group:'前端', icon:'🖥️', repos:[
+    { name:'dount-HIL-frontend', desc:'Donut Web App', lastCommit:'3/18', owners:['Jin Xu','Gary','Ethan'], link:'https://github.com/DonutLabs-ai/dount-HIL-frontend' },
+    { name:'openclaw-dashboard', desc:'OpenClaw Dashboard', lastCommit:'3/16', owners:['Jin Xu'], link:'https://github.com/DonutLabs-ai/openclaw-dashboard' }
+  ]},
+  { group:'基础设施', icon:'☁️', repos:[
+    { name:'k8s-infrastructure', desc:'K8s 集群配置', lastCommit:'3/16', owners:['Wenzhang','Ethan'], link:'https://github.com/DonutLabs-ai/k8s-infrastructure' },
+    { name:'k8s-applications', desc:'GitOps 部署配置', lastCommit:'3/18', owners:['Wenzhang'], link:'https://github.com/DonutLabs-ai/k8s-applications' },
+    { name:'engineering-agents', desc:'工程 Agent 配置', lastCommit:'3/18', owners:['JackJun'], link:'https://github.com/DonutLabs-ai/engineering-agents' }
+  ]},
+  { group:'研究 & 工具', icon:'🔬', repos:[
+    { name:'autoresearch', desc:'AutoResearch 策略优化', lastCommit:'3/13', owners:['Liang Han','Tao'], link:'https://github.com/DonutLabs-ai/autoresearch' },
+    { name:'donut-product', desc:'产品文档', lastCommit:'3/17', owners:['Peter','Sylvia'], link:'https://github.com/DonutLabs-ai/donut-product' },
+    { name:'donut-design-skill', desc:'设计系统', lastCommit:'3/18', owners:['Yi Tan'], link:'https://github.com/DonutLabs-ai/donut-design-skill' },
+    { name:'trader-handbook-v2', desc:'交易手册', lastCommit:'3/17', owners:['Peter','Liang Han'], link:'https://github.com/DonutLabs-ai/trader-handbook-v2' }
+  ]}
+];
+
+function getDateClass(dateStr) {
+  // dateStr like "3/18"
+  const parts = dateStr.split('/');
+  const month = parseInt(parts[0]); const day = parseInt(parts[1]);
+  const commitDate = new Date(2026, month-1, day);
+  const today = new Date(2026, 2, 19); // 3/19 hardcoded reference
+  const diff = (today - commitDate) / (1000*60*60*24);
+  if (diff <= 1) return 'recent';
+  if (diff <= 7) return 'week';
+  return 'old';
+}
+
+function renderRepoCatalog() {
+  const el = document.getElementById('repoCatalog');
+  if (!el) return;
+  el.innerHTML = REPO_CATALOG.map(grp => {
+    return '<div class="repo-group">'
+      +'<div class="repo-group-title"><span class="rg-icon">'+grp.icon+'</span> '+grp.group+'</div>'
+      +'<div class="repo-grid">'
+      + grp.repos.map(r => {
+        const dc = getDateClass(r.lastCommit);
+        return '<div class="repo-card">'
+          +'<div class="rc-head"><span class="rc-name">'+r.name+'</span><a href="'+r.link+'" target="_blank" class="rc-link">GitHub ↗</a></div>'
+          +'<div class="rc-desc">'+r.desc+'</div>'
+          +'<div class="rc-meta">'
+          +'<span class="rc-date '+dc+'">最近 commit: '+r.lastCommit+'</span>'
+          +r.owners.map(o => '<span class="rc-owner">'+o+'</span>').join('')
+          +'</div></div>';
+      }).join('')
+      +'</div></div>';
+  }).join('');
+}
+
+/* ── Init ──────────────────────────────────────────────── */
 switchCycle('sprint23');
 </script>
 </body>
