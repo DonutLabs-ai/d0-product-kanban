@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D0 Product Dashboard — v8.3</title>
+<title>D0 Product Dashboard — v8.4</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── Design System Tokens ──────────────────────────────── */
@@ -399,7 +399,7 @@ a:hover { text-decoration: underline; }
       <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">① 选择 Sprint</strong> — 用上方的 cycle 切换器查看当前/下个 sprint（ENG + PRODUCT 合并显示）</p>
       <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">② 找到你的 Issues</strong> — 点「👤 我的看板」→ 选你的名字，看到你所有 issue</p>
       <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">③ 管理状态</strong> — 在卡片上点击状态标签 → 选择新状态，编辑自动保存到浏览器</p>
-      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">④ 功能模块树</strong> — Issue 按产品线 nested tree 分组（Frontend · AI · Trading · Infra · Quality · GTM）</p>
+      <p style="margin-bottom:var(--space-2)"><strong style="color:var(--fg-base)">④ 产品 Scope 树</strong> — Issue 按 Scope 分组（🧠 Core Experience · 🛡 Safety & Trust · 💰 Trading & Monetization · 📣 Growth & Quality）</p>
       <p style="margin-top:var(--space-3);font-size:.78rem;color:var(--fg-subtle)">💡 ENG 🟢 和 PRODUCT 🟣 issue 在同一个 Sprint 里按产品线管理<br>💡 编辑内容自动保存到浏览器（点「保存版本」可以回退）</p>
     </div>
     <div style="margin-top:var(--space-3);display:flex;gap:var(--space-2);flex-wrap:wrap">
@@ -412,7 +412,7 @@ a:hover { text-decoration: underline; }
   <header class="header">
     <h1>D0 Product Dashboard</h1>
     <div class="subtitle">Unified Sprint · 组织 · 产品 · 工程 · 风险</div>
-    <div class="cycle-badge"><span class="pulse"></span>v8.3 · 2026-03-20</div>
+    <div class="cycle-badge"><span class="pulse"></span>v8.4 · 2026-03-20</div>
   </header>
 
   <!-- ══ Tab Navigation ══ -->
@@ -456,7 +456,7 @@ a:hover { text-decoration: underline; }
     <div id="workloadHeatmap" style="margin-bottom:var(--space-6)"></div>
     <div class="controls">
       <div class="ctrl-group">
-        <button class="ctrl-btn active" onclick="switchView('layer')">🌳 产品线树</button>
+        <button class="ctrl-btn active" onclick="switchView('layer')">🌳 Scope 树</button>
         <button class="ctrl-btn" onclick="switchView('person')">👤 按人员</button>
       </div>
       <div class="ctrl-group">
@@ -483,12 +483,14 @@ a:hover { text-decoration: underline; }
         </select>
         <select id="cycleIssueModule" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
           <option value="">模块</option>
-          <option value="frontend.dashboard">📊 Dashboard</option><option value="frontend.hil">📊 HIL Webapp</option><option value="frontend.extension">📊 Extension</option>
-          <option value="ai.tools">🧠 d0-cli</option><option value="ai.eval">🧠 Eval</option><option value="ai.llmproxy">🧠 LLM Proxy</option><option value="ai.agent">🧠 Agent</option>
-          <option value="trading.perps">💰 Perps</option><option value="trading.spot">💰 Spot</option><option value="trading.agents">💰 Agents Backend</option><option value="trading.wallet">💰 Wallet</option>
-          <option value="infra.backend">🔌 donut-backend</option><option value="infra.k8s">🔌 K8s</option><option value="infra.devops">🔌 DevOps</option><option value="infra.cron">🔌 Cron</option>
-          <option value="quality.e2e">🧪 E2E</option><option value="quality.triage">🧪 Bug Triage</option>
-          <option value="growth.seo">📣 SEO</option><option value="growth.referral">📣 Referral</option><option value="growth.voice">📣 User Voice</option>
+          <option value="ai.tools">🧠 ai-core: d0-cli</option><option value="ai.llmproxy">🧠 ai-core: LLM Proxy</option><option value="ai.agent">🧠 ai-core: Agent</option>
+          <option value="ai.eval">🧠 data: Eval</option>
+          <option value="infra.backend">🧠 user-system: Backend</option>
+          <option value="frontend.dashboard">🧠 ux: Dashboard</option><option value="frontend.hil">🧠 ux: HIL</option><option value="frontend.extension">🧠 ux: Extension</option>
+          <option value="infra.k8s">🛡 infra-safety: K8s</option><option value="infra.devops">🛡 infra-safety: DevOps</option>
+          <option value="trading.perps">💰 trading: Perps</option><option value="trading.spot">💰 trading: Spot</option><option value="trading.agents">💰 trading: Agents Backend</option><option value="trading.wallet">💰 trading: Wallet</option>
+          <option value="quality.e2e">📣 quality: E2E</option><option value="quality.triage">📣 quality: Bug Triage</option>
+          <option value="growth.seo">📣 growth: SEO</option><option value="growth.referral">📣 growth: Referral</option><option value="growth.voice">📣 growth: User Voice</option>
         </select>
         <button onclick="addIssueToCycle()" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2) var(--space-4);background:var(--info);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap">添加</button>
       </div>
@@ -632,12 +634,13 @@ a:hover { text-decoration: underline; }
         <input id="newIssueTitle" type="text" placeholder="Issue 标题" style="font-family:var(--font-sans);font-size:.82rem;padding:var(--space-2) var(--space-3);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
         <select id="newIssueModule" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2);background:var(--bg-muted);border:1px solid var(--border-base);border-radius:var(--radius-sm);color:var(--fg-base);outline:none">
           <option value="">模块</option>
-          <option value="frontend.dashboard">📊 Dashboard</option><option value="frontend.hil">📊 HIL</option><option value="frontend.extension">📊 Extension</option>
-          <option value="ai.tools">🧠 d0-cli</option><option value="ai.eval">🧠 Eval</option><option value="ai.agent">🧠 Agent</option>
-          <option value="trading.perps">💰 Perps</option><option value="trading.wallet">💰 Wallet</option>
-          <option value="infra.k8s">🔌 K8s</option><option value="infra.devops">🔌 DevOps</option>
-          <option value="quality.e2e">🧪 E2E</option>
-          <option value="growth.seo">📣 Growth</option>
+          <option value="ai.tools">🧠 ai-core: d0-cli</option><option value="ai.agent">🧠 ai-core: Agent</option>
+          <option value="ai.eval">🧠 data: Eval</option>
+          <option value="frontend.dashboard">🧠 ux: Dashboard</option><option value="frontend.hil">🧠 ux: HIL</option><option value="frontend.extension">🧠 ux: Extension</option>
+          <option value="infra.k8s">🛡 infra-safety: K8s</option><option value="infra.devops">🛡 infra-safety: DevOps</option>
+          <option value="trading.perps">💰 trading: Perps</option><option value="trading.wallet">💰 trading: Wallet</option>
+          <option value="quality.e2e">📣 quality: E2E</option>
+          <option value="growth.seo">📣 growth: Growth</option>
         </select>
         <button onclick="addMyIssue()" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2) var(--space-4);background:var(--info);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap">添加</button>
       </div>
@@ -702,13 +705,13 @@ a:hover { text-decoration: underline; }
        ══════════════════════════════════════════════════════ -->
   <div id="tab-ceo" class="tab-panel">
     <div class="sec"><div class="sec-head"><span class="sec-num">07</span><h2>🎯 CEO 关注线 — 4 条主线</h2></div>
-      <div class="hint">CEO 重点跟踪的跨团队关注领域 · 聚合相关 Issue 状态 · v8.3</div>
+      <div class="hint">CEO 重点跟踪的跨团队关注领域 · 聚合相关 Issue 状态 · v8.4</div>
     </div>
     <div id="ceoFocusGrid" style="display:grid;gap:var(--space-4);margin:var(--space-4) 0"></div>
   </div>
 
   <div class="footer">
-    D0 Product Dashboard v8.3 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View
+    D0 Product Dashboard v8.4 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View
   </div>
 
 </div><!-- /page -->
@@ -727,39 +730,44 @@ a:hover { text-decoration: underline; }
    PRODUCT TREE DEFINITION (v8.2)
    ══════════════════════════════════════════════════════════ */
 const PRODUCT_TREE = [
-  { key:'frontend', icon:'📊', name:'Frontend', children:[
-    { key:'frontend.dashboard', name:'Dashboard', repo:'donut-d0', owners:'Gary, Ye Zou' },
-    { key:'frontend.hil', name:'HIL Webapp', repo:'dount-HIL-frontend', owners:'Justin, Ethan' },
-    { key:'frontend.extension', name:'Extension', repo:'DonutExtension', owners:'Jiagui' }
+  { key:'scope1', icon:'🧠', name:'Scope 1: D0 Core Experience', children:[
+    { key:'scope1.ai-core', name:'ai-core', keys:['ai.tools','ai.llmproxy','ai.agent'], repo:'d0-cli', owners:'JackJun, Jin Xu, Regison' },
+    { key:'scope1.data', name:'data', keys:['ai.eval'], repo:'d0-skill-eval', owners:'Fei, Tao Yuan' },
+    { key:'scope1.user-system', name:'user-system', keys:['infra.backend','infra.cron'], repo:'donut-backend', owners:'Regison, Wenzhang' },
+    { key:'scope1.ux', name:'ux', keys:['frontend.dashboard','frontend.hil','frontend.extension'], repo:'donut-d0', owners:'Gary, Ye Zou, Jiagui' }
   ]},
-  { key:'ai', icon:'🧠', name:'AI Engine', children:[
-    { key:'ai.tools', name:'d0-cli (261 MCP tools)', repo:'d0-cli', owners:'JackJun, Jin Xu' },
-    { key:'ai.eval', name:'Eval System', repo:'d0-skill-eval', owners:'Fei, Jin Xu' },
-    { key:'ai.llmproxy', name:'LLM Proxy', owners:'Regison, Wenzhang' },
-    { key:'ai.agent', name:'Agent', owners:'JackJun' }
+  { key:'scope2', icon:'🛡', name:'Scope 2: Safety & Trust', children:[
+    { key:'scope2.ai-safety', name:'ai-safety', keys:[], owners:'JackJun, Fei' },
+    { key:'scope2.infra-safety', name:'infra-safety', keys:['infra.k8s','infra.devops'], repo:'k8s-infrastructure', owners:'Wenzhang, Jiagui' },
+    { key:'scope2.trading-safety', name:'trading-safety', keys:[], owners:'Peter, Sylvia, Liang Han' }
   ]},
-  { key:'trading', icon:'💰', name:'Trading', children:[
-    { key:'trading.perps', name:'Perps', repo:'donut-perpetual', owners:'Alex, Rui Li' },
-    { key:'trading.spot', name:'Spot', repo:'donut-backend', owners:'Regison' },
-    { key:'trading.agents', name:'Agents Backend (Go)', repo:'donut-agents-backend', owners:'Ethan' },
-    { key:'trading.wallet', name:'Wallet Service', repo:'donut-wallet-service', owners:'Regison, Wenzhang' }
+  { key:'scope3', icon:'💰', name:'Scope 3: Trading & Monetization', children:[
+    { key:'scope3.trading', name:'trading', keys:['trading.perps','trading.spot','trading.agents','trading.wallet'], repo:'donut-perpetual', owners:'Alex, Rui Li, Ethan, Peter' },
+    { key:'scope3.monetization', name:'monetization', keys:[], owners:'Ye Zou' }
   ]},
-  { key:'infra', icon:'🔌', name:'Backend & Infra', children:[
-    { key:'infra.backend', name:'donut-backend (NestJS)', repo:'donut-backend', owners:'Regison, Wenzhang, Jin Xu' },
-    { key:'infra.k8s', name:'K8s Infra', repo:'k8s-infrastructure', owners:'Wenzhang' },
-    { key:'infra.devops', name:'DevOps/CI', owners:'Wenzhang, Kevin' },
-    { key:'infra.cron', name:'Cron/Admin', owners:'Jin Xu' }
-  ]},
-  { key:'quality', icon:'🧪', name:'Quality', children:[
-    { key:'quality.e2e', name:'E2E 测试', owners:'Kevin, Jim' },
-    { key:'quality.triage', name:'Bug Triage', owners:'Jim' }
-  ]},
-  { key:'growth', icon:'📣', name:'Growth & GTM', children:[
-    { key:'growth.seo', name:'SEO', owners:'Qiaochu' },
-    { key:'growth.referral', name:'Referral', owners:'Ruqi' },
-    { key:'growth.voice', name:'User Feedback Pipeline' }
+  { key:'support', icon:'📣', name:'Growth & Quality', children:[
+    { key:'support.growth', name:'growth', keys:['growth.seo','growth.referral','growth.voice'], owners:'Ruqi, Hongwei' },
+    { key:'support.quality', name:'quality', keys:['quality.e2e','quality.triage'], repo:'d0-e2e-tests', owners:'Kevin, Jim' }
   ]}
 ];
+
+/* Helper: map issue module to tree category key */
+function getTreeCatKey(moduleKey) {
+  const m = moduleKey || '';
+  for (const cat of PRODUCT_TREE) {
+    for (const sub of cat.children) {
+      if (sub.keys ? sub.keys.includes(m) : m === sub.key) return cat.key;
+    }
+  }
+  return PRODUCT_TREE[0].key;
+}
+function issueMatchesSub(issue, sub) {
+  const m = issue.module || issue.layer || '';
+  return sub.keys ? sub.keys.includes(m) : m === sub.key;
+}
+function issueMatchesCat(issue, cat) {
+  return cat.children.some(sub => issueMatchesSub(issue, sub));
+}
 
 /* ══════════════════════════════════════════════════════════
    UNIFIED CYCLES DATA (v8.2 — with module field)
@@ -839,7 +847,7 @@ const CYCLES = {
 /* ── Shared Mappings ───────────────────────────────────── */
 const nameMap = {jackjun:'JackJun',fei:'Fei',xujin:'Jin Xu',gary:'Gary',ethan:'Ethan',alex:'Alex',lirui:'Rui Li',regison:'Regison',wenzhang:'Wenzhang',jiagui:'Jiagui',peter:'Peter',zouye:'Ye Zou',sylvia:'Sylvia',yixintan:'Yi Tan',hanliang:'Liang Han',tao:'Tao Yuan',jim:'Jim',kevin:'Kevin',justin:'Justin',unassigned:'—'};
 const priorityColors = {urgent:'#ef4444',high:'#f59e0b',medium:'#3b82f6',low:'#22c55e',none:'#52525b'};
-const moduleAccents = {'frontend':'#3b82f6','ai':'#f59e0b','trading':'#ef4444','infra':'#71717a','quality':'#14b8a6','growth':'#22c55e'};
+const moduleAccents = {'scope1':'#f59e0b','scope2':'#ef4444','scope3':'#a78bfa','support':'#22c55e','frontend':'#3b82f6','ai':'#f59e0b','trading':'#ef4444','infra':'#71717a','quality':'#14b8a6','growth':'#22c55e'};
 const FLAT_MODULES = ['frontend.dashboard','frontend.hil','frontend.extension','ai.tools','ai.eval','ai.llmproxy','ai.agent','trading.perps','trading.spot','trading.agents','trading.wallet','infra.backend','infra.k8s','infra.devops','infra.cron','quality.e2e','quality.triage','growth.seo','growth.referral','growth.voice'];
 
 let activeCycleKey = 'sprint23';
@@ -931,7 +939,7 @@ function renderCycle(key) {
   const layerView = document.getElementById('view-layer');
   let treeHTML = '<div class="ptree">';
   PRODUCT_TREE.forEach(cat => {
-    const catIssues = issues.filter(i => (i.module||i.layer||'').startsWith(cat.key));
+    const catIssues = issues.filter(i => issueMatchesCat(i, cat));
     const catTotal = catIssues.length;
     if (catTotal === 0) return;
     const catActive = catIssues.filter(i => i.state==='started'||i.state==='triage').length;
@@ -944,7 +952,7 @@ function renderCycle(key) {
       + '</summary><div class="ptree-children">';
 
     cat.children.forEach(sub => {
-      const subIssues = issues.filter(i => i.module === sub.key);
+      const subIssues = issues.filter(i => issueMatchesSub(i, sub));
       if (subIssues.length === 0) return;
       const subActive = subIssues.filter(i => i.state==='started'||i.state==='triage').length;
       const subDone = subIssues.filter(i => i.state==='completed').length;
@@ -1054,10 +1062,10 @@ function renderPersonView(issues) {
     const t = cards.length;
     const dP = t>0?Math.round((dn/t)*100):0;
     const aP = t>0?Math.round((ac/t)*100):0;
-    const catKey = (cards[0].module||cards[0].layer||'infra').split('.')[0];
+    const catKey = getTreeCatKey(cards[0].module||cards[0].layer||'');
     const accent = moduleAccents[catKey]||'var(--fg-subtle)';
     const catDef = PRODUCT_TREE.find(c => c.key===catKey);
-    const icon = catDef?catDef.icon:'🔌';
+    const icon = catDef?catDef.icon:'📦';
     const ln = catDef?catDef.name:catKey;
     const dn2 = nameMap[assignee]||assignee;
     const init = dn2.charAt(0).toUpperCase();
@@ -1364,7 +1372,7 @@ function renderMyBoard(filterAssignee) {
     const groups = {};
     PRODUCT_TREE.forEach(cat => { groups[cat.key] = []; });
     all.forEach(c => {
-      const catKey = (c.module||c.layer||'infra').split('.')[0];
+      const catKey = getTreeCatKey(c.module||c.layer||'');
       if (!groups[catKey]) groups[catKey] = [];
       groups[catKey].push(c);
     });
@@ -1425,37 +1433,44 @@ window._currentMyFilter = 'all';
    PRODUCT PANORAMA (v8.2 — Aligned with Product Tree)
    ══════════════════════════════════════════════════════════ */
 const PANORAMA_DATA = [
-  { key:'frontend', icon:'📊', name:'Frontend', modules:[
-    { name:'Dashboard', owner:'Gary, Ye Zou', desc:'Safari compat + 图表策略 + Onboarding + Landing Page', issues:10, updated:'2026-03-18' },
-    { name:'HIL Webapp', owner:'Justin, Ethan', desc:'Legacy, 迁移中 → D0 Web App', issues:2, updated:'2026-03-18' },
-    { name:'Extension', owner:'Jiagui', desc:'浏览器自动化 · 容器隔离 · Chrome 扩展', issues:1, updated:'2026-03-16' }
+  { key:'scope1', icon:'🧠', name:'Scope 1: D0 Core Experience — 核心体验 (PRODUCT-2084)', modules:[
+    { name:'ENG-1128: MCP Server Tool Consolidation', owner:'Regison', desc:'~170→~22 tools · In Progress', issues:1, updated:'2026-03-20' },
+    { name:'PRODUCT-1948: D0 Hard Use Cases', owner:'JackJun', desc:'12 sub-issues · In Progress', issues:12, updated:'2026-03-20' },
+    { name:'PRODUCT-2007: 图表能力策略决策', owner:'Sylvia', desc:'TradingView vs d0-cli vs HIL · Todo', issues:1, updated:'2026-03-20' },
+    { name:'PRODUCT-1941: D0 Dashboard Design 调整', owner:'Gary', desc:'11 sub-issues · In Progress', issues:11, updated:'2026-03-20' },
+    { name:'PRODUCT-1887: Finance Dashboard', owner:'Ginger', desc:'Todo', issues:1, updated:'2026-03-20' },
+    { name:'ai-core 子模块', owner:'JackJun, Jin Xu, Regison', desc:'Sub2api fallback (ENG-1124) · LLM Proxy主备 (PRODUCT-2082) · DWS MCP连接 (PRODUCT-2100) · SOUL.md判断规则 · 10大Use Cases · Agent Creation PRD · SuperBot 2.0', issues:7, updated:'2026-03-20' },
+    { name:'data 子模块', owner:'Fei, Tao Yuan', desc:'数据源标签+时间戳 (PRODUCT-1919) · Cloudflare research (ENG-1104)', issues:2, updated:'2026-03-20' },
+    { name:'user-system 子模块', owner:'Regison, Wenzhang', desc:'Session token过期 (TES-686) · Cookie冲突 (ENG-1072) · Helius fee bug (ENG-1062) · Safari cookie (PRODUCT-1997)', issues:4, updated:'2026-03-20' },
+    { name:'ux 子模块', owner:'Gary, Ye Zou, Jiagui', desc:'TG bot菜单 (TES-683) · Automations API (PRODUCT-1829) · Agent Profile Files (PRODUCT-1787) · 谷歌登录bug (PRODUCT-1998)', issues:4, updated:'2026-03-20' },
+    { name:'Backlog', owner:'—', desc:'K线 API 不稳定 (ENG-1063, 4% failure) · AutoResearch 审计 (ENG-1045) · 多链充值 (PRODUCT-1847, Ethan) · Migrate aigemix (ENG-908) · Dashboard & TG Alert (PRODUCT-1653)', issues:5, updated:'2026-03-20' }
   ]},
-  { key:'ai', icon:'🧠', name:'AI Engine', modules:[
-    { name:'d0-cli', owner:'JackJun, Jin Xu', desc:'261 tools, 13 domains · Skill/Tool 质量 + Data Honesty', issues:6, updated:'2026-03-17' },
-    { name:'Eval System', owner:'Fei, Jin Xu', desc:'Eval Harness + 埋点/Analytics + Benchmark', issues:3, updated:'2026-03-18' },
-    { name:'LLM Proxy', owner:'Regison, Wenzhang', desc:'配额 + 路由 + 多模型管理', issues:2, updated:'2026-03-17' },
-    { name:'Agent', owner:'JackJun', desc:'Agent Creation (PRD) + 策略管理 + Backtest + Polymarket', issues:8, updated:'2026-03-18' }
+  { key:'scope2', icon:'🛡', name:'Scope 2: Safety & Trust — 安全与信任 (PRODUCT-2085)', modules:[
+    { name:'PRODUCT-1896: AI 幻觉 — 虚构地址/方向/价位', owner:'Chris', desc:'P1 · Triage · 资金损失风险', issues:1, updated:'2026-03-20' },
+    { name:'PRODUCT-1895: LLM Token 额度监控', owner:'Wenzhang', desc:'P2 · Triage', issues:1, updated:'2026-03-20' },
+    { name:'PRODUCT-1894: Supervisor 定期巡检系统', owner:'Wenzhang', desc:'P2 · Triage', issues:1, updated:'2026-03-20' },
+    { name:'TES-614: Bot Downtime 告警监控', owner:'Jiagui', desc:'P2 · In Progress', issues:1, updated:'2026-03-20' },
+    { name:'PRODUCT-1716: AI Data Hallucination', owner:'Jin Xu', desc:'P4 · Backlog · recalculating API metrics', issues:1, updated:'2026-03-20' },
+    { name:'PRODUCT-1661: 动态风控设计 + 审批 UX', owner:'—', desc:'Backlog', issues:1, updated:'2026-03-20' },
+    { name:'ENG-812: Limit services access', owner:'Wenzhang', desc:'P4 · Todo · cluster-only', issues:1, updated:'2026-03-20' },
+    { name:'PRODUCT-1141: 执行侧风控逻辑', owner:'Liang Han', desc:'Backlog', issues:1, updated:'2026-03-20' },
+    { name:'GTM-189: KOC绩效教练风控层', owner:'—', desc:'P4 · In Progress', issues:1, updated:'2026-03-20' },
+    { name:'GTM-98: Position Lock 激活问题', owner:'—', desc:'P4 · Backlog', issues:1, updated:'2026-03-20' },
+    { name:'ENG-1066: 小币AI幻觉', owner:'—', desc:'P2 · Backlog · 虚构项目描述', issues:1, updated:'2026-03-20' }
   ]},
-  { key:'trading', icon:'💰', name:'Trading', modules:[
-    { name:'Perps', owner:'Alex, Rui Li', desc:'TPSL + GRPS 风控 + 多副本高可用 · donut-perpetual (Java)', issues:4, updated:'2026-03-18' },
-    { name:'Spot', owner:'Regison', desc:'donut-backend Spot Trading', issues:1, updated:'2026-03-18' },
-    { name:'Agents Backend', owner:'Ethan', desc:'HyperLiquid + Deposit/Withdraw/Transfer · Go', issues:2, updated:'2026-03-13' },
-    { name:'Wallet Service', owner:'Regison, Wenzhang', desc:'余额同步 + Gas 管理 + EVM Token 转账', issues:2, updated:'2026-03-11' }
+  { key:'scope3', icon:'💰', name:'Scope 3: Trading & Monetization', modules:[
+    { name:'Perps 交易引擎', owner:'Alex, Rui Li', desc:'TPSL + GRPS 风控 + 多副本高可用 · donut-perpetual (Java)', issues:4, updated:'2026-03-20' },
+    { name:'Spot 交易', owner:'Regison', desc:'donut-backend Spot Trading', issues:1, updated:'2026-03-20' },
+    { name:'Agents Backend (Go)', owner:'Ethan', desc:'HyperLiquid + Deposit/Withdraw/Transfer', issues:2, updated:'2026-03-20' },
+    { name:'Wallet Service', owner:'Regison, Wenzhang', desc:'余额同步 + Gas 管理 + EVM Token 转账', issues:2, updated:'2026-03-20' },
+    { name:'Monetization（计费/支付/定价）', owner:'Ye Zou', desc:'计费域模型 · 会员权益 · 定价页 — 待启动', issues:0, updated:'2026-03-20' }
   ]},
-  { key:'infra', icon:'🔌', name:'Backend & Infra', modules:[
-    { name:'donut-backend', owner:'Regison, Wenzhang, Jin Xu', desc:'NestJS Monorepo · D0 模块 · LLM Proxy · Trading · MCP', issues:5, updated:'2026-03-18' },
-    { name:'K8s Infra', owner:'Wenzhang', desc:'ArgoCD/Helm + 监控/SigNoz + 灾备', issues:4, updated:'2026-03-18' },
-    { name:'DevOps/CI', owner:'Wenzhang, Kevin', desc:'CI pipeline + .env 管理 + 部署自动化', issues:3, updated:'2026-03-18' },
-    { name:'Cron/Admin', owner:'Jin Xu', desc:'定时任务 · 管理后台', issues:1, updated:'2026-03-17' }
-  ]},
-  { key:'quality', icon:'🧪', name:'Quality', modules:[
-    { name:'E2E 测试', owner:'Kevin, Jim', desc:'E2E 自动化测试 · CI 集成', issues:1, updated:'2026-03-18' },
-    { name:'Bug Triage', owner:'Jim', desc:'Bug 分类 · 回归验证', issues:0, updated:'2026-03-17' }
-  ]},
-  { key:'growth', icon:'📣', name:'Growth & GTM', modules:[
+  { key:'support', icon:'📣', name:'Growth & Quality', modules:[
     { name:'SEO', owner:'Qiaochu', desc:'SEO/UGC 四层引擎', issues:1, updated:'2026-03-15' },
     { name:'Referral', owner:'Ruqi', desc:'推荐系统 · 增长 APAC', issues:1, updated:'2026-03-14' },
-    { name:'User Voice', owner:'—', desc:'Auto-triage pipeline · Ring 每周五更新', issues:2, updated:'2026-03-18' }
+    { name:'User Voice', owner:'—', desc:'Auto-triage pipeline · Ring 每周五更新', issues:2, updated:'2026-03-18' },
+    { name:'E2E 测试', owner:'Kevin, Jim', desc:'E2E 自动化测试 · CI 集成', issues:1, updated:'2026-03-18' },
+    { name:'Bug Triage', owner:'Jim', desc:'Bug 分类 · 回归验证', issues:0, updated:'2026-03-17' }
   ]}
 ];
 
