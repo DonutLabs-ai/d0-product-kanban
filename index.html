@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D0 Product Dashboard — v8.2</title>
+<title>D0 Product Dashboard — v8.3</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── Design System Tokens ──────────────────────────────── */
@@ -382,6 +382,10 @@ a:hover { text-decoration: underline; }
 /* ── My Board Instruction (v8.2) ───────────────────────── */
 .myboard-guide { background: var(--bg-subtle); border: 1px solid rgba(59,130,246,.2); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin-bottom: var(--space-4); font-size: 0.78rem; color: var(--fg-muted); line-height: 1.6 }
 .myboard-guide strong { color: var(--fg-base) }
+
+/* ── Estimate Badge (v8.3) ─────────────────────────────── */
+.estimate-badge { font-family: var(--font-mono); font-size: 0.5rem; padding: 1px 4px; border-radius: 3px; margin-left: var(--space-1) }
+.estimate-badge.no-est { background: rgba(239,68,68,.08); color: var(--error); border: 1px dashed rgba(239,68,68,.2) }
 </style>
 </head>
 <body>
@@ -408,7 +412,7 @@ a:hover { text-decoration: underline; }
   <header class="header">
     <h1>D0 Product Dashboard</h1>
     <div class="subtitle">Unified Sprint · 组织 · 产品 · 工程 · 风险</div>
-    <div class="cycle-badge"><span class="pulse"></span>v8.2 · 2026-03-19</div>
+    <div class="cycle-badge"><span class="pulse"></span>v8.3 · 2026-03-20</div>
   </header>
 
   <!-- ══ Tab Navigation ══ -->
@@ -420,6 +424,7 @@ a:hover { text-decoration: underline; }
     <button class="tab-btn" onclick="switchTab('risk')">⚠️ 风险 &amp; 规划</button>
     <button class="tab-btn" onclick="switchTab('myboard')">👤 我的看板</button>
     <button class="tab-btn" onclick="switchTab('voice')">📣 User Voice</button>
+    <button class="tab-btn" onclick="switchTab('ceo')">🎯 CEO 关注线</button>
   </div>
 
   <!-- ══ Toolbar ══ -->
@@ -448,6 +453,7 @@ a:hover { text-decoration: underline; }
       <div class="stat"><div class="num" id="stat-people">0</div><div class="label">People</div></div>
     </div>
     <div class="sprint-legend"><span>🟢 ENG issues</span><span>🟣 PRODUCT issues</span></div>
+    <div id="workloadHeatmap" style="margin-bottom:var(--space-6)"></div>
     <div class="controls">
       <div class="ctrl-group">
         <button class="ctrl-btn active" onclick="switchView('layer')">🌳 产品线树</button>
@@ -546,6 +552,8 @@ a:hover { text-decoration: underline; }
       <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem" contenteditable><strong>交易三路径无统一标准</strong><br>Perps(Java)/Spot(TS)/Agents(Go) 体验不一致。</div><div class="ri-fix" contenteditable><strong>行动:</strong> Peter 输出交易体验标准 · Alex/Regison/Ethan 对齐 · Sylvia 审核</div></div>
       <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem" contenteditable><strong>Jiagui = DonutExtension 单点</strong><br>浏览器安全 + 容器隔离 sole owner。</div><div class="ri-fix" contenteditable><strong>行动:</strong> Jin Xu 或 Gary 做 Extension buddy · 文档化</div></div>
       <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem" contenteditable><strong>多副本无总 Owner</strong><br>各服务自行处理，无统筹。</div><div class="ri-fix" contenteditable><strong>行动:</strong> Wenzhang 总 owner · 优先级: Perps > Backend > Wallet > Agents</div></div>
+      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem" contenteditable><strong>Jiagui Sprint 过载</strong><br>15 issues assigned to single person in C23.</div><div class="ri-fix" contenteditable><strong>行动:</strong> Jack triage to 5-6, defer rest to C24</div></div>
+      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem" contenteditable><strong>商业化关键路径未启动</strong><br>PRODUCT-2121 计费域模型 is foundation for all payment features, still Todo.</div><div class="ri-fix" contenteditable><strong>行动:</strong> Must start Day 1 of sprint</div></div>
     </div>
     <div class="sec"><div class="sec-head"><span class="sec-num">05</span><h2>五层架构 Q2 规划</h2></div></div>
     <table class="plan-table">
@@ -554,8 +562,8 @@ a:hover { text-decoration: underline; }
         <tr><td><span class="layer-dot" style="background:var(--warning)"></span><strong>获客</strong></td><td contenteditable>GTM / Growth</td><td contenteditable>Ruqi · Hongwei · Melvin · Javier</td><td contenteditable>周新增注册 + CAC</td><td contenteditable>SEO 引擎 · 5 KOL · 内容日历</td></tr>
         <tr><td><span class="layer-dot" style="background:var(--teal)"></span><strong>体验</strong></td><td contenteditable>Ye Zou + Sylvia</td><td contenteditable>Gary · Ethan · Yi Tan · Jin Xu</td><td contenteditable>Activation >30%</td><td contenteditable>Onboarding v2 · 简报 · Dashboard · Aha 定义</td></tr>
         <tr class="plan-highlight"><td><span class="layer-dot" style="background:var(--gold)"></span><strong style="color:var(--info)">AI Eng</strong></td><td contenteditable>JackJun + Fei</td><td contenteditable>Jin Xu · Regison · Liang Han · Tao</td><td contenteditable>eval pass · p99&lt;2s · cache>70%</td><td contenteditable>确定性引擎 · 预缓存 · Eval v1 · 工具审计</td></tr>
-        <tr><td><span class="layer-dot" style="background:var(--info)"></span><strong>交易</strong></td><td contenteditable>Peter (lead)</td><td contenteditable>Alex · Rui Li · Ethan · Sylvia</td><td contenteditable>7日留存>20% · 成功率>99%</td><td contenteditable>Agent API · TPSL · GRPS · 3 策略</td></tr>
-        <tr style="opacity:.75"><td><span class="layer-dot" style="background:var(--fg-subtle)"></span><strong>基础设施</strong></td><td contenteditable>Wenzhang</td><td contenteditable>Regison · Jiagui · JackJun</td><td contenteditable>可用性>99.9%</td><td contenteditable>多副本 · 灾备 · Safety &amp; Container</td></tr>
+        <tr><td><span class="layer-dot" style="background:var(--info)"></span><strong>交易</strong></td><td contenteditable>Peter (lead)</td><td contenteditable>Alex · Rui Li · Ethan · Sylvia (风控)</td><td contenteditable>7日留存>20% · 成功率>99%</td><td contenteditable>Agent API · TPSL · GRPS · 3 策略</td></tr>
+        <tr style="opacity:.75"><td><span class="layer-dot" style="background:var(--fg-subtle)"></span><strong>基础设施</strong></td><td contenteditable>JackJun (安全) + Wenzhang (DevOps)</td><td contenteditable>Regison · Jiagui · JackJun · Wenzhang</td><td contenteditable>可用性>99.9%</td><td contenteditable>多副本 · 灾备 · Safety &amp; Container</td></tr>
       </tbody>
     </table>
     <div class="sec"><div class="sec-head"><span class="sec-num">06</span><h2>Challenge 决议</h2></div></div>
@@ -568,6 +576,8 @@ a:hover { text-decoration: underline; }
       <div class="cr-item"><div class="cr-num">6</div><div class="cr-text" contenteditable><strong>Ethan 定位</strong> → Full-stack Asset &amp; Platform (多链资产/Dashboard/Deposit·Withdraw·Transfer/iOS)</div><div class="cr-resolution resolved" onclick="cycleRes(this)">✓ 已修正</div></div>
       <div class="cr-item"><div class="cr-num">7</div><div class="cr-text" contenteditable><strong>AI 层两核心空缺</strong> → 1834 + 1800 需 Sprint P0 指派</div><div class="cr-resolution action" onclick="cycleRes(this)">→ 需指派</div></div>
       <div class="cr-item"><div class="cr-num">8</div><div class="cr-text" contenteditable><strong>d0-cli 工具爆炸</strong> → 审计 + pruning + gate</div><div class="cr-resolution action" onclick="cycleRes(this)">→ 执行中</div></div>
+      <div class="cr-item"><div class="cr-num">9</div><div class="cr-text" contenteditable><strong>安全模块 Ownership 三分</strong> → JackJun (Infra安全) + Peter (交易安全) + Sylvia (风控需求)</div><div class="cr-resolution resolved" onclick="cycleRes(this)">✓ 已修正</div></div>
+      <div class="cr-item"><div class="cr-num">10</div><div class="cr-text" contenteditable><strong>Sprint 容量控制</strong> → 每人 ≤6 issue + 必须有 S/M/L estimate</div><div class="cr-resolution action" onclick="cycleRes(this)">→ 执行中</div></div>
     </div>
     <div class="pending-box" contenteditable>待决: ① PRODUCT-1834 / 1800 owner 指派 ② Peter 交易标准文档 ③ Ethan buddy reviewer 确认 ④ Jiagui Extension 文档化</div>
   </div>
@@ -687,8 +697,18 @@ a:hover { text-decoration: underline; }
     </div>
   </div><!-- /tab-voice -->
 
+  <!-- ══════════════════════════════════════════════════════
+       TAB 8: CEO 关注线 (v8.3)
+       ══════════════════════════════════════════════════════ -->
+  <div id="tab-ceo" class="tab-panel">
+    <div class="sec"><div class="sec-head"><span class="sec-num">07</span><h2>🎯 CEO 关注线 — 4 条主线</h2></div>
+      <div class="hint">CEO 重点跟踪的跨团队关注领域 · 聚合相关 Issue 状态 · v8.3</div>
+    </div>
+    <div id="ceoFocusGrid" style="display:grid;gap:var(--space-4);margin:var(--space-4) 0"></div>
+  </div>
+
   <div class="footer">
-    D0 Product Dashboard v8.2 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View
+    D0 Product Dashboard v8.3 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View
   </div>
 
 </div><!-- /page -->
@@ -950,6 +970,7 @@ function renderCycle(key) {
   layerView.innerHTML = treeHTML;
 
   renderPersonView(issues);
+  renderWorkloadHeatmap(issues);
   save();
 }
 
@@ -994,12 +1015,13 @@ function renderCardHTML(issue) {
   const href = 'https://linear.app/donutbrowser/issue/'+issue.id;
   const safeTitle = issue.title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const teamBadge = '<span class="card-team-badge '+(issue.team==='PRODUCT'?'product':'eng')+'">'+issue.team+'</span>';
+  const estimateBadge = '<span style="font-family:var(--font-mono);font-size:0.5rem;padding:1px 4px;border-radius:3px;background:rgba(239,68,68,.08);color:var(--error);border:1px dashed rgba(239,68,68,.2);margin-left:var(--space-1)" title="No estimate yet">—</span>';
   const delBtn = issue.source==='cycle-add' ? '<button class="card-custom-del" onclick="removeCycleIssueAndRefresh(\''+issue.id+'\')">✕</button>' : '';
 
   return '<div class="card '+cardClass+'" data-assignee="'+issue.assignee+'" data-layer="'+(issue.module||issue.layer)+'" data-state="'+issue.state+'" data-id="'+issue.id+'" style="--accent:'+teamAccent+'">'
     +delBtn
     +'<div class="card-head"><a href="'+href+'" target="_blank" rel="noopener" class="card-id">'+issue.id+' ↗</a>'
-    +teamBadge
+    +teamBadge+estimateBadge
     +'<span class="priority-dot" style="background:'+pColor+'"></span></div>'
     +'<div class="card-title">'+safeTitle+'</div>'
     +getPipelineHTML(issue.state, issue.stateLabel)
@@ -1078,6 +1100,7 @@ function switchTab(tab) {
   if (tab==='myboard') renderMyBoard(window._currentMyFilter||'all');
   if (tab==='product') renderProductPanorama();
   if (tab==='eng') renderRepoCatalog();
+  if (tab==='ceo') renderCEOFocus();
 }
 
 /* ── Sprint Board: View Switching ──────────────────────── */
@@ -1522,6 +1545,121 @@ function renderRepoCatalog() {
           +'</div></div>';
       }).join('')
       +'</div></div>';
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════════════
+   WORKLOAD HEATMAP (v8.3)
+   ══════════════════════════════════════════════════════════ */
+function renderWorkloadHeatmap(issues) {
+  const el = document.getElementById('workloadHeatmap');
+  if (!el) return;
+  const people = {};
+  issues.forEach(i => {
+    if (i.assignee === 'unassigned') return;
+    if (!people[i.assignee]) people[i.assignee] = { total:0, p1:0, estimated:0 };
+    people[i.assignee].total++;
+    if (i.priority === 'urgent' || i.priority === 'high') people[i.assignee].p1++;
+  });
+  const sorted = Object.keys(people).sort((a,b) => people[b].total - people[a].total);
+  if (!sorted.length) { el.innerHTML = ''; return; }
+  const cells = sorted.map(key => {
+    const p = people[key];
+    const overload = p.total > 6;
+    const bg = overload ? 'rgba(239,68,68,.12)' : 'var(--bg-subtle)';
+    const border = overload ? 'rgba(239,68,68,.4)' : 'var(--border-base)';
+    const nameColor = overload ? 'var(--error)' : 'var(--fg-base)';
+    return '<div style="background:'+bg+';border:1px solid '+border+';border-radius:var(--radius-sm);padding:var(--space-2) var(--space-3);text-align:center">'
+      +'<div style="font-size:0.78rem;font-weight:600;color:'+nameColor+'">'+(nameMap[key]||key)+'</div>'
+      +'<div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;margin:var(--space-1) 0;color:'+(overload?'var(--error)':'var(--fg-base)')+'">'+p.total+'</div>'
+      +'<div style="font-family:var(--font-mono);font-size:0.58rem;color:var(--fg-subtle)">P0/P1: '+p.p1+' · Est: 0</div>'
+      +(overload?'<div style="font-family:var(--font-mono);font-size:0.55rem;color:var(--error);margin-top:2px">⚠ 超载</div>':'')
+      +'</div>';
+  }).join('');
+  el.innerHTML = '<div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-2)">'
+    +'<div style="font-family:var(--font-mono);font-size:0.72rem;font-weight:600;color:var(--fg-muted);margin-bottom:var(--space-3)">📊 Workload Heatmap <span style="font-weight:400;font-size:0.62rem;color:var(--fg-subtle)">红色 = 超 6 issue</span></div>'
+    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:var(--space-2)">'+cells+'</div></div>';
+}
+
+/* ══════════════════════════════════════════════════════════
+   CEO FOCUS LINES (v8.3)
+   ══════════════════════════════════════════════════════════ */
+const CEO_FOCUS_AREAS = [
+  {
+    title: '🛡 安全 / 灾备 / 风控',
+    owners: 'JackJun (Infra安全) + Peter (交易安全) + Sylvia (风控)',
+    color: 'var(--error)',
+    keywords: ['safety','安全','灾备','风控','grps','container','security','risk'],
+    moduleKeys: ['infra.k8s','trading.perps'],
+    risks: ['Jiagui Sprint 过载 (15 issues)','安全模块三人分 ownership 需磨合','灾备方案未完成演练'],
+    criticalPath: ['ENG-861 生产服务全单副本','GRPS AutoProtect 上线','Container 隔离方案']
+  },
+  {
+    title: '📊 数据分析准确性',
+    owners: 'Regison',
+    color: 'var(--warning)',
+    keywords: ['数据','data','accuracy','准确','audit','质量','mcp tool','data source'],
+    moduleKeys: ['ai.tools','ai.llmproxy'],
+    risks: ['d0-cli 261 工具 — 数据源重叠 + 冲突','MCP tool bugs 仍有 P0 未解'],
+    criticalPath: ['PRODUCT-1972 数据质量审查','PRODUCT-1945 MCP tool bugs','ENG-1096 Data source audit']
+  },
+  {
+    title: '🔬 AutoResearch 创新',
+    owners: 'Liang Han + JackJun',
+    color: 'var(--gold)',
+    keywords: ['research','autoresearch','策略','backtest','polymarket','eval','discovery'],
+    moduleKeys: ['ai.eval','ai.agent'],
+    risks: ['Backtest 可靠性用户反馈差 (8 complaints)','确定性分析引擎 owner 待定'],
+    criticalPath: ['PRODUCT-1502 Backtest Skill PRD','ENG-962 Polymarket CLOB','ENG-853 Eval001']
+  },
+  {
+    title: '💰 商业化付费',
+    owners: 'Ye Zou',
+    color: 'var(--purple)',
+    keywords: ['付费','billing','计费','monetization','payment','subscription','quota','配额','会员'],
+    moduleKeys: ['frontend.dashboard'],
+    risks: ['PRODUCT-2121 计费域模型 still Todo — blocks all payment','LLM 配额体系已上线但 billing 未接入'],
+    criticalPath: ['PRODUCT-2121 计费域模型 (foundation)','ENG-1011 LLM Token 配额','Landing Page + 定价页']
+  }
+];
+
+function renderCEOFocus() {
+  const el = document.getElementById('ceoFocusGrid');
+  if (!el) return;
+  const cycle = CYCLES[activeCycleKey];
+  if (!cycle) return;
+  const added = getCycleAdditions(activeCycleKey);
+  const issues = [...cycle.issues, ...added];
+
+  el.innerHTML = CEO_FOCUS_AREAS.map(area => {
+    // Find related issues by module or keyword matching
+    const related = issues.filter(i => {
+      if (area.moduleKeys.some(mk => i.module === mk)) return true;
+      const t = (i.title||'').toLowerCase();
+      return area.keywords.some(kw => t.includes(kw.toLowerCase()));
+    });
+    const total = related.length;
+    const done = related.filter(i => i.state==='completed').length;
+    const active = related.filter(i => i.state==='started'||i.state==='triage').length;
+    const todo = total - done - active - related.filter(i => i.state==='canceled').length;
+
+    return '<div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);border-left:4px solid '+area.color+'">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-3)">'
+      +'<div style="font-family:var(--font-display);font-size:1.15rem;font-weight:400">'+area.title+'</div>'
+      +'<div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">Owner: '+area.owners+'</div></div>'
+      // Status distribution bar
+      +'<div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-3)">'
+      +'<div style="text-align:center;padding:var(--space-2) var(--space-4);background:var(--bg-muted);border-radius:var(--radius-sm);min-width:70px"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700">'+total+'</div><div style="font-size:0.6rem;color:var(--fg-subtle)">Total</div></div>'
+      +'<div style="text-align:center;padding:var(--space-2) var(--space-4);background:var(--bg-muted);border-radius:var(--radius-sm);min-width:70px"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--warning)">'+active+'</div><div style="font-size:0.6rem;color:var(--fg-subtle)">Active</div></div>'
+      +'<div style="text-align:center;padding:var(--space-2) var(--space-4);background:var(--bg-muted);border-radius:var(--radius-sm);min-width:70px"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--success)">'+done+'</div><div style="font-size:0.6rem;color:var(--fg-subtle)">Done</div></div>'
+      +'<div style="text-align:center;padding:var(--space-2) var(--space-4);background:var(--bg-muted);border-radius:var(--radius-sm);min-width:70px"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--fg-muted)">'+todo+'</div><div style="font-size:0.6rem;color:var(--fg-subtle)">Todo</div></div></div>'
+      // Risks
+      +'<div style="margin-bottom:var(--space-2)"><div style="font-family:var(--font-mono);font-size:0.62rem;font-weight:600;color:var(--error);margin-bottom:var(--space-1)">⚠ KEY RISKS</div>'
+      +area.risks.map(r => '<div style="font-size:0.74rem;color:var(--fg-muted);padding:2px 0;padding-left:var(--space-3)">• '+r+'</div>').join('')+'</div>'
+      // Critical path
+      +'<div><div style="font-family:var(--font-mono);font-size:0.62rem;font-weight:600;color:var(--info);margin-bottom:var(--space-1)">🎯 CRITICAL PATH</div>'
+      +area.criticalPath.map(cp => '<div style="font-size:0.74rem;color:var(--fg-muted);padding:2px 0;padding-left:var(--space-3)">→ '+cp+'</div>').join('')+'</div>'
+      +'</div>';
   }).join('');
 }
 
