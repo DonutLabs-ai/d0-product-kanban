@@ -477,63 +477,25 @@ a:hover { text-decoration: underline; }
   .matrix-col-hdr .mx-label, .matrix-row-hdr .mx-label { font-size: 0.6rem }
   .matrix-cell li { font-size: 0.65rem }
 }
+/* ── Issue Lookup ───────────────────────────────────────── */
+.issue-lookup { display: flex; gap: var(--space-2); align-items: center; margin-bottom: var(--space-4) }
+.issue-lookup input { font-family: var(--font-mono); font-size: 0.82rem; padding: var(--space-2) var(--space-4); background: var(--bg-muted); border: 1px solid var(--border-base); border-radius: var(--radius-sm); color: var(--fg-base); outline: none; flex: 1; max-width: 500px }
+.issue-lookup input:focus { border-color: var(--info); box-shadow: 0 0 0 2px rgba(59,130,246,.15) }
+.issue-lookup button { font-family: var(--font-mono); font-size: 0.72rem; padding: var(--space-2) var(--space-4); background: var(--info); color: white; border: none; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap }
+.lookup-result { padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-4); font-size: 0.82rem; line-height: 1.6; display: none }
+.lookup-result.found { display: block; background: rgba(34,197,94,.06); border: 1px solid rgba(34,197,94,.2); color: var(--fg-base) }
+.lookup-result.not-found { display: block; background: rgba(245,158,11,.06); border: 1px solid rgba(245,158,11,.2); color: var(--fg-base) }
+.lookup-result.misaligned { display: block; background: rgba(239,68,68,.06); border: 1px solid rgba(239,68,68,.2); color: var(--fg-base) }
+.lookup-result .lr-tag { font-family: var(--font-mono); font-size: 0.68rem; padding: 2px 8px; border-radius: 100px; display: inline-block; margin-right: var(--space-2) }
+.lookup-result .lr-coord { background: rgba(59,130,246,.12); color: var(--info) }
+.lookup-result .lr-milestone { background: rgba(34,197,94,.12); color: var(--success) }
+.lookup-result .lr-warn { background: rgba(245,158,11,.12); color: var(--warning) }
+.lookup-result .lr-danger { background: rgba(239,68,68,.12); color: var(--error) }
+.matrix-cell.highlight { animation: cellPulse 1.5s ease 3; box-shadow: 0 0 0 2px var(--info), 0 0 20px rgba(59,130,246,.15) }
+@keyframes cellPulse { 0%,100% { box-shadow: 0 0 0 2px var(--info), 0 0 20px rgba(59,130,246,.15) } 50% { box-shadow: 0 0 0 3px var(--info), 0 0 30px rgba(59,130,246,.25) } }
 </style>
-/* ── Auth Gate ──────────────────────────────────────────── */
-#auth-gate {
-  position: fixed; inset: 0; z-index: 99999;
-  display: none; /* Auth gate disabled — display:none overrides flex */
-  flex-direction: column; align-items: center; justify-content: center;
-  background: var(--bg-base);
-  font-family: var(--font-sans);
-}
-#auth-gate .auth-card {
-  background: var(--bg-subtle); border: 1px solid var(--border-base);
-  border-radius: var(--radius-lg); padding: var(--space-8) var(--space-12);
-  text-align: center; max-width: 420px; width: 90%;
-}
-#auth-gate .auth-title {
-  font-family: var(--font-display); font-size: 2rem; font-weight: 400;
-  color: var(--fg-base); margin-bottom: var(--space-2);
-}
-#auth-gate .auth-sub {
-  font-family: var(--font-mono); font-size: 0.72rem; color: var(--fg-subtle);
-  margin-bottom: var(--space-8);
-}
-#auth-gate .auth-error {
-  font-size: 0.78rem; color: var(--error); margin-top: var(--space-4);
-  display: none;
-}
-#auth-gate .auth-email {
-  font-family: var(--font-mono); font-size: 0.68rem; color: var(--fg-muted);
-  margin-top: var(--space-4);
-}
-#auth-gate .g-btn-wrapper {
-  display: flex; justify-content: center; margin-top: var(--space-4);
-}
-.auth-signout {
-  position: fixed; top: var(--space-3); right: var(--space-3); z-index: 10000;
-  font-family: var(--font-mono); font-size: 0.6rem; padding: var(--space-1) var(--space-3);
-  border-radius: 100px; border: 1px solid var(--border-base); background: var(--bg-subtle);
-  color: var(--fg-subtle); cursor: pointer; transition: all var(--duration-normal);
-  display: none !important; /* Auth disabled — keep hidden */
-}
-.auth-signout:hover { border-color: var(--border-emphasis); color: var(--fg-muted); }
-</style>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-
-<!-- Auth Gate -->
-<div id="auth-gate">
-  <div class="auth-card">
-    <div class="auth-title">D0 Product Dashboard</div>
-    <div class="auth-sub">DONUT LABS · INTERNAL ONLY</div>
-    <div class="g-btn-wrapper"><div id="g_id_signin"></div></div>
-    <div id="auth-error" class="auth-error"></div>
-    <div class="auth-email">Requires @donutbrowser.ai account</div>
-  </div>
-</div>
-<button class="auth-signout" id="auth-signout" onclick="authSignOut()">Sign out</button>
 
 <div class="page" id="app-content">
 
@@ -890,7 +852,17 @@ a:hover { text-decoration: underline; }
   <!-- ══ Strategic Matrix ══ -->
   <div id="tab-matrix" class="tab-panel">
     <div class="sec"><div class="sec-head"><span class="sec-num">09</span><h2>🎯 Strategic Matrix — Proactive × High-Stake</h2></div>
-      <div class="hint">D0 能力矩阵 · 主动性 × 风险等级 · v10</div>
+      <div class="hint">D0 能力矩阵 · 主动性 × 风险等级 · 贴 Issue 链接可查看战略对齐度 · v10.1</div>
+    </div>
+
+    <!-- Issue Lookup -->
+    <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-4)">
+      <div style="font-family:var(--font-mono);font-size:.75rem;font-weight:600;margin-bottom:var(--space-3);color:var(--fg-muted)">🔍 Issue 战略对齐检查 — 贴 Linear 链接或 Issue ID</div>
+      <div class="issue-lookup">
+        <input type="text" id="issueLookupInput" placeholder="例: PRODUCT-2185 或 https://linear.app/donutbrowser/issue/PRODUCT-2185/..." onkeydown="if(event.key==='Enter')lookupIssue()">
+        <button onclick="lookupIssue()">检查对齐</button>
+      </div>
+      <div class="lookup-result" id="lookupResult"></div>
     </div>
 
     <div class="matrix-wrap">
@@ -909,7 +881,7 @@ a:hover { text-decoration: underline; }
         <!-- Row 1: P0 Reactive -->
         <div class="matrix-row-hdr"><span class="mx-level">P0</span><span class="mx-label">Reactive</span></div>
 
-        <div class="matrix-cell cell-now">
+        <div class="matrix-cell cell-now" id="cell-P0-S0">
           <span class="cell-tag tag-now">NOW</span>
           <div class="cell-coord">P0×S0</div>
           <ul>
@@ -919,7 +891,7 @@ a:hover { text-decoration: underline; }
           </ul>
         </div>
 
-        <div class="matrix-cell cell-now">
+        <div class="matrix-cell cell-now" id="cell-P0-S1">
           <span class="cell-tag tag-now">NOW</span>
           <div class="cell-coord">P0×S1</div>
           <ul>
@@ -929,7 +901,7 @@ a:hover { text-decoration: underline; }
           </ul>
         </div>
 
-        <div class="matrix-cell">
+        <div class="matrix-cell" id="cell-P0-S2">
           <div class="cell-coord">P0×S2</div>
           <ul>
             <li>容器隔离 (Scope 1) — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2227" target="_blank">PRODUCT-2227</a></li>
@@ -945,7 +917,7 @@ a:hover { text-decoration: underline; }
         <!-- Row 2: P1 Monitor -->
         <div class="matrix-row-hdr"><span class="mx-level">P1</span><span class="mx-label">Monitor</span></div>
 
-        <div class="matrix-cell">
+        <div id="cell-P1-S0" class="matrix-cell">
           <div class="cell-coord">P1×S0</div>
           <ul>
             <li>Daily Brief 推送 — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2144" target="_blank">PRODUCT-2144</a> <span class="wip">WIP</span></li>
@@ -954,7 +926,7 @@ a:hover { text-decoration: underline; }
           </ul>
         </div>
 
-        <div class="matrix-cell cell-30d">
+        <div class="matrix-cell cell-30d" id="cell-P1-S1">
           <span class="cell-tag tag-30d">30D TARGET</span>
           <div class="cell-coord">P1×S1</div>
           <ul>
@@ -966,7 +938,7 @@ a:hover { text-decoration: underline; }
           </ul>
         </div>
 
-        <div class="matrix-cell cell-3m">
+        <div class="matrix-cell cell-3m" id="cell-P1-S2">
           <span class="cell-tag tag-3m">3M TARGET</span>
           <div class="cell-coord">P1×S2</div>
           <ul>
@@ -982,7 +954,7 @@ a:hover { text-decoration: underline; }
         <!-- Row 3: P2 Draft -->
         <div class="matrix-row-hdr"><span class="mx-level">P2</span><span class="mx-label">Draft</span></div>
 
-        <div class="matrix-cell">
+        <div id="cell-P2-S0" class="matrix-cell">
           <div class="cell-coord">P2×S0</div>
           <ul>
             <li>Agent Strategy Hub — 研究报告草案推送 <span class="planned">planned</span></li>
@@ -990,7 +962,7 @@ a:hover { text-decoration: underline; }
           </ul>
         </div>
 
-        <div class="matrix-cell cell-3m">
+        <div class="matrix-cell cell-3m" id="cell-P2-S1">
           <span class="cell-tag tag-3m">3M TARGET</span>
           <div class="cell-coord">P2×S1</div>
           <ul>
@@ -999,7 +971,7 @@ a:hover { text-decoration: underline; }
           </ul>
         </div>
 
-        <div class="matrix-cell cell-6m">
+        <div class="matrix-cell cell-6m" id="cell-P2-S2">
           <span class="cell-tag tag-6m">6M TARGET</span>
           <div class="cell-coord">P2×S2</div>
           <ul>
@@ -1017,7 +989,7 @@ a:hover { text-decoration: underline; }
         <div class="matrix-cell cell-empty"></div>
         <div class="matrix-cell cell-empty"></div>
 
-        <div class="matrix-cell cell-6m">
+        <div id="cell-P3-S2" class="matrix-cell cell-6m">
           <span class="cell-tag tag-6m">6M TARGET</span>
           <div class="cell-coord">P3×S2</div>
           <ul>
@@ -1027,7 +999,7 @@ a:hover { text-decoration: underline; }
           </ul>
         </div>
 
-        <div class="matrix-cell cell-12m">
+        <div class="matrix-cell cell-12m" id="cell-P3-S3">
           <span class="cell-tag tag-12m">12M TARGET</span>
           <div class="cell-coord">P3×S3</div>
           <ul>
@@ -1045,7 +1017,7 @@ a:hover { text-decoration: underline; }
         <div class="matrix-cell cell-empty"></div>
         <div class="matrix-cell cell-empty"></div>
 
-        <div class="matrix-cell cell-12m">
+        <div id="cell-P4-S3" class="matrix-cell cell-12m">
           <span class="cell-tag tag-12m">12M TARGET</span>
           <div class="cell-coord">P4×S3</div>
           <ul>
@@ -2329,85 +2301,130 @@ function renderMilestone() {
 }
 
 /* ── Init ──────────────────────────────────────────────── */
-// Deferred — called after auth
 function initApp() { switchCycle('sprint23'); }
 
 /* ══════════════════════════════════════════════════════════
-   AUTH GATE — Google Sign-In + @donutbrowser.ai domain check
+   ISSUE LOOKUP — Strategic alignment checker
    ══════════════════════════════════════════════════════════ */
-const AUTH_KEY = 'd0-kanban-auth-v1';
-const ALLOWED_DOMAIN = 'donutbrowser.ai';
-const GOOGLE_CLIENT_ID = '995822159106-sacm0cdnmrg0b1vsod4dml0631nrt1q8.apps.googleusercontent.com';
+const MATRIX_ISSUES = {
+  // P0×S0 — Reactive × Research [NOW]
+  'P0×S0': { milestone: 'NOW', label: 'Reactive × Research', issues: [], desc: '用户问才答，纯研究不碰资金。当前基线。' },
+  // P0×S1 — Reactive × Guarded [NOW]
+  'P0×S1': { milestone: 'NOW', label: 'Reactive × Guarded', issues: ['PRODUCT-2219','PRODUCT-2218','PRODUCT-2492','PRODUCT-2216','PRODUCT-2187'], desc: '用户指令交易 + 基础止损。当前核心执行能力。' },
+  // P1×S0 — Monitor × Research
+  'P1×S0': { milestone: '30D', label: 'Monitor × Research', issues: ['PRODUCT-2144'], desc: '系统主动推送研究信息。' },
+  // P1×S1 — Monitor × Guarded [30D TARGET]
+  'P1×S1': { milestone: '30D', label: 'Monitor × Guarded', issues: ['PRODUCT-2186','PRODUCT-2185','PRODUCT-2083','PRODUCT-2190','PRODUCT-2493'], desc: '主动监控 + 安全交易。Strategy Hub + GRPS 软约束 + Skill Marketplace。这是 30 天目标。' },
+  // P0×S2 — Reactive × Managed
+  'P0×S2': { milestone: '30D', label: 'Reactive × Managed', issues: ['PRODUCT-2227','PRODUCT-2228','PRODUCT-2229','PRODUCT-2207','PRODUCT-2154'], desc: '安全基建：容器隔离 + 权限控制 + 风控引擎。High-Stake 的基座。' },
+  // P1×S2 — Monitor × Managed [3M TARGET]
+  'P1×S2': { milestone: '3M', label: 'Monitor × Managed', issues: [], desc: '组合级监控 + 风险暴露预警 + PnL 归因。' },
+  // P2×S0 — Draft × Research
+  'P2×S0': { milestone: '3M', label: 'Draft × Research', issues: [], desc: '研究报告草案自动推送，机会发现 → 一键深入。' },
+  // P2×S1 — Draft × Guarded [3M TARGET]
+  'P2×S1': { milestone: '3M', label: 'Draft × Guarded', issues: [], desc: 'Approval Inbox MVP：系统准备交易方案，用户只做 Yes/No。这是 Proactive 的核心跳跃。' },
+  // P2×S2 — Draft × Managed [6M TARGET]
+  'P2×S2': { milestone: '6M', label: 'Draft × Managed', issues: [], desc: '再平衡建议 + 风控违规草案。组合级主动管理。' },
+  // P3×S2 — Constrained × Managed [6M TARGET]
+  'P3×S2': { milestone: '6M', label: 'Constrained × Managed', issues: [], desc: '边界内自主执行 + 自动止损 + GRPS 全约束。用户设规则，Agent 执行规则。' },
+  // P3×S3 — Constrained × Continuous [12M TARGET]
+  'P3×S3': { milestone: '12M', label: 'Constrained × Continuous', issues: [], desc: '24/7 自主值班 + 极端行情自动降仓。Agent 不休息。' },
+  // P4×S3 — Adaptive × Continuous [12M TARGET]
+  'P4×S3': { milestone: '12M', label: 'Adaptive × Continuous', issues: [], desc: '千人千面决策引擎 + 行为学习。同一信号→不同行动。' },
+};
 
-function parseJwt(token) {
-  try {
-    const base64 = token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
-    return JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
-      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')));
-  } catch(e) { return null; }
-}
+// Issues that exist in sprint but DON'T align with Proactive+High-Stake positioning
+const INFRA_ISSUES = {
+  'PRODUCT-2499': { label: 'LLM 成本优化', verdict: '基础设施', note: '必要但非战略差异化。属于「降成本」不属于「增能力」。不应占 Proactive 研发资源。' },
+  'PRODUCT-2497': { label: 'Orphan Container 成本泄漏', verdict: '基础设施', note: '运维卫生，不体现主动性或高风险管理能力。' },
+  'PRODUCT-2496': { label: '成本 Tracking', verdict: '基础设施', note: '内部工具，用户不可感知。' },
+  'PRODUCT-2184': { label: 'Dashboard UI/UX 优化', verdict: '体验优化', note: '有价值但不推进矩阵任何轴。属于 S1 巩固而非能力跃升。' },
+  'PRODUCT-2132': { label: 'Onboarding UX', verdict: '体验优化', note: '获客层面，不直接推进 Proactive 或 High-Stake。' },
+  'PRODUCT-2194': { label: 'Harness UI 重构', verdict: '体验优化', note: '统一体验有价值，但不推进矩阵位置。' },
+  'PRODUCT-2121': { label: '计费域模型', verdict: '商业化', note: '商业闭环必要，但属于 Culture 层而非 Command/Trust/Cognition。' },
+  'PRODUCT-2122': { label: 'Creem 支付通道', verdict: '商业化', note: '同上。' },
+  'PRODUCT-2124': { label: 'Membership Panel', verdict: '商业化', note: '同上。' },
+  'PRODUCT-2123': { label: 'Pricing Page', verdict: '商业化', note: '同上。' },
+  'PRODUCT-2125': { label: '3/27 活动素材', verdict: 'GTM', note: '短期营销，不推进产品矩阵。' },
+  'PRODUCT-2127': { label: 'D0 Launch 素材', verdict: 'GTM', note: '同上。' },
+  'PRODUCT-2025': { label: 'OpenClaw 上游升级', verdict: '基础设施', note: '维护性工作，不推进矩阵。' },
+};
 
-function checkStoredAuth() {
-  try {
-    const stored = JSON.parse(localStorage.getItem(AUTH_KEY));
-    if (stored && stored.email && stored.exp) {
-      // Check expiration (with 5 min buffer)
-      if (stored.exp * 1000 > Date.now() - 300000) {
-        if (stored.email.endsWith('@' + ALLOWED_DOMAIN)) return stored;
-      }
+// Milestone descriptions for display
+const MILESTONES = {
+  'NOW': { color: '#6366f1', label: '当前位置', desc: 'P0×S0~S1 — Reactive + Guarded' },
+  '30D': { color: '#22c55e', label: '30 天目标', desc: 'P1×S1 — Monitor + Guarded' },
+  '3M':  { color: '#14b8a6', label: '3 个月目标', desc: 'P2×S2 — Draft + Managed' },
+  '6M':  { color: '#f97316', label: '6 个月目标', desc: 'P3×S2 — Constrained + Managed' },
+  '12M': { color: '#a855f7', label: '12 个月目标', desc: 'P4×S3 — Adaptive + Continuous' },
+};
+
+function lookupIssue() {
+  const input = document.getElementById('issueLookupInput').value.trim();
+  const result = document.getElementById('lookupResult');
+  if (!input) { result.style.display = 'none'; return; }
+
+  // Extract issue ID from URL or direct input
+  let issueId = input;
+  const urlMatch = input.match(/issue\/([\w]+-\d+)/);
+  if (urlMatch) issueId = urlMatch[1];
+  issueId = issueId.toUpperCase();
+
+  // Remove previous highlights
+  document.querySelectorAll('.matrix-cell.highlight').forEach(c => c.classList.remove('highlight'));
+
+  // Check matrix cells
+  for (const [coord, data] of Object.entries(MATRIX_ISSUES)) {
+    if (data.issues.includes(issueId)) {
+      const ms = MILESTONES[data.milestone];
+      result.className = 'lookup-result found';
+      result.innerHTML = '<strong>' + issueId + '</strong> → '
+        + '<span class="lr-tag lr-coord">' + coord + '</span>'
+        + '<span class="lr-tag lr-milestone" style="background:' + ms.color + '22;color:' + ms.color + '">' + ms.label + '</span>'
+        + '<br><strong>' + data.label + '</strong> — ' + data.desc
+        + '<br><span style="font-size:.72rem;color:var(--fg-subtle)">✅ 对齐「Proactive × High-Stake」战略定位</span>';
+      // Highlight the cell
+      const cellId = 'cell-' + coord.replace('×','-');
+      const cell = document.getElementById(cellId);
+      if (cell) { cell.classList.add('highlight'); cell.scrollIntoView({behavior:'smooth',block:'center'}); }
+      return;
     }
-  } catch(e) {}
-  localStorage.removeItem(AUTH_KEY);
-  return null;
-}
+  }
 
-function showApp(email) {
-  document.getElementById('auth-gate').style.display = 'none';
-  document.getElementById('app-content').style.display = '';
-  const signout = document.getElementById('auth-signout');
-  signout.style.display = 'block';
-  signout.textContent = email + ' · Sign out';
-  initApp();
-}
-
-function showAuthError(msg) {
-  const el = document.getElementById('auth-error');
-  el.textContent = msg;
-  el.style.display = 'block';
-}
-
-function handleCredentialResponse(response) {
-  const payload = parseJwt(response.credential);
-  if (!payload || !payload.email) {
-    showAuthError('认证失败，请重试');
+  // Check infra/non-aligned issues
+  if (INFRA_ISSUES[issueId]) {
+    const info = INFRA_ISSUES[issueId];
+    result.className = 'lookup-result misaligned';
+    result.innerHTML = '<strong>' + issueId + '</strong>: ' + info.label
+      + '<br><span class="lr-tag lr-danger">' + info.verdict + '</span>'
+      + '<br><span style="color:var(--error)">⚠ 不直接推进「Proactive × High-Stake」矩阵位置</span>'
+      + '<br>' + info.note
+      + '<br><br><span style="font-size:.72rem;color:var(--fg-subtle)">建议：此 issue 可以做，但不应占用 P1 Proactive 研发资源。在排期时应明确区分「战略推进」vs「基础运维/商业化」。会上可以用这个分类帮团队理解优先级来源。</span>';
     return;
   }
-  if (!payload.email.endsWith('@' + ALLOWED_DOMAIN)) {
-    showAuthError('Access denied — only @' + ALLOWED_DOMAIN + ' accounts allowed. You signed in as: ' + payload.email);
-    return;
+
+  // Check sprint issues
+  let sprintIssue = null;
+  for (const cycle of Object.values(CYCLES)) {
+    const found = cycle.issues.find(i => i.id === issueId);
+    if (found) { sprintIssue = found; break; }
   }
-  // Store auth (use Google's exp, typically 1 hour; we also set a 24h fallback)
-  const authData = {
-    email: payload.email,
-    name: payload.name || '',
-    picture: payload.picture || '',
-    exp: Math.min(payload.exp, Math.floor(Date.now()/1000) + 86400)
-  };
-  localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
-  showApp(payload.email);
+
+  if (sprintIssue) {
+    result.className = 'lookup-result not-found';
+    result.innerHTML = '<strong>' + issueId + '</strong>: ' + sprintIssue.title
+      + '<br><span class="lr-tag lr-warn">未映射到矩阵</span>'
+      + '<br>这个 issue 在当前 Sprint 中，但尚未被分配到 Proactive × High-Stake 矩阵的任何格子。'
+      + '<br><br><span style="font-size:.72rem;color:var(--fg-subtle)">建议：判断此 issue 是否推进矩阵位置。如果是，将其归入对应格子；如果不是，标注为「基础设施」或「体验优化」，避免与战略推进工作混淆。</span>';
+  } else {
+    result.className = 'lookup-result not-found';
+    result.innerHTML = '<strong>' + issueId + '</strong>'
+      + '<br><span class="lr-tag lr-warn">未找到</span>'
+      + '<br>这个 Issue 不在当前 Sprint 或 Strategic Matrix 中。请确认 Issue ID 是否正确。';
+  }
 }
 
-function authSignOut() {
-  localStorage.removeItem(AUTH_KEY);
-  google.accounts.id.disableAutoSelect();
-  location.reload();
-}
-
-// Auth disabled — call initApp() directly on load
-// Original auth gate code preserved above for future re-enablement by JackJun
-window.addEventListener('load', function() {
-  initApp();
-});
+window.addEventListener('load', function() { initApp(); });
 </script>
 </body>
 </html>
