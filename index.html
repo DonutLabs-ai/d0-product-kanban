@@ -80,6 +80,13 @@
 .sync-box .sync-sep { color: var(--fg-faint); display: block; margin: var(--space-2) 0 }
 .sync-box .sync-footer { color: var(--fg-subtle); font-size: 0.65rem; margin-top: var(--space-3) }
 
+
+/* ══ v10.4 Layout Fixes ═══════════════════════════════ */
+.tab-panel { padding: 0 var(--space-2) }
+.matrix-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: var(--space-2) }
+.m1-table { margin: 0 }
+.ms-card { margin-bottom: var(--space-4) }
+#milestoneRoadmap { grid-template-columns: 1fr !important }
 /* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
 body {
@@ -529,7 +536,6 @@ a:hover { text-decoration: underline; }
     <button class="tab-btn" onclick="switchTab('org')">🏗 组织架构</button>
     <button class="tab-btn" onclick="switchTab('product')">🗺 产品全景</button>
     <button class="tab-btn" onclick="switchTab('eng')">⚙️ 工程 Scope</button>
-    <button class="tab-btn" onclick="switchTab('risk')">⚠️ 风险</button>
     <button class="tab-btn" onclick="switchTab('myboard')">👤 我的看板</button>
     <button class="tab-btn" onclick="switchTab('voice')">📣 User Voice</button>
     <button class="tab-btn" onclick="switchTab('ceo')">🎯 CEO 关注线</button>
@@ -562,6 +568,37 @@ a:hover { text-decoration: underline; }
       <div class="stat"><div class="num" id="stat-people">0</div><div class="label">People</div></div>
     </div>
     <div class="sprint-legend"><span>🟢 ENG issues</span><span>🟣 PRODUCT issues</span></div>
+    
+    <!-- ══ Sprint Risks (v10.4) ══ -->
+    <div style="margin-bottom:var(--space-6)">
+      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:var(--space-3) 0;border-bottom:1px solid var(--border-base);margin-bottom:var(--space-3)" onclick="var el=document.getElementById('riskContent');el.style.display=el.style.display==='none'?'block':'none'">
+        <div style="display:flex;align-items:center;gap:var(--space-2)">
+          <span style="font-size:1.1rem">⚠️</span>
+          <span style="font-family:var(--font-display);font-size:1.2rem;font-weight:400">Sprint 风险</span>
+          <span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">8 items · click to toggle</span>
+        </div>
+      </div>
+      <div id="riskContent">
+<div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-4);font-size:0.78rem">
+      <span style="color:var(--success);font-weight:600">✅ 已解决 (本轮清除)</span>
+      <ul style="margin:var(--space-2) 0 0;padding-left:var(--space-4);color:var(--fg-muted)">
+        <li><del>AI 层两核心模块无 Owner (1834/1800)</del> — 两个 issue 已 Canceled，方向调整</li>
+        <li><del>Jiagui Sprint 过载 (15 issues)</del> — 已 triage 到 4 个 active issue</li>
+        <li><del>商业化关键路径未启动</del> — PRODUCT-2121 计费域模型已 In Progress</li>
+      </ul>
+    </div>
+    <div class="risk-grid">
+      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>Ethan = Agents 单点故障</strong><br>agents-backend sole owner. 多链资产/Deposit/Withdraw/Transfer + Polymarket 全压一人。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: Ethan 名下 issue 查看</span></div><div class="ri-fix"><strong>行动:</strong> Regison 做 buddy reviewer (Jupiter V2 进行中) · Ethan 输出架构文档</div></div>
+      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>d0-cli 工具精简进行中</strong><br>MCP 170→22 合并 (PRODUCT-2261) 在 In Review，但全量验证未完成。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: PRODUCT-2261 状态</span></div><div class="ri-fix"><strong>行动:</strong> Regison Review 中 · 验证功能无退化 + token 降 30%</div></div>
+      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>交易三路径无统一标准</strong><br>Perps(Java)/Spot(TS)/Agents(Go) 体验不一致。Peter 标准文档仍未输出。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 预置交易策略</span></div><div class="ri-fix"><strong>行动:</strong> Peter 交易体验标准 → Alex/Regison/Ethan 对齐</div></div>
+      <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem"><strong>Jiagui = Safety 单点</strong><br>容器安全 + 隔离 sole owner（4 个 active issue）。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: Jiagui 名下查看</span></div><div class="ri-fix"><strong>行动:</strong> Jin Xu 或 Gary 做 buddy · 文档化</div></div>
+      <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem"><strong>多副本改造进行中</strong><br>Wenzhang 在做 K8s PDB (PRODUCT-2043)，Perps 多副本 (PRODUCT-2189) 未开始。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: PRODUCT-2043 / 2189</span></div><div class="ri-fix"><strong>行动:</strong> Wenzhang 总 owner · 优先级: Perps > Backend > Wallet</div></div>
+      <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>成本监控缺失</strong><br>LLM API 日消耗无实时 Dashboard · Orphan Container 持续烧钱 · Prompt Cache Miss 率高。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 成本估算</span></div><div class="ri-fix"><strong>行动:</strong> PRODUCT-2496 成本 Tracking (JackJun) · PRODUCT-2497 Container 回收 (Jiagui) · PRODUCT-2499 模型路由 (—)</div></div>
+      <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>策略基座未就绪</strong><br>Strategy Hub (PRODUCT-2185) 仍在 Planning · 回测引擎未开始 · PM Pipeline 分散。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 预置交易策略</span></div><div class="ri-fix"><strong>行动:</strong> Peter kick-off 2185 · Liang Han 2114 PM 闭环 · Chris 策略校准</div></div>
+      <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>Knowledge Pipeline 全在 Planning</strong><br>PRODUCT-1872 Master Plan + 1790 信号学习 + 1878 知识提取 = 主动能力的数据基座，全部 Todo/Planning。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: Agent 主动性</span></div><div class="ri-fix"><strong>行动:</strong> Chris kick-off 1872 · Jim 行为记忆 v3 先行 · JackJun 信号处理层</div></div>
+    
+      </div>
+    </div>
     <div id="workloadHeatmap" style="margin-bottom:var(--space-6)"></div>
     <div class="controls">
       <div class="ctrl-group">
@@ -654,27 +691,7 @@ a:hover { text-decoration: underline; }
   <!-- ══════════════════════════════════════════════════════
        TAB 5: 风险 & 规划 (unchanged)
        ══════════════════════════════════════════════════════ -->
-  <div id="tab-risk" class="tab-panel">
-    <div class="sec"><div class="sec-head"><span class="sec-num">04</span><h2>风险消解</h2></div></div>
-    <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-4);font-size:0.78rem">
-      <span style="color:var(--success);font-weight:600">✅ 已解决 (本轮清除)</span>
-      <ul style="margin:var(--space-2) 0 0;padding-left:var(--space-4);color:var(--fg-muted)">
-        <li><del>AI 层两核心模块无 Owner (1834/1800)</del> — 两个 issue 已 Canceled，方向调整</li>
-        <li><del>Jiagui Sprint 过载 (15 issues)</del> — 已 triage 到 4 个 active issue</li>
-        <li><del>商业化关键路径未启动</del> — PRODUCT-2121 计费域模型已 In Progress</li>
-      </ul>
-    </div>
-    <div class="risk-grid">
-      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>Ethan = Agents 单点故障</strong><br>agents-backend sole owner. 多链资产/Deposit/Withdraw/Transfer + Polymarket 全压一人。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: Ethan 名下 issue 查看</span></div><div class="ri-fix"><strong>行动:</strong> Regison 做 buddy reviewer (Jupiter V2 进行中) · Ethan 输出架构文档</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>d0-cli 工具精简进行中</strong><br>MCP 170→22 合并 (PRODUCT-2261) 在 In Review，但全量验证未完成。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: PRODUCT-2261 状态</span></div><div class="ri-fix"><strong>行动:</strong> Regison Review 中 · 验证功能无退化 + token 降 30%</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>交易三路径无统一标准</strong><br>Perps(Java)/Spot(TS)/Agents(Go) 体验不一致。Peter 标准文档仍未输出。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 预置交易策略</span></div><div class="ri-fix"><strong>行动:</strong> Peter 交易体验标准 → Alex/Regison/Ethan 对齐</div></div>
-      <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem"><strong>Jiagui = Safety 单点</strong><br>容器安全 + 隔离 sole owner（4 个 active issue）。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: Jiagui 名下查看</span></div><div class="ri-fix"><strong>行动:</strong> Jin Xu 或 Gary 做 buddy · 文档化</div></div>
-      <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem"><strong>多副本改造进行中</strong><br>Wenzhang 在做 K8s PDB (PRODUCT-2043)，Perps 多副本 (PRODUCT-2189) 未开始。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: PRODUCT-2043 / 2189</span></div><div class="ri-fix"><strong>行动:</strong> Wenzhang 总 owner · 优先级: Perps > Backend > Wallet</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>成本监控缺失</strong><br>LLM API 日消耗无实时 Dashboard · Orphan Container 持续烧钱 · Prompt Cache Miss 率高。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 成本估算</span></div><div class="ri-fix"><strong>行动:</strong> PRODUCT-2496 成本 Tracking (JackJun) · PRODUCT-2497 Container 回收 (Jiagui) · PRODUCT-2499 模型路由 (—)</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>策略基座未就绪</strong><br>Strategy Hub (PRODUCT-2185) 仍在 Planning · 回测引擎未开始 · PM Pipeline 分散。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 预置交易策略</span></div><div class="ri-fix"><strong>行动:</strong> Peter kick-off 2185 · Liang Han 2114 PM 闭环 · Chris 策略校准</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>Knowledge Pipeline 全在 Planning</strong><br>PRODUCT-1872 Master Plan + 1790 信号学习 + 1878 知识提取 = 主动能力的数据基座，全部 Todo/Planning。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: Agent 主动性</span></div><div class="ri-fix"><strong>行动:</strong> Chris kick-off 1872 · Jim 行为记忆 v3 先行 · JackJun 信号处理层</div></div>
-    </div></div>
-</div>
+  
 
   <!-- ══════════════════════════════════════════════════════
        TAB 6: MY BOARD (v8.2 — Interactive Status)
@@ -825,6 +842,16 @@ a:hover { text-decoration: underline; }
     <div class="matrix-wrap">
       <div class="matrix-header">D0 Capability Matrix</div>
       <div class="matrix-sub">X-axis: Proactive Level (L0→L4) · Y-axis: High-Stake Level (L0→L4) · Each cell = capability cluster</div>
+
+      
+      <!-- Version ↔ Matrix mapping strip (v10.4) -->
+      <div style="display:grid;grid-template-columns:80px repeat(5, 1fr);gap:2px;margin-bottom:var(--space-2);font-family:var(--font-mono);font-size:0.6rem">
+        <div></div>
+        <div style="text-align:center;padding:var(--space-1) var(--space-2);background:rgba(34,197,94,.12);border-radius:var(--radius-sm);color:var(--success);font-weight:600">← v1「看得清」→</div>
+        <div style="text-align:center;padding:var(--space-1) var(--space-2);background:rgba(59,130,246,.12);border-radius:var(--radius-sm);color:var(--info);font-weight:600">← v2「想得明」→</div>
+        <div style="text-align:center;padding:var(--space-1) var(--space-2);background:rgba(245,158,11,.12);border-radius:var(--radius-sm);color:var(--warning);font-weight:600">← v3「做得住」→</div>
+        <div style="text-align:center;padding:var(--space-1) var(--space-2);background:rgba(167,139,250,.12);border-radius:var(--radius-sm);color:#a78bfa;font-weight:600" colspan="2">← v4「越来越好」→</div>
+      </div>
 
       <div class="matrix-grid">
         <!-- Row 0: Column Headers -->
@@ -1048,7 +1075,7 @@ a:hover { text-decoration: underline; }
   </div>
 
   <div class="footer">
-    D0 Product Dashboard v10.3 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View + Strategic Matrix
+    D0 Product Dashboard v10.4 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View + Strategic Matrix
   </div>
 
 </div><!-- /page -->
@@ -1960,71 +1987,28 @@ const PANORAMA_DATA = [
 ];
 
 function renderProductPanorama() {
-  const el = document.getElementById('productPanorama');
+  var el = document.getElementById('panoGrid');
   if (!el) return;
-  el.innerHTML = PANORAMA_DATA.map(cat => {
-    return '<details open class="pano-category"><summary class="pano-cat-head">'
-      +'<span class="pano-icon">'+cat.icon+'</span>'
-      +'<span class="pano-name">'+cat.name+'</span>'
-      +'<span class="pano-chevron">▼</span>'
-      +'</summary><div class="pano-cat-body">'
-      + cat.modules.map(mod => {
-        return '<div class="pano-module">'
-          +'<div><div class="pano-mod-name">'+mod.name+'</div>'
-          +'<div class="pano-mod-owner">Owner: '+mod.owner+'</div>'
-          +'<div class="pano-mod-desc">'+mod.desc+'</div></div>'
-          +'<div class="pano-mod-stats">'
-          +(mod.issues>0 ? mod.issues+' active issues<br>' : '')
-          +'更新: '+mod.updated
-          +'</div></div>';
-      }).join('')
-      +'</div></details>';
+  el.innerHTML = PANORAMA_DATA.map(function(scope) {
+    var moduleCards = scope.modules.map(function(m) {
+      return '<div style="background:var(--bg-muted);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-3);margin-bottom:var(--space-1)">'
+        + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">'
+        + '<span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">' + m.name.split(':')[0] + '</span>'
+        + '<span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--fg-subtle)">' + m.owner + '</span></div>'
+        + '<div style="font-size:0.76rem;font-weight:500;line-height:1.3">' + (m.name.split(': ')[1]||m.name) + '</div>'
+        + '<div style="font-size:0.65rem;color:var(--fg-muted);margin-top:2px">' + m.desc + '</div>'
+        + '</div>';
+    }).join('');
+
+    return '<div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-4)">'
+      + '<div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3)">'
+      + '<span style="font-size:1.1rem">' + scope.icon + '</span>'
+      + '<span style="font-family:var(--font-display);font-size:1.1rem;font-weight:400">' + scope.name + '</span>'
+      + '<span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--fg-subtle)">' + scope.modules.length + ' modules</span>'
+      + '</div>'
+      + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--space-2)">' + moduleCards + '</div>'
+      + '</div>';
   }).join('');
-}
-
-/* ══════════════════════════════════════════════════════════
-   ENGINEERING SCOPE — REPO CATALOG (v8.2)
-   ══════════════════════════════════════════════════════════ */
-const REPO_CATALOG = [
-  { group:'D0 核心', icon:'🎯', repos:[
-    { name:'donut-d0', desc:'D0 Bot 平台', lastCommit:'3/3', owners:['JackJun'], link:'https://github.com/DonutLabs-ai/donut-d0' },
-    { name:'d0-cli', desc:'261 MCP tools', lastCommit:'3/17', owners:['Jin Xu','Regison'], link:'https://github.com/DonutLabs-ai/d0-cli' },
-    { name:'d0-skill-eval', desc:'Skill 评测', lastCommit:'3/18', owners:['Fei','Jin Xu'], link:'https://github.com/DonutLabs-ai/d0-skill-eval' },
-    { name:'d0-e2e-tests', desc:'E2E 自动化测试', lastCommit:'3/18', owners:['Kevin','Jim'], link:'https://github.com/DonutLabs-ai/d0-e2e-tests' }
-  ]},
-  { group:'后端服务', icon:'⚡', repos:[
-    { name:'donut-backend', desc:'NestJS Monorepo', lastCommit:'3/18', owners:['Regison','Wenzhang','Jin Xu'], link:'https://github.com/DonutLabs-ai/donut-backend' },
-    { name:'donut-wallet-service', desc:'钱包服务', lastCommit:'3/11', owners:['Regison','Wenzhang'], link:'https://github.com/DonutLabs-ai/donut-wallet-service' },
-    { name:'donut-perpetual', desc:'Perps 交易引擎 (Java)', lastCommit:'3/13', owners:['Alex','Rui Li'], link:'https://github.com/DonutLabs-ai/donut-perpetual' },
-    { name:'donut-agents-backend', desc:'Agent Go 后端', lastCommit:'3/13', owners:['Ethan'], link:'https://github.com/DonutLabs-ai/donut-agents-backend' }
-  ]},
-  { group:'前端', icon:'🖥️', repos:[
-    { name:'dount-HIL-frontend', desc:'Donut Web App', lastCommit:'3/18', owners:['Jin Xu','Gary','Ethan'], link:'https://github.com/DonutLabs-ai/dount-HIL-frontend' },
-    { name:'openclaw-dashboard', desc:'OpenClaw Dashboard', lastCommit:'3/16', owners:['Jin Xu'], link:'https://github.com/DonutLabs-ai/openclaw-dashboard' }
-  ]},
-  { group:'基础设施', icon:'☁️', repos:[
-    { name:'k8s-infrastructure', desc:'K8s 集群配置', lastCommit:'3/16', owners:['Wenzhang','Ethan'], link:'https://github.com/DonutLabs-ai/k8s-infrastructure' },
-    { name:'k8s-applications', desc:'GitOps 部署配置', lastCommit:'3/18', owners:['Wenzhang'], link:'https://github.com/DonutLabs-ai/k8s-applications' },
-    { name:'engineering-agents', desc:'工程 Agent 配置', lastCommit:'3/18', owners:['JackJun'], link:'https://github.com/DonutLabs-ai/engineering-agents' }
-  ]},
-  { group:'研究 & 工具', icon:'🔬', repos:[
-    { name:'autoresearch', desc:'AutoResearch 策略优化', lastCommit:'3/13', owners:['Liang Han','Tao'], link:'https://github.com/DonutLabs-ai/autoresearch' },
-    { name:'donut-product', desc:'产品文档', lastCommit:'3/17', owners:['Peter','Sylvia'], link:'https://github.com/DonutLabs-ai/donut-product' },
-    { name:'donut-design-skill', desc:'设计系统', lastCommit:'3/18', owners:['Yi Tan'], link:'https://github.com/DonutLabs-ai/donut-design-skill' },
-    { name:'trader-handbook-v2', desc:'交易手册', lastCommit:'3/17', owners:['Peter','Liang Han'], link:'https://github.com/DonutLabs-ai/trader-handbook-v2' }
-  ]}
-];
-
-function getDateClass(dateStr) {
-  // dateStr like "3/18"
-  const parts = dateStr.split('/');
-  const month = parseInt(parts[0]); const day = parseInt(parts[1]);
-  const commitDate = new Date(2026, month-1, day);
-  const today = new Date(2026, 2, 19); // 3/19 hardcoded reference
-  const diff = (today - commitDate) / (1000*60*60*24);
-  if (diff <= 1) return 'recent';
-  if (diff <= 7) return 'week';
-  return 'old';
 }
 
 function renderRepoCatalog() {
@@ -2303,22 +2287,39 @@ function renderMilestone() {
 
     function versionCard(ver, subtitle, matrixCoord, ns, gate, p0, p1, p2) {
       var cls = ver==='v2'?'m2':ver==='v3'?'m3':'m4';
-      var h = '<div class="ms-card '+cls+'">';
+      var allItems = p0.concat(p1).concat(p2||[]);
+      var ip = allItems.filter(function(r){return r.status==='In Progress'||r.status==='In Review'}).length;
+      var td = allItems.filter(function(r){return r.status==='Todo'}).length;
+      var pl = allItems.filter(function(r){return r.status==='Planning'}).length;
+      var dn = allItems.filter(function(r){return r.status==='Done'}).length;
+      var total = allItems.length;
+      var startedPct = total>0?Math.round(((ip+dn)/total)*100):0;
+      
+      var h = '<div class="ms-card '+cls+'" style="margin-bottom:var(--space-6)">';
       h += '<h3>'+ver+'「'+subtitle+'」</h3>';
       h += '<div class="ms-dates">矩阵: '+matrixCoord+' · 版本制，验收即上线</div>';
       h += '<div class="ms-ns">🎯 '+ns+'</div>';
       h += '<div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-3);margin-bottom:var(--space-3);font-family:var(--font-mono);font-size:0.65rem;color:var(--success)">✅ 版本门槛: '+gate+'</div>';
+      
+      // Progress summary
+      h += '<div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-4);flex-wrap:wrap">';
+      h += '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--warning)">'+ip+'</div><div style="font-size:0.58rem;color:var(--fg-subtle)">开发/Review</div></div>';
+      h += '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:rgba(113,113,122,.08);border:1px solid rgba(113,113,122,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--fg-subtle)">'+td+'</div><div style="font-size:0.58rem;color:var(--fg-subtle)">Todo</div></div>';
+      h += '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--info)">'+pl+'</div><div style="font-size:0.58rem;color:var(--fg-subtle)">规划中</div></div>';
+      h += '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700">'+startedPct+'%</div><div style="font-size:0.58rem;color:var(--fg-subtle)">已启动</div></div>';
+      h += '</div>';
 
       function epicList(items, label) {
-        var lh = '<div style="margin-bottom:var(--space-3)"><div style="font-family:var(--font-mono);font-size:0.6rem;font-weight:600;color:'+(label==='P0'?'var(--error)':'var(--warning)')+';margin-bottom:var(--space-1)">'+label+' ('+items.length+' Epics)</div>';
-        lh += '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.72rem"><tbody>';
+        if (!items || !items.length) return '';
+        var lh = '<div style="margin-bottom:var(--space-3)"><div style="font-family:var(--font-mono);font-size:0.6rem;font-weight:600;color:'+(label==='P0'?'var(--error)':label==='P1'?'var(--warning)':'var(--info)')+';margin-bottom:var(--space-1)">'+label+' ('+items.length+' Epics)</div>';
+        lh += '<div style="overflow-x:auto"><table class="m1-table"><thead><tr><th>Epic</th><th>做什么</th><th>验收标准</th><th>负责人</th><th>Status</th></tr></thead><tbody>';
         items.forEach(function(r) {
-          lh += '<tr style="border-bottom:1px solid var(--border-base)">';
-          lh += '<td style="padding:3px 6px;white-space:nowrap"><a class="card-id" href="https://linear.app/donutbrowser/issue/'+r.epic+'" target="_blank">'+r.epic+'</a></td>';
-          lh += '<td style="padding:3px 6px;font-weight:500">'+r.name+'</td>';
-          lh += '<td style="padding:3px 6px;color:var(--fg-muted);font-size:0.68rem">'+r.accept+'</td>';
-          lh += '<td style="padding:3px 6px;font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">'+r.owner+'</td>';
-          lh += '</tr>';
+          var stCls = (r.status==='In Progress'||r.status==='In Review')?'dev':r.status==='Todo'?'todo':'plan';
+          lh += '<tr><td class="m1-scope"><a class="card-id" href="https://linear.app/donutbrowser/issue/'+r.epic+'" target="_blank">'+r.epic+'</a></td>';
+          lh += '<td class="m1-feature">'+r.name+'<br><span style="font-size:0.68rem;color:var(--fg-subtle)">'+r.desc+'</span></td>';
+          lh += '<td class="m1-acceptance">'+r.accept+'</td>';
+          lh += '<td class="m1-owner">'+r.owner+'</td>';
+          lh += '<td><span class="m1-status '+stCls+'">'+r.status+'</span></td></tr>';
         });
         lh += '</tbody></table></div></div>';
         return lh;
