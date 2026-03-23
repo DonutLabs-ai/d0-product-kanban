@@ -396,7 +396,15 @@ a:hover { text-decoration: underline; }
 .voice-issue-card .vi-title { font-size: 0.78rem; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 .voice-issue-card .vi-status { font-family: var(--font-mono); font-size: 0.62rem; padding: 0.1rem 0.4rem; border-radius: 100px; white-space: nowrap }
 .voice-issue-card .vi-assignee { font-family: var(--font-mono); font-size: 0.62rem; color: var(--fg-subtle); white-space: nowrap }
-@media (max-width: 700px) { .voice-issue-card { grid-template-columns: auto 1fr } .voice-issue-card .vi-status, .voice-issue-card .vi-assignee { grid-column: 2 } }
+.voice-issue-card .vi-expand { cursor: pointer }
+.voice-issue-card .vi-expand:hover { background: var(--bg-muted) }
+.voice-issue-card details { grid-column: 1/-1 }
+.voice-issue-card details summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: auto 1fr auto auto; gap: var(--space-3); align-items: center; width: 100% }
+.voice-issue-card details summary::-webkit-details-marker { display: none }
+.voice-issue-card details[open] summary { border-bottom: 1px solid var(--border-base); padding-bottom: var(--space-2); margin-bottom: var(--space-2) }
+.voice-issue-card .vi-detail { font-size: 0.76rem; color: var(--fg-muted); line-height: 1.6; padding: var(--space-2) 0 0 var(--space-6); white-space: normal }
+.voice-issue-card .vi-detail ul { padding-left: var(--space-4); margin: var(--space-1) 0 }
+@media (max-width: 700px) { .voice-issue-card { grid-template-columns: auto 1fr } .voice-issue-card .vi-status, .voice-issue-card .vi-assignee { grid-column: 2 } .voice-issue-card details summary { grid-template-columns: auto 1fr } }
 
 /* ── Voice Refresh Bar (v8.2) ──────────────────────────── */
 .voice-refresh-bar { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); margin-bottom: var(--space-4); flex-wrap: wrap }
@@ -569,38 +577,6 @@ a:hover { text-decoration: underline; }
       <div class="stat"><div class="num" id="stat-people">0</div><div class="label">People</div></div>
     </div>
     <div class="sprint-legend"><span>🟢 ENG issues</span><span>🟣 PRODUCT issues</span></div>
-    
-    <!-- ══ Sprint Risks (v10.4) ══ -->
-    <div style="margin-bottom:var(--space-6)">
-      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:var(--space-3) 0;border-bottom:1px solid var(--border-base);margin-bottom:var(--space-3)" onclick="var el=document.getElementById('riskContent');el.style.display=el.style.display==='none'?'block':'none'">
-        <div style="display:flex;align-items:center;gap:var(--space-2)">
-          <span style="font-size:1.1rem">⚠️</span>
-          <span style="font-family:var(--font-display);font-size:1.2rem;font-weight:400">Sprint 风险</span>
-          <span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">8 items · click to toggle</span>
-        </div>
-      </div>
-      <div id="riskContent">
-<div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-4);font-size:0.78rem">
-      <span style="color:var(--success);font-weight:600">✅ 已解决 (本轮清除)</span>
-      <ul style="margin:var(--space-2) 0 0;padding-left:var(--space-4);color:var(--fg-muted)">
-        <li><del>AI 层两核心模块无 Owner (1834/1800)</del> — 两个 issue 已 Canceled，方向调整</li>
-        <li><del>Jiagui Sprint 过载 (15 issues)</del> — 已 triage 到 4 个 active issue</li>
-        <li><del>商业化关键路径未启动</del> — PRODUCT-2121 计费域模型已 In Progress</li>
-      </ul>
-    </div>
-    <div class="risk-grid">
-      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>Ethan = Agents 单点故障</strong><br>agents-backend sole owner. 多链资产/Deposit/Withdraw/Transfer + Polymarket 全压一人。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: Ethan 名下 issue 查看</span></div><div class="ri-fix"><strong>行动:</strong> Regison 做 buddy reviewer (Jupiter V2 进行中) · Ethan 输出架构文档</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>d0-cli 工具精简进行中</strong><br>MCP 170→22 合并 (PRODUCT-2261) 在 In Review，但全量验证未完成。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: PRODUCT-2261 状态</span></div><div class="ri-fix"><strong>行动:</strong> Regison Review 中 · 验证功能无退化 + token 降 30%</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>交易三路径无统一标准</strong><br>Perps(Java)/Spot(TS)/Agents(Go) 体验不一致。Peter 标准文档仍未输出。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 预置交易策略</span></div><div class="ri-fix"><strong>行动:</strong> Peter 交易体验标准 → Alex/Regison/Ethan 对齐</div></div>
-      <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem"><strong>Jiagui = Safety 单点</strong><br>容器安全 + 隔离 sole owner（4 个 active issue）。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: Jiagui 名下查看</span></div><div class="ri-fix"><strong>行动:</strong> Jin Xu 或 Gary 做 buddy · 文档化</div></div>
-      <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem"><strong>多副本改造进行中</strong><br>Wenzhang 在做 K8s PDB (PRODUCT-2043)，Perps 多副本 (PRODUCT-2189) 未开始。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: PRODUCT-2043 / 2189</span></div><div class="ri-fix"><strong>行动:</strong> Wenzhang 总 owner · 优先级: Perps > Backend > Wallet</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>成本监控缺失</strong><br>LLM API 日消耗无实时 Dashboard · Orphan Container 持续烧钱 · Prompt Cache Miss 率高。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 成本估算</span></div><div class="ri-fix"><strong>行动:</strong> PRODUCT-2496 成本 Tracking (JackJun) · PRODUCT-2497 Container 回收 (Jiagui) · PRODUCT-2499 模型路由 (—)</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>策略基座未就绪</strong><br>Strategy Hub (PRODUCT-2185) 仍在 Planning · 回测引擎未开始 · PM Pipeline 分散。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 预置交易策略</span></div><div class="ri-fix"><strong>行动:</strong> Peter kick-off 2185 · Liang Han 2114 PM 闭环 · Chris 策略校准</div></div>
-      <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>Knowledge Pipeline 全在 Planning</strong><br>PRODUCT-1872 Master Plan + 1790 信号学习 + 1878 知识提取 = 主动能力的数据基座，全部 Todo/Planning。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: Agent 主动性</span></div><div class="ri-fix"><strong>行动:</strong> Chris kick-off 1872 · Jim 行为记忆 v3 先行 · JackJun 信号处理层</div></div>
-    
-      </div>
-    </div>
-    </div>
     <div id="workloadHeatmap" style="margin-bottom:var(--space-6)"></div>
     <div class="controls">
       <div class="ctrl-group">
@@ -641,6 +617,38 @@ a:hover { text-decoration: underline; }
           <option value="growth.seo">📣 growth: SEO</option><option value="growth.referral">📣 growth: Referral</option><option value="growth.voice">📣 growth: User Voice</option>
         </select>
         <button onclick="addIssueToCycle()" style="font-family:var(--font-mono);font-size:.72rem;padding:var(--space-2) var(--space-4);background:var(--info);color:white;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap">添加</button>
+      </div>
+    </div>
+
+    <!-- ══ Sprint Risks (moved below board v10.5) ══ -->
+    <div style="margin-top:var(--space-6)">
+      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:var(--space-3) 0;border-bottom:1px solid var(--border-base);margin-bottom:var(--space-3)" onclick="var el=document.getElementById('riskContent');el.style.display=el.style.display==='none'?'block':'none';this.querySelector('.risk-toggle').textContent=el.style.display==='none'?'▸':'▾'">
+        <div style="display:flex;align-items:center;gap:var(--space-2)">
+          <span style="font-size:1.1rem">⚠️</span>
+          <span style="font-family:var(--font-display);font-size:1.2rem;font-weight:400">Sprint 风险</span>
+          <span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">8 items · click to toggle</span>
+        </div>
+        <span class="risk-toggle" style="font-size:1rem;color:var(--fg-subtle)">▾</span>
+      </div>
+      <div id="riskContent">
+        <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-4);font-size:0.78rem">
+          <span style="color:var(--success);font-weight:600">✅ 已解决 (本轮清除)</span>
+          <ul style="margin:var(--space-2) 0 0;padding-left:var(--space-4);color:var(--fg-muted)">
+            <li><del>AI 层两核心模块无 Owner (1834/1800)</del> — 两个 issue 已 Canceled，方向调整</li>
+            <li><del>Jiagui Sprint 过载 (15 issues)</del> — 已 triage 到 4 个 active issue</li>
+            <li><del>商业化关键路径未启动</del> — PRODUCT-2121 计费域模型已 In Progress</li>
+          </ul>
+        </div>
+        <div class="risk-grid">
+          <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>Ethan = Agents 单点故障</strong><br>agents-backend sole owner. 多链资产/Deposit/Withdraw/Transfer + Polymarket 全压一人。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: Ethan 名下 issue 查看</span></div><div class="ri-fix"><strong>行动:</strong> Regison 做 buddy reviewer (Jupiter V2 进行中) · Ethan 输出架构文档</div></div>
+          <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>d0-cli 工具精简进行中</strong><br>MCP 170→22 合并 (PRODUCT-2261) 在 In Review，但全量验证未完成。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: PRODUCT-2261 状态</span></div><div class="ri-fix"><strong>行动:</strong> Regison Review 中 · 验证功能无退化 + token 降 30%</div></div>
+          <div class="risk-item"><div><div class="ri-sev high">HIGH</div></div><div class="ri-problem"><strong>交易三路径无统一标准</strong><br>Perps(Java)/Spot(TS)/Agents(Go) 体验不一致。Peter 标准文档仍未输出。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 预置交易策略</span></div><div class="ri-fix"><strong>行动:</strong> Peter 交易体验标准 → Alex/Regison/Ethan 对齐</div></div>
+          <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem"><strong>Jiagui = Safety 单点</strong><br>容器安全 + 隔离 sole owner（4 个 active issue）。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: Jiagui 名下查看</span></div><div class="ri-fix"><strong>行动:</strong> Jin Xu 或 Gary 做 buddy · 文档化</div></div>
+          <div class="risk-item"><div><div class="ri-sev med">MEDIUM</div></div><div class="ri-problem"><strong>多副本改造进行中</strong><br>Wenzhang 在做 K8s PDB (PRODUCT-2043)，Perps 多副本 (PRODUCT-2189) 未开始。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ Sprint Board: PRODUCT-2043 / 2189</span></div><div class="ri-fix"><strong>行动:</strong> Wenzhang 总 owner · 优先级: Perps > Backend > Wallet</div></div>
+          <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>成本监控缺失</strong><br>LLM API 日消耗无实时 Dashboard · Orphan Container 持续烧钱 · Prompt Cache Miss 率高。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 成本估算</span></div><div class="ri-fix"><strong>行动:</strong> PRODUCT-2496 成本 Tracking (JackJun) · PRODUCT-2497 Container 回收 (Jiagui) · PRODUCT-2499 模型路由 (—)</div></div>
+          <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>策略基座未就绪</strong><br>Strategy Hub (PRODUCT-2185) 仍在 Planning · 回测引擎未开始 · PM Pipeline 分散。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: 预置交易策略</span></div><div class="ri-fix"><strong>行动:</strong> Peter kick-off 2185 · Liang Han 2114 PM 闭环 · Chris 策略校准</div></div>
+          <div class="risk-item"><div><div class="ri-sev high">HIGH · NEW</div></div><div class="ri-problem"><strong>Knowledge Pipeline 全在 Planning</strong><br>PRODUCT-1872 Master Plan + 1790 信号学习 + 1878 知识提取 = 主动能力的数据基座，全部 Todo/Planning。<br><span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">→ CEO 关注线: Agent 主动性</span></div><div class="ri-fix"><strong>行动:</strong> Chris kick-off 1872 · Jim 行为记忆 v3 先行 · JackJun 信号处理层</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -684,10 +692,17 @@ a:hover { text-decoration: underline; }
        TAB 4: 工程 Scope (v8.2 — Full Repo Catalog)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-eng" class="tab-panel">
-    <div class="sec"><div class="sec-head"><span class="sec-num">03</span><h2>工程 Repo Catalog</h2></div>
-      <div class="hint">完整代码仓库地图 · 最近 commit 日期 · Owner</div>
+    <div class="sec"><div class="sec-head"><span class="sec-num">03</span><h2>⚙️ 工程 Scope</h2></div>
+      <div class="hint">ENG 团队 issue 按产品 Scope 分组 · 点击 Scope 展开查看 issue</div>
     </div>
-    <div id="repoCatalog"></div>
+    <div id="engScopeTree"></div>
+
+    <div style="margin-top:var(--space-8);border-top:2px solid var(--border-emphasis);padding-top:var(--space-6)">
+      <div class="sec"><div class="sec-head"><span class="sec-num">03b</span><h2>📦 Repo Catalog</h2></div>
+        <div class="hint">完整代码仓库地图 · 最近 commit 日期 · Owner</div>
+      </div>
+      <div id="repoCatalog"></div>
+    </div>
   </div>
 
   <!-- ══════════════════════════════════════════════════════
@@ -797,17 +812,17 @@ a:hover { text-decoration: underline; }
     </div>
     <div class="voice-section-title"><span class="vs-icon">📣</span> Active User Voice Issues</div>
     <div class="voice-issue-grid" id="voiceActiveIssues">
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2421" target="_blank">PRODUCT-2421</a></div><div class="vi-title">AI K 线分析可视化增强 — Backtest 策略回放与图表标注</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2454" target="_blank">PRODUCT-2454</a></div><div class="vi-title">引入交易绩效教练风控层</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2455" target="_blank">PRODUCT-2455</a></div><div class="vi-title">提升 K 线形态识别的可解释性与准确度</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2463" target="_blank">PRODUCT-2463</a></div><div class="vi-title">Webapp 增加基础交易功能 — 支持买卖单、平仓与聊天面板收起</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span><span class="vi-assignee">Peter</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2127" target="_blank">PRODUCT-2127</a></div><div class="vi-title">D0 launch 素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2125" target="_blank">PRODUCT-2125</a></div><div class="vi-title">3/27 活动素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2421" target="_blank">PRODUCT-2421</a></div><div class="vi-title">AI K 线分析可视化增强 — Backtest 策略回放与图表标注</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></summary><div class="vi-detail">💬 用户反馈：右侧 AI 的分析能力是否可以直接作用在左侧图表的可视化层面，而不只是输出文字结论？希望 AI 在做 backtest 或策略分析时，能主动生成配套的可视化结果。</div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2454" target="_blank">PRODUCT-2454</a></div><div class="vi-title">引入交易绩效教练风控层</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></summary><div class="vi-detail">💬 散户核心痛点是"过度交易"和"盈利回吐"。需要：<ul><li>动态监控用户交易频率，对连胜或高频交易阶段提供预警</li><li>提供"冷静期"建议或强制限制过度暴露 (Exposure)</li></ul></div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2455" target="_blank">PRODUCT-2455</a></div><div class="vi-title">提升 K 线形态识别的可解释性与准确度</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></summary><div class="vi-detail">💬 当前可视化系统生成的形态（红线）缺乏直观逻辑，用户难以验证信号真实性。需要提升形态标注的可解释性。</div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2463" target="_blank">PRODUCT-2463</a></div><div class="vi-title">Webapp 增加基础交易功能 — 支持买卖单、平仓与聊天面板收起</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span><span class="vi-assignee">Peter</span></summary><div class="vi-detail">💬 基础的交易功能还是要有，比如下买卖单平仓等，AI 聊天只是辅助。如果全部通过聊天下单效率太低。聊天页面要支持收起。</div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2127" target="_blank">PRODUCT-2127</a></div><div class="vi-title">D0 launch 素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></summary><div class="vi-detail">💬 GTM launch 相关设计物料准备。</div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2125" target="_blank">PRODUCT-2125</a></div><div class="vi-title">3/27 活动素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></summary><div class="vi-detail">💬 3/27 活动所需的营销素材设计。</div></details></div>
     </div>
     <div class="voice-section-title"><span class="vs-icon">🆕</span> 新建关键 Issue</div>
     <div class="voice-issue-grid" id="voiceNewIssues">
-      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank">PRODUCT-2007</a></div><div class="vi-title">D0 图表能力策略决策</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">P2 Todo</span><span class="vi-assignee">Sylvia</span></div>
-      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank">PRODUCT-2008</a></div><div class="vi-title">HIL 反馈 → D0 迁移完整现状</div></div><span class="vi-status" style="background:rgba(239,68,68,.1);color:var(--error)">P1 Todo</span><span class="vi-assignee">Sylvia</span></div>
+      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><details><summary><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank">PRODUCT-2007</a></div><div class="vi-title">D0 图表能力策略决策</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">P2 Todo</span><span class="vi-assignee">Sylvia</span></summary><div class="vi-detail">💬 HIL Beta 用户反馈中有 4 条图表相关反馈，加上 KOC 明确提到「AI + 图表交互新颖」是产品差异化亮点。D0 迁移后 HIL 的 TradingView 集成没有对应方案。需要做技术选型决策。</div></details></div>
+      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><details><summary><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank">PRODUCT-2008</a></div><div class="vi-title">HIL 反馈 → D0 迁移完整现状</div></div><span class="vi-status" style="background:rgba(239,68,68,.1);color:var(--error)">P1 Todo</span><span class="vi-assignee">Sylvia</span></summary><div class="vi-detail">💬 对 HIL Beta 全部 160 条 user feedback 做了全量审计，按问题类型分类后映射到 D0 框架，评估哪些已被 D0 解决、哪些仍有 gap。本 issue 作为 Sprint Planning 参考。</div></details></div>
     </div>
   </div><!-- /tab-voice -->
 
@@ -1118,7 +1133,8 @@ a:hover { text-decoration: underline; }
 
     <!-- M1 Execution Sheet -->
     <div style="margin:var(--space-4) 0">
-      <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:400;margin-bottom:var(--space-2);color:var(--fg-base)">v1「看得清」— 核心流程跑通</div>
+      <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:400;margin-bottom:var(--space-1);color:var(--fg-base)">v1「看得清」— 核心流程跑通</div>
+      <div style="font-size:0.82rem;color:var(--fg-muted);margin-bottom:var(--space-2)">用户能否第一次体验到 proactive 的价值——"D0 在替我盯着，它的判断有道理"？</div>
       <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-subtle);margin-bottom:var(--space-4)">版本制 · P0 全部验收通过 = v1 达成 · 9 P0 + 7 P1 Epics</div>
       <div id="m1ExecutionSheet"></div>
     </div>
@@ -1673,7 +1689,7 @@ function switchTab(tab) {
   event.currentTarget.classList.add('active');
   if (tab==='myboard') renderMyBoard(window._currentMyFilter||'all');
   if (tab==='product') renderProductPanorama();
-  if (tab==='eng') renderRepoCatalog();
+  if (tab==='eng') { renderEngScopeTree(); renderRepoCatalog(); }
   if (tab==='ceo') renderCEOFocus();
   if (tab==='roadmap') { renderMilestone(); }
 }
@@ -2084,6 +2100,85 @@ function renderProductPanorama() {
   }).join('');
 }
 
+function renderEngScopeTree() {
+  var el = document.getElementById('engScopeTree');
+  if (!el) return;
+  // Collect ALL ENG issues from all cycles
+  var engIssues = [];
+  Object.values(CYCLES).forEach(function(cycle) {
+    cycle.issues.forEach(function(i) {
+      if (i.team === 'ENG') engIssues.push(i);
+    });
+  });
+  if (engIssues.length === 0) {
+    el.innerHTML = '<div style="padding:var(--space-6);text-align:center;color:var(--fg-subtle)">暂无 ENG team issues</div>';
+    return;
+  }
+
+  // Stats
+  var total = engIssues.length;
+  var active = engIssues.filter(function(i){return i.state==='started'||i.state==='triage'}).length;
+  var done = engIssues.filter(function(i){return i.state==='completed'}).length;
+  var canceled = engIssues.filter(function(i){return i.state==='canceled'}).length;
+  var completion = total>0?Math.round(((done+canceled)/total)*100):0;
+
+  var h = '<div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-4);flex-wrap:wrap">';
+  h += '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700">'+total+'</div><div style="font-size:0.58rem;color:var(--fg-subtle)">Total ENG</div></div>';
+  h += '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--warning)">'+active+'</div><div style="font-size:0.58rem;color:var(--fg-subtle)">Active</div></div>';
+  h += '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--success)">'+done+'</div><div style="font-size:0.58rem;color:var(--fg-subtle)">Done</div></div>';
+  h += '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700">'+completion+'%</div><div style="font-size:0.58rem;color:var(--fg-subtle)">Completion</div></div>';
+  h += '</div>';
+
+  // Group by scope
+  h += '<div class="ptree">';
+  PRODUCT_TREE.forEach(function(cat) {
+    var catIssues = engIssues.filter(function(i){return issueMatchesCat(i, cat)});
+    if (catIssues.length === 0) return;
+    var catDone = catIssues.filter(function(i){return i.state==='completed'}).length;
+    var catActive = catIssues.filter(function(i){return i.state==='started'||i.state==='triage'}).length;
+
+    h += '<details open class="ptree-node level-0"><summary class="ptree-label">'
+      + '<span class="ptree-icon">'+cat.icon+'</span>'
+      + '<span class="ptree-name">'+cat.name+'</span>'
+      + '<span class="ptree-count">'+catIssues.length+' issues · '+catActive+' active · '+catDone+' done</span>'
+      + '</summary><div class="ptree-children">';
+
+    cat.children.forEach(function(sub) {
+      var subIssues = catIssues.filter(function(i){return issueMatchesSub(i, sub)});
+      if (subIssues.length === 0) return;
+      var subDone = subIssues.filter(function(i){return i.state==='completed'}).length;
+      var doneP = subIssues.length>0?Math.round((subDone/subIssues.length)*100):0;
+
+      h += '<details open class="ptree-node level-1"><summary class="ptree-label">'
+        + '<span class="ptree-name">'+sub.name+'</span>'
+        + '<span class="ptree-count">'+subIssues.length+'</span>'
+        + '</summary><div class="ptree-children">'
+        + '<div class="progress-bar" style="margin:var(--space-1) 0 var(--space-2) var(--space-6)"><div class="progress-done" style="width:'+doneP+'%"></div></div>'
+        + '<div class="card-grid" style="padding-left:var(--space-6)">'
+        + subIssues.map(renderCardHTML).join('')
+        + '</div></div></details>';
+    });
+
+    h += '</div></details>';
+  });
+
+  // Unmatched issues
+  var matched = engIssues.filter(function(i){return PRODUCT_TREE.some(function(c){return issueMatchesCat(i, c)})});
+  var unmatched = engIssues.filter(function(i){return !PRODUCT_TREE.some(function(c){return issueMatchesCat(i, c)})});
+  if (unmatched.length > 0) {
+    h += '<details class="ptree-node level-0"><summary class="ptree-label">'
+      + '<span class="ptree-icon">❓</span>'
+      + '<span class="ptree-name">Uncategorized</span>'
+      + '<span class="ptree-count">'+unmatched.length+' issues</span>'
+      + '</summary><div class="ptree-children"><div class="card-grid" style="padding-left:var(--space-6)">'
+      + unmatched.map(renderCardHTML).join('')
+      + '</div></div></details>';
+  }
+
+  h += '</div>';
+  el.innerHTML = h;
+}
+
 function renderRepoCatalog() {
   const el = document.getElementById('repoCatalog');
   if (!el) return;
@@ -2358,6 +2453,16 @@ function renderMilestone() {
       { epic:'ACADEMY-189', name:'组织改进', desc:'Sprint 复盘 + 协作优化', accept:'action items 完成率 ≥ 70%', owner:'Chris', status:'Todo' }
     ];
 
+    var VERSION_CORE_Q = {
+      'v2': '用户能否感知到"D0 给我的建议和给别人的不一样，而且越来越懂我"？',
+      'v3': '用户是否愿意让 D0 在预设规则内自动执行——并在 30 天后仍保持开启？',
+      'v4': 'D0 的决策质量是否随用户规模和运行时间自动提升——不依赖人工迭代？'
+    };
+    var VERSION_SUBTITLE_FULL = {
+      'v2': '个性化基座',
+      'v3': '受约束自主执行',
+      'v4': '自我进化闭环'
+    };
     function versionCard(ver, subtitle, matrixCoord, ns, gate, p0, p1, p2) {
       var cls = ver==='v2'?'m2':ver==='v3'?'m3':'m4';
       var allItems = p0.concat(p1).concat(p2||[]);
@@ -2369,7 +2474,8 @@ function renderMilestone() {
       var startedPct = total>0?Math.round(((ip+dn)/total)*100):0;
       
       var h = '<div class="ms-card '+cls+'" style="margin-bottom:var(--space-6)">';
-      h += '<h3>'+ver+'「'+subtitle+'」</h3>';
+      h += '<h3>'+ver+'「'+subtitle+'」— '+(VERSION_SUBTITLE_FULL[ver]||'')+'</h3>';
+      h += '<div style="font-size:0.82rem;color:var(--fg-muted);margin-bottom:var(--space-2)">'+(VERSION_CORE_Q[ver]||'')+'</div>';
       h += '<div class="ms-dates">矩阵: '+matrixCoord+' · 版本制，验收即上线</div>';
       h += '<div class="ms-ns">🎯 '+ns+'</div>';
       h += '<div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-3);margin-bottom:var(--space-3);font-family:var(--font-mono);font-size:0.65rem;color:var(--success)">✅ 版本门槛: '+gate+'</div>';
