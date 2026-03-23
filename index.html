@@ -1595,8 +1595,11 @@ function cycleCardState(el) {
 /* ── Tab Switching ─────────────────────────────────────── */
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => { p.classList.remove('active'); p.style.animation='none'; });
+  var panel = document.getElementById('tab-'+tab);
+  panel.offsetHeight; /* force reflow to restart animation */
+  panel.style.animation='';
+  panel.classList.add('active');
   event.currentTarget.classList.add('active');
   if (tab==='myboard') renderMyBoard(window._currentMyFilter||'all');
   if (tab==='product') renderProductPanorama();
