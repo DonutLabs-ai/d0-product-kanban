@@ -284,7 +284,8 @@ a:hover { text-decoration: underline; }
 /* ══ KANBAN STYLES ═════════════════════════════════════ */
 .kanban { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-3); margin: var(--space-3) 0; overflow-x: auto }
 @media(max-width:1200px) { .kanban { grid-template-columns: repeat(3,1fr) } }
-@media(max-width:800px) { .kanban { grid-template-columns: 1fr 1fr } }
+@media(max-width:800px) { .kanban { grid-template-columns: 1fr 1fr } .decomp-grid { grid-template-columns: 1fr 1fr !important } }
+@media(max-width:500px) { .decomp-grid { grid-template-columns: 1fr !important } }
 .k-col { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); min-width: 190px; display: flex; flex-direction: column }
 .k-header { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border-base); display: flex; align-items: center; gap: var(--space-2) }
 .k-header .k-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0 }
@@ -1048,6 +1049,67 @@ a:hover { text-decoration: underline; }
 
     <!-- Separator -->
     <div style="margin:var(--space-8) 0;border-top:2px solid var(--border-emphasis)"></div>
+
+    <!-- Issue Decomposition Rules (v10.5) -->
+    <div class="sec" style="margin-bottom:var(--space-4)"><div class="sec-head"><span class="sec-num">10</span><h2>🔑 Issue 拆解原则</h2></div>
+      <div class="hint">Milestone → Epic → Scope → Issue 的拆解方法 · 每个 Issue 必须能回答矩阵坐标的推进</div>
+    </div>
+
+    <div class="decomp-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-3);margin-bottom:var(--space-4)">
+      <!-- Milestone -->
+      <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--success),var(--teal))"></div>
+        <div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--space-2)">Level 1</div>
+        <div style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:var(--space-2)">Milestone</div>
+        <div style="font-size:0.78rem;color:var(--fg-muted);margin-bottom:var(--space-3)">矩阵上的目标格子<br>= 一个季度的大目标</div>
+        <div style="font-family:var(--font-mono);font-size:0.68rem;padding:var(--space-2);background:rgba(34,197,94,.08);border-radius:var(--radius-sm);color:var(--success)">例: P1×S1 (30d)</div>
+      </div>
+      <!-- Epic -->
+      <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--info),var(--purple))"></div>
+        <div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--space-2)">Level 2</div>
+        <div style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:var(--space-2)">Epic</div>
+        <div style="font-size:0.78rem;color:var(--fg-muted);margin-bottom:var(--space-3)">按四层架构拆分<br>Command / Trust / Cognition / Culture</div>
+        <div style="font-family:var(--font-mono);font-size:0.68rem;padding:var(--space-2);background:rgba(59,130,246,.08);border-radius:var(--radius-sm);color:var(--info)">例: Trust → GRPS 集成</div>
+      </div>
+      <!-- Scope -->
+      <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--warning),var(--gold))"></div>
+        <div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--space-2)">Level 3</div>
+        <div style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:var(--space-2)">Scope</div>
+        <div style="font-size:0.78rem;color:var(--fg-muted);margin-bottom:var(--space-3)">功能模块 / 技术范围<br>1 Scope ≈ 1-2 sprint</div>
+        <div style="font-family:var(--font-mono);font-size:0.68rem;padding:var(--space-2);background:rgba(245,158,11,.08);border-radius:var(--radius-sm);color:var(--warning)">例: GRPS → D0 Bot 集成</div>
+      </div>
+      <!-- Issue -->
+      <div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),var(--error))"></div>
+        <div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--space-2)">Level 4</div>
+        <div style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:var(--space-2)">Issue</div>
+        <div style="font-size:0.78rem;color:var(--fg-muted);margin-bottom:var(--space-3)">工程师可接的粒度<br>必须回答: 把我们从哪推到哪</div>
+        <div style="font-family:var(--font-mono);font-size:0.68rem;padding:var(--space-2);background:rgba(167,139,250,.08);border-radius:var(--radius-sm);color:var(--purple)">例: GRPS 软约束方法论</div>
+      </div>
+    </div>
+
+    <!-- Arrows between levels -->
+    <div style="display:flex;justify-content:center;gap:var(--space-6);margin-bottom:var(--space-4);font-family:var(--font-mono);font-size:0.72rem;color:var(--fg-subtle)">
+      <span>Milestone → Epic</span><span style="color:var(--fg-faint)">·</span>
+      <span>Epic → Scope</span><span style="color:var(--fg-faint)">·</span>
+      <span>Scope → Issue</span>
+    </div>
+
+    <!-- Acceptance Criteria callout -->
+    <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-6)">
+      <div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-2)">
+        <span style="font-size:1.1rem">🔑</span>
+        <span style="font-family:var(--font-sans);font-size:0.88rem;font-weight:600;color:var(--fg-base)">Issue 验收标准</span>
+      </div>
+      <div style="font-size:0.82rem;color:var(--fg-muted);line-height:1.7">
+        每个 Issue 必须能回答：<span style="color:var(--fg-base);font-weight:600">「这把我们从矩阵的 P?×S? 推到 P?×S?」</span><br>
+        <span style="color:var(--fg-subtle)">回答不了 → 说明拆解还不够清晰，或者这个 issue 不在战略路径上。</span>
+      </div>
+    </div>
+
+    <div style="margin:0 0 var(--space-4) 0;border-top:2px solid var(--border-emphasis)"></div>
 
     <!-- Milestone Versions (below) -->
     <div class="sec"><div class="sec-head"><span class="sec-num">08</span><h2>🗓 版本制规划 (v3)</h2></div>
