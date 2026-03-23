@@ -766,11 +766,11 @@ a:hover { text-decoration: underline; }
   <div id="tab-voice" class="tab-panel">
     <div class="voice-section-title" style="margin-top:var(--space-4)"><span class="vs-icon">🔄</span> User Voice Pipeline</div>
 
-    <!-- v8.2: Refresh Bar -->
+    <!-- v8.2: Refresh Bar — now with live fetch -->
     <div class="voice-refresh-bar">
-      <div class="vr-info">📅 数据来源: 2026-03-18 快照 · 下次自动更新: 周五 16:00</div>
-      <button class="vr-btn" onclick="window.open('https://linear.app/donutbrowser/team/GTM/issues?filter=label:user%20feedback','_blank')">🔄 刷新数据</button>
-      <div class="vr-note">自动更新由 Ring 每周五执行。需要立即更新？联系 @Ring</div>
+      <div class="vr-info" id="voiceDataInfo">📅 数据来源: 2026-03-23 快照 · 下次自动更新: 周五 16:00</div>
+      <button class="vr-btn" onclick="refreshGTMData()" id="voiceRefreshBtn">🔄 刷新数据</button>
+      <div class="vr-note">点击刷新从 Linear 拉取最新 GTM/User Voice issue 状态</div>
     </div>
 
     <div class="voice-pipeline">
@@ -794,19 +794,19 @@ a:hover { text-decoration: underline; }
       <div class="hil-card"><div class="hil-left"><span class="hil-category">资金安全/信任</span><span class="hil-count">6</span></div><span class="hil-badge unconfirmed">⚠️ 未确认</span></div>
       <div class="hil-card"><div class="hil-left"><span class="hil-category">策略逻辑不透明</span><span class="hil-count">6</span></div><span class="hil-badge inprogress">🔶 In Progress</span></div>
     </div>
-    <div class="voice-section-title"><span class="vs-icon">📣</span> GTM Active User Voice Issues</div>
-    <div class="voice-issue-grid">
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-206" target="_blank">GTM-206</a></div><div class="vi-title">AI - K线功能优化</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-189" target="_blank">GTM-189</a></div><div class="vi-title">引入"绩效教练"风控层</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-231" target="_blank">GTM-231</a></div><div class="vi-title">交易滑点感知优化</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">chu4</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-187" target="_blank">GTM-187</a></div><div class="vi-title">提升形态识别可解释性与准确度</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-39" target="_blank">GTM-39</a></div><div class="vi-title">webapp需要基础交易功能</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span><span class="vi-assignee">Peter</span></div>
-      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/GTM-220" target="_blank">GTM-220</a></div><div class="vi-title">策略基于什么指标和量价形态</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span><span class="vi-assignee">JackJun</span></div>
+    <div class="voice-section-title"><span class="vs-icon">📣</span> Active User Voice Issues</div>
+    <div class="voice-issue-grid" id="voiceActiveIssues">
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2421" target="_blank">PRODUCT-2421</a></div><div class="vi-title">AI K 线分析可视化增强 — Backtest 策略回放与图表标注</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2454" target="_blank">PRODUCT-2454</a></div><div class="vi-title">引入交易绩效教练风控层</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2455" target="_blank">PRODUCT-2455</a></div><div class="vi-title">提升 K 线形态识别的可解释性与准确度</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2463" target="_blank">PRODUCT-2463</a></div><div class="vi-title">Webapp 增加基础交易功能 — 支持买卖单、平仓与聊天面板收起</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span><span class="vi-assignee">Peter</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2127" target="_blank">PRODUCT-2127</a></div><div class="vi-title">D0 launch 素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></div>
+      <div class="voice-issue-card"><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2125" target="_blank">PRODUCT-2125</a></div><div class="vi-title">3/27 活动素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></div>
     </div>
     <div class="voice-section-title"><span class="vs-icon">🆕</span> 新建关键 Issue</div>
-    <div class="voice-issue-grid">
+    <div class="voice-issue-grid" id="voiceNewIssues">
       <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank">PRODUCT-2007</a></div><div class="vi-title">D0 图表能力策略决策</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">P2 Todo</span><span class="vi-assignee">Sylvia</span></div>
-      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank">PRODUCT-2008</a></div><div class="vi-title">HIL 反馈 → D0 迁移完整现状</div></div><span class="vi-status" style="background:rgba(239,68,68,.1);color:var(--error)">P1 Todo</span><span class="vi-assignee">—</span></div>
+      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank">PRODUCT-2008</a></div><div class="vi-title">HIL 反馈 → D0 迁移完整现状</div></div><span class="vi-status" style="background:rgba(239,68,68,.1);color:var(--error)">P1 Todo</span><span class="vi-assignee">Sylvia</span></div>
     </div>
   </div><!-- /tab-voice -->
 
@@ -1124,6 +1124,18 @@ const PRODUCT_TREE = [
   ]}
 ];
 
+/* Hoisted legacy → scope mapping so all matchers can use it */
+const LEGACY_MODULE_MAP = {
+  'ai.tools':'scope1','ai.llmproxy':'scope1','ai.agent':'scope1',
+  'ai.eval':'scope5','frontend.dashboard':'scope1','frontend.hil':'scope1',
+  'frontend.extension':'scope1','infra.backend':'scope7','infra.k8s':'scope7',
+  'infra.devops':'scope7','infra.cron':'scope7',
+  'trading.perps':'scope2','trading.spot':'scope2','trading.agents':'scope2','trading.wallet':'scope2',
+  'quality.e2e':'scope5','quality.triage':'scope5',
+  'growth.seo':'scope9','growth.referral':'scope9','growth.voice':'scope9',
+  'safety':'scope4'
+};
+
 /* Helper: map issue module to tree category key */
 function getTreeCatKey(moduleKey) {
   const m = moduleKey || '';
@@ -1132,22 +1144,18 @@ function getTreeCatKey(moduleKey) {
       if (sub.keys && sub.keys.includes(m)) return cat.key;
     }
   }
-  // Fallback: map legacy module keys
-  const legacyMap = {
-    'ai.tools':'scope1','ai.llmproxy':'scope1','ai.agent':'scope1',
-    'ai.eval':'scope5','frontend.dashboard':'scope1','frontend.hil':'scope1',
-    'frontend.extension':'scope1','infra.backend':'scope7','infra.k8s':'scope7',
-    'infra.devops':'scope7','infra.cron':'scope7',
-    'trading.perps':'scope2','trading.spot':'scope2','trading.agents':'scope2','trading.wallet':'scope2',
-    'quality.e2e':'scope5','quality.triage':'scope5',
-    'growth.seo':'scope9','growth.referral':'scope9','growth.voice':'scope9'
-  };
-  if (legacyMap[m]) return legacyMap[m];
+  if (LEGACY_MODULE_MAP[m]) return LEGACY_MODULE_MAP[m];
   return PRODUCT_TREE[0].key;
 }
 function issueMatchesSub(issue, sub) {
   const m = issue.module || issue.layer || '';
-  return sub.keys && sub.keys.includes(m);
+  if (sub.keys && sub.keys.includes(m)) return true;
+  // ENG issues use legacy module keys — map them to scope keys
+  const mappedScope = LEGACY_MODULE_MAP[m];
+  if (mappedScope && sub.keys) {
+    return sub.keys.some(k => k.startsWith(mappedScope + '.'));
+  }
+  return false;
 }
 function issueMatchesCat(issue, cat) {
   return cat.children.some(sub => issueMatchesSub(issue, sub));
@@ -2378,6 +2386,37 @@ function renderMilestone() {
 
 /* ── Init ──────────────────────────────────────────────── */
 function initApp() { switchCycle('sprint23'); }
+
+/* ── GTM Data Refresh via GitHub Actions ───────────────── */
+function refreshGTMData() {
+  var btn = document.getElementById('voiceRefreshBtn');
+  btn.textContent = '⏳ 触发中...';
+  btn.disabled = true;
+  // Trigger workflow_dispatch via GitHub API (requires PAT with actions scope)
+  fetch('https://api.github.com/repos/DonutLabs-ai/d0-product-kanban/actions/workflows/refresh-voice.yml/dispatches', {
+    method: 'POST',
+    headers: { 'Accept': 'application/vnd.github+json' },
+    body: JSON.stringify({ ref: 'main' })
+  }).then(function(r) {
+    if (r.status === 204 || r.status === 200) {
+      btn.textContent = '✅ 已触发';
+      document.getElementById('voiceDataInfo').textContent = '🔄 刷新已触发 — 页面将在 ~2 分钟后自动更新（刷新页面查看）';
+    } else if (r.status === 401 || r.status === 403) {
+      btn.textContent = '🔄 刷新数据';
+      btn.disabled = false;
+      // Fallback: open Linear directly
+      window.open('https://linear.app/donutbrowser/team/PRODUCT/issues?filter=label:gtm', '_blank');
+      document.getElementById('voiceDataInfo').textContent = '⚠️ 自动刷新未配置（需要 GitHub Token）— 已打开 Linear 查看最新数据';
+    } else {
+      btn.textContent = '❌ 失败';
+      setTimeout(function(){ btn.textContent='🔄 刷新数据'; btn.disabled=false; }, 3000);
+    }
+  }).catch(function() {
+    btn.textContent = '🔄 刷新数据';
+    btn.disabled = false;
+    window.open('https://linear.app/donutbrowser/team/PRODUCT/issues?filter=label:gtm', '_blank');
+  });
+}
 
 /* ══════════════════════════════════════════════════════════
    ISSUE LOOKUP — Strategic alignment checker
