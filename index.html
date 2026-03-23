@@ -423,9 +423,63 @@ a:hover { text-decoration: underline; }
 .estimate-badge { font-family: var(--font-mono); font-size: 0.5rem; padding: 1px 4px; border-radius: 3px; margin-left: var(--space-1) }
 .estimate-badge.no-est { background: rgba(239,68,68,.08); color: var(--error); border: 1px dashed rgba(239,68,68,.2) }
 </style>
+/* ── Auth Gate ──────────────────────────────────────────── */
+#auth-gate {
+  position: fixed; inset: 0; z-index: 99999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: var(--bg-base);
+  font-family: var(--font-sans);
+}
+#auth-gate .auth-card {
+  background: var(--bg-subtle); border: 1px solid var(--border-base);
+  border-radius: var(--radius-lg); padding: var(--space-8) var(--space-12);
+  text-align: center; max-width: 420px; width: 90%;
+}
+#auth-gate .auth-title {
+  font-family: var(--font-display); font-size: 2rem; font-weight: 400;
+  color: var(--fg-base); margin-bottom: var(--space-2);
+}
+#auth-gate .auth-sub {
+  font-family: var(--font-mono); font-size: 0.72rem; color: var(--fg-subtle);
+  margin-bottom: var(--space-8);
+}
+#auth-gate .auth-error {
+  font-size: 0.78rem; color: var(--error); margin-top: var(--space-4);
+  display: none;
+}
+#auth-gate .auth-email {
+  font-family: var(--font-mono); font-size: 0.68rem; color: var(--fg-muted);
+  margin-top: var(--space-4);
+}
+#auth-gate .g-btn-wrapper {
+  display: flex; justify-content: center; margin-top: var(--space-4);
+}
+.auth-signout {
+  position: fixed; top: var(--space-3); right: var(--space-3); z-index: 10000;
+  font-family: var(--font-mono); font-size: 0.6rem; padding: var(--space-1) var(--space-3);
+  border-radius: 100px; border: 1px solid var(--border-base); background: var(--bg-subtle);
+  color: var(--fg-subtle); cursor: pointer; transition: all var(--duration-normal);
+  display: none;
+}
+.auth-signout:hover { border-color: var(--border-emphasis); color: var(--fg-muted); }
+</style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-<div class="page">
+
+<!-- Auth Gate -->
+<div id="auth-gate">
+  <div class="auth-card">
+    <div class="auth-title">D0 Product Dashboard</div>
+    <div class="auth-sub">DONUT LABS · INTERNAL ONLY</div>
+    <div class="g-btn-wrapper"><div id="g_id_signin"></div></div>
+    <div id="auth-error" class="auth-error"></div>
+    <div class="auth-email">Requires @donutbrowser.ai account</div>
+  </div>
+</div>
+<button class="auth-signout" id="auth-signout" onclick="authSignOut()">Sign out</button>
+
+<div class="page" style="display:none" id="app-content">
 
   <!-- ══ Usage Guide ══ -->
   <div id="guideBox" style="background:var(--bg-subtle);border:1px solid var(--border-emphasis);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-6);margin-bottom:var(--space-4);position:relative;line-height:1.7">
@@ -2036,7 +2090,121 @@ function renderMilestone() {
 }
 
 /* ── Init ──────────────────────────────────────────────── */
-switchCycle('sprint23');
+// Deferred — called after auth
+function initApp() { switchCycle('sprint23'); }
+
+/* ══════════════════════════════════════════════════════════
+   AUTH GATE — Google Sign-In + @donutbrowser.ai domain check
+   ══════════════════════════════════════════════════════════ */
+const AUTH_KEY = 'd0-kanban-auth-v1';
+const ALLOWED_DOMAIN = 'donutbrowser.ai';
+const GOOGLE_CLIENT_ID = '995822159106-sacm0cdnmrg0b1vsod4dml0631nrt1q8.apps.googleusercontent.com';
+
+function parseJwt(token) {
+  try {
+    const base64 = token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+    return JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')));
+  } catch(e) { return null; }
+}
+
+function checkStoredAuth() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(AUTH_KEY));
+    if (stored && stored.email && stored.exp) {
+      // Check expiration (with 5 min buffer)
+      if (stored.exp * 1000 > Date.now() - 300000) {
+        if (stored.email.endsWith('@' + ALLOWED_DOMAIN)) return stored;
+      }
+    }
+  } catch(e) {}
+  localStorage.removeItem(AUTH_KEY);
+  return null;
+}
+
+function showApp(email) {
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('app-content').style.display = '';
+  const signout = document.getElementById('auth-signout');
+  signout.style.display = 'block';
+  signout.textContent = email + ' · Sign out';
+  initApp();
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function handleCredentialResponse(response) {
+  const payload = parseJwt(response.credential);
+  if (!payload || !payload.email) {
+    showAuthError('认证失败，请重试');
+    return;
+  }
+  if (!payload.email.endsWith('@' + ALLOWED_DOMAIN)) {
+    showAuthError('Access denied — only @' + ALLOWED_DOMAIN + ' accounts allowed. You signed in as: ' + payload.email);
+    return;
+  }
+  // Store auth (use Google's exp, typically 1 hour; we also set a 24h fallback)
+  const authData = {
+    email: payload.email,
+    name: payload.name || '',
+    picture: payload.picture || '',
+    exp: Math.min(payload.exp, Math.floor(Date.now()/1000) + 86400)
+  };
+  localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
+  showApp(payload.email);
+}
+
+function authSignOut() {
+  localStorage.removeItem(AUTH_KEY);
+  google.accounts.id.disableAutoSelect();
+  location.reload();
+}
+
+// On page load: check stored auth or show sign-in
+window.addEventListener('load', function() {
+  const stored = checkStoredAuth();
+  if (stored) {
+    showApp(stored.email);
+    return;
+  }
+  // Initialize Google Sign-In
+  if (typeof google !== 'undefined' && google.accounts) {
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleCredentialResponse,
+      auto_select: true,
+      cancel_on_tap_outside: false
+    });
+    google.accounts.id.renderButton(
+      document.getElementById('g_id_signin'),
+      { theme: 'filled_black', size: 'large', shape: 'pill', text: 'signin_with', locale: 'en' }
+    );
+    google.accounts.id.prompt();
+  } else {
+    // GIS script hasn't loaded yet, retry
+    setTimeout(function retry() {
+      if (typeof google !== 'undefined' && google.accounts) {
+        google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleCredentialResponse,
+          auto_select: true,
+          cancel_on_tap_outside: false
+        });
+        google.accounts.id.renderButton(
+          document.getElementById('g_id_signin'),
+          { theme: 'filled_black', size: 'large', shape: 'pill', text: 'signin_with', locale: 'en' }
+        );
+        google.accounts.id.prompt();
+      } else {
+        setTimeout(retry, 200);
+      }
+    }, 200);
+  }
+});
 </script>
 </body>
 </html>
