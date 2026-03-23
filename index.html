@@ -422,11 +422,67 @@ a:hover { text-decoration: underline; }
 /* ── Estimate Badge (v8.3) ─────────────────────────────── */
 .estimate-badge { font-family: var(--font-mono); font-size: 0.5rem; padding: 1px 4px; border-radius: 3px; margin-left: var(--space-1) }
 .estimate-badge.no-est { background: rgba(239,68,68,.08); color: var(--error); border: 1px dashed rgba(239,68,68,.2) }
+
+/* ── Strategic Matrix (v10) ────────────────────────────── */
+.matrix-wrap { padding: var(--space-4) 0 }
+.matrix-header { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--fg-base); margin-bottom: var(--space-1) }
+.matrix-sub { font-family: var(--font-mono); font-size: 0.68rem; color: var(--fg-subtle); margin-bottom: var(--space-6) }
+.matrix-grid { display: grid; grid-template-columns: 100px repeat(5, 1fr); grid-template-rows: auto repeat(5, auto); gap: 2px; margin-bottom: var(--space-8) }
+.matrix-corner { background: var(--bg-base); display: flex; align-items: flex-end; justify-content: flex-end; padding: var(--space-2); font-family: var(--font-mono); font-size: 0.58rem; color: var(--fg-muted) }
+.matrix-col-hdr { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); text-align: center }
+.matrix-col-hdr .mx-level { font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent); display: block; margin-bottom: 2px }
+.matrix-col-hdr .mx-label { font-family: var(--font-sans); font-size: 0.68rem; color: var(--fg-base); font-weight: 600 }
+.matrix-row-hdr { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); display: flex; flex-direction: column; justify-content: center }
+.matrix-row-hdr .mx-level { font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent); margin-bottom: 2px }
+.matrix-row-hdr .mx-label { font-family: var(--font-sans); font-size: 0.68rem; color: var(--fg-base); font-weight: 600 }
+.matrix-cell { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: var(--space-3); min-height: 80px; transition: border-color var(--duration-normal) }
+.matrix-cell:hover { border-color: var(--border-emphasis) }
+.matrix-cell.cell-now { background: rgba(99,102,241,.08); border-color: rgba(99,102,241,.3) }
+.matrix-cell.cell-30d { border-color: rgba(34,197,94,.4); border-width: 2px }
+.matrix-cell.cell-3m { border-color: rgba(20,184,166,.4); border-width: 2px }
+.matrix-cell.cell-6m { border-color: rgba(249,115,22,.4); border-width: 2px }
+.matrix-cell.cell-12m { border-color: rgba(168,85,247,.4); border-width: 2px }
+.matrix-cell .cell-tag { font-family: var(--font-mono); font-size: 0.54rem; padding: 1px 5px; border-radius: 3px; display: inline-block; margin-bottom: var(--space-2); font-weight: 600 }
+.cell-tag.tag-now { background: rgba(99,102,241,.15); color: #818cf8 }
+.cell-tag.tag-30d { background: rgba(34,197,94,.12); color: #22c55e }
+.cell-tag.tag-3m { background: rgba(20,184,166,.12); color: #14b8a6 }
+.cell-tag.tag-6m { background: rgba(249,115,22,.12); color: #f97316 }
+.cell-tag.tag-12m { background: rgba(168,85,247,.12); color: #a855f7 }
+.matrix-cell .cell-coord { font-family: var(--font-mono); font-size: 0.56rem; color: var(--fg-muted); margin-bottom: var(--space-1) }
+.matrix-cell ul { list-style: none; padding: 0; margin: 0 }
+.matrix-cell li { font-size: 0.72rem; color: var(--fg-muted); line-height: 1.6; padding-left: 12px; position: relative }
+.matrix-cell li::before { content: '·'; position: absolute; left: 2px; color: var(--fg-subtle) }
+.matrix-cell li .done { color: var(--success); font-size: 0.68rem }
+.matrix-cell li .wip { color: var(--warning); font-size: 0.62rem; font-family: var(--font-mono) }
+.matrix-cell li .planned { color: var(--fg-subtle); font-size: 0.62rem; font-family: var(--font-mono); font-style: italic }
+.matrix-cell li a.card-id { font-family: var(--font-mono); font-size: 0.58rem; color: var(--accent); text-decoration: none; opacity: 0.7; transition: opacity var(--duration-fast) }
+.matrix-cell li a.card-id:hover { opacity: 1; text-decoration: underline }
+.matrix-cell.cell-empty { opacity: 0.35; min-height: 60px }
+
+.matrix-timeline { margin-top: var(--space-6); padding: var(--space-4) var(--space-6); background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-lg) }
+.matrix-timeline .tl-title { font-family: var(--font-display); font-size: 1.1rem; color: var(--fg-base); margin-bottom: var(--space-4) }
+.matrix-timeline .tl-row { display: flex; align-items: baseline; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--border-base) }
+.matrix-timeline .tl-row:last-child { border-bottom: none }
+.matrix-timeline .tl-when { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; min-width: 50px }
+.tl-when.tw-now { color: #818cf8 }
+.tl-when.tw-30d { color: #22c55e }
+.tl-when.tw-3m { color: #14b8a6 }
+.tl-when.tw-6m { color: #f97316 }
+.tl-when.tw-12m { color: #a855f7 }
+.matrix-timeline .tl-coord { font-family: var(--font-mono); font-size: 0.66rem; color: var(--fg-muted); min-width: 120px }
+.matrix-timeline .tl-desc { font-size: 0.76rem; color: var(--fg-muted) }
+
+@media (max-width: 900px) {
+  .matrix-grid { grid-template-columns: 70px repeat(5, 1fr); gap: 1px }
+  .matrix-col-hdr .mx-label, .matrix-row-hdr .mx-label { font-size: 0.6rem }
+  .matrix-cell li { font-size: 0.65rem }
+}
 </style>
 /* ── Auth Gate ──────────────────────────────────────────── */
 #auth-gate {
   position: fixed; inset: 0; z-index: 99999;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  display: none; /* Auth gate disabled — display:none overrides flex */
+  flex-direction: column; align-items: center; justify-content: center;
   background: var(--bg-base);
   font-family: var(--font-sans);
 }
@@ -459,7 +515,7 @@ a:hover { text-decoration: underline; }
   font-family: var(--font-mono); font-size: 0.6rem; padding: var(--space-1) var(--space-3);
   border-radius: 100px; border: 1px solid var(--border-base); background: var(--bg-subtle);
   color: var(--fg-subtle); cursor: pointer; transition: all var(--duration-normal);
-  display: none;
+  display: none !important; /* Auth disabled — keep hidden */
 }
 .auth-signout:hover { border-color: var(--border-emphasis); color: var(--fg-muted); }
 </style>
@@ -479,7 +535,7 @@ a:hover { text-decoration: underline; }
 </div>
 <button class="auth-signout" id="auth-signout" onclick="authSignOut()">Sign out</button>
 
-<div class="page" style="display:none" id="app-content">
+<div class="page" id="app-content">
 
   <!-- ══ Usage Guide ══ -->
   <div id="guideBox" style="background:var(--bg-subtle);border:1px solid var(--border-emphasis);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-6);margin-bottom:var(--space-4);position:relative;line-height:1.7">
@@ -516,6 +572,7 @@ a:hover { text-decoration: underline; }
     <button class="tab-btn" onclick="switchTab('voice')">📣 User Voice</button>
     <button class="tab-btn" onclick="switchTab('ceo')">🎯 CEO 关注线</button>
     <button class="tab-btn" onclick="switchTab('milestone')">🗓 Milestone</button>
+    <button class="tab-btn" onclick="switchTab('matrix')">🎯 Strategic Matrix</button>
   </div>
 
   <!-- ══ Toolbar ══ -->
@@ -830,8 +887,190 @@ a:hover { text-decoration: underline; }
     </div>
   </div>
 
+  <!-- ══ Strategic Matrix ══ -->
+  <div id="tab-matrix" class="tab-panel">
+    <div class="sec"><div class="sec-head"><span class="sec-num">09</span><h2>🎯 Strategic Matrix — Proactive × High-Stake</h2></div>
+      <div class="hint">D0 能力矩阵 · 主动性 × 风险等级 · v10</div>
+    </div>
+
+    <div class="matrix-wrap">
+      <div class="matrix-header">D0 Capability Matrix</div>
+      <div class="matrix-sub">X-axis: Proactive Level (L0→L4) · Y-axis: High-Stake Level (L0→L4) · Each cell = capability cluster</div>
+
+      <div class="matrix-grid">
+        <!-- Row 0: Column Headers -->
+        <div class="matrix-corner">P↓ S→</div>
+        <div class="matrix-col-hdr"><span class="mx-level">S0</span><span class="mx-label">Research</span></div>
+        <div class="matrix-col-hdr"><span class="mx-level">S1</span><span class="mx-label">Guarded</span></div>
+        <div class="matrix-col-hdr"><span class="mx-level">S2</span><span class="mx-label">Managed</span></div>
+        <div class="matrix-col-hdr"><span class="mx-level">S3</span><span class="mx-label">Continuous</span></div>
+        <div class="matrix-col-hdr"><span class="mx-level">S4</span><span class="mx-label">Self-Healing</span></div>
+
+        <!-- Row 1: P0 Reactive -->
+        <div class="matrix-row-hdr"><span class="mx-level">P0</span><span class="mx-label">Reactive</span></div>
+
+        <div class="matrix-cell cell-now">
+          <span class="cell-tag tag-now">NOW</span>
+          <div class="cell-coord">P0×S0</div>
+          <ul>
+            <li>D0 Chat → 155 工具 <span class="done">✓</span></li>
+            <li>AutoResearch <span class="done">✓</span></li>
+            <li>Polymarket 研究 <span class="done">✓</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-now">
+          <span class="cell-tag tag-now">NOW</span>
+          <div class="cell-coord">P0×S1</div>
+          <ul>
+            <li>Spot 交易 (Jupiter) <span class="done">✓</span></li>
+            <li>Perps 交易 (10→20) — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2219" target="_blank">PRODUCT-2219</a></li>
+            <li>TP/SL → Jupiter V2 — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2218" target="_blank">PRODUCT-2218</a></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell">
+          <div class="cell-coord">P0×S2</div>
+          <ul>
+            <li>容器隔离 (Scope 1) — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2227" target="_blank">PRODUCT-2227</a></li>
+            <li>权限控制 (Scope 2) — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2228" target="_blank">PRODUCT-2228</a></li>
+            <li>风控引擎 GRPS — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2207" target="_blank">PRODUCT-2207</a></li>
+            <li>K8s 凭证安全 — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2154" target="_blank">PRODUCT-2154</a></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-empty"></div>
+        <div class="matrix-cell cell-empty"></div>
+
+        <!-- Row 2: P1 Monitor -->
+        <div class="matrix-row-hdr"><span class="mx-level">P1</span><span class="mx-label">Monitor</span></div>
+
+        <div class="matrix-cell">
+          <div class="cell-coord">P1×S0</div>
+          <ul>
+            <li>Daily Brief 推送 — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2144" target="_blank">PRODUCT-2144</a> <span class="wip">WIP</span></li>
+            <li>异常 token 预警 <span class="planned">planned</span></li>
+            <li>链上异动监控 <span class="planned">planned</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-30d">
+          <span class="cell-tag tag-30d">30D TARGET</span>
+          <div class="cell-coord">P1×S1</div>
+          <ul>
+            <li>价格提醒 + 条件触发 <span class="wip">WIP</span></li>
+            <li>GRPS 软约束集成 — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2186" target="_blank">PRODUCT-2186</a></li>
+            <li>D0 Strategy Hub 策略中心 — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2185" target="_blank">PRODUCT-2185</a> <span class="wip" style="font-size:0.56rem">P0→P1: 回测+策略=主动能力基座</span></li>
+            <li>止损提醒推送 <span class="planned">planned</span></li>
+            <li>Agent Skill Marketplace — <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2083" target="_blank">PRODUCT-2083</a> <span class="wip" style="font-size:0.56rem">第三方 Skill 浏览、安装与对话集成</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-3m">
+          <span class="cell-tag tag-3m">3M TARGET</span>
+          <div class="cell-coord">P1×S2</div>
+          <ul>
+            <li>组合级监控面板 <span class="planned">planned</span></li>
+            <li>风险暴露预警 <span class="planned">planned</span></li>
+            <li>PnL 归因分析 <span class="planned">planned</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-empty"></div>
+        <div class="matrix-cell cell-empty"></div>
+
+        <!-- Row 3: P2 Draft -->
+        <div class="matrix-row-hdr"><span class="mx-level">P2</span><span class="mx-label">Draft</span></div>
+
+        <div class="matrix-cell">
+          <div class="cell-coord">P2×S0</div>
+          <ul>
+            <li>Agent Strategy Hub — 研究报告草案推送 <span class="planned">planned</span></li>
+            <li style="font-size:0.6rem;color:var(--fg-subtle)">→ connected to <a class="card-id" href="https://linear.app/donutbrowser/issue/PRODUCT-2185" target="_blank">PRODUCT-2185</a></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-3m">
+          <span class="cell-tag tag-3m">3M TARGET</span>
+          <div class="cell-coord">P2×S1</div>
+          <ul>
+            <li>交易方案草案推送 <span class="planned">planned</span></li>
+            <li>Approval Inbox MVP <span class="planned">planned</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-6m">
+          <span class="cell-tag tag-6m">6M TARGET</span>
+          <div class="cell-coord">P2×S2</div>
+          <ul>
+            <li>再平衡建议推送 <span class="planned">planned</span></li>
+            <li>风控违规草案 <span class="planned">planned</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-empty"></div>
+        <div class="matrix-cell cell-empty"></div>
+
+        <!-- Row 4: P3 Constrained -->
+        <div class="matrix-row-hdr"><span class="mx-level">P3</span><span class="mx-label">Constrained</span></div>
+
+        <div class="matrix-cell cell-empty"></div>
+        <div class="matrix-cell cell-empty"></div>
+
+        <div class="matrix-cell cell-6m">
+          <span class="cell-tag tag-6m">6M TARGET</span>
+          <div class="cell-coord">P3×S2</div>
+          <ul>
+            <li>边界内再平衡 <span class="planned">planned</span></li>
+            <li>自动止损执行 <span class="planned">planned</span></li>
+            <li>GRPS 全约束 <span class="planned">planned</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-12m">
+          <span class="cell-tag tag-12m">12M TARGET</span>
+          <div class="cell-coord">P3×S3</div>
+          <ul>
+            <li>24/7 自主值班 <span class="planned">planned</span></li>
+            <li>极端行情自动降仓 <span class="planned">planned</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-empty"></div>
+
+        <!-- Row 5: P4 Adaptive -->
+        <div class="matrix-row-hdr"><span class="mx-level">P4</span><span class="mx-label">Adaptive</span></div>
+
+        <div class="matrix-cell cell-empty"></div>
+        <div class="matrix-cell cell-empty"></div>
+        <div class="matrix-cell cell-empty"></div>
+
+        <div class="matrix-cell cell-12m">
+          <span class="cell-tag tag-12m">12M TARGET</span>
+          <div class="cell-coord">P4×S3</div>
+          <ul>
+            <li>千人千面决策引擎 <span class="planned">planned</span></li>
+            <li>行为学习 + 自主策略调整 <span class="planned">planned</span></li>
+          </ul>
+        </div>
+
+        <div class="matrix-cell cell-empty"></div>
+      </div>
+
+      <!-- Milestone Timeline -->
+      <div class="matrix-timeline">
+        <div class="tl-title">📅 Milestone Timeline</div>
+        <div class="tl-row"><span class="tl-when tw-now">NOW</span><span class="tl-coord">P0×S0~S1</span><span class="tl-desc">Reactive + Guarded — 基础交易 + 研究工具已就绪</span></div>
+        <div class="tl-row"><span class="tl-when tw-30d">30D</span><span class="tl-coord">P1×S1</span><span class="tl-desc">Monitor + Guarded — Strategy Hub + GRPS + Proactive Alerts</span></div>
+        <div class="tl-row"><span class="tl-when tw-3m">3M</span><span class="tl-coord">P2×S2</span><span class="tl-desc">Draft + Managed — Approval Inbox + Portfolio Risk + Audit</span></div>
+        <div class="tl-row"><span class="tl-when tw-6m">6M</span><span class="tl-coord">P3×S2</span><span class="tl-desc">Constrained + Managed — Autonomous execution within policy</span></div>
+        <div class="tl-row"><span class="tl-when tw-12m">12M</span><span class="tl-coord">P4×S3</span><span class="tl-desc">Adaptive + Continuous — Personalized 24/7 agent</span></div>
+      </div>
+    </div>
+  </div>
+
   <div class="footer">
-    D0 Product Dashboard v9.0 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View
+    D0 Product Dashboard v10.0 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View + Strategic Matrix
   </div>
 
 </div><!-- /page -->
@@ -2164,46 +2403,10 @@ function authSignOut() {
   location.reload();
 }
 
-// On page load: check stored auth or show sign-in
+// Auth disabled — call initApp() directly on load
+// Original auth gate code preserved above for future re-enablement by JackJun
 window.addEventListener('load', function() {
-  const stored = checkStoredAuth();
-  if (stored) {
-    showApp(stored.email);
-    return;
-  }
-  // Initialize Google Sign-In
-  if (typeof google !== 'undefined' && google.accounts) {
-    google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: handleCredentialResponse,
-      auto_select: true,
-      cancel_on_tap_outside: false
-    });
-    google.accounts.id.renderButton(
-      document.getElementById('g_id_signin'),
-      { theme: 'filled_black', size: 'large', shape: 'pill', text: 'signin_with', locale: 'en' }
-    );
-    google.accounts.id.prompt();
-  } else {
-    // GIS script hasn't loaded yet, retry
-    setTimeout(function retry() {
-      if (typeof google !== 'undefined' && google.accounts) {
-        google.accounts.id.initialize({
-          client_id: GOOGLE_CLIENT_ID,
-          callback: handleCredentialResponse,
-          auto_select: true,
-          cancel_on_tap_outside: false
-        });
-        google.accounts.id.renderButton(
-          document.getElementById('g_id_signin'),
-          { theme: 'filled_black', size: 'large', shape: 'pill', text: 'signin_with', locale: 'en' }
-        );
-        google.accounts.id.prompt();
-      } else {
-        setTimeout(retry, 200);
-      }
-    }, 200);
-  }
+  initApp();
 });
 </script>
 </body>
