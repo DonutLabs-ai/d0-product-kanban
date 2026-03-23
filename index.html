@@ -2306,121 +2306,204 @@ function initApp() { switchCycle('sprint23'); }
 /* ══════════════════════════════════════════════════════════
    ISSUE LOOKUP — Strategic alignment checker
    ══════════════════════════════════════════════════════════ */
-const MATRIX_ISSUES = {
-  // P0×S0 — Reactive × Research [NOW]
-  'P0×S0': { milestone: 'NOW', label: 'Reactive × Research', issues: [], desc: '用户问才答，纯研究不碰资金。当前基线。' },
-  // P0×S1 — Reactive × Guarded [NOW]
-  'P0×S1': { milestone: 'NOW', label: 'Reactive × Guarded', issues: ['PRODUCT-2219','PRODUCT-2218','PRODUCT-2492','PRODUCT-2216','PRODUCT-2187'], desc: '用户指令交易 + 基础止损。当前核心执行能力。' },
-  // P1×S0 — Monitor × Research
-  'P1×S0': { milestone: '30D', label: 'Monitor × Research', issues: ['PRODUCT-2144'], desc: '系统主动推送研究信息。' },
-  // P1×S1 — Monitor × Guarded [30D TARGET]
-  'P1×S1': { milestone: '30D', label: 'Monitor × Guarded', issues: ['PRODUCT-2186','PRODUCT-2185','PRODUCT-2083','PRODUCT-2190','PRODUCT-2493'], desc: '主动监控 + 安全交易。Strategy Hub + GRPS 软约束 + Skill Marketplace。这是 30 天目标。' },
-  // P0×S2 — Reactive × Managed
-  'P0×S2': { milestone: '30D', label: 'Reactive × Managed', issues: ['PRODUCT-2227','PRODUCT-2228','PRODUCT-2229','PRODUCT-2207','PRODUCT-2154'], desc: '安全基建：容器隔离 + 权限控制 + 风控引擎。High-Stake 的基座。' },
-  // P1×S2 — Monitor × Managed [3M TARGET]
-  'P1×S2': { milestone: '3M', label: 'Monitor × Managed', issues: [], desc: '组合级监控 + 风险暴露预警 + PnL 归因。' },
-  // P2×S0 — Draft × Research
-  'P2×S0': { milestone: '3M', label: 'Draft × Research', issues: [], desc: '研究报告草案自动推送，机会发现 → 一键深入。' },
-  // P2×S1 — Draft × Guarded [3M TARGET]
-  'P2×S1': { milestone: '3M', label: 'Draft × Guarded', issues: [], desc: 'Approval Inbox MVP：系统准备交易方案，用户只做 Yes/No。这是 Proactive 的核心跳跃。' },
-  // P2×S2 — Draft × Managed [6M TARGET]
-  'P2×S2': { milestone: '6M', label: 'Draft × Managed', issues: [], desc: '再平衡建议 + 风控违规草案。组合级主动管理。' },
-  // P3×S2 — Constrained × Managed [6M TARGET]
-  'P3×S2': { milestone: '6M', label: 'Constrained × Managed', issues: [], desc: '边界内自主执行 + 自动止损 + GRPS 全约束。用户设规则，Agent 执行规则。' },
-  // P3×S3 — Constrained × Continuous [12M TARGET]
-  'P3×S3': { milestone: '12M', label: 'Constrained × Continuous', issues: [], desc: '24/7 自主值班 + 极端行情自动降仓。Agent 不休息。' },
-  // P4×S3 — Adaptive × Continuous [12M TARGET]
-  'P4×S3': { milestone: '12M', label: 'Adaptive × Continuous', issues: [], desc: '千人千面决策引擎 + 行为学习。同一信号→不同行动。' },
+/* ══════════════════════════════════════════════════════════
+   ISSUE ALIGNMENT DATABASE — per-issue strategic assessment
+   Each issue has: coord, milestone, label, and the TWO-QUESTION test
+   proactive: does it make D0 more proactive? (yes/partial/no + reason)
+   highStake: does it improve risk management? (yes/partial/no + reason)
+   verdict: aligned / partial / infra / misaligned
+   ══════════════════════════════════════════════════════════ */
+const ISSUE_DB = {
+  // ── P0×S0 NOW: Reactive × Research ──
+  'PRODUCT-2144': { coord:'P1×S0', milestone:'30D', label:'Daily Brief 推送',
+    proactive: { score:'yes', reason:'系统无需用户提问，主动推送每日简报。这是 Reactive→Monitor 的直接跳跃。' },
+    highStake: { score:'no', reason:'推送研究信息，不涉及资金操作或风控。' },
+    verdict:'partial', summary:'推进 Proactive 轴 (L0→L1)，不推进 High-Stake 轴。是 30D 目标的必要组成部分。' },
+
+  // ── P0×S1 NOW: Reactive × Guarded ──
+  'PRODUCT-2219': { coord:'P0×S1', milestone:'NOW', label:'Perps 交易对 10→20',
+    proactive: { score:'no', reason:'扩展交易对数量，不改变系统主动性。用户仍需主动发起交易。' },
+    highStake: { score:'partial', reason:'更多交易对 = 更大覆盖面，但风控能力本身没有提升。属于 S1 巩固。' },
+    verdict:'infra', summary:'S1 巩固工作，不推进任何轴。必要但不应与战略推进 issue 混排优先级。' },
+  'PRODUCT-2218': { coord:'P0×S1', milestone:'NOW', label:'TP/SL → Jupiter V2 迁移',
+    proactive: { score:'no', reason:'止盈止损是用户手动设定的，系统不会主动触发新行为。' },
+    highStake: { score:'yes', reason:'链上止盈止损可靠性直接关系到用户资金安全。Jupiter V2 = 更可靠的执行层。' },
+    verdict:'aligned', summary:'推进 High-Stake 轴 (S1 巩固)。止损可靠性是「用户敢把钱给我们」的前提。' },
+  'PRODUCT-2216': { coord:'P0×S1', milestone:'NOW', label:'Jupiter V2 迁移',
+    proactive: { score:'no', reason:'底层执行引擎升级，不改变主动性。' },
+    highStake: { score:'yes', reason:'交易执行链路的可靠性和安全性提升。' },
+    verdict:'aligned', summary:'推进 High-Stake 轴。执行层可靠性 = 安全基础设施。' },
+  'PRODUCT-2492': { coord:'P0×S1', milestone:'NOW', label:'Per-Symbol 杠杆持久化',
+    proactive: { score:'no', reason:'用户手动设置杠杆，系统不主动。' },
+    highStake: { score:'partial', reason:'精确杠杆控制减少意外风险，但不是风控系统级提升。' },
+    verdict:'infra', summary:'交易基建巩固。不推进矩阵位置。' },
+  'PRODUCT-2187': { coord:'P0×S1', milestone:'NOW', label:'Perps 交易对扩充',
+    proactive: { score:'no', reason:'同 PRODUCT-2219。' },
+    highStake: { score:'no', reason:'纯覆盖范围扩展。' },
+    verdict:'infra', summary:'交易基建扩展。不推进矩阵位置。' },
+
+  // ── P1×S1 30D: Monitor × Guarded ──
+  'PRODUCT-2186': { coord:'P1×S1', milestone:'30D', label:'GRPS 软约束集成',
+    proactive: { score:'partial', reason:'GRPS 本身是约束系统（被动检查），但当 AI 审查层自动拦截高风险操作时，体现了一定主动性。' },
+    highStake: { score:'yes', reason:'直接增强资金安全。AI 审查层 = 九步闭环的关键一步。这是 High-Stake 的核心。' },
+    verdict:'aligned', summary:'主要推进 High-Stake 轴 (S1→S2)。GRPS + AI 审查 = 「安全不是功能，是准入门槛」的落地。' },
+  'PRODUCT-2185': { coord:'P1×S1', milestone:'30D', label:'Strategy Hub 策略中心',
+    proactive: { score:'partial', reason:'Strategy Hub 提供回测 + 策略管理，但当前定位是「Trading 基建·策略执行层·回测引擎」— 这是用户主动使用的工具，不是系统主动推送/执行的能力。要推进 Proactive 轴，需要增加：策略信号主动推送、回测结果自动生成建议、策略异常主动预警。' },
+    highStake: { score:'partial', reason:'回测能力间接提升决策质量，但不直接加强风控/止损/审计能力。' },
+    verdict:'partial', summary:'⚠ 当前 Issue 定位偏「Trading 基建」，不充分推进任何轴。\n\n要让 Strategy Hub 成为 30D 目标的有效推进力，需要重新定位：\n① 回测结果 → 自动生成交易建议草案（推进 P 轴）\n② 策略违规 → 主动预警通知（推进 P 轴）\n③ 策略执行 → 与 GRPS 风控联动（推进 S 轴）\n\n建议：拆分为两个 issue — 「基建层：回测引擎」(infra) + 「能力层：策略信号主动推送」(P1×S1)' },
+  'PRODUCT-2083': { coord:'P1×S1', milestone:'30D', label:'Skill Marketplace',
+    proactive: { score:'partial', reason:'Marketplace 本身是被动的（用户浏览安装），但如果能主动推荐 Skill 给用户，则推进 P 轴。' },
+    highStake: { score:'no', reason:'不直接涉及资金安全或风控。' },
+    verdict:'partial', summary:'当前定位偏「平台能力扩展」，主动性有限。要推进 P 轴，需要增加 Skill 主动推荐机制。优先级应低于 GRPS、推送系统等核心 30D 交付。' },
+  'PRODUCT-2190': { coord:'P1×S1', milestone:'30D', label:'GRPS D0 Bot 集成联调',
+    proactive: { score:'partial', reason:'让 AI 对话层能调用 GRPS 约束，间接实现主动风控拦截。' },
+    highStake: { score:'yes', reason:'GRPS 在 D0 Bot 生效 = 交易执行有风控保护。直接提升资金安全。' },
+    verdict:'aligned', summary:'推进 High-Stake 轴。GRPS 在 Bot 层生效是安全闭环的关键一步。' },
+  'PRODUCT-2493': { coord:'P1×S1', milestone:'30D', label:'GRPS D0 Bot 集成技术方案',
+    proactive: { score:'no', reason:'技术方案文档，不直接推进能力。' },
+    highStake: { score:'partial', reason:'为 GRPS 集成铺路。' },
+    verdict:'partial', summary:'GRPS 集成的前置工作。本身不推进矩阵，但 unblock 了 PRODUCT-2190。' },
+
+  // ── P0×S2: Reactive × Managed ──
+  'PRODUCT-2227': { coord:'P0×S2', milestone:'30D', label:'容器隔离 (Scope 1)',
+    proactive: { score:'no', reason:'安全基建，不改变主动性。' },
+    highStake: { score:'yes', reason:'用户间数据与资金隔离 = High-Stake 的基座。没有这个，一切上层能力都不安全。' },
+    verdict:'aligned', summary:'直接推进 High-Stake 轴 (S1→S2)。属于 P0 安全基建。' },
+  'PRODUCT-2228': { coord:'P0×S2', milestone:'30D', label:'内部权限控制 (Scope 2)',
+    proactive: { score:'no', reason:'安全基建。' },
+    highStake: { score:'yes', reason:'防止单人完成用户资金转移 = 信任层的核心。' },
+    verdict:'aligned', summary:'直接推进 High-Stake 轴 (S1→S2)。' },
+  'PRODUCT-2229': { coord:'P0×S2', milestone:'30D', label:'外部攻击面收敛 (Scope 3)',
+    proactive: { score:'no', reason:'安全基建。' },
+    highStake: { score:'yes', reason:'封堵入侵路径 = 资金安全前提。' },
+    verdict:'aligned', summary:'直接推进 High-Stake 轴 (S1→S2)。' },
+  'PRODUCT-2207': { coord:'P0×S2', milestone:'30D', label:'风控引擎 & GRPS',
+    proactive: { score:'no', reason:'风控引擎是被动约束，不是主动行为。' },
+    highStake: { score:'yes', reason:'链上风控规则 + 参数约束 = High-Stake 核心能力。' },
+    verdict:'aligned', summary:'直接推进 High-Stake 轴 (S1→S2)。' },
+  'PRODUCT-2154': { coord:'P0×S2', milestone:'30D', label:'K8s 凭证安全',
+    proactive: { score:'no', reason:'安全卫生。' },
+    highStake: { score:'yes', reason:'凭证泄露 = 全平台安全风险。' },
+    verdict:'aligned', summary:'推进 High-Stake 轴。安全卫生但影响面大。' },
 };
 
-// Issues that exist in sprint but DON'T align with Proactive+High-Stake positioning
-const INFRA_ISSUES = {
-  'PRODUCT-2499': { label: 'LLM 成本优化', verdict: '基础设施', note: '必要但非战略差异化。属于「降成本」不属于「增能力」。不应占 Proactive 研发资源。' },
-  'PRODUCT-2497': { label: 'Orphan Container 成本泄漏', verdict: '基础设施', note: '运维卫生，不体现主动性或高风险管理能力。' },
-  'PRODUCT-2496': { label: '成本 Tracking', verdict: '基础设施', note: '内部工具，用户不可感知。' },
-  'PRODUCT-2184': { label: 'Dashboard UI/UX 优化', verdict: '体验优化', note: '有价值但不推进矩阵任何轴。属于 S1 巩固而非能力跃升。' },
-  'PRODUCT-2132': { label: 'Onboarding UX', verdict: '体验优化', note: '获客层面，不直接推进 Proactive 或 High-Stake。' },
-  'PRODUCT-2194': { label: 'Harness UI 重构', verdict: '体验优化', note: '统一体验有价值，但不推进矩阵位置。' },
-  'PRODUCT-2121': { label: '计费域模型', verdict: '商业化', note: '商业闭环必要，但属于 Culture 层而非 Command/Trust/Cognition。' },
-  'PRODUCT-2122': { label: 'Creem 支付通道', verdict: '商业化', note: '同上。' },
-  'PRODUCT-2124': { label: 'Membership Panel', verdict: '商业化', note: '同上。' },
-  'PRODUCT-2123': { label: 'Pricing Page', verdict: '商业化', note: '同上。' },
-  'PRODUCT-2125': { label: '3/27 活动素材', verdict: 'GTM', note: '短期营销，不推进产品矩阵。' },
-  'PRODUCT-2127': { label: 'D0 Launch 素材', verdict: 'GTM', note: '同上。' },
-  'PRODUCT-2025': { label: 'OpenClaw 上游升级', verdict: '基础设施', note: '维护性工作，不推进矩阵。' },
+// Non-matrix issues (infra/UX/commercial/GTM)
+const NON_MATRIX = {
+  'PRODUCT-2499': { label:'LLM 成本优化', cat:'基础设施', p:'no', pWhy:'不改变主动性', s:'no', sWhy:'不改变风控能力', advice:'必要运维，不占 Proactive 资源' },
+  'PRODUCT-2497': { label:'Orphan Container 成本泄漏', cat:'基础设施', p:'no', pWhy:'运维卫生', s:'no', sWhy:'不涉及风控', advice:'成本优化，运维优先级' },
+  'PRODUCT-2496': { label:'成本 Tracking', cat:'基础设施', p:'no', pWhy:'内部工具', s:'no', sWhy:'用户不可感知', advice:'运维内务' },
+  'PRODUCT-2184': { label:'Dashboard UI/UX 优化', cat:'体验优化', p:'no', pWhy:'不改变系统主动行为', s:'no', sWhy:'不增强风控', advice:'体验打磨，S1 巩固但非能力跃升' },
+  'PRODUCT-2132': { label:'Onboarding UX', cat:'体验优化', p:'no', pWhy:'获客流程', s:'no', sWhy:'不涉及交易风控', advice:'获客层面' },
+  'PRODUCT-2194': { label:'Harness UI 重构', cat:'体验优化', p:'no', pWhy:'UI 统一', s:'no', sWhy:'不改变安全能力', advice:'体验统一有价值，但不推进矩阵' },
+  'PRODUCT-2121': { label:'计费域模型', cat:'商业化', p:'no', pWhy:'商业基建', s:'no', sWhy:'不涉及交易安全', advice:'商业闭环必要，Culture 层' },
+  'PRODUCT-2122': { label:'Creem 支付通道', cat:'商业化', p:'no', pWhy:'支付基建', s:'no', sWhy:'同上', advice:'Culture 层' },
+  'PRODUCT-2124': { label:'Membership Panel', cat:'商业化', p:'no', pWhy:'同上', s:'no', sWhy:'同上', advice:'Culture 层' },
+  'PRODUCT-2123': { label:'Pricing Page', cat:'商业化', p:'no', pWhy:'同上', s:'no', sWhy:'同上', advice:'Culture 层' },
+  'PRODUCT-2125': { label:'3/27 活动素材', cat:'GTM', p:'no', pWhy:'营销', s:'no', sWhy:'不涉及产品', advice:'短期 GTM' },
+  'PRODUCT-2127': { label:'D0 Launch 素材', cat:'GTM', p:'no', pWhy:'营销', s:'no', sWhy:'不涉及产品', advice:'短期 GTM' },
+  'PRODUCT-2025': { label:'OpenClaw 上游升级', cat:'基础设施', p:'no', pWhy:'维护性', s:'no', sWhy:'不涉及风控', advice:'维护工作' },
 };
 
-// Milestone descriptions for display
 const MILESTONES = {
-  'NOW': { color: '#6366f1', label: '当前位置', desc: 'P0×S0~S1 — Reactive + Guarded' },
-  '30D': { color: '#22c55e', label: '30 天目标', desc: 'P1×S1 — Monitor + Guarded' },
-  '3M':  { color: '#14b8a6', label: '3 个月目标', desc: 'P2×S2 — Draft + Managed' },
-  '6M':  { color: '#f97316', label: '6 个月目标', desc: 'P3×S2 — Constrained + Managed' },
-  '12M': { color: '#a855f7', label: '12 个月目标', desc: 'P4×S3 — Adaptive + Continuous' },
+  'NOW': { color:'#6366f1', label:'当前位置', desc:'P0×S0~S1 — Reactive + Guarded' },
+  '30D': { color:'#22c55e', label:'30 天目标', desc:'P1×S1 — Monitor + Guarded' },
+  '3M':  { color:'#14b8a6', label:'3 个月目标', desc:'P2×S2 — Draft + Managed' },
+  '6M':  { color:'#f97316', label:'6 个月目标', desc:'P3×S2 — Constrained + Managed' },
+  '12M': { color:'#a855f7', label:'12 个月目标', desc:'P4×S3 — Adaptive + Continuous' },
 };
+
+function scoreIcon(s) { return s === 'yes' ? '✅' : s === 'partial' ? '⚠️' : '❌'; }
+function scoreColor(s) { return s === 'yes' ? 'var(--success)' : s === 'partial' ? 'var(--warning)' : 'var(--error)'; }
+function verdictClass(v) { return v === 'aligned' ? 'found' : v === 'partial' ? 'not-found' : 'misaligned'; }
 
 function lookupIssue() {
   const input = document.getElementById('issueLookupInput').value.trim();
   const result = document.getElementById('lookupResult');
   if (!input) { result.style.display = 'none'; return; }
 
-  // Extract issue ID from URL or direct input
   let issueId = input;
   const urlMatch = input.match(/issue\/([\w]+-\d+)/);
   if (urlMatch) issueId = urlMatch[1];
   issueId = issueId.toUpperCase();
 
-  // Remove previous highlights
   document.querySelectorAll('.matrix-cell.highlight').forEach(c => c.classList.remove('highlight'));
 
-  // Check matrix cells
-  for (const [coord, data] of Object.entries(MATRIX_ISSUES)) {
-    if (data.issues.includes(issueId)) {
-      const ms = MILESTONES[data.milestone];
-      result.className = 'lookup-result found';
-      result.innerHTML = '<strong>' + issueId + '</strong> → '
-        + '<span class="lr-tag lr-coord">' + coord + '</span>'
-        + '<span class="lr-tag lr-milestone" style="background:' + ms.color + '22;color:' + ms.color + '">' + ms.label + '</span>'
-        + '<br><strong>' + data.label + '</strong> — ' + data.desc
-        + '<br><span style="font-size:.72rem;color:var(--fg-subtle)">✅ 对齐「Proactive × High-Stake」战略定位</span>';
-      // Highlight the cell
-      const cellId = 'cell-' + coord.replace('×','-');
-      const cell = document.getElementById(cellId);
-      if (cell) { cell.classList.add('highlight'); cell.scrollIntoView({behavior:'smooth',block:'center'}); }
-      return;
-    }
-  }
+  // Check detailed issue DB first
+  if (ISSUE_DB[issueId]) {
+    const d = ISSUE_DB[issueId];
+    const ms = MILESTONES[d.milestone];
+    const cls = verdictClass(d.verdict);
+    let html = '<div style="margin-bottom:12px"><strong style="font-size:1rem">' + issueId + '</strong>: ' + d.label + '</div>';
 
-  // Check infra/non-aligned issues
-  if (INFRA_ISSUES[issueId]) {
-    const info = INFRA_ISSUES[issueId];
-    result.className = 'lookup-result misaligned';
-    result.innerHTML = '<strong>' + issueId + '</strong>: ' + info.label
-      + '<br><span class="lr-tag lr-danger">' + info.verdict + '</span>'
-      + '<br><span style="color:var(--error)">⚠ 不直接推进「Proactive × High-Stake」矩阵位置</span>'
-      + '<br>' + info.note
-      + '<br><br><span style="font-size:.72rem;color:var(--fg-subtle)">建议：此 issue 可以做，但不应占用 P1 Proactive 研发资源。在排期时应明确区分「战略推进」vs「基础运维/商业化」。会上可以用这个分类帮团队理解优先级来源。</span>';
+    // Two-question test
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">';
+    html += '<div style="padding:10px;border-radius:6px;background:var(--bg-subtle);border:1px solid var(--border-base)">'
+      + '<div style="font-size:.72rem;color:var(--fg-subtle);margin-bottom:4px;font-family:var(--font-mono)">PROACTIVE 轴</div>'
+      + '<div style="font-size:.88rem;margin-bottom:4px">' + scoreIcon(d.proactive.score) + ' 做完后 D0 会变得更主动吗？<strong style="color:' + scoreColor(d.proactive.score) + '"> ' + (d.proactive.score==='yes'?'Yes':d.proactive.score==='partial'?'部分':'No') + '</strong></div>'
+      + '<div style="font-size:.76rem;color:var(--fg-muted)">' + d.proactive.reason + '</div></div>';
+    html += '<div style="padding:10px;border-radius:6px;background:var(--bg-subtle);border:1px solid var(--border-base)">'
+      + '<div style="font-size:.72rem;color:var(--fg-subtle);margin-bottom:4px;font-family:var(--font-mono)">HIGH-STAKE 轴</div>'
+      + '<div style="font-size:.88rem;margin-bottom:4px">' + scoreIcon(d.highStake.score) + ' 做完后风险管理能力更强了吗？<strong style="color:' + scoreColor(d.highStake.score) + '"> ' + (d.highStake.score==='yes'?'Yes':d.highStake.score==='partial'?'部分':'No') + '</strong></div>'
+      + '<div style="font-size:.76rem;color:var(--fg-muted)">' + d.highStake.reason + '</div></div>';
+    html += '</div>';
+
+    // Coord + milestone
+    html += '<div style="margin-bottom:8px">'
+      + '<span class="lr-tag lr-coord">' + d.coord + '</span>'
+      + '<span class="lr-tag lr-milestone" style="background:' + ms.color + '22;color:' + ms.color + '">' + ms.label + '</span>'
+      + '</div>';
+
+    // Summary with verdict
+    html += '<div style="font-size:.82rem;line-height:1.6;white-space:pre-line">' + d.summary + '</div>';
+
+    result.className = 'lookup-result ' + cls;
+    result.innerHTML = html;
+
+    const cellId = 'cell-' + d.coord.replace('×','-');
+    const cell = document.getElementById(cellId);
+    if (cell) { cell.classList.add('highlight'); cell.scrollIntoView({behavior:'smooth',block:'center'}); }
     return;
   }
 
-  // Check sprint issues
+  // Check non-matrix issues
+  if (NON_MATRIX[issueId]) {
+    const n = NON_MATRIX[issueId];
+    let html = '<div style="margin-bottom:12px"><strong style="font-size:1rem">' + issueId + '</strong>: ' + n.label
+      + ' <span class="lr-tag lr-danger">' + n.cat + '</span></div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">';
+    html += '<div style="padding:10px;border-radius:6px;background:var(--bg-subtle);border:1px solid var(--border-base)">'
+      + '<div style="font-size:.72rem;color:var(--fg-subtle);margin-bottom:4px;font-family:var(--font-mono)">PROACTIVE 轴</div>'
+      + '<div style="font-size:.88rem">❌ 做完后 D0 会变得更主动吗？<strong style="color:var(--error)"> No</strong></div>'
+      + '<div style="font-size:.76rem;color:var(--fg-muted)">' + n.pWhy + '</div></div>';
+    html += '<div style="padding:10px;border-radius:6px;background:var(--bg-subtle);border:1px solid var(--border-base)">'
+      + '<div style="font-size:.72rem;color:var(--fg-subtle);margin-bottom:4px;font-family:var(--font-mono)">HIGH-STAKE 轴</div>'
+      + '<div style="font-size:.88rem">❌ 做完后风险管理能力更强了吗？<strong style="color:var(--error)"> No</strong></div>'
+      + '<div style="font-size:.76rem;color:var(--fg-muted)">' + n.sWhy + '</div></div>';
+    html += '</div>';
+    html += '<div style="font-size:.82rem;color:var(--fg-muted)">' + n.advice + '。可以做，但不应挤占 Proactive/High-Stake 推进资源。</div>';
+    result.className = 'lookup-result misaligned';
+    result.innerHTML = html;
+    return;
+  }
+
+  // Fallback: sprint issue not yet assessed
   let sprintIssue = null;
   for (const cycle of Object.values(CYCLES)) {
     const found = cycle.issues.find(i => i.id === issueId);
     if (found) { sprintIssue = found; break; }
   }
-
   if (sprintIssue) {
     result.className = 'lookup-result not-found';
     result.innerHTML = '<strong>' + issueId + '</strong>: ' + sprintIssue.title
-      + '<br><span class="lr-tag lr-warn">未映射到矩阵</span>'
-      + '<br>这个 issue 在当前 Sprint 中，但尚未被分配到 Proactive × High-Stake 矩阵的任何格子。'
-      + '<br><br><span style="font-size:.72rem;color:var(--fg-subtle)">建议：判断此 issue 是否推进矩阵位置。如果是，将其归入对应格子；如果不是，标注为「基础设施」或「体验优化」，避免与战略推进工作混淆。</span>';
+      + '<br><span class="lr-tag lr-warn">尚未评估</span>'
+      + '<br>这个 issue 在 Sprint 中，但还没有做 Proactive × High-Stake 对齐评估。'
+      + '<br><br>请回答两个问题来判断：'
+      + '<br>① 做完后 D0 会变得更主动吗？'
+      + '<br>② 做完后 D0 管理资金风险的能力更强了吗？'
+      + '<br><br><span style="font-size:.72rem;color:var(--fg-subtle)">两个都 No → 标记为基建/体验/商业化，不应与战略推进 issue 竞争优先级。</span>';
   } else {
     result.className = 'lookup-result not-found';
-    result.innerHTML = '<strong>' + issueId + '</strong>'
-      + '<br><span class="lr-tag lr-warn">未找到</span>'
-      + '<br>这个 Issue 不在当前 Sprint 或 Strategic Matrix 中。请确认 Issue ID 是否正确。';
+    result.innerHTML = '<strong>' + issueId + '</strong><br><span class="lr-tag lr-warn">未找到</span><br>不在当前 Sprint 或 Strategic Matrix 中。请确认 Issue ID。';
   }
 }
 
