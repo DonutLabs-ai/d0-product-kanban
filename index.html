@@ -3,27 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D0 Product Dashboard — v10.4</title>
+<title>D0 Product Dashboard — v11</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── Design System Tokens ──────────────────────────────── */
 :root {
-  --bg-base: #09090b;
-  --bg-subtle: #18181b;
-  --bg-muted: #27272a;
-  --bg-emphasis: #3f3f46;
-  --fg-base: #fafafa;
-  --fg-muted: #a1a1aa;
-  --fg-subtle: #71717a;
+  --bg-base: #0a0a0e;
+  --bg-subtle: #131318;
+  --bg-muted: #1a1a21;
+  --bg-emphasis: #2a2a43;
+  --fg-base: #ededf2;
+  --fg-muted: #a8a7b5;
+  --fg-subtle: #7e7d8e;
   --fg-faint: #52525b;
-  --border-base: #27272a;
-  --border-emphasis: #3f3f46;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  --info: #3b82f6;
+  --border-base: #1a1a21;
+  --border-emphasis: #2a2a43;
+  --success: #1ab858;
+  --warning: #e09020;
+  --error: #c05050;
+  --info: #acaaff;
   --teal: #14b8a6;
-  --purple: #a78bfa;
+  --purple: #acaaff;
   --gold: #d4a73a;
   --font-display: 'Instrument Serif', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -87,6 +87,50 @@
 .m1-table { margin: 0 }
 .ms-card { margin-bottom: var(--space-4) }
 #milestoneRoadmap { grid-template-columns: 1fr !important }
+
+/* ══ v11: Strong Visual State Differentiation ══════════ */
+.card.todo { background: var(--bg-subtle); border-left: 4px solid #7e7d8e; opacity: 0.85 }
+.card.todo .card-title { color: var(--fg-muted) }
+.card.active { background: rgba(224,144,32,.06); border-left: 4px solid #e09020 }
+.card.active .card-title { color: var(--fg-base) }
+.card.review { background: rgba(172,170,255,.06); border-left: 4px solid #acaaff }
+.card.review .card-title { color: var(--fg-base) }
+.card.testing { background: rgba(20,184,166,.06); border-left: 4px solid #14b8a6 }
+.card.testing .card-title { color: var(--fg-base) }
+.card.done { background: rgba(26,184,88,.04); border-left: 4px solid #1ab858; opacity: 0.55 }
+.card.done .card-title { color: var(--fg-muted) }
+.card.done::after { content: '✓'; position: absolute; top: 8px; right: 10px; font-size: 1rem; color: #1ab858; opacity: 0.7 }
+.card.cancel { background: var(--bg-subtle); border-left: 4px solid #52525b; opacity: 0.3 }
+.card.cancel .card-title { text-decoration: line-through; color: var(--fg-subtle) }
+.card:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,.2) }
+.card.done:hover { opacity: 0.7 }
+.card.cancel:hover { opacity: 0.4 }
+
+/* ══ v11: User Story Modal ═════════════════════════════ */
+.story-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.7); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s }
+.story-modal-overlay.active { opacity: 1; pointer-events: all }
+.story-modal { background: var(--bg-subtle); border: 1px solid var(--border-emphasis); border-radius: var(--radius-lg); max-width: 700px; width: 90%; max-height: 80vh; overflow-y: auto; padding: var(--space-6); position: relative }
+.story-modal-close { position: absolute; top: var(--space-3); right: var(--space-3); background: none; border: none; color: var(--fg-muted); cursor: pointer; font-size: 1.2rem; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all var(--duration-fast) }
+.story-modal-close:hover { background: var(--bg-muted); color: var(--fg-base) }
+.story-modal h3 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: var(--space-4) }
+.story-modal .story-content { font-size: 0.82rem; color: var(--fg-muted); line-height: 1.7 }
+.story-modal .related-issues { margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border-base) }
+.story-modal .related-issues h4 { font-family: var(--font-mono); font-size: 0.72rem; color: var(--fg-subtle); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: var(--space-2) }
+.story-modal .related-card { background: var(--bg-muted); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); margin-bottom: var(--space-2); display: flex; align-items: center; justify-content: space-between; gap: var(--space-3) }
+.story-modal .related-card .rc-id { font-family: var(--font-mono); font-size: 0.65rem; color: var(--info) }
+.story-modal .related-card .rc-title { font-size: 0.76rem; flex: 1 }
+.story-modal .related-card .rc-state { font-family: var(--font-mono); font-size: 0.6rem; padding: 2px 8px; border-radius: 100px }
+
+/* ══ v11: Source of Truth Info Box ═════════════════════ */
+.sot-box { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-2) var(--space-4); background: rgba(172,170,255,.06); border: 1px solid rgba(172,170,255,.2); border-radius: var(--radius-md); margin-bottom: var(--space-3); font-size: 0.72rem; flex-wrap: wrap }
+.sot-box .sot-label { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; color: var(--info); text-transform: uppercase; letter-spacing: 0.04em }
+.sot-box a { font-family: var(--font-mono); font-size: 0.68rem; color: var(--info); padding: 2px 8px; background: rgba(172,170,255,.08); border-radius: 100px }
+
+/* v11: Clickable user story cards */
+.hil-card { cursor: pointer; transition: border-color var(--duration-normal), background var(--duration-normal) }
+.hil-card:hover { background: rgba(255,255,255,.02) }
+.voice-issue-card { cursor: pointer; transition: border-color var(--duration-normal) }
+
 /* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
 body {
@@ -160,11 +204,9 @@ a:hover { text-decoration: underline; }
 .progress-active { background: var(--warning); transition: width 0.6s var(--ease-out) }
 .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-3) }
 .card { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); transition: all var(--duration-normal) var(--ease-out); position: relative }
-.card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent, var(--fg-faint)); border-radius: var(--radius-md) 0 0 var(--radius-md); opacity: 0.6 }
+/* v11: card left accent replaced by state-based border-left */
 .card:hover { border-color: var(--border-emphasis); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,.15) }
-.card.done { opacity: 0.5 }
-.card.done:hover { opacity: 0.7 }
-.card.cancel { opacity: 0.3 }
+/* v11: moved to strong visual state differentiation CSS */
 .card.filtered-out { display: none }
 .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-1) }
 .card-id { font-family: var(--font-mono); font-size: 0.65rem; color: var(--fg-subtle); text-decoration: none; transition: color var(--duration-fast) }
@@ -570,8 +612,15 @@ a:hover { text-decoration: underline; }
   <header class="header">
     <h1>D0 Product Dashboard</h1>
     <div class="subtitle">Unified Sprint · 组织 · 产品 · 工程 · 风险</div>
-    <div class="cycle-badge"><span class="pulse"></span>v10.4 · 2026-03-23</div>
+    <div class="cycle-badge"><span class="pulse"></span>v11 · 2026-03-24</div>
   </header>
+
+  <!-- v11: Source of Truth Info Box -->
+  <div class="sot-box">
+    <span class="sot-label">📌 Source of Truth</span>
+    <a href="https://linear.app/donutbrowser/issue/PRODUCT-2146" target="_blank">PRODUCT-2146 — Product Scopes ↗</a>
+    <a href="https://linear.app/donutbrowser/issue/PRODUCT-2167#comment-f80d90c8" target="_blank">PRODUCT-2167 — v3 Vision ↗</a>
+  </div>
 
   <!-- ══ Tab Navigation ══ -->
   <div class="tab-bar">
@@ -1190,7 +1239,7 @@ a:hover { text-decoration: underline; }
   </div>
 
   <div class="footer">
-    D0 Product Dashboard v10.4 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View + Strategic Matrix
+    D0 Product Dashboard v11 · Auto-synced from <a href="https://linear.app/donutbrowser">Linear</a> · Unified Sprint View + Strategic Matrix
   </div>
 
 </div><!-- /page -->
@@ -1205,6 +1254,14 @@ a:hover { text-decoration: underline; }
 </div>
 
 <script>
+/* ══════════════════════════════════════════════════════════
+   SOURCE OF TRUTH (v11)
+   ══════════════════════════════════════════════════════════ */
+const SOURCE_OF_TRUTH = {
+  scope: 'PRODUCT-2146',   // Jack's issue - all product scopes
+  vision: 'PRODUCT-2167'   // Sylvia's v3 milestone/vision (comment f80d90c8)
+};
+
 /* ══════════════════════════════════════════════════════════
    PRODUCT TREE DEFINITION (v8.2)
    ══════════════════════════════════════════════════════════ */
@@ -1621,15 +1678,19 @@ function renderCardHTML(issue) {
   const pColor = priorityColors[issue.priority]||'#52525b';
   const teamAccent = issue.team==='PRODUCT' ? '#a78bfa' : '#14b8a6';
   let stateColor, stateText, cardClass;
-  switch(issue.state) {
+  const effState = getEffectiveState(issue);
+  const effLabel = getEffectiveStateLabel(issue);
+  switch(effState) {
     case 'started':
-      if (issue.stateLabel==='In Review') { stateColor='#a78bfa'; stateText='👀 Review 中'; cardClass='active'; }
-      else { stateColor='#f59e0b'; stateText='🔨 开发中'; cardClass='active'; }
+      if (effLabel==='In Review') { stateColor='#acaaff'; stateText='👀 Review 中'; cardClass='review'; }
+      else { stateColor='#e09020'; stateText='🔨 开发中'; cardClass='active'; }
       break;
-    case 'completed': stateColor='#22c55e'; stateText='✅ 已完成'; cardClass='done'; break;
-    case 'canceled': stateColor='#71717a'; stateText='✕ 已取消'; cardClass='done cancel'; break;
-    case 'triage': stateColor='#a78bfa'; stateText='📝 待分类'; cardClass='triage'; break;
-    default: stateColor='#71717a'; stateText='📝 待开始'; cardClass='todo';
+    case 'review': stateColor='#acaaff'; stateText='👀 Review 中'; cardClass='review'; break;
+    case 'testing': stateColor='#14b8a6'; stateText='🧪 测试中'; cardClass='testing'; break;
+    case 'completed': stateColor='#1ab858'; stateText='✅ 已完成'; cardClass='done'; break;
+    case 'canceled': stateColor='#7e7d8e'; stateText='✕ 已取消'; cardClass='cancel'; break;
+    case 'triage': stateColor='#acaaff'; stateText='📝 待分类'; cardClass='todo'; break;
+    default: stateColor='#7e7d8e'; stateText='📝 待开始'; cardClass='todo';
   }
   if (issue.state==='unstarted' && issue.priority!=='none') {
     const pL = {urgent:'P0',high:'P1',medium:'P2',low:'P3'};
@@ -2070,88 +2131,79 @@ window._currentMyFilter = 'all';
 /* ══════════════════════════════════════════════════════════
    PRODUCT PANORAMA (v8.2 — Aligned with Product Tree)
    ══════════════════════════════════════════════════════════ */
-const PANORAMA_DATA = [
-  { key:'scope1', icon:'🧠', name:'S1 Core Experience — 核心体验', modules:[
-    { name:'PRODUCT-1948: D0 困难用例场景分析与实现', owner:'JackJun', desc:'12 Hard Use Cases · In Progress', issues:12, updated:'2026-03-23' },
-    { name:'PRODUCT-2261: MCP Server 工具精简 170→22', owner:'Regison', desc:'Token 效率提升 50%+ · In Review', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2205: 用户认证修复', owner:'Gary', desc:'Session/Cookie/401 清零 · Todo', issues:5, updated:'2026-03-23' },
-    { name:'PRODUCT-2184: Dashboard & Onboarding UI/UX', owner:'Gary', desc:'In Progress', issues:3, updated:'2026-03-23' },
-    { name:'PRODUCT-1949: D0 自定义看板', owner:'Jin Xu', desc:'HTML 页面工具调用 · In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2251: 统一聚合报警机制', owner:'JackJun', desc:'Turing 跨模块告警 · In Review', issues:1, updated:'2026-03-23' }
-  ]},
-  { key:'scope2', icon:'💰', name:'S2 Trading System — 交易系统', modules:[
-    { name:'PRODUCT-2216: Jupiter V2 迁移', owner:'Regison', desc:'Adapter 重构 + Trigger Order · In Progress', issues:5, updated:'2026-03-23' },
-    { name:'PRODUCT-2218: TP/SL v1 → Jupiter V2', owner:'Ethan', desc:'止盈止损功能迁移 · In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2219: Perps 交易对 10→20', owner:'Alex', desc:'SQL Migration + 灰度 · In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2492: Per-Symbol 杠杆持久化', owner:'Rui Li', desc:'SET_LEVERAGE API · Todo', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2014: Polymarket Pipeline', owner:'Liang Han', desc:'信号到执行全链路 · Planning', issues:4, updated:'2026-03-23' },
-    { name:'PRODUCT-2019: Perps 体验优化', owner:'Rui Li', desc:'预检外漏 + 下单体验 · In Progress', issues:1, updated:'2026-03-23' }
-  ]},
-  { key:'scope3', icon:'🔮', name:'S3 Proactive Intelligence — 主动智能', modules:[
-    { name:'PRODUCT-1872: Knowledge Pipeline Master Plan', owner:'Chris', desc:'数据基建 + 知识注入 · Planning', issues:3, updated:'2026-03-23' },
-    { name:'PRODUCT-1882: Daily Report 升级', owner:'Jim', desc:'数据驱动分析 · In Review', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2297: 用户行为记忆系统 v3.0', owner:'Jim', desc:'In Review', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-1790: 信号学习闭环', owner:'Chris', desc:'知识积累 + 自主优化 · Todo', issues:1, updated:'2026-03-23' }
-  ]},
-  { key:'scope4', icon:'🛡', name:'S4 Safety & Trust — 安全与信任', modules:[
-    { name:'PRODUCT-2149: 安全漏洞修复总览', owner:'Jiagui', desc:'53 个漏洞 P0/P1 清零 · In Progress', issues:5, updated:'2026-03-23' },
-    { name:'PRODUCT-2207: GRPS v1 风控引擎', owner:'Sylvia', desc:'链上风控规则 + 参数约束 · Todo', issues:3, updated:'2026-03-23' },
-    { name:'PRODUCT-2228: 内部权限控制', owner:'Jiagui', desc:'防止单人完成资金转移 · Todo', issues:3, updated:'2026-03-23' },
-    { name:'PRODUCT-2186: AI Skill GRPS 软约束', owner:'Jin Xu', desc:'grps-risk-guard · In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2026: K8s 生产基础设施修复', owner:'Wenzhang', desc:'In Progress', issues:2, updated:'2026-03-23' }
-  ]},
-  { key:'scope5', icon:'📊', name:'S5 Eval & Quality — 质量体系', modules:[
-    { name:'PRODUCT-1963: Eval Harness v1', owner:'Fei', desc:'B3/B4 真实后端测试 · In Progress', issues:2, updated:'2026-03-23' },
-    { name:'PRODUCT-1992: E2E CI 自动化', owner:'Kevin', desc:'GitHub Actions · In Progress', issues:3, updated:'2026-03-23' },
-    { name:'PRODUCT-1947: Eval 全景图 v0316', owner:'Fei', desc:'In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-1891: UI/UX 设计走查验收', owner:'Yi Tan', desc:'In Review', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2330: 原子与不变量级 LLM 评测', owner:'Fei', desc:'In Review', issues:1, updated:'2026-03-23' }
-  ]},
-  { key:'scope6', icon:'🎯', name:'S6 Personalization — 千人千面', modules:[
-    { name:'PRODUCT-1736: User Profile Schema', owner:'Sylvia', desc:'架构设计与实现 · In Review', issues:2, updated:'2026-03-23' },
-    { name:'PRODUCT-1739: User Profile Skill', owner:'Sylvia', desc:'数据采集 + 查询接口 · In Review', issues:1, updated:'2026-03-23' }
-  ]},
-  { key:'scope7', icon:'🏗', name:'S7 Infrastructure — 基础设施', modules:[
-    { name:'PRODUCT-2496: 线上成本 Tracking', owner:'JackJun', desc:'Infra + LLM 监控 · Todo', issues:3, updated:'2026-03-23' },
-    { name:'PRODUCT-2043: K8s 多副本 + PDB', owner:'Wenzhang', desc:'消除单副本风险 · In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2025: OpenClaw 上游升级', owner:'Wenzhang', desc:'全量回归 · Todo', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2098: AMQP 故障容错', owner:'JackJun', desc:'Birdeye 熔断 + 告警 · Todo', issues:1, updated:'2026-03-23' }
-  ]},
-  { key:'scope8', icon:'💳', name:'S8 Commercialization — 商业化', modules:[
-    { name:'PRODUCT-2121: 计费域模型 + Plan Config', owner:'Wenzhang', desc:'数据建模 + 订阅状态机 · In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2122: Creem 支付通道对接', owner:'Wenzhang', desc:'Checkout + Webhook · In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2485: Skill 分层访问控制', owner:'Jin Xu', desc:'Pro/Free 权益分层 · In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2009: 商业化规划 MVP', owner:'Ye Zou', desc:'付费验证路线 · Planning', issues:3, updated:'2026-03-23' }
-  ]},
-  { key:'scope9', icon:'📣', name:'S9 Growth & Onboarding — 增长与获客', modules:[
-    { name:'PRODUCT-2127: D0 launch 素材', owner:'Yi Tan', desc:'In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-2125: 3/27 活动素材', owner:'Yi Tan', desc:'In Progress', issues:1, updated:'2026-03-23' },
-    { name:'PRODUCT-1999: Landing Page iframe 重构', owner:'Gary', desc:'Todo', issues:1, updated:'2026-03-23' }
-  ]}
-];
+/* v11: PANORAMA_DATA removed — now generated dynamically from CYCLES */
+
+
+function getAllCycleIssues() {
+  var all = [];
+  Object.keys(CYCLES).forEach(function(key) {
+    CYCLES[key].issues.forEach(function(i) {
+      // Avoid duplicates by id
+      if (!all.some(function(e){ return e.id === i.id; })) all.push(i);
+    });
+    // Include cycle additions from localStorage
+    getCycleAdditions(key).forEach(function(i) {
+      if (!all.some(function(e){ return e.id === i.id; })) all.push(i);
+    });
+  });
+  return all;
+}
 
 function renderProductPanorama() {
   var el = document.getElementById('productPanorama');
   if (!el) return;
-  el.innerHTML = PANORAMA_DATA.map(function(scope) {
-    var moduleCards = scope.modules.map(function(m) {
-      return '<div style="background:var(--bg-muted);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-3);margin-bottom:var(--space-1)">'
-        + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">'
-        + '<span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">' + m.name.split(':')[0] + '</span>'
-        + '<span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--fg-subtle)">' + m.owner + '</span></div>'
-        + '<div style="font-size:0.76rem;font-weight:500;line-height:1.3">' + (m.name.split(': ')[1]||m.name) + '</div>'
-        + '<div style="font-size:0.65rem;color:var(--fg-muted);margin-top:2px">' + m.desc + '</div>'
-        + '</div>';
+  var allIssues = getAllCycleIssues();
+  
+  el.innerHTML = PRODUCT_TREE.map(function(cat) {
+    var catIssues = allIssues.filter(function(i) { return issueMatchesCat(i, cat); });
+    if (catIssues.length === 0) return '';
+    var catDone = catIssues.filter(function(i){ return i.state==='completed'||i.state==='canceled'; }).length;
+    var catActive = catIssues.filter(function(i){ return i.state==='started'||i.state==='triage'; }).length;
+    var catTotal = catIssues.length;
+    var completionPct = catTotal > 0 ? Math.round((catDone/catTotal)*100) : 0;
+    var activePct = catTotal > 0 ? Math.round((catActive/catTotal)*100) : 0;
+
+    var subSections = cat.children.map(function(sub) {
+      var subIssues = catIssues.filter(function(i) { return issueMatchesSub(i, sub); });
+      if (subIssues.length === 0) return '';
+      var subDone = subIssues.filter(function(i){ return i.state==='completed'||i.state==='canceled'; }).length;
+      var subTotal = subIssues.length;
+      var subPct = subTotal > 0 ? Math.round((subDone/subTotal)*100) : 0;
+      var subActive = subIssues.filter(function(i){ return i.state==='started'||i.state==='triage'; }).length;
+      var subActivePct = subTotal > 0 ? Math.round((subActive/subTotal)*100) : 0;
+
+      return '<div style="margin-bottom:var(--space-3)">'
+        + '<div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-2)">'
+        + '<span style="font-weight:600;font-size:0.82rem">' + sub.name + '</span>'
+        + '<span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--fg-subtle)">' + (sub.owners||'') + '</span>'
+        + '<span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--fg-muted);margin-left:auto">' + subDone + '/' + subTotal + ' (' + subPct + '%)</span></div>'
+        + '<div class="progress-bar" style="margin-bottom:var(--space-2)"><div class="progress-done" style="width:' + subPct + '%"></div><div class="progress-active" style="width:' + subActivePct + '%"></div></div>'
+        + '<div class="card-grid">' + subIssues.map(renderCardHTML).join('') + '</div></div>';
     }).join('');
 
-    return '<div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-4)">'
-      + '<div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3)">'
-      + '<span style="font-size:1.1rem">' + scope.icon + '</span>'
-      + '<span style="font-family:var(--font-display);font-size:1.1rem;font-weight:400">' + scope.name + '</span>'
-      + '<span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--fg-subtle)">' + scope.modules.length + ' modules</span>'
-      + '</div>'
-      + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--space-2)">' + moduleCards + '</div>'
-      + '</div>';
+    // Unmatched issues in this category
+    var matchedInSubs = [];
+    cat.children.forEach(function(sub) {
+      catIssues.forEach(function(i) { if (issueMatchesSub(i, sub) && matchedInSubs.indexOf(i) === -1) matchedInSubs.push(i); });
+    });
+    var unmatched = catIssues.filter(function(i) { return matchedInSubs.indexOf(i) === -1; });
+    if (unmatched.length > 0) {
+      subSections += '<div style="margin-bottom:var(--space-3)">'
+        + '<div style="font-weight:600;font-size:0.82rem;margin-bottom:var(--space-2);color:var(--fg-subtle)">Other</div>'
+        + '<div class="card-grid">' + unmatched.map(renderCardHTML).join('') + '</div></div>';
+    }
+
+    return '<details open style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:0;margin-bottom:var(--space-4)">'
+      + '<summary class="pano-cat-head" style="padding:var(--space-3) var(--space-4)">'
+      + '<span style="font-size:1.1rem">' + cat.icon + '</span>'
+      + '<span style="font-family:var(--font-display);font-size:1.1rem;font-weight:400">' + cat.name + '</span>'
+      + '<span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle)">' + catTotal + ' issues · ' + catDone + ' done (' + completionPct + '%)</span>'
+      + '<span class="pano-chevron">▼</span>'
+      + '</summary>'
+      + '<div style="padding:var(--space-3) var(--space-4)">'
+      + '<div class="progress-bar" style="margin-bottom:var(--space-3)"><div class="progress-done" style="width:' + completionPct + '%"></div><div class="progress-active" style="width:' + activePct + '%"></div></div>'
+      + subSections
+      + '</div></details>';
   }).join('');
 }
 
@@ -3029,7 +3081,117 @@ function restoreUserMatrixItems() {
   });
 }
 
+
+
+/* ══════════════════════════════════════════════════════════
+   v11: USER STORY DETAIL MODAL + RELATED ISSUES
+   ══════════════════════════════════════════════════════════ */
+function openStoryModal(title, content, category) {
+  document.getElementById('storyModalTitle').textContent = title || category || 'User Story';
+  document.getElementById('storyModalContent').innerHTML = content || '';
+  
+  // Find related issues from CYCLES by keyword matching
+  var keywords = (title || category || '').replace(/[^\w\u4e00-\u9fff]/g, ' ').split(/\s+/).filter(function(w) { return w.length > 2; });
+  var allIssues = getAllCycleIssues();
+  var related = [];
+  
+  if (keywords.length > 0) {
+    allIssues.forEach(function(issue) {
+      var t = (issue.title || '').toLowerCase();
+      var matchCount = 0;
+      keywords.forEach(function(kw) {
+        if (t.includes(kw.toLowerCase())) matchCount++;
+      });
+      if (matchCount >= 1) related.push({issue: issue, score: matchCount});
+    });
+    related.sort(function(a,b) { return b.score - a.score; });
+    related = related.slice(0, 8);
+  }
+  
+  var relatedEl = document.getElementById('storyModalRelated');
+  if (related.length > 0) {
+    var stateStyles = {
+      'completed': 'background:rgba(26,184,88,.1);color:#1ab858',
+      'started': 'background:rgba(224,144,32,.1);color:#e09020',
+      'unstarted': 'background:var(--bg-muted);color:var(--fg-subtle)',
+      'canceled': 'background:var(--bg-muted);color:var(--fg-subtle)',
+      'triage': 'background:rgba(172,170,255,.1);color:#acaaff'
+    };
+    relatedEl.innerHTML = '<h4>🔗 关联 Issues (' + related.length + ')</h4>'
+      + related.map(function(r) {
+        var i = r.issue;
+        var style = stateStyles[i.state] || stateStyles['unstarted'];
+        return '<div class="related-card">'
+          + '<a class="rc-id" href="https://linear.app/donutbrowser/issue/' + i.id + '" target="_blank">' + i.id + '</a>'
+          + '<span class="rc-title">' + i.title.substring(0, 80) + (i.title.length > 80 ? '...' : '') + '</span>'
+          + '<span class="rc-state" style="' + style + '">' + (i.stateLabel || i.state) + '</span>'
+          + '</div>';
+      }).join('');
+  } else {
+    relatedEl.innerHTML = '<h4>🔗 关联 Issues</h4><div style="color:var(--fg-subtle);font-size:0.76rem;padding:var(--space-2) 0">暂无关联 issue</div>';
+  }
+  
+  document.getElementById('storyModalOverlay').classList.add('active');
+}
+
+function closeStoryModal() {
+  document.getElementById('storyModalOverlay').classList.remove('active');
+}
+
+// Close modal on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeStoryModal();
+});
+
+// Make HIL cards and voice issue cards clickable for story modal
+document.addEventListener('click', function(e) {
+  // HIL feedback cards
+  var hilCard = e.target.closest('.hil-card');
+  if (hilCard && !e.target.closest('a') && !e.target.closest('details summary')) {
+    var category = hilCard.querySelector('.hil-category');
+    var detail = hilCard.querySelector('.hil-detail');
+    if (category) {
+      e.preventDefault();
+      e.stopPropagation();
+      openStoryModal(
+        category.textContent,
+        detail ? detail.innerHTML : '',
+        category.textContent
+      );
+    }
+  }
+  
+  // Voice issue cards
+  var voiceCard = e.target.closest('.voice-issue-card');
+  if (voiceCard && !e.target.closest('a') && !e.target.closest('details summary')) {
+    var viTitle = voiceCard.querySelector('.vi-title');
+    var viDetail = voiceCard.querySelector('.vi-detail');
+    var viId = voiceCard.querySelector('.vi-id');
+    if (viTitle) {
+      e.preventDefault();
+      e.stopPropagation();
+      openStoryModal(
+        viTitle.textContent,
+        (viId ? '<div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-subtle);margin-bottom:var(--space-2)">' + viId.textContent + '</div>' : '')
+        + (viDetail ? viDetail.innerHTML : ''),
+        viTitle.textContent
+      );
+    }
+  }
+});
+
 window.addEventListener('load', function() { initApp(); restoreUserMatrixItems(); });
 </script>
+
+<!-- v11: User Story Detail Modal -->
+<div class="story-modal-overlay" id="storyModalOverlay" onclick="if(event.target===this)closeStoryModal()">
+  <div class="story-modal">
+    <button class="story-modal-close" onclick="closeStoryModal()">✕</button>
+    <h3 id="storyModalTitle"></h3>
+    <div class="story-content" id="storyModalContent"></div>
+    <div class="related-issues" id="storyModalRelated"></div>
+  </div>
+</div>
+
 </body>
 </html>
