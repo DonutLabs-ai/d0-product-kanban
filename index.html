@@ -623,7 +623,7 @@ a:hover { text-decoration: underline; }
     <a href="https://linear.app/donutbrowser/issue/PRODUCT-2167#comment-f80d90c8" target="_blank">PRODUCT-2167 — v3 Vision ↗</a>
     <span style="margin-left:auto;display:flex;align-items:center;gap:var(--space-2)">
       <span id="syncTimestamp" style="font-family:var(--font-mono);font-size:0.58rem;color:var(--fg-subtle)"></span>
-      <button id="syncBtn" onclick="triggerLinearSync()" style="font-family:var(--font-mono);font-size:0.62rem;padding:3px 12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);border-radius:100px;color:var(--info);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .2s">
+      <button id="syncBtn" onclick="syncFromLinear()" style="font-family:var(--font-mono);font-size:0.62rem;padding:3px 12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);border-radius:100px;color:var(--info);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .2s" title="从 Linear 拉取最新 Sprint 数据">
         <span id="syncIcon" style="display:inline-block;transition:transform .3s">🔄</span> Sync Linear
       </button>
     </span>
@@ -3236,49 +3236,170 @@ document.addEventListener('click', function(e) {
 
 window.addEventListener('load', function() { initApp(); restoreUserMatrixItems(); });
 
-/* ══ LINEAR SYNC (v11.1) ══════════════════════════════════ */
-var SYNC_CONFIG = { owner:'DonutLabs-ai', repo:'d0-product-kanban', workflow:'sync-linear.yml', tokenKey:'d0_kanban_gh_token' };
-function getSyncToken() { return localStorage.getItem(SYNC_CONFIG.tokenKey); }
-function setSyncToken(t) { localStorage.setItem(SYNC_CONFIG.tokenKey, t); }
+/* ══ LINEAR SYNC (v11.1) — Direct client-side fetch ═══════ */
+var SYNC_KEY = 'd0_linear_api_key';
 
-function triggerLinearSync() {
-  var token = getSyncToken();
-  if (!token) {
-    token = prompt('首次使用需要 GitHub PAT（fine-grained，只需 Actions: Write）\n\n创建：https://github.com/settings/tokens?type=beta\nRepo: DonutLabs-ai/d0-product-kanban\nPermission: Actions → Read and write\n\n粘贴 token：');
-    if (!token) return;
-    setSyncToken(token.trim());
+/* ── Keyword → scope/module detection (mirrors sync-sprint-data.js) ── */
+var SCOPE_KW = {
+  'scope1.core':['ai-core','llm','prompt','chat','dashboard','onboarding','ui','ux','harness','briefing','daily brief','model routing','skill','memory','heartbeat','web chat','sse','user scenario','告警','d0-cli'],
+  'scope2.trading':['trading','perps','swap','transfer','withdraw','deposit','tpsl','tp/sl','jupiter','polymarket','clob','平仓','止盈止损','交易对','杠杆','leverage','perpetual','order','hummingbot','ohlcv','portfolio'],
+  'scope3.proactive':['proactive','signal','regime','discover','explore','主动','strategy hub'],
+  'scope4.safety':['safety','security','grps','风控','audit','审计','container','isolation','容器隔离','权限','凭证','credential','wallet-service'],
+  'scope5.eval':['eval','test','e2e','qa','quality','困难用例','回归'],
+  'scope6.personal':['personalization','user profile','behavioral','千人千面'],
+  'scope7.infra':['infra','k8s','kubernetes','devops','argocd','helm','deploy','monitoring','监控','pod','replica','vm','disk','activemq','workspace-sync','cost','成本','orphan container'],
+  'scope8.commercial':['commercial','subscription','payment','会员','tier','monetization','quota','配额','access control'],
+  'scope9.growth':['seo','ugc','kol','增长','growth','social','community','launch','gtm','marketing']
+};
+var LEGACY_KW = {
+  'ai.tools':['ai-core','llm','prompt','chat','mcp','d0-cli','skill','memory','heartbeat','birdeye','drift','nofx','web chat','sse','eval','data source'],
+  'trading.perps':['perps','tpsl','tp/sl','jupiter','平仓','杠杆','leverage','perpetual','polymarket','clob','hummingbot'],
+  'frontend.dashboard':['dashboard','onboarding','ui','ux','消息顺序'],
+  'infra.k8s':['k8s','kubernetes','pod','replica','activemq','devops','argocd','monitoring','disk','vm','namespace','workspace-sync','signo','deploy'],
+  'scope4.safety':['safety','security','审计','audit','凭证','credential','wallet-service']
+};
+var ASSIGNEE_NORM = {'alex':'alex','ethan':'ethan','wenzhang':'wenzhang','jin xu':'xujin','xujin':'xujin','jim':'jim','justin wu':'justin','justin':'justin','liang han':'hanliang','hanliang':'hanliang','jiagui':'jiagui','fei':'fei','jackjun':'jackjun','ye zou':'zouye','zouye':'zouye','tao':'tao','tao yuan':'tao','gary':'gary','jonas':'jonas','regison':'regison','peter':'peter','sylvia':'sylvia','ruqi hu':'ruqihu','ruqihu':'ruqihu','melvin':'melvin','javier ruedas':'javier','javier':'javier','hongwei feng':'hongweifeng','hongweifeng':'hongweifeng','cindy tang':'cindytang','cindytang':'cindytang','yi tan':'yixintan','yixintan':'yixintan','rui li':'lirui','lirui':'lirui','lvyang':'lvyang','kevin wang':'kevin','kevin':'kevin','chris zhu':'chriszhu'};
+var SCOPE_LAYER = {'scope1.core':'ai','scope2.trading':'trading','scope3.proactive':'ai','scope4.safety':'safety','scope5.eval':'ai','scope6.personal':'experience','scope7.infra':'infra','scope8.commercial':'commercial','scope9.growth':'acquisition'};
+var PRIO_MAP = {'Urgent':'urgent','High':'high','Medium':'medium','Low':'low','No priority':'no priority'};
+
+function detectMod(title, labels, team) {
+  var text = (title + ' ' + labels.join(' ')).toLowerCase();
+  if (team === 'PRODUCT') {
+    for (var j = 0; j < labels.length; j++) {
+      var m = labels[j].toLowerCase().match(/^s(\d)/);
+      if (m) { var n = m[1]; var map = {'1':'scope1.core','2':'scope2.trading','3':'scope3.proactive','4':'scope4.safety','5':'scope5.eval','6':'scope6.personal','7':'scope7.infra','8':'scope8.commercial','9':'scope9.growth'}; if (map[n]) return {mod:map[n],scope:'S'+n}; }
+    }
+    for (var mod in SCOPE_KW) { for (var k=0; k<SCOPE_KW[mod].length; k++) { if (text.includes(SCOPE_KW[mod][k])) { var sn=mod.match(/scope(\d)/); return {mod:mod,scope:sn?'S'+sn[1]:undefined}; } } }
+    return {mod:'scope1.core',scope:'S1'};
   }
-  var btn = document.getElementById('syncBtn'), icon = document.getElementById('syncIcon'), ts = document.getElementById('syncTimestamp');
-  btn.disabled = true; btn.style.opacity = '0.6';
-  icon.style.animation = 'spin 1s linear infinite'; ts.textContent = '触发中...';
-  if (!document.getElementById('syncSpinStyle')) { var s = document.createElement('style'); s.id='syncSpinStyle'; s.textContent='@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}'; document.head.appendChild(s); }
-
-  fetch('https://api.github.com/repos/'+SYNC_CONFIG.owner+'/'+SYNC_CONFIG.repo+'/actions/workflows/'+SYNC_CONFIG.workflow+'/dispatches', {
-    method:'POST', headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}, body:JSON.stringify({ref:'main'})
-  }).then(function(r) {
-    if (r.status===204) { ts.textContent='✅ 已触发，等待同步...'; icon.style.animation=''; btn.style.background='rgba(34,197,94,.1)'; btn.style.borderColor='rgba(34,197,94,.3)'; btn.style.color='var(--success)'; pollWorkflowAndReload(token); }
-    else if (r.status===401||r.status===403) { localStorage.removeItem(SYNC_CONFIG.tokenKey); ts.textContent='❌ Token 无效'; resetSyncBtn(); }
-    else { ts.textContent='❌ 失败: '+r.status; resetSyncBtn(); }
-  }).catch(function() { ts.textContent='❌ 网络错误'; resetSyncBtn(); });
+  for (var lmod in LEGACY_KW) { for (var lk=0; lk<LEGACY_KW[lmod].length; lk++) { if (text.includes(LEGACY_KW[lmod][lk])) return {mod:lmod}; } }
+  return {mod:'infra.k8s'};
 }
 
-function resetSyncBtn() { var b=document.getElementById('syncBtn'),i=document.getElementById('syncIcon'); b.disabled=false; b.style.opacity='1'; b.style.background='rgba(59,130,246,.1)'; b.style.borderColor='rgba(59,130,246,.3)'; b.style.color='var(--info)'; i.style.animation=''; }
+function detectLay(mod) {
+  if (SCOPE_LAYER[mod]) return SCOPE_LAYER[mod];
+  var p = mod.split('.')[0];
+  return {'ai':'ai','trading':'trading','frontend':'experience','infra':'infra','scope4':'safety'}[p] || 'infra';
+}
 
-function pollWorkflowAndReload(token) {
-  var t0=Date.now(), ts=document.getElementById('syncTimestamp');
-  function poll() {
-    if (Date.now()-t0>180000) { ts.textContent='⏳ 超时，请刷新'; resetSyncBtn(); return; }
-    fetch('https://api.github.com/repos/'+SYNC_CONFIG.owner+'/'+SYNC_CONFIG.repo+'/actions/runs?per_page=1&event=workflow_dispatch', {
-      headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'}
-    }).then(function(r){return r.json();}).then(function(d) {
-      var run=d.workflow_runs&&d.workflow_runs[0];
-      if (run&&new Date(run.created_at).getTime()>t0-30000) {
-        if (run.status==='completed') { run.conclusion==='success'?(ts.textContent='✅ 完成！刷新中...',setTimeout(function(){location.reload(true)},2000)):(ts.textContent='⚠️ '+run.conclusion,resetSyncBtn()); }
-        else { ts.textContent='⏳ 同步中... ('+Math.round((Date.now()-t0)/1000)+'s)'; setTimeout(poll,8000); }
-      } else { ts.textContent='⏳ 启动中... ('+Math.round((Date.now()-t0)/1000)+'s)'; setTimeout(poll,5000); }
-    }).catch(function(){setTimeout(poll,8000);});
+function linearGQL(apiKey, query) {
+  return fetch('https://api.linear.app/graphql', {
+    method: 'POST',
+    headers: { 'Authorization': apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query: query })
+  }).then(function(r) { return r.json(); }).then(function(j) {
+    if (j.errors) throw new Error(JSON.stringify(j.errors));
+    return j.data;
+  });
+}
+
+function syncFromLinear() {
+  var apiKey = localStorage.getItem(SYNC_KEY);
+  if (!apiKey) {
+    apiKey = prompt('输入 Linear API Key（在 Linear Settings → API → Personal API keys 创建）\n\n粘贴 key：');
+    if (!apiKey) return;
+    localStorage.setItem(SYNC_KEY, apiKey.trim());
   }
-  setTimeout(poll,5000);
+
+  var btn = document.getElementById('syncBtn'), icon = document.getElementById('syncIcon'), ts = document.getElementById('syncTimestamp');
+  btn.disabled = true; btn.style.opacity = '0.6';
+  if (!document.getElementById('syncSpinStyle')) { var s = document.createElement('style'); s.id='syncSpinStyle'; s.textContent='@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}'; document.head.appendChild(s); }
+  icon.style.animation = 'spin 1s linear infinite';
+  ts.textContent = '拉取中...';
+
+  linearGQL(apiKey, '{ cycles(filter:{or:[{isActive:{eq:true}},{isNext:{eq:true}}]}){nodes{id number startsAt endsAt team{key} isActive}} }')
+  .then(function(data) {
+    var cycles = data.cycles.nodes;
+    ts.textContent = '拉取 ' + cycles.length + ' 个 cycle 的 issues...';
+    // Fetch issues for each cycle
+    var promises = cycles.map(function(c) {
+      return linearGQL(apiKey, '{ cycle(id:"'+c.id+'"){issues(first:200){nodes{identifier title priority priorityLabel state{name type} assignee{displayName} labels{nodes{name}}}}}}')
+      .then(function(d) {
+        var issues = d.cycle.issues.nodes;
+        return { cycle: c, issues: issues };
+      });
+    });
+    return Promise.all(promises);
+  })
+  .then(function(results) {
+    var newCycles = {};
+    results.forEach(function(r) {
+      var c = r.cycle, teamKey = c.team.key;
+      var cycleKey = teamKey.toLowerCase() + c.number;
+      var fmtD = function(iso) { var d = new Date(iso); return (d.getMonth()+1)+'/'+d.getDate(); };
+      var issues = r.issues.map(function(i) {
+        var labels = (i.labels && i.labels.nodes || []).map(function(l){return l.name;});
+        var aRaw = (i.assignee && i.assignee.displayName || 'unassigned').toLowerCase().trim();
+        var assignee = ASSIGNEE_NORM[aRaw] || aRaw.replace(/\s+/g,'');
+        var det = detectMod(i.title, labels, teamKey);
+        var layer = detectLay(det.mod);
+        var entry = { id:i.identifier, title:i.title, assignee:assignee, layer:layer, module:det.mod, state:i.state.type||'unstarted', stateLabel:i.state.name, priority:PRIO_MAP[i.priorityLabel]||'no priority', team:teamKey };
+        if (det.scope) entry.scope = det.scope;
+        return entry;
+      });
+      if (issues.length === 0) return;
+      newCycles[cycleKey] = { label:'Sprint '+c.number+' ('+teamKey+')', dates:fmtD(c.startsAt)+' → '+fmtD(c.endsAt), status:c.isActive?'active':'upcoming', issues:issues };
+    });
+
+    if (Object.keys(newCycles).length === 0) throw new Error('No cycles with issues found');
+
+    // Replace global CYCLES
+    for (var k in CYCLES) delete CYCLES[k];
+    for (var nk in newCycles) CYCLES[nk] = newCycles[nk];
+
+    // Rebuild cycle selector
+    var sel = document.getElementById('cycleSelector');
+    var teamOrder = {'ENG':0,'PRODUCT':1,'TES':2,'GTM':3};
+    var keys = Object.keys(CYCLES).sort(function(a,b) {
+      var tA = teamOrder[CYCLES[a].label.match(/\((\w+)\)/)[1]] || 99;
+      var tB = teamOrder[CYCLES[b].label.match(/\((\w+)\)/)[1]] || 99;
+      if (tA !== tB) return tA - tB;
+      return parseInt(a.replace(/[a-z]/g,'')) - parseInt(b.replace(/[a-z]/g,''));
+    });
+    var defaultKey = keys.find(function(k){return CYCLES[k].status==='active'&&/PRODUCT/.test(CYCLES[k].label);})
+      || keys.find(function(k){return CYCLES[k].status==='active';}) || keys[0];
+
+    sel.innerHTML = keys.map(function(k) {
+      var c = CYCLES[k], icon = c.status==='active'?'🏃':'📋';
+      var cls = k===defaultKey?' active':'';
+      return '<button class="cycle-btn'+cls+'" onclick="switchCycle(\''+k+'\')" id="btn-'+k+'">'+icon+' '+c.label+' ('+c.dates+')</button>';
+    }).join('\n');
+
+    // Switch to default cycle
+    activeCycleKey = defaultKey;
+    renderCycle(defaultKey);
+
+    // Count total
+    var total = 0;
+    keys.forEach(function(k){ total += CYCLES[k].issues.length; });
+
+    // Show success
+    var now = new Date();
+    ts.textContent = '✅ ' + keys.length + ' cycles · ' + total + ' issues · ' + now.toLocaleTimeString();
+    btn.style.background = 'rgba(34,197,94,.1)';
+    btn.style.borderColor = 'rgba(34,197,94,.3)';
+    btn.style.color = 'var(--success)';
+    icon.style.animation = '';
+    btn.disabled = false; btn.style.opacity = '1';
+
+    // Reset button style after 5s
+    setTimeout(function() {
+      btn.style.background = 'rgba(59,130,246,.1)';
+      btn.style.borderColor = 'rgba(59,130,246,.3)';
+      btn.style.color = 'var(--info)';
+    }, 5000);
+  })
+  .catch(function(err) {
+    console.error('Linear sync error:', err);
+    if (err.message && (err.message.includes('401') || err.message.includes('Authentication'))) {
+      localStorage.removeItem(SYNC_KEY);
+      ts.textContent = '❌ API Key 无效，已清除';
+    } else {
+      ts.textContent = '❌ ' + (err.message || '同步失败');
+    }
+    icon.style.animation = '';
+    btn.disabled = false; btn.style.opacity = '1';
+  });
 }
 </script>
 
