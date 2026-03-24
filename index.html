@@ -657,7 +657,7 @@ a:hover { text-decoration: underline; }
        ══════════════════════════════════════════════════════ -->
   <div id="tab-sprint" class="tab-panel active">
     <div class="cycle-selector" id="cycleSelector">
-      <button class="cycle-btn" onclick="switchCycle('product23')" id="btn-eng22">🏃 Sprint 22 (ENG) (3/15 → 3/29)</button>
+      <button class="cycle-btn" onclick="switchCycle('eng22')" id="btn-eng22">🏃 Sprint 22 (ENG) (3/15 → 3/29)</button>
       <button class="cycle-btn active" onclick="switchCycle('product23')" id="btn-product23">🏃 Sprint 23 (PRODUCT) (3/23 → 4/3)</button>
       <button class="cycle-btn" onclick="switchCycle('product24')" id="btn-product24">📋 Sprint 24 (PRODUCT) (4/4 → 4/6)</button>
       <button class="cycle-btn" onclick="switchCycle('tes9')" id="btn-tes9">🏃 Sprint 9 (TES) (3/20 → 3/27)</button>
@@ -2801,7 +2801,7 @@ function renderMilestone() {
 }
 
 /* ── Init ──────────────────────────────────────────────── */
-function initApp() { switchCycle('sprint23'); }
+function initApp() { switchCycle('product23'); }
 
 /* ── GTM Data Refresh via GitHub Actions ───────────────── */
 function refreshGTMData() {

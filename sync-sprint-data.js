@@ -399,11 +399,11 @@ async function main() {
     console.log(`✅ Set default cycle to ${latestKey}`);
   }
   
-  // Update switchCycle call in initApp
-  const oldInitCycle = html.match(/switchCycle\('[a-z]+\d+'\)/);
-  if (oldInitCycle) {
-    html = html.replace(oldInitCycle[0], `switchCycle('${latestKey}')`);
-  }
+  // Update switchCycle call in initApp only (not in button onclicks)
+  html = html.replace(
+    /function initApp\(\)\s*\{\s*switchCycle\('[^']+'\)/,
+    `function initApp() { switchCycle('${latestKey}')`
+  );
 
   // 4. Update timestamp
   const now = new Date();
