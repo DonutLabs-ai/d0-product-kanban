@@ -377,8 +377,22 @@ a:hover { text-decoration: underline; }
 .voice-section-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 400; margin: var(--space-6) 0 var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--border-base); display: flex; align-items: center; gap: var(--space-2) }
 .voice-section-title .vs-icon { font-size: 1rem }
 .hil-grid { display: grid; gap: var(--space-2); margin: var(--space-3) 0 }
-.hil-card { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); transition: border-color var(--duration-normal) }
+.hil-card { background: var(--bg-subtle); border: 1px solid var(--border-base); border-radius: var(--radius-sm); padding: 0; transition: border-color var(--duration-normal) }
 .hil-card:hover { border-color: var(--border-emphasis) }
+.hil-card details { width: 100% }
+.hil-card details summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) var(--space-3); user-select: none }
+.hil-card details summary::-webkit-details-marker { display: none }
+.hil-card details summary::after { content: '▸'; font-size: 0.7rem; color: var(--fg-faint); transition: transform var(--duration-normal); flex-shrink: 0 }
+.hil-card details[open] summary::after { transform: rotate(90deg) }
+.hil-card details[open] summary { border-bottom: 1px solid var(--border-base) }
+.hil-detail { padding: var(--space-2) var(--space-3); font-size: 0.74rem; color: var(--fg-muted); line-height: 1.5 }
+.hil-detail .hil-detail-section { margin-bottom: var(--space-2) }
+.hil-detail .hil-detail-section:last-child { margin-bottom: 0 }
+.hil-detail .hil-detail-label { font-weight: 600; font-size: 0.68rem; color: var(--fg-subtle); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem }
+.hil-detail ul { margin: 0.2rem 0 0 1rem; padding: 0; font-size: 0.72rem }
+.hil-detail li { margin-bottom: 0.15rem }
+.hil-detail a { color: var(--purple); text-decoration: none }
+.hil-detail a:hover { text-decoration: underline }
 .hil-left { display: flex; align-items: center; gap: var(--space-3); flex: 1; min-width: 0 }
 .hil-category { font-size: 0.78rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
 .hil-count { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; color: var(--fg-muted); background: var(--bg-muted); padding: 0.1rem 0.4rem; border-radius: 100px; flex-shrink: 0; min-width: 28px; text-align: center }
@@ -507,6 +521,26 @@ a:hover { text-decoration: underline; }
 .lookup-result .lr-milestone { background: rgba(34,197,94,.12); color: var(--success) }
 .lookup-result .lr-warn { background: rgba(245,158,11,.12); color: var(--warning) }
 .lookup-result .lr-danger { background: rgba(239,68,68,.12); color: var(--error) }
+/* ── Issue Alignment Assessment Form ── */
+.assess-form { margin-top: var(--space-3); padding: var(--space-3); background: var(--bg-muted); border-radius: var(--radius-sm); border: 1px solid var(--border-base) }
+.assess-form .af-title { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; color: var(--fg-subtle); margin-bottom: var(--space-3); text-transform: uppercase; letter-spacing: 0.03em }
+.assess-form .af-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-3) }
+.assess-form .af-group label { display: block; font-size: 0.72rem; font-weight: 600; color: var(--fg-muted); margin-bottom: 4px; font-family: var(--font-mono) }
+.assess-form select { width: 100%; font-family: var(--font-mono); font-size: 0.76rem; padding: var(--space-2); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-sm); color: var(--fg-base); cursor: pointer }
+.assess-form select:focus { border-color: var(--info); outline: none; box-shadow: 0 0 0 2px rgba(59,130,246,.15) }
+.assess-form .af-input-row { margin-bottom: var(--space-3) }
+.assess-form .af-input-row input { width: 100%; font-family: var(--font-mono); font-size: 0.76rem; padding: var(--space-2); background: var(--bg-base); border: 1px solid var(--border-base); border-radius: var(--radius-sm); color: var(--fg-base); box-sizing: border-box }
+.assess-form .af-input-row input:focus { border-color: var(--info); outline: none; box-shadow: 0 0 0 2px rgba(59,130,246,.15) }
+.assess-form .af-preview { padding: var(--space-2) var(--space-3); background: var(--bg-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-base); margin-bottom: var(--space-3); font-size: 0.76rem; display: none }
+.assess-form .af-preview .af-cell-tag { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--info) }
+.assess-form .af-actions { display: flex; gap: var(--space-2); align-items: center }
+.assess-form .af-btn { font-family: var(--font-mono); font-size: 0.72rem; padding: var(--space-2) var(--space-4); border: none; border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; transition: opacity var(--duration-fast) }
+.assess-form .af-btn:hover { opacity: 0.85 }
+.assess-form .af-btn-primary { background: var(--info); color: white }
+.assess-form .af-btn-secondary { background: var(--bg-subtle); color: var(--fg-muted); border: 1px solid var(--border-base) }
+.assess-form .af-result { font-size: 0.74rem; color: var(--success); margin-left: var(--space-2); display: none }
+.matrix-cell li.user-added { border-left: 2px solid var(--info); padding-left: 14px; margin-left: -2px }
+.matrix-cell li.user-added::before { content: '＋'; color: var(--info) }
 .matrix-cell.highlight { animation: cellPulse 1.5s ease 3; box-shadow: 0 0 0 2px var(--info), 0 0 20px rgba(59,130,246,.15) }
 @keyframes cellPulse { 0%,100% { box-shadow: 0 0 0 2px var(--info), 0 0 20px rgba(59,130,246,.15) } 50% { box-shadow: 0 0 0 3px var(--info), 0 0 30px rgba(59,130,246,.25) } }
 </style>
@@ -802,29 +836,29 @@ a:hover { text-decoration: underline; }
     </div>
     <div class="voice-section-title"><span class="vs-icon">📊</span> HIL 反馈 Top 问题状态</div>
     <div class="hil-grid">
-      <div class="hil-card"><div class="hil-left"><span class="hil-category">AI 数据抓取/幻觉</span><span class="hil-count">14</span></div><span class="hil-badge partial">🔶 部分解决</span></div>
-      <div class="hil-card"><div class="hil-left"><span class="hil-category">UI/UX 整体体验</span><span class="hil-count">14</span></div><span class="hil-badge partial">🔶 部分解决</span></div>
-      <div class="hil-card"><div class="hil-left"><span class="hil-category">钱包余额/仓位延迟</span><span class="hil-count">12</span></div><span class="hil-badge partial">🔶 部分解决</span></div>
-      <div class="hil-card"><div class="hil-left"><span class="hil-category">预置策略/一键交易</span><span class="hil-count">11</span></div><span class="hil-badge aligned">✅ D0 方向对齐</span></div>
-      <div class="hil-card"><div class="hil-left"><span class="hil-category">响应速度/稳定性</span><span class="hil-count">10</span></div><span class="hil-badge unconfirmed">⚠️ 未确认</span></div>
-      <div class="hil-card"><div class="hil-left"><span class="hil-category">Backtest 不可靠</span><span class="hil-count">8</span></div><span class="hil-badge unresolved">❌ 未解决</span></div>
-      <div class="hil-card"><div class="hil-left"><span class="hil-category">止损/限价异常</span><span class="hil-count">8</span></div><span class="hil-badge partial">🔶 部分解决</span></div>
-      <div class="hil-card"><div class="hil-left"><span class="hil-category">资金安全/信任</span><span class="hil-count">6</span></div><span class="hil-badge unconfirmed">⚠️ 未确认</span></div>
-      <div class="hil-card"><div class="hil-left"><span class="hil-category">策略逻辑不透明</span><span class="hil-count">6</span></div><span class="hil-badge inprogress">🔶 In Progress</span></div>
+      <div class="hil-card"><details><summary><div class="hil-left"><span class="hil-category">AI 数据抓取/幻觉</span><span class="hil-count">14</span></div><span class="hil-badge partial">🔶 部分解决</span></summary><div class="hil-detail"><div class="hil-detail-section"><div class="hil-detail-label">典型反馈</div><ul><li>AI 回答引用了不存在的链上数据或过时的价格</li><li>抓取的新闻/公告内容与实际不符</li><li>Token 合约信息识别错误，导致建议偏差</li></ul></div><div class="hil-detail-section"><div class="hil-detail-label">D0 迁移状态</div>D0 架构引入 MCP 工具链 + 置信度标注（<a href="https://linear.app/donutbrowser/issue/PRODUCT-2208" target="_blank">PRODUCT-2208</a>），数据源从爬虫切换到结构化 API。幻觉率已下降但未完全消除，需要 Eval 体系覆盖。</div></div></details></div>
+      <div class="hil-card"><details><summary><div class="hil-left"><span class="hil-category">UI/UX 整体体验</span><span class="hil-count">14</span></div><span class="hil-badge partial">🔶 部分解决</span></summary><div class="hil-detail"><div class="hil-detail-section"><div class="hil-detail-label">典型反馈</div><ul><li>页面加载慢，交互卡顿</li><li>功能入口不直观，新用户找不到核心功能</li><li>移动端适配差，关键操作难以触达</li></ul></div><div class="hil-detail-section"><div class="hil-detail-label">D0 迁移状态</div>D0 全新 UI 架构重写，Webapp 基础交易功能补齐中（<a href="https://linear.app/donutbrowser/issue/PRODUCT-2463" target="_blank">PRODUCT-2463</a>）。整体体验需 Ye Zou 交互设计方案落地后逐步验证。</div></div></details></div>
+      <div class="hil-card"><details><summary><div class="hil-left"><span class="hil-category">钱包余额/仓位延迟</span><span class="hil-count">12</span></div><span class="hil-badge partial">🔶 部分解决</span></summary><div class="hil-detail"><div class="hil-detail-section"><div class="hil-detail-label">典型反馈</div><ul><li>充值后余额不更新，需要手动刷新</li><li>仓位盈亏数据延迟数秒到数分钟</li><li>多链资产显示不一致</li></ul></div><div class="hil-detail-section"><div class="hil-detail-label">D0 迁移状态</div>Ethan 负责多链资产/Deposit/Withdraw/Transfer 模块重构，WebSocket 实时推送已部分上线。多链余额同步仍有延迟问题待解。</div></div></details></div>
+      <div class="hil-card"><details><summary><div class="hil-left"><span class="hil-category">预置策略/一键交易</span><span class="hil-count">11</span></div><span class="hil-badge aligned">✅ D0 方向对齐</span></summary><div class="hil-detail"><div class="hil-detail-section"><div class="hil-detail-label">典型反馈</div><ul><li>希望有现成的交易策略模板可以直接用</li><li>AI 建议太泛，缺少可执行的一键操作</li><li>策略参数调整门槛高，小白用户无法使用</li></ul></div><div class="hil-detail-section"><div class="hil-detail-label">D0 迁移状态</div>Strategy Hub（<a href="https://linear.app/donutbrowser/issue/PRODUCT-2185" target="_blank">PRODUCT-2185</a>）已纳入 CEO 关注线，Peter 主导。D0 定位已对齐「预置交易策略」为核心方向，回测引擎待启动。</div></div></details></div>
+      <div class="hil-card"><details><summary><div class="hil-left"><span class="hil-category">响应速度/稳定性</span><span class="hil-count">10</span></div><span class="hil-badge unconfirmed">⚠️ 未确认</span></summary><div class="hil-detail"><div class="hil-detail-section"><div class="hil-detail-label">典型反馈</div><ul><li>AI 回复等待时间过长（>10s）</li><li>对话中途断连或超时无响应</li><li>高峰期服务不稳定</li></ul></div><div class="hil-detail-section"><div class="hil-detail-label">D0 迁移状态</div>D0 架构下 LLM Routing 由 JackJun 负责优化，模型路由（<a href="https://linear.app/donutbrowser/issue/PRODUCT-2499" target="_blank">PRODUCT-2499</a>）和多副本改造（<a href="https://linear.app/donutbrowser/issue/PRODUCT-2043" target="_blank">PRODUCT-2043</a>）进行中。需要端到端延迟基准测试确认改善程度。</div></div></details></div>
+      <div class="hil-card"><details><summary><div class="hil-left"><span class="hil-category">Backtest 不可靠</span><span class="hil-count">8</span></div><span class="hil-badge unresolved">❌ 未解决</span></summary><div class="hil-detail"><div class="hil-detail-section"><div class="hil-detail-label">典型反馈</div><ul><li>回测结果与实盘严重不符</li><li>回测数据缺失导致策略评估失真</li><li>无法自定义回测时间段和参数</li></ul></div><div class="hil-detail-section"><div class="hil-detail-label">D0 迁移状态</div>回测引擎由 Tao Yuan 负责数据管线，Liang Han 负责策略层。当前仍在 Planning 阶段，无明确排期。可视化增强（<a href="https://linear.app/donutbrowser/issue/PRODUCT-2421" target="_blank">PRODUCT-2421</a>）In Progress 但基础可靠性问题未解决。</div></div></details></div>
+      <div class="hil-card"><details><summary><div class="hil-left"><span class="hil-category">止损/限价异常</span><span class="hil-count">8</span></div><span class="hil-badge partial">🔶 部分解决</span></summary><div class="hil-detail"><div class="hil-detail-section"><div class="hil-detail-label">典型反馈</div><ul><li>止损单未按预期触发</li><li>限价单成交价与设定价偏差大</li><li>TPSL 设置后无法修改或取消</li></ul></div><div class="hil-detail-section"><div class="hil-detail-label">D0 迁移状态</div>Perps 撮合引擎由 Alex 负责，TPSL 功能已上线。交易体验标准文档待 Peter 输出后对齐三路径（Perps/Spot/Agents）一致性。</div></div></details></div>
+      <div class="hil-card"><details><summary><div class="hil-left"><span class="hil-category">资金安全/信任</span><span class="hil-count">6</span></div><span class="hil-badge unconfirmed">⚠️ 未确认</span></summary><div class="hil-detail"><div class="hil-detail-section"><div class="hil-detail-label">典型反馈</div><ul><li>不确定资金托管方式是否安全</li><li>AI 自动交易权限过大，担心失控</li><li>缺少操作审计和风控告警</li></ul></div><div class="hil-detail-section"><div class="hil-detail-label">D0 迁移状态</div>GRPS 风控层已上线但 AI 审查层对接未启动（<a href="https://linear.app/donutbrowser/issue/PRODUCT-2190" target="_blank">PRODUCT-2190</a>）。Approval Inbox 设计未启动，需 Justin 出 PRD。容器安全由 Jiagui 负责。</div></div></details></div>
+      <div class="hil-card"><details><summary><div class="hil-left"><span class="hil-category">策略逻辑不透明</span><span class="hil-count">6</span></div><span class="hil-badge inprogress">🔶 In Progress</span></summary><div class="hil-detail"><div class="hil-detail-section"><div class="hil-detail-label">典型反馈</div><ul><li>AI 给出交易建议但不解释推理过程</li><li>无法看到策略的具体逻辑和依据</li><li>信号来源不透明，无法判断可信度</li></ul></div><div class="hil-detail-section"><div class="hil-detail-label">D0 迁移状态</div>K 线形态可解释性（<a href="https://linear.app/donutbrowser/issue/PRODUCT-2455" target="_blank">PRODUCT-2455</a>）In Progress。AI 可信性置信度标注（<a href="https://linear.app/donutbrowser/issue/PRODUCT-2208" target="_blank">PRODUCT-2208</a>）开发中。知识提取 Pipeline（<a href="https://linear.app/donutbrowser/issue/PRODUCT-1872" target="_blank">PRODUCT-1872</a>）仍在 Planning。</div></div></details></div>
     </div>
     <div class="voice-section-title"><span class="vs-icon">📣</span> Active User Voice Issues</div>
     <div class="voice-issue-grid" id="voiceActiveIssues">
-      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2421" target="_blank">PRODUCT-2421</a></div><div class="vi-title">AI K 线分析可视化增强 — Backtest 策略回放与图表标注</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></summary><div class="vi-detail">💬 用户反馈：右侧 AI 的分析能力是否可以直接作用在左侧图表的可视化层面，而不只是输出文字结论？希望 AI 在做 backtest 或策略分析时，能主动生成配套的可视化结果。</div></details></div>
-      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2454" target="_blank">PRODUCT-2454</a></div><div class="vi-title">引入交易绩效教练风控层</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></summary><div class="vi-detail">💬 散户核心痛点是"过度交易"和"盈利回吐"。需要：<ul><li>动态监控用户交易频率，对连胜或高频交易阶段提供预警</li><li>提供"冷静期"建议或强制限制过度暴露 (Exposure)</li></ul></div></details></div>
-      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2455" target="_blank">PRODUCT-2455</a></div><div class="vi-title">提升 K 线形态识别的可解释性与准确度</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></summary><div class="vi-detail">💬 当前可视化系统生成的形态（红线）缺乏直观逻辑，用户难以验证信号真实性。需要提升形态标注的可解释性。</div></details></div>
-      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2463" target="_blank">PRODUCT-2463</a></div><div class="vi-title">Webapp 增加基础交易功能 — 支持买卖单、平仓与聊天面板收起</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span><span class="vi-assignee">Peter</span></summary><div class="vi-detail">💬 基础的交易功能还是要有，比如下买卖单平仓等，AI 聊天只是辅助。如果全部通过聊天下单效率太低。聊天页面要支持收起。</div></details></div>
-      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2127" target="_blank">PRODUCT-2127</a></div><div class="vi-title">D0 launch 素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></summary><div class="vi-detail">💬 GTM launch 相关设计物料准备。</div></details></div>
-      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2125" target="_blank">PRODUCT-2125</a></div><div class="vi-title">3/27 活动素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></summary><div class="vi-detail">💬 3/27 活动所需的营销素材设计。</div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2421" target="_blank">PRODUCT-2421</a></div><div class="vi-title">AI K 线分析可视化增强 — Backtest 策略回放与图表标注</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></summary><div class="vi-detail">💬 用户反馈：右侧 AI 的分析能力是否可以直接作用在左侧图表的可视化层面，而不只是输出文字结论？希望 AI 在做 backtest 或策略分析时，能主动生成配套的可视化结果。</div></div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2454" target="_blank">PRODUCT-2454</a></div><div class="vi-title">引入交易绩效教练风控层</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></summary><div class="vi-detail">💬 散户核心痛点是"过度交易"和"盈利回吐"。需要：<ul><li>动态监控用户交易频率，对连胜或高频交易阶段提供预警</li><li>提供"冷静期"建议或强制限制过度暴露 (Exposure)</li></ul></div></div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2455" target="_blank">PRODUCT-2455</a></div><div class="vi-title">提升 K 线形态识别的可解释性与准确度</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Liang Han</span></summary><div class="vi-detail">💬 当前可视化系统生成的形态（红线）缺乏直观逻辑，用户难以验证信号真实性。需要提升形态标注的可解释性。</div></div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2463" target="_blank">PRODUCT-2463</a></div><div class="vi-title">Webapp 增加基础交易功能 — 支持买卖单、平仓与聊天面板收起</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">Todo</span><span class="vi-assignee">Peter</span></summary><div class="vi-detail">💬 基础的交易功能还是要有，比如下买卖单平仓等，AI 聊天只是辅助。如果全部通过聊天下单效率太低。聊天页面要支持收起。</div></div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2127" target="_blank">PRODUCT-2127</a></div><div class="vi-title">D0 launch 素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></summary><div class="vi-detail">💬 GTM launch 相关设计物料准备。</div></div></details></div>
+      <div class="voice-issue-card"><details><summary><span class="vi-icon">📣</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2125" target="_blank">PRODUCT-2125</a></div><div class="vi-title">3/27 活动素材</div></div><span class="vi-status" style="background:rgba(245,158,11,.1);color:var(--warning)">In Progress</span><span class="vi-assignee">Yi Tan</span></summary><div class="vi-detail">💬 3/27 活动所需的营销素材设计。</div></div></details></div>
     </div>
     <div class="voice-section-title"><span class="vs-icon">🆕</span> 新建关键 Issue</div>
     <div class="voice-issue-grid" id="voiceNewIssues">
-      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><details><summary><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank">PRODUCT-2007</a></div><div class="vi-title">D0 图表能力策略决策</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">P2 Todo</span><span class="vi-assignee">Sylvia</span></summary><div class="vi-detail">💬 HIL Beta 用户反馈中有 4 条图表相关反馈，加上 KOC 明确提到「AI + 图表交互新颖」是产品差异化亮点。D0 迁移后 HIL 的 TradingView 集成没有对应方案。需要做技术选型决策。</div></details></div>
-      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><details><summary><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank">PRODUCT-2008</a></div><div class="vi-title">HIL 反馈 → D0 迁移完整现状</div></div><span class="vi-status" style="background:rgba(239,68,68,.1);color:var(--error)">P1 Todo</span><span class="vi-assignee">Sylvia</span></summary><div class="vi-detail">💬 对 HIL Beta 全部 160 条 user feedback 做了全量审计，按问题类型分类后映射到 D0 框架，评估哪些已被 D0 解决、哪些仍有 gap。本 issue 作为 Sprint Planning 参考。</div></details></div>
+      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><details><summary><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2007" target="_blank">PRODUCT-2007</a></div><div class="vi-title">D0 图表能力策略决策</div></div><span class="vi-status" style="background:var(--bg-muted);color:var(--fg-subtle)">P2 Todo</span><span class="vi-assignee">Sylvia</span></summary><div class="vi-detail">💬 HIL Beta 用户反馈中有 4 条图表相关反馈，加上 KOC 明确提到「AI + 图表交互新颖」是产品差异化亮点。D0 迁移后 HIL 的 TradingView 集成没有对应方案。需要做技术选型决策。</div></div></details></div>
+      <div class="voice-issue-card" style="border-left:3px solid var(--purple)"><details><summary><span class="vi-icon">📋</span><div><div class="vi-id"><a href="https://linear.app/donutbrowser/issue/PRODUCT-2008" target="_blank">PRODUCT-2008</a></div><div class="vi-title">HIL 反馈 → D0 迁移完整现状</div></div><span class="vi-status" style="background:rgba(239,68,68,.1);color:var(--error)">P1 Todo</span><span class="vi-assignee">Sylvia</span></summary><div class="vi-detail">💬 对 HIL Beta 全部 160 条 user feedback 做了全量审计，按问题类型分类后映射到 D0 框架，评估哪些已被 D0 解决、哪些仍有 gap。本 issue 作为 Sprint Planning 参考。</div></div></details></div>
     </div>
   </div><!-- /tab-voice -->
 
@@ -2846,17 +2880,156 @@ function lookupIssue() {
     result.innerHTML = '<strong>' + issueId + '</strong>: ' + sprintIssue.title
       + '<br><span class="lr-tag lr-warn">尚未评估</span>'
       + '<br>这个 issue 在 Sprint 中，但还没有做 Proactive × High-Stake 对齐评估。'
-      + '<br><br>请回答两个问题来判断：'
-      + '<br>① 做完后 D0 会变得更主动吗？'
-      + '<br>② 做完后 D0 管理资金风险的能力更强了吗？'
-      + '<br><br><span style="font-size:.72rem;color:var(--fg-subtle)">两个都 No → 标记为基建/体验/商业化，不应与战略推进 issue 竞争优先级。</span>';
+      + buildAssessForm(issueId, sprintIssue.title);
   } else {
     result.className = 'lookup-result not-found';
-    result.innerHTML = '<strong>' + issueId + '</strong><br><span class="lr-tag lr-warn">未找到</span><br>不在当前 Sprint 或 Strategic Matrix 中。请确认 Issue ID。';
+    result.innerHTML = '<strong>' + issueId + '</strong><br><span class="lr-tag lr-warn">未找到</span>'
+      + '<br>不在当前 Sprint 或 Strategic Matrix 中。'
+      + buildAssessForm(issueId, '');
   }
 }
 
-window.addEventListener('load', function() { initApp(); });
+function buildAssessForm(issueId, prefillTitle) {
+  const titleInput = prefillTitle
+    ? '<div class="af-input-row"><label style="font-size:.72rem;font-weight:600;color:var(--fg-muted);margin-bottom:4px;display:block;font-family:var(--font-mono)">Issue 名称</label><input id="af-title" value="' + prefillTitle.replace(/"/g,'&quot;') + '"></div>'
+    : '<div class="af-input-row"><label style="font-size:.72rem;font-weight:600;color:var(--fg-muted);margin-bottom:4px;display:block;font-family:var(--font-mono)">Issue 名称（必填）</label><input id="af-title" placeholder="输入 issue 标题..."></div>';
+  return '<div class="assess-form">'
+    + '<div class="af-title">📐 判断矩阵位置</div>'
+    + titleInput
+    + '<div class="af-row">'
+    + '<div class="af-group"><label>① Proactive 轴 — 做完后 D0 会更主动吗？</label>'
+    + '<select id="af-proactive" onchange="previewCell()">'
+    + '<option value="">选择...</option>'
+    + '<option value="P0">P0 Reactive — 纯响应，用户不说不动</option>'
+    + '<option value="P1">P1 Monitor — 主动监控推送，不需要用户提问</option>'
+    + '<option value="P2">P2 Draft — 主动生成草案/建议，用户审批</option>'
+    + '<option value="P3">P3 Constrained — 边界内自主执行</option>'
+    + '<option value="P4">P4 Adaptive — 自学习 + 自适应</option>'
+    + '</select></div>'
+    + '<div class="af-group"><label>② High-Stake 轴 — 做完后风险管理能力更强了吗？</label>'
+    + '<select id="af-highstake" onchange="previewCell()">'
+    + '<option value="">选择...</option>'
+    + '<option value="S0">S0 Research — 不涉及资金/风控</option>'
+    + '<option value="S1">S1 Guarded — 基础防护（止损、权限）</option>'
+    + '<option value="S2">S2 Managed — 系统化风控（GRPS、审计）</option>'
+    + '<option value="S3">S3 Continuous — 持续监控 + 自动响应</option>'
+    + '<option value="S4">S4 Self-Healing — 自愈 + 自修复</option>'
+    + '</select></div>'
+    + '</div>'
+    + '<div class="af-preview" id="af-preview"></div>'
+    + '<div class="af-actions">'
+    + '<button class="af-btn af-btn-primary" onclick="addToMatrix(\'' + issueId + '\')">添加到矩阵</button>'
+    + '<button class="af-btn af-btn-secondary" onclick="addToMatrix(\'' + issueId + '\', true)">标记为非矩阵</button>'
+    + '<span class="af-result" id="af-result">✓ 已添加</span>'
+    + '</div></div>';
+}
+
+function previewCell() {
+  const p = document.getElementById('af-proactive').value;
+  const s = document.getElementById('af-highstake').value;
+  const preview = document.getElementById('af-preview');
+  if (!p || !s) { preview.style.display = 'none'; return; }
+  const coord = p + '×' + s;
+  const cellId = 'cell-' + p + '-' + s;
+  const cell = document.getElementById(cellId);
+  // Map to version
+  const versionMap = { 'P0': { 'S0': 'v1', 'S1': 'v1' }, 'P1': { 'S1': 'v2', 'S2': 'v2' }, 'P2': { 'S1': 'v3', 'S2': 'v3' }, 'P3': { 'S2': 'v3', 'S3': 'v3' }, 'P4': { 'S3': 'v4' } };
+  const ver = (versionMap[p] && versionMap[p][s]) || '—';
+  const isEmpty = cell && cell.classList.contains('cell-empty');
+  let html = '→ 建议放入 <span class="af-cell-tag">' + coord + '</span>';
+  if (ver !== '—') html += ' · 对应 <strong>' + ver + '</strong>';
+  if (isEmpty) html += ' <span style="font-size:.68rem;color:var(--warning)">（当前为空格子，将新建该能力簇）</span>';
+  // highlight the target cell
+  document.querySelectorAll('.matrix-cell.highlight').forEach(c => c.classList.remove('highlight'));
+  if (cell) { cell.classList.add('highlight'); cell.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  preview.innerHTML = html;
+  preview.style.display = 'block';
+}
+
+function addToMatrix(issueId, nonMatrix) {
+  const title = document.getElementById('af-title').value.trim();
+  if (!title) { alert('请输入 Issue 名称'); return; }
+  const p = document.getElementById('af-proactive').value;
+  const s = document.getElementById('af-highstake').value;
+  if (!nonMatrix && (!p || !s)) { alert('请选择 Proactive 和 High-Stake 级别'); return; }
+
+  if (nonMatrix) {
+    // Save as non-matrix
+    const userNonMatrix = JSON.parse(localStorage.getItem('kanban-nonmatrix') || '{}');
+    userNonMatrix[issueId] = { label: title, p: p || '—', s: s || '—', ts: Date.now() };
+    localStorage.setItem('kanban-nonmatrix', JSON.stringify(userNonMatrix));
+    const res = document.getElementById('af-result');
+    res.textContent = '✓ 已标记为非矩阵 issue';
+    res.style.display = 'inline';
+    return;
+  }
+
+  const coord = p + '×' + s;
+  const cellId = 'cell-' + p + '-' + s;
+  let cell = document.getElementById(cellId);
+
+  // Add to DOM
+  if (cell) {
+    cell.classList.remove('cell-empty');
+    let ul = cell.querySelector('ul');
+    if (!ul) {
+      // Cell was empty, add coord label + list
+      if (!cell.querySelector('.cell-coord')) {
+        const coordDiv = document.createElement('div');
+        coordDiv.className = 'cell-coord';
+        coordDiv.textContent = coord;
+        cell.appendChild(coordDiv);
+      }
+      ul = document.createElement('ul');
+      cell.appendChild(ul);
+    }
+    const li = document.createElement('li');
+    li.className = 'user-added';
+    li.innerHTML = title + ' — <a class="card-id" href="https://linear.app/donutbrowser/issue/' + issueId + '" target="_blank">' + issueId + '</a> <span class="wip">NEW</span>';
+    ul.appendChild(li);
+    cell.classList.add('highlight');
+    cell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Save to localStorage
+  const userAdded = JSON.parse(localStorage.getItem('kanban-matrix-additions') || '[]');
+  userAdded.push({ id: issueId, title: title, coord: coord, p: p, s: s, ts: Date.now() });
+  localStorage.setItem('kanban-matrix-additions', JSON.stringify(userAdded));
+
+  const res = document.getElementById('af-result');
+  res.textContent = '✓ 已添加到 ' + coord;
+  res.style.display = 'inline';
+}
+
+// Restore user-added matrix items on load
+function restoreUserMatrixItems() {
+  const userAdded = JSON.parse(localStorage.getItem('kanban-matrix-additions') || '[]');
+  userAdded.forEach(function(item) {
+    const cellId = 'cell-' + item.p + '-' + item.s;
+    const cell = document.getElementById(cellId);
+    if (!cell) return;
+    // Skip if already in ISSUE_DB (was officially added later)
+    if (ISSUE_DB[item.id]) return;
+    cell.classList.remove('cell-empty');
+    let ul = cell.querySelector('ul');
+    if (!ul) {
+      if (!cell.querySelector('.cell-coord')) {
+        const coordDiv = document.createElement('div');
+        coordDiv.className = 'cell-coord';
+        coordDiv.textContent = item.coord;
+        cell.appendChild(coordDiv);
+      }
+      ul = document.createElement('ul');
+      cell.appendChild(ul);
+    }
+    const li = document.createElement('li');
+    li.className = 'user-added';
+    li.innerHTML = item.title + ' — <a class="card-id" href="https://linear.app/donutbrowser/issue/' + item.id + '" target="_blank">' + item.id + '</a> <span class="wip">NEW</span>';
+    ul.appendChild(li);
+  });
+}
+
+window.addEventListener('load', function() { initApp(); restoreUserMatrixItems(); });
 </script>
 </body>
 </html>
