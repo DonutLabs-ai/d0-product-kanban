@@ -184,7 +184,9 @@ a:hover { text-decoration: underline; }
 .stat .num { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; line-height: 1 }
 .stat .label { font-size: 0.68rem; color: var(--fg-subtle); margin-top: var(--space-1) }
 .controls { display: flex; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-6); flex-wrap: wrap }
-.ctrl-group { display: flex; gap: 1px; background: var(--border-base); border-radius: 100px; overflow: hidden }
+.ctrl-group { display: flex; gap: 1px; background: var(--border-base); border-radius: 100px; overflow: hidden; flex-wrap: wrap }
+.filter-count { font-family: var(--font-mono); font-size: 0.55rem; opacity: 0.6; margin-left: 2px }
+.filter-count:empty { display: none }
 .ctrl-btn { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; padding: var(--space-2) var(--space-4); background: var(--bg-subtle); color: var(--fg-muted); border: none; cursor: pointer; transition: all var(--duration-fast); white-space: nowrap }
 .ctrl-btn:hover { color: var(--fg-base); background: var(--bg-muted) }
 .ctrl-btn.active { color: var(--fg-base); background: var(--bg-muted) }
@@ -676,9 +678,14 @@ a:hover { text-decoration: underline; }
         <button class="ctrl-btn" onclick="switchView('person')">👤 按人员</button>
       </div>
       <div class="ctrl-group">
-        <button class="ctrl-btn active" data-filter="all" onclick="filterState('all')">All</button>
-        <button class="ctrl-btn" data-filter="active" onclick="filterState('active')">Active</button>
-        <button class="ctrl-btn" data-filter="done" onclick="filterState('done')">Done</button>
+        <button class="ctrl-btn active" data-filter="all" onclick="filterState('all')">All <span class="filter-count" id="fc-all"></span></button>
+        <button class="ctrl-btn" data-filter="triage" onclick="filterState('triage')">📝 Triage <span class="filter-count" id="fc-triage"></span></button>
+        <button class="ctrl-btn" data-filter="planning" onclick="filterState('planning')">📋 Planning <span class="filter-count" id="fc-planning"></span></button>
+        <button class="ctrl-btn" data-filter="todo" onclick="filterState('todo')">⬚ Todo <span class="filter-count" id="fc-todo"></span></button>
+        <button class="ctrl-btn" data-filter="in-progress" onclick="filterState('in-progress')">🔨 In Progress <span class="filter-count" id="fc-in-progress"></span></button>
+        <button class="ctrl-btn" data-filter="in-review" onclick="filterState('in-review')">👀 In Review <span class="filter-count" id="fc-in-review"></span></button>
+        <button class="ctrl-btn" data-filter="done" onclick="filterState('done')">✅ Done <span class="filter-count" id="fc-done"></span></button>
+        <button class="ctrl-btn" data-filter="canceled" onclick="filterState('canceled')">✕ Canceled <span class="filter-count" id="fc-canceled"></span></button>
       </div>
     </div>
     <div id="view-layer" class="active"></div>
@@ -1706,6 +1713,7 @@ function renderCycle(key) {
 
   renderPersonView(issues);
   renderWorkloadHeatmap(issues);
+  updateFilterCounts();
   save();
 }
 
@@ -1757,7 +1765,7 @@ function renderCardHTML(issue) {
   const estimateBadge = '<span style="font-family:var(--font-mono);font-size:0.5rem;padding:1px 4px;border-radius:3px;background:rgba(239,68,68,.08);color:var(--error);border:1px dashed rgba(239,68,68,.2);margin-left:var(--space-1)" title="No estimate yet">—</span>';
   const delBtn = issue.source==='cycle-add' ? '<button class="card-custom-del" onclick="removeCycleIssueAndRefresh(\''+issue.id+'\')">✕</button>' : '';
 
-  return '<div class="card '+cardClass+'" data-assignee="'+issue.assignee+'" data-layer="'+(issue.module||issue.layer)+'" data-state="'+issue.state+'" data-id="'+issue.id+'" style="--accent:'+teamAccent+'">'
+  return '<div class="card '+cardClass+'" data-assignee="'+issue.assignee+'" data-layer="'+(issue.module||issue.layer)+'" data-state="'+issue.state+'" data-state-label="'+(issue.stateLabel||'')+'" data-id="'+issue.id+'" style="--accent:'+teamAccent+'">'
     +delBtn
     +'<div class="card-head"><a href="'+href+'" target="_blank" rel="noopener" class="card-id">'+issue.id+' ↗</a>'
     +teamBadge+estimateBadge
@@ -1878,15 +1886,49 @@ function filterState(filter) {
   event.currentTarget.classList.add('active');
   document.querySelectorAll('#tab-sprint .card').forEach(card => {
     const state = card.dataset.state;
-    if (filter==='all') card.classList.remove('filtered-out');
-    else if (filter==='active') card.classList.toggle('filtered-out', ['completed','canceled'].includes(state));
-    else if (filter==='done') card.classList.toggle('filtered-out', state!=='completed');
+    const label = (card.dataset.stateLabel || '').toLowerCase();
+    let show = false;
+    switch (filter) {
+      case 'all': show = true; break;
+      case 'triage': show = state === 'triage'; break;
+      case 'planning': show = state === 'unstarted' && (label === 'product planning' || label === 'planning' || label === 'suspend'); break;
+      case 'todo': show = state === 'unstarted' && label !== 'product planning' && label !== 'planning' && label !== 'suspend'; break;
+      case 'in-progress': show = state === 'started' && label !== 'in review'; break;
+      case 'in-review': show = (state === 'started' && label === 'in review'); break;
+      case 'done': show = state === 'completed'; break;
+      case 'canceled': show = state === 'canceled'; break;
+      default: show = true;
+    }
+    card.classList.toggle('filtered-out', !show);
   });
+  // Collapse empty sections
   document.querySelectorAll('#view-layer .ptree-node.level-1').forEach(s => {
     const total = s.querySelectorAll('.card').length;
     const hidden = s.querySelectorAll('.card.filtered-out').length;
     if (total===hidden && total>0) s.style.display = 'none'; else s.style.display = '';
   });
+}
+
+/* Update filter counts after rendering a cycle */
+function updateFilterCounts() {
+  const cards = document.querySelectorAll('#tab-sprint .card');
+  const counts = { all:0, triage:0, planning:0, todo:0, 'in-progress':0, 'in-review':0, done:0, canceled:0 };
+  cards.forEach(function(card) {
+    const state = card.dataset.state;
+    const label = (card.dataset.stateLabel || '').toLowerCase();
+    counts.all++;
+    if (state === 'triage') counts.triage++;
+    else if (state === 'unstarted' && (label === 'product planning' || label === 'planning' || label === 'suspend')) counts.planning++;
+    else if (state === 'unstarted') counts.todo++;
+    else if (state === 'started' && label === 'in review') counts['in-review']++;
+    else if (state === 'started') counts['in-progress']++;
+    else if (state === 'completed') counts.done++;
+    else if (state === 'canceled') counts.canceled++;
+  });
+  for (var k in counts) {
+    var el = document.getElementById('fc-' + k);
+    if (el) el.textContent = counts[k] > 0 ? counts[k] : '';
+  }
 }
 
 /* ── Add Issue to Cycle ────────────────────────────────── */
