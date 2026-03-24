@@ -2200,6 +2200,51 @@ function renderEngScopeTree() {
   el.innerHTML = h;
 }
 
+const REPO_CATALOG = [
+  { icon:'🧠', group:'AI / Agent Core', repos:[
+    { name:'donut-backend', desc:'NestJS monorepo — D0 Bot 平台 + LLM Proxy + Trading + MCP Server', link:'https://github.com/DonutLabs-ai/donut-backend', lastCommit:'2026-03-24', owners:['Regison','Wenzhang','Jin Xu'] },
+    { name:'d0-cli', desc:'D0 MCP Tools (261 tools, 13 domains) — Agent 能力层', link:'https://github.com/DonutLabs-ai/d0-cli', lastCommit:'2026-03-23', owners:['Jin Xu','Regison'] },
+    { name:'donut-aigemix', desc:'AI Agent + Workflow Framework — 底层 Agent 引擎', link:'https://github.com/DonutLabs-ai/donut-aigemix', lastCommit:'2026-03-18', owners:['JackJun','Wenzhang'] },
+    { name:'donut-skills', desc:'D0 Bot Skill 定义 + Prompt 管理', link:'https://github.com/DonutLabs-ai/donut-skills', lastCommit:'2026-03-09', owners:['Jin Xu'] },
+    { name:'donut-d0', desc:'D0 Bot 主入口 — Telegram Bot + 对话管理', link:'https://github.com/DonutLabs-ai/donut-d0', lastCommit:'2026-03-17', owners:['Wenzhang'] },
+    { name:'d0-workspace', desc:'D0 Agent 持久化 workspace — memory + config', link:'https://github.com/DonutLabs-ai/d0-workspace', lastCommit:'2026-03-06', owners:['JackJun'] },
+  ]},
+  { icon:'💰', group:'Trading System', repos:[
+    { name:'donut-perpetual', desc:'Java 21 + Spring Boot — 撮合引擎 / TPSL / GRPS 风控 / 清算', link:'https://github.com/DonutLabs-ai/donut-perpetual', lastCommit:'2026-03-23', owners:['Alex','Rui Li'] },
+    { name:'donut-agents-backend', desc:'Go 1.25 + Echo — HyperLiquid / Binance 代理交易', link:'https://github.com/DonutLabs-ai/donut-agents-backend', lastCommit:'2026-03-23', owners:['Ethan'] },
+    { name:'donut-wallet-service', desc:'Bun + Hono — Turnkey 钱包签名 + Privy 认证 + BullMQ', link:'https://github.com/DonutLabs-ai/donut-wallet-service', lastCommit:'2026-03-23', owners:['Regison','Wenzhang'] },
+    { name:'donut-trading-api-test', desc:'Trading API 集成测试套件', link:'https://github.com/DonutLabs-ai/donut-trading-api-test', lastCommit:'2026-03-23', owners:['Alex'] },
+  ]},
+  { icon:'🖥', group:'Frontend / Client', repos:[
+    { name:'dount-HIL-frontend', desc:'React 19 + Vite — Dashboard Web App (HIL)', link:'https://github.com/DonutLabs-ai/dount-HIL-frontend', lastCommit:'2026-03-23', owners:['Gary','Ethan'] },
+    { name:'donut-agents-frontend', desc:'Agent 前端 — D0 Bot Web UI', link:'https://github.com/DonutLabs-ai/donut-agents-frontend', lastCommit:'2026-03-19', owners:['Gary'] },
+    { name:'d0-dashboard-v2', desc:'D0 Dashboard V2 — 新版交易面板', link:'https://github.com/DonutLabs-ai/d0-dashboard-v2', lastCommit:'2026-03-19', owners:['Gary'] },
+    { name:'donut-admin', desc:'统一后台管理面板', link:'https://github.com/DonutLabs-ai/donut-admin', lastCommit:'2026-03-19', owners:['Gary'] },
+    { name:'DonutExtension', desc:'WXT + React — 浏览器扩展', link:'https://github.com/DonutLabs-ai/DonutExtension', lastCommit:'2026-02-04', owners:['—'] },
+  ]},
+  { icon:'🏗', group:'Infrastructure / DevOps', repos:[
+    { name:'k8s-applications', desc:'GitOps 部署配置 — ArgoCD + Helm (service manifests)', link:'https://github.com/DonutLabs-ai/k8s-applications', lastCommit:'2026-03-24', owners:['Wenzhang','Jiagui'] },
+    { name:'k8s-infrastructure', desc:'K8s 集群基础设施 — AWS/GCP 资源 + 网络 + 安全', link:'https://github.com/DonutLabs-ai/k8s-infrastructure', lastCommit:'2026-03-23', owners:['Jiagui'] },
+    { name:'donut-devops', desc:'CI/CD Pipelines + 运维脚本 + 监控配置', link:'https://github.com/DonutLabs-ai/donut-devops', lastCommit:'2026-03-19', owners:['Wenzhang'] },
+  ]},
+  { icon:'📊', group:'Quality / Eval / Research', repos:[
+    { name:'d0-e2e-tests', desc:'D0 Bot E2E 自动化测试 — 核心流程覆盖', link:'https://github.com/DonutLabs-ai/d0-e2e-tests', lastCommit:'2026-03-23', owners:['Fei','Kevin'] },
+    { name:'d0-skill-eval', desc:'Skill 评估框架 — AI 能力质量度量', link:'https://github.com/DonutLabs-ai/d0-skill-eval', lastCommit:'2026-03-23', owners:['Fei'] },
+    { name:'autoresearch', desc:'AutoResearch — AI 驱动策略优化 (Spot/Perps)', link:'https://github.com/DonutLabs-ai/autoresearch', lastCommit:'2026-03-23', owners:['Liang Han'] },
+  ]},
+  { icon:'🤖', group:'Engineering Agents / Internal Tools', repos:[
+    { name:'engineering-agents', desc:'Donut Engineering Agents — CI/CD 自动化 + 内部 bot', link:'https://github.com/DonutLabs-ai/engineering-agents', lastCommit:'2026-03-23', owners:['JackJun','Regison'] },
+    { name:'openclaw', desc:'OpenClaw — AI 助手平台 (Ring 底座)', link:'https://github.com/DonutLabs-ai/openclaw', lastCommit:'2026-03-23', owners:['JackJun'] },
+    { name:'openclaw-dev-share', desc:'OpenClaw 社区 skills + memory templates', link:'https://github.com/DonutLabs-ai/openclaw-dev-share', lastCommit:'2026-03-20', owners:['JackJun'] },
+  ]},
+  { icon:'📄', group:'Product / Docs / Dashboards', repos:[
+    { name:'donut-product', desc:'产品文档 + PRD + 设计规范', link:'https://github.com/DonutLabs-ai/donut-product', lastCommit:'2026-03-17', owners:['Justin','Peter'] },
+    { name:'donut-docs', desc:'公开文档站', link:'https://github.com/DonutLabs-ai/donut-docs', lastCommit:'2026-02-14', owners:['—'] },
+    { name:'d0-product-kanban', desc:'D0 产品看板 — Sprint + 组织 + 风险', link:'https://github.com/DonutLabs-ai/d0-product-kanban', lastCommit:'2026-03-24', owners:['Ring'] },
+    { name:'d0-strategic-matrix', desc:'D0 战略矩阵 — Proactive × High-Stake', link:'https://github.com/DonutLabs-ai/d0-strategic-matrix', lastCommit:'2026-03-24', owners:['Ring'] },
+  ]}
+];
+
 function renderRepoCatalog() {
   const el = document.getElementById('repoCatalog');
   if (!el) return;
