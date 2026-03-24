@@ -1890,13 +1890,13 @@ function filterState(filter) {
     let show = false;
     switch (filter) {
       case 'all': show = true; break;
-      case 'triage': show = state === 'triage'; break;
-      case 'planning': show = state === 'unstarted' && (label === 'product planning' || label === 'planning' || label === 'suspend'); break;
-      case 'todo': show = state === 'unstarted' && label !== 'product planning' && label !== 'planning' && label !== 'suspend'; break;
-      case 'in-progress': show = state === 'started' && label !== 'in review'; break;
-      case 'in-review': show = (state === 'started' && label === 'in review'); break;
-      case 'done': show = state === 'completed'; break;
-      case 'canceled': show = state === 'canceled'; break;
+      case 'triage': show = state === 'triage' || label === 'triage'; break;
+      case 'planning': show = label === 'product planning' || label === 'planning' || label === 'suspend'; break;
+      case 'todo': show = label === 'todo' || (state === 'unstarted' && !['product planning','planning','suspend','triage'].includes(label)); break;
+      case 'in-progress': show = label === 'in progress'; break;
+      case 'in-review': show = label === 'in review'; break;
+      case 'done': show = label === 'done' || (state === 'completed' && label !== 'suspend'); break;
+      case 'canceled': show = label === 'canceled' || (state === 'canceled' && label !== 'suspend'); break;
       default: show = true;
     }
     card.classList.toggle('filtered-out', !show);
@@ -1917,13 +1917,13 @@ function updateFilterCounts() {
     const state = card.dataset.state;
     const label = (card.dataset.stateLabel || '').toLowerCase();
     counts.all++;
-    if (state === 'triage') counts.triage++;
-    else if (state === 'unstarted' && (label === 'product planning' || label === 'planning' || label === 'suspend')) counts.planning++;
-    else if (state === 'unstarted') counts.todo++;
-    else if (state === 'started' && label === 'in review') counts['in-review']++;
-    else if (state === 'started') counts['in-progress']++;
-    else if (state === 'completed') counts.done++;
-    else if (state === 'canceled') counts.canceled++;
+    if (label === 'triage' || state === 'triage') counts.triage++;
+    else if (label === 'product planning' || label === 'planning' || label === 'suspend') counts.planning++;
+    else if (label === 'todo' || (state === 'unstarted' && !['product planning','planning','suspend','triage'].includes(label))) counts.todo++;
+    else if (label === 'in review') counts['in-review']++;
+    else if (label === 'in progress') counts['in-progress']++;
+    else if (label === 'done' || state === 'completed') counts.done++;
+    else if (label === 'canceled' || state === 'canceled') counts.canceled++;
   });
   for (var k in counts) {
     var el = document.getElementById('fc-' + k);
