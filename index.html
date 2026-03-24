@@ -696,10 +696,15 @@ a:hover { text-decoration: underline; }
        TAB 4: 工程 Scope (v8.2 — Full Repo Catalog)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-eng" class="tab-panel">
-    <div class="sec"><div class="sec-head"><span class="sec-num">03</span><h2>⚙️ 工程 Scope — Repo 架构</h2></div>
-      <div class="hint">完整代码仓库地图 · 按系统层级分组 · 最近 commit 日期 · Owner</div>
+    <div class="sec"><div class="sec-head"><span class="sec-num">03</span><h2>⚙️ 工程 Scope — ENG Issues + Repo 架构</h2></div>
+      <div class="hint">ENG team issues 按产品 Scope 分组 · 完整代码仓库地图 · 按系统层级分组</div>
     </div>
-    <div id="repoCatalog"></div>
+    <div style="display:flex;gap:4px;margin-bottom:var(--space-4)">
+      <button class="ctrl-btn active" onclick="switchEngView('issues')" id="engViewIssues">📋 ENG Issues by Scope</button>
+      <button class="ctrl-btn" onclick="switchEngView('repos')" id="engViewRepos">📦 Repo 架构</button>
+    </div>
+    <div id="engScopeTree"></div>
+    <div id="repoCatalog" style="display:none"></div>
   </div>
 
   <!-- ══════════════════════════════════════════════════════
@@ -1686,9 +1691,28 @@ function switchTab(tab) {
   event.currentTarget.classList.add('active');
   if (tab==='myboard') renderMyBoard(window._currentMyFilter||'all');
   if (tab==='product') renderProductPanorama();
-  if (tab==='eng') { renderRepoCatalog(); }
+  if (tab==='eng') { renderEngScopeTree(); renderRepoCatalog(); }
   if (tab==='ceo') renderCEOFocus();
   if (tab==='roadmap') { renderMilestone(); }
+}
+
+/* ── Eng Tab: View Switching ───────────────────────────── */
+function switchEngView(view) {
+  var issuesEl = document.getElementById('engScopeTree');
+  var reposEl = document.getElementById('repoCatalog');
+  var btnIssues = document.getElementById('engViewIssues');
+  var btnRepos = document.getElementById('engViewRepos');
+  if (view === 'issues') {
+    issuesEl.style.display = '';
+    reposEl.style.display = 'none';
+    btnIssues.classList.add('active');
+    btnRepos.classList.remove('active');
+  } else {
+    issuesEl.style.display = 'none';
+    reposEl.style.display = '';
+    btnIssues.classList.remove('active');
+    btnRepos.classList.add('active');
+  }
 }
 
 /* ── Sprint Board: View Switching ──────────────────────── */
