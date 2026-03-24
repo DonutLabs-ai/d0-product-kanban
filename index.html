@@ -692,17 +692,10 @@ a:hover { text-decoration: underline; }
        TAB 4: 工程 Scope (v8.2 — Full Repo Catalog)
        ══════════════════════════════════════════════════════ -->
   <div id="tab-eng" class="tab-panel">
-    <div class="sec"><div class="sec-head"><span class="sec-num">03</span><h2>⚙️ 工程 Scope</h2></div>
-      <div class="hint">ENG 团队 issue 按产品 Scope 分组 · 点击 Scope 展开查看 issue</div>
+    <div class="sec"><div class="sec-head"><span class="sec-num">03</span><h2>⚙️ 工程 Scope — Repo 架构</h2></div>
+      <div class="hint">完整代码仓库地图 · 按系统层级分组 · 最近 commit 日期 · Owner</div>
     </div>
-    <div id="engScopeTree"></div>
-
-    <div style="margin-top:var(--space-8);border-top:2px solid var(--border-emphasis);padding-top:var(--space-6)">
-      <div class="sec"><div class="sec-head"><span class="sec-num">03b</span><h2>📦 Repo Catalog</h2></div>
-        <div class="hint">完整代码仓库地图 · 最近 commit 日期 · Owner</div>
-      </div>
-      <div id="repoCatalog"></div>
-    </div>
+    <div id="repoCatalog"></div>
   </div>
 
   <!-- ══════════════════════════════════════════════════════
@@ -1689,7 +1682,7 @@ function switchTab(tab) {
   event.currentTarget.classList.add('active');
   if (tab==='myboard') renderMyBoard(window._currentMyFilter||'all');
   if (tab==='product') renderProductPanorama();
-  if (tab==='eng') { renderEngScopeTree(); renderRepoCatalog(); }
+  if (tab==='eng') { renderRepoCatalog(); }
   if (tab==='ceo') renderCEOFocus();
   if (tab==='roadmap') { renderMilestone(); }
 }
