@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turing 🍩 两周实战回顾 — 03/11 → 03/24</title>
+<style>
+:root {
+  --bg: #060614; --card: #0f0f22; --border: #1e1e3a;
+  --text: #e8e8ff; --muted: #6b6b9a; --accent: #9997FF; --accent2: #ACAAFF;
+  --green: #22c55e; --red: #ef4444; --yellow: #eab308; --orange: #f97316; --cyan: #06b6d4;
+  --r: 6px; --r2: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'SF Pro Text', 'Inter', sans-serif;
+  color: var(--text); line-height: 1.7; background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 55% at 10% 0%, rgba(67,124,255,0.3) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 85% 95%, rgba(72,0,251,0.3) 0%, transparent 65%);
+  background-attachment: fixed;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* Hero */
+.hero { text-align: center; padding: 48px 0 32px; }
+.hero h1 { font-size: 32px; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero .sub { font-size: 15px; color: var(--muted); margin-top: 6px; }
+
+/* TOC */
+.toc { background: var(--card); border: 1px solid var(--border); border-radius: var(--r2); padding: 20px 24px; margin: 24px 0 40px; }
+.toc h3 { font-size: 14px; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+.toc a { display: block; color: var(--accent2); text-decoration: none; font-size: 14px; padding: 3px 0; }
+.toc a:hover { color: var(--accent); }
+.toc a.big { font-weight: 600; font-size: 15px; }
+
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 40px; }
+.stat { background: var(--card); border: 1px solid var(--border); border-radius: var(--r2); padding: 16px; text-align: center; }
+.stat .n { font-size: 28px; font-weight: 700; color: var(--accent); }
+.stat .l { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.stat .c { font-size: 11px; color: var(--green); }
+
+/* Chapter */
+.ch { margin-top: 48px; }
+.ch-title { font-size: 22px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.ch-title span { color: var(--accent); }
+
+/* Scenario */
+.sc { margin-bottom: 16px; }
+.sc h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.sc .who { font-size: 12px; color: var(--accent2); font-weight: 600; }
+.sc p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* Case */
+.case { background: var(--card); border: 1px solid var(--border); border-radius: var(--r2); padding: 20px; margin-bottom: 16px; }
+.case .tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; }
+.tag-p { background: rgba(153,151,255,0.12); color: var(--accent2); }
+.tag-g { background: rgba(34,197,94,0.12); color: var(--green); }
+.tag-c { background: rgba(6,182,212,0.12); color: var(--cyan); }
+.case h4 { font-size: 16px; font-weight: 600; }
+.case .meta { font-size: 12px; color: var(--muted); font-style: italic; margin: 4px 0 8px; }
+.case ul { padding-left: 18px; font-size: 13px; }
+.case li { margin-bottom: 4px; }
+
+/* Table */
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+th { color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+.up { color: var(--green); font-weight: 600; }
+
+/* Future section */
+.future-axis { margin-top: 28px; }
+.future-axis > h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.future-item { margin-bottom: 20px; }
+.future-item h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.future-item .now { font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 6px; }
+.future-item ul { padding-left: 18px; font-size: 13px; }
+.future-item li { margin-bottom: 4px; color: var(--text); }
+
+/* Loop diagram */
+.loop-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--r2); padding: 20px; margin: 16px 0; }
+.loop-box h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.loop-steps { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin: 12px 0; }
+.loop-step { background: rgba(153,151,255,0.06); border: 1px solid var(--border); border-radius: var(--r); padding: 10px 14px; text-align: center; min-width: 110px; }
+.loop-step .ls-n { font-size: 13px; font-weight: 600; }
+.loop-step .ls-d { font-size: 11px; color: var(--muted); }
+.loop-arrow { padding: 0 6px; color: var(--accent); font-size: 16px; }
+.loop-feedback { text-align: center; font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+/* Roadmap */
+.rm { position: relative; padding-left: 28px; margin: 16px 0; }
+.rm::before { content: ''; position: absolute; left: 9px; top: 4px; bottom: 4px; width: 2px; background: linear-gradient(var(--green), var(--accent), var(--muted)); }
+.rm-item { position: relative; margin-bottom: 16px; }
+.rm-item::before { content: ''; position: absolute; left: -23px; top: 5px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--muted); background: var(--bg); }
+.rm-item.done::before { background: var(--green); border-color: var(--green); }
+.rm-item.active::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 6px rgba(153,151,255,0.4); }
+.rm-item .rm-id { font-size: 11px; color: var(--muted); font-family: monospace; }
+.rm-item .rm-t { font-size: 14px; font-weight: 600; }
+.rm-item .rm-d { font-size: 12px; color: var(--muted); }
+
+/* Note */
+.note { font-size: 13px; color: var(--muted); font-style: italic; margin: 12px 0; padding: 12px 16px; border-left: 3px solid var(--accent); background: rgba(153,151,255,0.04); border-radius: 0 var(--r) var(--r) 0; }
+
+.footer { text-align: center; margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; }
+
+@media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <div style="font-size:48px; margin-bottom:12px;">🍩</div>
+  <h1>Turing 两周实战回顾</h1>
+  <div class="sub">从架构到协作, 从辅助到交付 — 2026.03.11 → 03.24</div>
+</div>
+
+<div class="toc">
+  <h3>目录</h3>
+  <a href="#ch1">一、关键指标 — 两周数据总览</a>
+  <a href="#ch2">二、团队互动全景 — 8 个场景聚合</a>
+  <a href="#ch3">三、真实 Case — 三个代表性案例</a>
+  <a href="#ch4">四、工程效率 — 前后两周对比</a>
+  <a class="big" href="#ch5">五、未来规划 — 深度 × 广度 × 完整性</a>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat"><div class="n">15</div><div class="l">活跃用户</div><div class="c">覆盖全团队</div></div>
+  <div class="stat"><div class="n">74</div><div class="l">对话 Sessions</div><div class="c">11 DM 深度 session</div></div>
+  <div class="stat"><div class="n">54</div><div class="l">Turing PRs</div><div class="c">跨 8 repos</div></div>
+  <div class="stat"><div class="n">411</div><div class="l">Issues 创建</div><div class="c">217 comments / 159 issues</div></div>
+</div>
+<div class="stats">
+  <div class="stat"><div class="n">521</div><div class="l">Org Merged PRs</div><div class="c">↑50.6% vs 前两周</div></div>
+  <div class="stat"><div class="n">+240K</div><div class="l">LOC Added</div><div class="c">-15.5K deleted</div></div>
+  <div class="stat"><div class="n">3,359</div><div class="l">Issues 标准化</div><div class="c">全量命名规范化</div></div>
+  <div class="stat"><div class="n">181KB</div><div class="l">日记沉淀</div><div class="c">8 天 daily notes</div></div>
+</div>
+
+<!-- Ch 1 -->
+<div class="ch" id="ch1">
+  <div class="ch-title"><span>一</span>、关键指标</div>
+  <table>
+    <tr><th>类别</th><th>指标</th><th>数据</th></tr>
+    <tr><td>对话</td><td>活跃用户</td><td>15 人, 覆盖全团队</td></tr>
+    <tr><td></td><td>对话 session</td><td>74 个 (含 11 DM 深度 session)</td></tr>
+    <tr><td></td><td>日记沉淀</td><td>181KB (8 天)</td></tr>
+    <tr><td></td><td>Top 5</td><td>Peter(22) Chris(20) JackJun(13) Ye Zou(12) Jiagui(12)</td></tr>
+    <tr><td>PR</td><td>Turing merged</td><td>54 个, 跨 8 repos</td></tr>
+    <tr><td></td><td>Reviewed / commented</td><td>15 reviewed + 19 commented</td></tr>
+    <tr><td></td><td>代码量</td><td>+240K / -15.5K LOC</td></tr>
+    <tr><td>Linear</td><td>Issues 创建</td><td>411 个</td></tr>
+    <tr><td></td><td>Comments</td><td>217 条, 覆盖 159 issues</td></tr>
+    <tr><td></td><td>命名标准化</td><td>3,359 issues</td></tr>
+    <tr><td>Org</td><td>全 Org merged PRs</td><td>521 (vs 前两周 346, ↑50.6%)</td></tr>
+  </table>
+</div>
+
+<!-- Ch 2 -->
+<div class="ch" id="ch2">
+  <div class="ch-title"><span>二</span>、团队互动全景</div>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:20px;">两周内 Turing 和团队的密集沟通沉淀了 8 类使用场景。每个都是真实 workflow, 不是 demo。</p>
+
+  <div class="sc"><h4>1. AI 辅助 PRD — 产品到工程一键对齐</h4><div class="who">Peter, Jin Xu</div><p>Turing 读完整代码库, 产品只需 review 和纠偏。Peter 6+ PRDs (GRPS v4.1 四轮, 杠杆 v1.5 九条 review), 每轮附代码证据。比纯产品 review 多发现 2-3x 问题。</p></div>
+  <div class="sc"><h4>2. 安全审计 + Code Review</h4><div class="who">Jiagui, Scanner</div><p>ENG-1129 安全体系评估 (47 子 issue) + 6 仓库扫描, 发现规划遗漏漏洞, 直接调整 Cycle。Scanner 每 2h 扫 Linear, 进度预警 + 无 assignee 检测。</p></div>
+  <div class="sc"><h4>3. 成本分析 + 基础设施洞察</h4><div class="who">Ye Zou, Wenzhang, Peter, Ginger</div><p>D0 成本 5 层分析 + briefing 优化 (月省 $1,100); AWS $6,073/月分解, 发现 $2.8K 优化空间; sub2api $4,865/周排名; LLM 成本周报。</p></div>
+  <div class="sc"><h4>4. 战略决策 + 产品规划</h4><div class="who">Chris, Fei</div><p>Proactive × High-Stake 5×5 矩阵 → HTML → GitHub Pages + Issue Lookup 对齐检查器。Blog 协作 + 成本优化专项。</p></div>
+  <div class="sc"><h4>5. 工程架构整理</h4><div class="who">JackJun, Wenzhang</div><p>Linear 3,359 issue 标准化, 活跃 issue 211→91。记忆架构 v2 (273→184 文件)。40 个 issue 优先级排序。</p></div>
+  <div class="sc"><h4>6. GTM / 营销内容</h4><div class="who">Qiaochu</div><p>AI anime girl 营销方案 + Traderbook (14 位交易员, 67 页) 提炼 25 条短视频素材, 10 天 2 条节奏 + Linear 排期。</p></div>
+  <div class="sc"><h4>7. HR 自动化</h4><div class="who">Bianbian</div><p>非技术角色通过对话完成 Notion API 集成 + 14 份 PDF 简历入库 + 92 条 tracking list 同步, 全程不写代码。</p></div>
+  <div class="sc"><h4>8. 个人效率</h4><div class="who">Jim, Gary, Alex, Ethan</div><p>Jim 3 天关 31 个 issue; Alex Settlement 无锁化方案 (compute-then-write); Gary 产出报告; Ethan 问题排查。</p></div>
+</div>
+
+<!-- Ch 3 -->
+<div class="ch" id="ch3">
+  <div class="ch-title"><span>三</span>、真实 Case</div>
+
+  <div class="case">
+    <span class="tag tag-p">Case 1 — 产品工程对齐</span>
+    <h4>Peter GRPS PRD v1 → v4.1</h4>
+    <div class="meta">4 轮迭代 | donut-perpetual + donut-backend</div>
+    <ul>
+      <li>Turing 读完 GrpsTradeGateServiceImpl, OrderConvertor 等核心文件</li>
+      <li>每轮 review 附代码证据: 鉴权双栈, 保证金模式, 公式验证</li>
+      <li>发现 TG 推送链路代码已实现但无人知晓</li>
+      <li>v1 纯产品稿 → v4.1 可开工级 PRD</li>
+    </ul>
+  </div>
+
+  <div class="case">
+    <span class="tag tag-g">Case 2 — 非技术角色自动化</span>
+    <h4>Bianbian HR 简历自动入库</h4>
+    <div class="meta">Notion API + Slack + PyMuPDF | 一个 session</div>
+    <ul>
+      <li>Slack 招聘群 14 份 PDF → 提取 → 结构化 → Notion 数据库</li>
+      <li>Notion API file_uploads 上传原文件, 全程不写代码</li>
+    </ul>
+  </div>
+
+  <div class="case">
+    <span class="tag tag-c">Case 3 — 战略可视化</span>
+    <h4>Chris 战略矩阵 → GitHub Pages</h4>
+    <div class="meta">Proactive × High-Stake 5×5 矩阵 | 一个 session</div>
+    <ul>
+      <li>讨论 → 矩阵 → HTML 可视化 (4 tab) → GitHub Pages + Issue Lookup</li>
+      <li>发现: 当前 Sprint 83% 在 Reactive 象限</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Ch 4 -->
+<div class="ch" id="ch4">
+  <div class="ch-title"><span>四</span>、工程效率</div>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:12px;">对比 Turing 上线前后两周</p>
+  <table>
+    <tr><th>Repo</th><th>02/25-03/10</th><th>03/11-03/24</th><th>变化</th></tr>
+    <tr><td>全 Org</td><td>346</td><td>521</td><td class="up">+50.6%</td></tr>
+    <tr><td>donut-backend</td><td>160</td><td>285</td><td class="up">+78.1%</td></tr>
+    <tr><td>donut-perpetual</td><td>6</td><td>37</td><td class="up">+516.7%</td></tr>
+    <tr><td>HIL-frontend</td><td>18</td><td>89</td><td class="up">+394.4%</td></tr>
+    <tr><td>engineering-agents</td><td>0</td><td>34</td><td class="up">New</td></tr>
+  </table>
+  <div class="note">PR 增长不全是 Turing 直接贡献。Turing 是 context 传递和效率放大器 — PRD 质量↑ → 理解成本↓ → 开发速度↑。间接杠杆效应。</div>
+</div>
+
+<!-- Ch 5 -->
+<div class="ch" id="ch5">
+  <div class="ch-title"><span>五</span>、未来规划 — 深度 × 广度 × 完整性</div>
+  <p style="font-size:14px;margin-bottom:8px;">Turing 当前具备三个角色: Context 对齐者、项目经理、Code Reviewer。但距离 Superbot 2.0 目标 (70-80% 工程工作迁移) 还有明确缺口。未来围绕三条轴展开。</p>
+
+  <!-- 5.1 -->
+  <div class="future-axis">
+    <h3>5.1 深度 — 现有场景持续优化</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">已跑通的 8 个场景不是终点, 每个都有下一层可挖。</p>
+
+    <div class="future-item">
+      <h4>AI 辅助 PRD → 端到端需求闭环</h4>
+      <div class="now">现状: PRD 完成后和工程执行之间还有断层</div>
+      <ul>
+        <li>PRD 完成 → 自动拆解 Linear sub-issues, 附验收标准和涉及模块</li>
+        <li>PRD 变更 → 自动追踪受影响 issue 和测试用例</li>
+        <li>从 "PRD 到可开工" 进化为 "PRD 到验收完成"</li>
+      </ul>
+    </div>
+    <div class="future-item">
+      <h4>Code Review → 预测性质量门控</h4>
+      <div class="now">现状: 三维度 review 已有, 但事后被动触发</div>
+      <ul>
+        <li>理解 PR 依赖图, 建议最优合并顺序</li>
+        <li>积累 review 历史 → 识别高风险模块和反复出问题的 pattern</li>
+        <li>从 "这个 PR 有问题" → "这个模块最近变动频繁, 要重点看"</li>
+      </ul>
+    </div>
+    <div class="future-item">
+      <h4>成本分析 → 持续监控 + 自动预警</h4>
+      <div class="now">现状: 人工触发的一次性分析</div>
+      <ul>
+        <li>定时 cron 拉取 sub2api / AWS / PostHog 成本, 异常自动推送</li>
+        <li>每周趋势报告, 按用户/cron/场景拆分</li>
+        <li>从 "发现问题" → "问题发生前预警"</li>
+      </ul>
+    </div>
+    <div class="future-item">
+      <h4>Scanner → 智能项目管理</h4>
+      <div class="now">现状: 每 2h 扫描 + 预警, 只做检测不做干预</div>
+      <ul>
+        <li>阻塞时自动分析原因 (缺 assignee? 等上游? 技术卡点?) 并建议解法</li>
+        <li>Sprint 结束前自动风险评估: 哪些 issue 可能 slip</li>
+        <li>从 "告诉你有问题" → "告诉你怎么解决"</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5.2 -->
+  <div class="future-axis">
+    <h3>5.2 广度 — 新场景覆盖</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">8 个场景覆盖了产品/工程/安全/成本/战略/GTM/HR/效率。空白区域:</p>
+
+    <div class="future-item">
+      <h4>QA / 测试自动化</h4>
+      <ul>
+        <li>PR 提交 → 自动生成/更新测试用例 → 跑测试 → 报告覆盖率</li>
+        <li>关联: PRODUCT-2243 (封闭式验证环境)</li>
+      </ul>
+    </div>
+    <div class="future-item">
+      <h4>Onboarding / 知识传承</h4>
+      <ul>
+        <li>新成员加入 → 基于 memory 自动生成个性化 onboarding 路径</li>
+        <li>"去问 Turing" 成为新人第一反应</li>
+      </ul>
+    </div>
+    <div class="future-item">
+      <h4>运维 / 线上问题响应</h4>
+      <ul>
+        <li>告警 → 自动拉 trace + logs → 定位根因 → 建议修复</li>
+        <li>alert-aggregator + infra-debug skill 已有, 需打通自动触发</li>
+      </ul>
+    </div>
+    <div class="future-item">
+      <h4>用户行为洞察</h4>
+      <ul>
+        <li>定期扫描 PostHog 漏斗 → 发现 drop-off → 自动创建产品 issue</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5.3 -->
+  <div class="future-axis">
+    <h3>5.3 完整性 — 闭环是核心</h3>
+    <p style="font-size:14px;margin-bottom:16px;">深度和广度是渐进优化, 完整性是质变。Turing 当前最大缺口: <strong>没有闭环</strong>。能读能想能建议, 但不能独立完成从想法到交付的全流程。</p>
+
+    <!-- Role comparison -->
+    <table>
+      <tr><th>角色</th><th>当前</th><th>目标</th></tr>
+      <tr><td>Context 对齐者</td><td>✅ 15 人同时沟通, 自动沉淀</td><td>→ 主动推送 context 给需要的人</td></tr>
+      <tr><td>项目经理</td><td>✅ 扫描 + 预警 + 标准化</td><td>→ 预测风险 + 建议解法</td></tr>
+      <tr><td>Code Reviewer</td><td>✅ 三维度 review</td><td>→ 预测性质量门控</td></tr>
+      <tr><td>Researcher</td><td>⚡ 读 + 分析 + 沉淀</td><td>→ 研究 → 实验 → 验证 → 提 PR</td></tr>
+      <tr><td>Engineer</td><td>❌ 能 review 不能交付</td><td>→ 封闭式 feature + 测试 + 验证</td></tr>
+    </table>
+
+    <!-- Engineer loop -->
+    <div class="loop-box">
+      <h4>缺口一: Engineer 闭环 — PRODUCT-2243</h4>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">现在能: 读代码 → review → 定位 bug → 技术方案。不能: 写代码 → 测试 → 验证 → 提交可合并 PR。</p>
+      <div class="loop-steps">
+        <div class="loop-step"><div class="ls-n">定义基准</div><div class="ls-d">人类测试流程</div></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step"><div class="ls-n">Agent 验证</div><div class="ls-d">测试 + E2E 验收</div></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step"><div class="ls-n">Pass / Fail</div><div class="ls-d">Ready for Merge<br>或修复建议</div></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step"><div class="ls-n">人类审批</div><div class="ls-d">合并权限保留</div></div>
+      </div>
+      <div class="loop-feedback">硬规则: Agent 执行验证, 人类审批合并。零容忍未通过验证的 PR。</div>
+    </div>
+
+    <!-- Researcher loop -->
+    <div class="loop-box">
+      <h4>缺口二: Researcher 闭环 — PRODUCT-2246</h4>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">现在能: 读论文 → 竞品分析 → GTC 内化 → 沉淀。不能: 研究发现 → 代码实验 → 跑验证 → 沉淀/提 PR。</p>
+      <div class="loop-steps">
+        <div class="loop-step"><div class="ls-n">Trigger</div><div class="ls-d">Research / Idea<br>PRD / Bug</div></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step"><div class="ls-n">Coding</div><div class="ls-d">Branch + 实现<br>+ 写测试</div></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step"><div class="ls-n">Evaluation</div><div class="ls-d">Lint / Test / Security<br>Benchmark</div></div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step"><div class="ls-n">PR or Rollback</div><div class="ls-d">Pass → PR<br>Fail → Fix/Archive</div></div>
+      </div>
+      <div class="loop-feedback">↻ Feedback Loop: 团队 review + eval 结果 → 策略更新 → 下一轮。每轮让 pipeline 自己变好。</div>
+
+      <table style="margin-top:12px;">
+        <tr><th>Trigger 范式</th><th>来源</th><th>示例</th></tr>
+        <tr><td>Research → Code</td><td>Frontier 研究</td><td>新 DEX 聚合算法, 自动实现+验证</td></tr>
+        <tr><td>Idea → Code</td><td>团队 brainstorm</td><td>WebSocket 替换 polling</td></tr>
+        <tr><td>PRD → Code</td><td>Linear issue</td><td>PRODUCT-123 实现 X 功能</td></tr>
+        <tr><td>Bug → Fix</td><td>线上告警</td><td>API 超时, 自动排查+修复</td></tr>
+        <tr><td>Eval → Improve</td><td>上轮反馈</td><td>性能没达标, 优化热路径</td></tr>
+      </table>
+    </div>
+
+    <!-- Self-evolution -->
+    <div class="loop-box">
+      <h4>自进化: 让系统自己变好 — PRODUCT-2245</h4>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">四层 Loop, 频率递减价值递增:</p>
+      <ul style="padding-left:18px;font-size:13px;">
+        <li><strong>Daily:</strong> Channel digest + 团队分享 → 自动更新 memory 和 skill</li>
+        <li><strong>Weekly:</strong> Changelog + 管理 insight → 反馈到组织架构和模块归属</li>
+        <li><strong>Task Feedback:</strong> 对话中的抱怨/建议 → 分析 skill/memory 匹配度</li>
+        <li><strong>Spec 自进化:</strong> 从上述三层提取最精华 → 更新 SOUL.md / AGENTS.md</li>
+      </ul>
+    </div>
+
+    <!-- Roadmap -->
+    <h4 style="margin-top:24px;font-size:16px;font-weight:600;">Superbot 2.0 路线图 (PRODUCT-1940)</h4>
+    <p style="font-size:13px;color:var(--muted);margin:8px 0 16px;">目标: 70-80% 工程工作迁移到 Turing</p>
+
+    <div class="rm">
+      <div class="rm-item done"><div class="rm-id">PRODUCT-2244 ✅</div><div class="rm-t">Memory 整理与 Index 管理</div><div class="rm-d">基座 — 域组织 + Knowledge Router</div></div>
+      <div class="rm-item active"><div class="rm-id">PRODUCT-2242 🔵</div><div class="rm-t">全 Context Code Review</div><div class="rm-d">Review 深度 — 三维度: 产品/代码/PR关系</div></div>
+      <div class="rm-item"><div class="rm-id">PRODUCT-2243 ⬜</div><div class="rm-t">PR 合并 + 封闭式验证环境</div><div class="rm-d">Engineer 闭环 — 自动测试 → 验收 → Merge</div></div>
+      <div class="rm-item"><div class="rm-id">PRODUCT-2245 ⬜</div><div class="rm-t">Context 自进化系统</div><div class="rm-d">自进化 — 四层 Loop</div></div>
+      <div class="rm-item"><div class="rm-id">PRODUCT-2246 ⬜</div><div class="rm-t">Frontier Tracking System</div><div class="rm-d">Researcher 闭环 — Trigger→Coding→Eval→PR</div></div>
+    </div>
+
+    <div class="note">
+      <strong>关键路径:</strong> 2242 (review) → 2243 (engineer 闭环) → 2246 (researcher 闭环)<br><br>
+      2243 + 2246 是从 "能想能说" 到 "能做能验" 的质变。完成后 Turing 具备完整 loop: 读需求 → 写代码 → 测试 → 验证 → PR → 人类审批。2245 让这个 loop 自己越转越好。
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin-top:24px;text-align:center;">
+      <p style="font-size:16px;font-weight:600;">一句话总结</p>
+      <p style="font-size:14px;color:var(--muted);margin-top:8px;">过去两周证明了 Turing 作为 context 对齐者和效率放大器的价值。<br>下一步不是做更多同样的事, 而是补上 Engineer 和 Researcher 的闭环 — 从「辅助」变成「交付」。</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Turing 🍩 × Donut Labs — 2026.03.24</div>
+
+</div>
+</body>
+</html>
