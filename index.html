@@ -621,6 +621,12 @@ a:hover { text-decoration: underline; }
     <span class="sot-label">📌 Source of Truth</span>
     <a href="https://linear.app/donutbrowser/issue/PRODUCT-2146" target="_blank">PRODUCT-2146 — Product Scopes ↗</a>
     <a href="https://linear.app/donutbrowser/issue/PRODUCT-2167#comment-f80d90c8" target="_blank">PRODUCT-2167 — v3 Vision ↗</a>
+    <span style="margin-left:auto;display:flex;align-items:center;gap:var(--space-2)">
+      <span id="syncTimestamp" style="font-family:var(--font-mono);font-size:0.58rem;color:var(--fg-subtle)"></span>
+      <button id="syncBtn" onclick="triggerLinearSync()" style="font-family:var(--font-mono);font-size:0.62rem;padding:3px 12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);border-radius:100px;color:var(--info);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .2s">
+        <span id="syncIcon" style="display:inline-block;transition:transform .3s">🔄</span> Sync Linear
+      </button>
+    </span>
   </div>
 
   <!-- ══ Tab Navigation ══ -->
@@ -649,8 +655,10 @@ a:hover { text-decoration: underline; }
        ══════════════════════════════════════════════════════ -->
   <div id="tab-sprint" class="tab-panel active">
     <div class="cycle-selector" id="cycleSelector">
-      <button class="cycle-btn" onclick="switchCycle('sprint22')" id="btn-sprint22">🏃 Sprint 22 — ENG (3/15→3/29)</button>
-      <button class="cycle-btn active" onclick="switchCycle('sprint23')" id="btn-sprint23">📋 Sprint 23 — PRODUCT (3/23→4/3)</button>
+      <button class="cycle-btn" onclick="switchCycle('product23')" id="btn-eng22">🏃 Sprint 22 (ENG) (3/15 → 3/29)</button>
+      <button class="cycle-btn active" onclick="switchCycle('product23')" id="btn-product23">🏃 Sprint 23 (PRODUCT) (3/23 → 4/3)</button>
+      <button class="cycle-btn" onclick="switchCycle('product24')" id="btn-product24">📋 Sprint 24 (PRODUCT) (4/4 → 4/6)</button>
+      <button class="cycle-btn" onclick="switchCycle('tes9')" id="btn-tes9">🏃 Sprint 9 (TES) (3/20 → 3/27)</button>
     </div>
     <div class="cycle-label" id="cycleLabel"></div>
     <div class="stats" id="sprintStats">
@@ -1337,15 +1345,185 @@ function issueMatchesCat(issue, cat) {
    UNIFIED CYCLES DATA (v8.2 — with module field)
    ══════════════════════════════════════════════════════════ */
 const CYCLES = {
-  sprint22: {
+  product24: {
+    label: 'Sprint 24 (PRODUCT)', dates: '4/4 → 4/6', status: 'upcoming',
+    issues: [
+      { id:'PRODUCT-2192', title:'[UX] AI First 提升 HIL 前端开发效率 — 设计师直接在 repo 调整 UI', assignee:'gary', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2116', title:'[PM-3] 高阶策略 — Anomaly Detection & Signal Bridge', assignee:'hanliang', layer:'ai', module:'scope3.proactive', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S3' },
+      { id:'PRODUCT-1977', title:'[D0-Data] 数据缓存机制 Research — 主动拉取 vs 被动缓存', assignee:'regison', layer:'ai', module:'scope3.proactive', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S3' },
+      { id:'PRODUCT-1973', title:'[D0-Data] 数据可用性与健康监控系统搭建', assignee:'regison', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-1739', title:'[AI-Core] User Profile Skill 建立 — schema 设计、数据采集、查询接口与更新机制', assignee:'sylvia', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1736', title:'[User-System] User Profile Schema 架构设计与实现', assignee:'sylvia', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1577', title:'[AI-Core] 信任梯度机制设计', assignee:'sylvia', layer:'ai', module:'scope1.core', state:'started', stateLabel:'Product Planning', priority:'no priority', team:'PRODUCT', scope:'S1' }
+    ]
+  },
+  tes9: {
+    label: 'Sprint 9 (TES)', dates: '3/20 → 3/27', status: 'active',
+    issues: [
+      { id:'TES-699', title:'[Infra] BlockaidMonitor 自消费 VirtualTopic 消息 — 日志噪音与 DLQ 堆积', assignee:'jim', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'no priority', team:'TES' },
+      { id:'TES-649', title:'[Infra] D0 共享 VM 质量跟踪 — 成本优化、僵尸容器与自动扩容验证', assignee:'kevin', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'high', team:'TES' },
+      { id:'TES-613', title:'[QA] 3.15 上线用户初始化全流程质量保障', assignee:'kevin', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'high', team:'TES' }
+    ]
+  },
+  product23: {
+    label: 'Sprint 23 (PRODUCT)', dates: '3/23 → 4/3', status: 'active',
+    issues: [
+      { id:'PRODUCT-2561', title:'[Safety] 调研 NemoClaw/OpenShell 可复用安全能力 — egress proxy + 凭证隔离 + Landlock', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2557', title:'[Safety] ECR 凭据清理 + Agent 目录权限加固', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'completed', stateLabel:'Done', priority:'medium', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2556', title:'[Safety] 容器间 iptables 网络隔离 — br-+ DROP + IMDS 阻断', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2550', title:'[Cost] Opus 耗尽后降级方案 — 配额 + 模型选型', assignee:'zouye', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-2544', title:'[Trading] Per-Symbol 杠杆持久化 — 代码实现设计文档 (基于 PRODUCT-2247 PRD v1.7)', assignee:'alex', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2541', title:'[d0-cli] SET_GRPS_PREFERENCE 中加杠杆交叉检查', assignee:'alex', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2539', title:'[d0-cli] SET_LEVERAGE 中加 GRPS 交叉检查', assignee:'alex', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2538', title:'[d0-cli] 新增 SET_LEVERAGE 工具', assignee:'alex', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2537', title:'[d0-cli] 新增查询 GRPS 实时指标工具 (indicators)', assignee:'alex', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2536', title:'[d0-cli] 新增手动解除保护期工具 (release protection)', assignee:'alex', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2535', title:'[d0-cli] 新增关闭 GRPS 偏好工具 (delete preference)', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2534', title:'[d0-cli] 新增 GRPS 撤销授权工具 (revoke)', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2533', title:'[d0-cli] 新增 GRPS 授权工具 (authorize)', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2532', title:'[Tech] GRPS Perps 后端集成方案', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2531', title:'[Perps] H2/H3 硬约束事件 TG 推送', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2530', title:'[Perps] 提醒抑制规则 + 静默窗口 Redis 实现', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2529', title:'[Perps] S7: 未设置 GRPS 定时提醒推送', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2528', title:'[Perps] S5: 连续亏损行为提醒推送', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2527', title:'[Perps] S4: GRPS monitor 加 80% 阈值预警推送', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2526', title:'[Perps] GRPS 预设档位增加杠杆上限字段', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'triage', stateLabel:'Triage', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2525', title:'[Perps] SET_LEVERAGE 后端接口', assignee:'alex', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2524', title:'[Cost] 成本分析框架 — 口径定义 + 指标拆解 + 公式', assignee:'zouye', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-2521', title:'[Cost] 排查 b0a8372c 异常消耗 — shared mode 单日 2,000+ user 调用，7 天 $1,408', assignee:'unassigned', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-2517', title:'[Perps] 手动结算接口鉴权修复 — 恢复 userInterceptor + 调试手动结算流程', assignee:'alex', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2500', title:'[AI-Core] Prompt Cache Miss 修复 — 动态 Metadata 破坏 Prefix ���配，Miss 率 50%→<20%', assignee:'unassigned', layer:'ai', module:'scope1.core', state:'triage', stateLabel:'Triage', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2499', title:'[AI-Core] 模型 API 成本优化 — Model Routing + 低成本模型替代 + Prompt Caching', assignee:'unassigned', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2498', title:'[Cost] D0 简报系统 LLM 成本优化 — 8.7→1 次 LLM 调用，月省 $1,100', assignee:'jim', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2497', title:'[D0] Orphan Container 成本泄漏 — TG 解绑/离线后容器持续烧钱', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2496', title:'D0 线上成本 Tracking — Infra + LLM 实时监控', assignee:'justin', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2493', title:'[Tech] GRPS D0 Bot 集成技术方案', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2492', title:'[Trading] Per-Symbol 杠杆持久化 — 后端实现（SET_LEVERAGE API + 仓位调整 + 挂单联动）', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2485', title:'[AI-Core] Skill 分层访问控制实现', assignee:'xujin', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2229', title:'[Safety] Scope 3: 外部攻击面收敛 — 封堵已知入侵路径 (P1)', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2228', title:'[Safety] Scope 2: 内部权限控制 — 防止单人完成用户资金转移 (P0)', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2227', title:'[Safety] Scope 1: 用户容器隔离 — SharedVM 用户间数据与资金隔离 (P0)', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2253', title:'CoinGlass Fear & Greed API 返回过时数据 — 需增加数据新鲜度校验和 fallback 源', assignee:'regison', layer:'ai', module:'scope1.core', state:'canceled', stateLabel:'Canceled', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2225', title:'[Settlement] 资金费结算引擎无锁化改造 — 两阶段 Compute-then-Write 架构', assignee:'alex', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2219', title:'[Perps] 交易对扩充 10→20 — SQL Migration + 灰度上线', assignee:'alex', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2216', title:'[Epic] Jupiter V2 迁移 — Adapter 重构、Trigger Order 与签名链路', assignee:'regison', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2207', title:'[Epic] 风控引擎 & GRPS — 链上风控规则、参数约束与执行侧保护', assignee:'sylvia', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2205', title:'[Epic] 用户账户 & 认证 — Session/Cookie/Login 问题修复与 Turnkey 接入', assignee:'gary', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2194', title:'[Design] Harness UI 重构 — HIL + D0 统一体验', assignee:'yixintan', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2193', title:'[Trading] 新增 Polymarket 持仓和挂单查询 REST 接口', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2190', title:'[GRPS] D0 Bot GRPS 集成联调 — 后端已上线，对接 AI Skill 层', assignee:'lirui', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2251', title:'[Infra] 统一聚合报警机制 — 用 Turing 实现跨模块告警聚合、去噪与分发', assignee:'jackjun', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2189', title:'[Perps] Donut Perpetual 多副本改造 — 代码层任务', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2187', title:'[Perps] 交易对扩充 — 从 10 对扩展至 20 对', assignee:'peter', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2186', title:'[Safety] AI Skill GRPS 软约束方法论 — grps-risk-guard 实现', assignee:'xujin', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2185', title:'[Trading][基建] 策略执行层 + 回测引擎（原 Strategy Hub PRD，重新定位为基建）', assignee:'peter', layer:'ai', module:'scope1.core', state:'started', stateLabel:'Product Planning', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2218', title:'[Trading] 移除自研 TP/SL — 迁移至 Jupiter Trigger Order API V2', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2184', title:'[UX] D0 Dashboard 与 Onboarding UI/UX 优化', assignee:'gary', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2183', title:'[Dashboard] D0 小币种提现与资产展示', assignee:'peter', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2182', title:'[Perps] 账户上账 — 新增 EVM 链 USDT 支持', assignee:'peter', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'Product Planning', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2181', title:'[Trading] 多副本并发风险排查与修复 — 账户盈亏不平 / 仓位多空失衡 / 流水断裂', assignee:'alex', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2154', title:'[Safety] K8s 仓库硬编码凭证清理与轮换 — DB password + 13 个 token/key', assignee:'jackjun', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2150', title:'[QA] D0 E2E 多环境验收 — Test / Staging / Prod 全链路覆盖', assignee:'kevin', layer:'ai', module:'scope5.eval', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S5' },
+      { id:'PRODUCT-2147', title:'[QA] 测试看板 + Release Gate Dashboard — 覆盖度、回归结果与发版放行', assignee:'kevin', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2256', title:'[D0 CLI] Tool Result 长数组折叠 — 减少 LLM Token 消耗', assignee:'jim', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2144', title:'[UX] TG Bot Daily Brief 缺少 inline CTA 跳转 Dashboard', assignee:'xujin', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2132', title:'[Onboarding] 缺少 Back 按钮 + Claim 后 TG/Web 切换体验优化', assignee:'yixintan', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2128', title:'[Design] Onboarding 构思', assignee:'yixintan', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'no priority', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2127', title:'[GTM] D0 launch 素材', assignee:'yixintan', layer:'acquisition', module:'scope9.growth', state:'started', stateLabel:'In Progress', priority:'no priority', team:'PRODUCT', scope:'S9' },
+      { id:'PRODUCT-2126', title:'[Design] Dashboard 重组+构思', assignee:'yixintan', layer:'ai', module:'scope1.core', state:'started', stateLabel:'Product Planning', priority:'no priority', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2125', title:'[GTM] 3/27 活动素材', assignee:'yixintan', layer:'acquisition', module:'scope9.growth', state:'started', stateLabel:'In Progress', priority:'no priority', team:'PRODUCT', scope:'S9' },
+      { id:'PRODUCT-2124', title:'[Tech] Membership Panel + 升级引导 UI — 订阅管理 & Pro Skill 拦截', assignee:'gary', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2123', title:'[Tech] Pricing Page — 两档对比 + CTA 动态渲染 + Checkout 跳转', assignee:'gary', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2122', title:'[Tech] Creem 支付通道对接 — Checkout + Webhook + Provider 抽象', assignee:'wenzhang', layer:'infra', module:'scope7.infra', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-2121', title:'[Tech] 计费域模型 + Plan Config — 数据建模 & 订阅状态机', assignee:'wenzhang', layer:'infra', module:'scope7.infra', state:'completed', stateLabel:'Done', priority:'urgent', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-2120', title:'[Trading] Polymarket 首次下单失败 — Turnkey 无法签名 legacy 格式 approve 交易', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2117', title:'[PM-4] 订单功能增强 — 撤单 + 查询 + 多笔循环下单', assignee:'hanliang', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2115', title:'[PM-2] 策略信号上线 — News Trading + Sport Trading', assignee:'hanliang', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2083', title:'[AI-Core] D0 Skill 市场 — 第三方 Skill 浏览、安装与对话集成', assignee:'xujin', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2114', title:'[PM-1] 最小闭环 — Yield Bias → 下单 → 止损', assignee:'hanliang', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2025', title:'[Infra] OpenClaw 上游升级 + 全量回归测试', assignee:'wenzhang', layer:'ai', module:'scope5.eval', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S5' },
+      { id:'PRODUCT-2338', title:'[UX] HL Wallet 余额展示 — 显示可提现金额而非总资产', assignee:'ethan', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'medium', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2019', title:'[Trading] D0 Perps 体验优化说明 — 内部预检外漏修复与下单体验改进', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2098', title:'[Data] AMQP 故障容错 — Birdeye 熔断 + OTel 告警 + Health Check 降级', assignee:'jackjun', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2260', title:'[Trading] Agents 前端 fetchBase 缺少 auth headers — positions 接口返回 401', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2017', title:'[GRPS] D0 Bot 调用 GRPS 服务数据 — 业务场景梳理与集成设计', assignee:'peter', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-2012', title:'[User-System] 商业化 MVP — Cron 模型降级 + 成本预算缩减', assignee:'zouye', layer:'infra', module:'scope7.infra', state:'started', stateLabel:'Product Planning', priority:'high', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-2011', title:'[AI-Core] 商业化 MVP — Skills + Cron 权益分档包装', assignee:'zouye', layer:'ai', module:'scope1.core', state:'started', stateLabel:'Product Planning', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2010', title:'[User-System] 商业化 MVP — 上线付费闭环能力', assignee:'zouye', layer:'ai', module:'scope1.core', state:'started', stateLabel:'Product Planning', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2009', title:'[User-System] D0 商业化规划 — MVP 阶段付费验证路线', assignee:'zouye', layer:'ai', module:'scope1.core', state:'started', stateLabel:'Product Planning', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2261', title:'[AI-Core] MCP Server 工具精简 — 103 个工具收敛为 20 个聚合器', assignee:'jim', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1992', title:'[AI-Core] D0 E2E 自动化测试接入 GitHub Actions CI', assignee:'kevin', layer:'ai', module:'scope1.core', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1990', title:'[AI-Core] D0 Eval Contract v1 — Agent 评测方法论与 Evaluation Schema', assignee:'fei', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2014', title:'[Trading] Polymarket 信号生产到执行全流程 Pipeline', assignee:'hanliang', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'Product Planning', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2082', title:'[AI-Core] LLM Proxy 主备通道架构设计 — OpenRouter / AWS 自动 Fallback', assignee:'wenzhang', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2263', title:'[User-System] D0 Bot 向用户暴露原始 API Billing Error — 优化错误处理与用户提示', assignee:'wenzhang', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2265', title:'[UX] 限价单核心操作迁移至 Jupiter V2 — 创建/取消/列表/历史/状态全覆盖', assignee:'regison', layer:'ai', module:'scope1.core', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2266', title:'[Trading] Jupiter V1/V2 Adapter 统一重构 — 上层模块屏蔽 API 差异', assignee:'regison', layer:'trading', module:'scope2.trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2267', title:'[User-System] DWS + JWT + Vault 签名链路验证 — Jupiter V2 迁移前置条件', assignee:'regison', layer:'trading', module:'scope2.trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-2268', title:'[Trading] Jupiter Trigger Order V2 迁移 — 影响分析与改动计划', assignee:'regison', layer:'trading', module:'scope2.trading', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-1989', title:'[GRPS] 风控参数约束规则 — 参数间比较逻辑与上下限统一', assignee:'sylvia', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-1987', title:'[Safety] 加仓时自动刷新仓位 TP/SL — Patch 语义 + 即时触发校验', assignee:'alex', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-1983', title:'[AI-Core] D0 Analytics FE 实施包 — Track B/C 规范、Contract 与 Hook Map', assignee:'jim', layer:'ai', module:'scope1.core', state:'completed', stateLabel:'Done', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2341', title:'[User-System] Session Token 7 天过期后 Bot 不可用 — 缺少自动续期机制', assignee:'jim', layer:'ai', module:'scope1.core', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1979', title:'[D0-QA] Use Case 质量与效果测试', assignee:'xujin', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1978', title:'[D0-Ops] 高质量 Cron Jobs 整理与适配', assignee:'xujin', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1976', title:'[D0-Data] 踩坑记录复用与代币筛选机制优化', assignee:'regison', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1975', title:'[D0-Data] 缺失数据补齐 — 宏观数据 / WildTrack / ETF 等', assignee:'regison', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1974', title:'[Data] 中间信号处理层构建 — Regime + Signal Engine', assignee:'regison', layer:'ai', module:'scope3.proactive', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S3' },
+      { id:'PRODUCT-1972', title:'[D0-Data] 数据质量与集成度审查', assignee:'regison', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1970', title:'[UX] Discover 1.0 验收标准补充 — 部分功能强化', assignee:'gary', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2222', title:'[Infra] D0 E2E 自动化测试持续集成 — 新功能覆盖与回归精进', assignee:'kevin', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1963', title:'[AI-Core] D0 云端评测 Harness — B3/B4 真实后端双 Mode 测试', assignee:'fei', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2151', title:'[Perps] Donut Perpetual 合约交易性能测试套件搭建', assignee:'kevin', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-1952', title:'[Process] — Trading 上游介入、Perps TPSL 与 QA 赋能执行项', assignee:'alex', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-1949', title:'[Dashboard] D0 自定义看板 — HTML 页面工具调用', assignee:'xujin', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1948', title:'[AI-Core] D0 困难用例场景分析与实现', assignee:'jackjun', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1947', title:'[AI-Core] Eval Harness 全景图 — v0316 版本 - 推进中', assignee:'fei', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1946', title:'[AI-Core] D0 Use Case 归拢分析与修改建议 — Beta Top 10 优先级方案', assignee:'sylvia', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2015', title:'[Trading] D0 Polymarket CLOB 下单失败 — 钱包未注册导致 USDC 卡住', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-1940', title:'[AI-Core] SuperBot 2.0 — 将 70-80% 工程工作迁移至 Turing', assignee:'jackjun', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'medium', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1939', title:'[Trading] EVM Native Token 转账预留 Gas 费 — Max Send 逻辑', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-1936', title:'[Trading] EVM wallet positions API 稳定性优化 — 多链查询超时根因与修复方案', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-1999', title:'[UX] D0 Landing Page iframe 路由重构 — 同步浏览器地址栏', assignee:'gary', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1918', title:'[Safety] D0 数据诚实性加固 — 对未接入链/平台的 Prompt 硬约束', assignee:'jackjun', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1902', title:'[Safety] 明确 Agent 签名授权模型 — 自主交易签名路径与权限边界', assignee:'regison', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-1900', title:'[Safety] GRPS 迭代 — 支持风控参数间比较约束（Max Drawdown ≥ Daily Loss）', assignee:'sylvia', layer:'safety', module:'scope4.safety', state:'triage', stateLabel:'Triage', priority:'medium', team:'PRODUCT', scope:'S4' },
+      { id:'PRODUCT-1891', title:'[UX] 3/15 发版全流程 UI/UX 设计走查验收', assignee:'yixintan', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1882', title:'[D0-KP] Phase 3.3: Daily Report 升级 — 数据驱动分析报告', assignee:'jim', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1878', title:'[AI-Core] D0 知识管线 Phase 2.2 — 自动化知识提取管线 (Auto Knowledge Extraction)', assignee:'chriszhu', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1872', title:'[AI-Core] D0 Knowledge Pipeline 总体规划 — Master Plan', assignee:'chriszhu', layer:'ai', module:'scope1.core', state:'started', stateLabel:'Product Planning', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2287', title:'[Data Quality] 同名不同币 — Alpha 代币与 Spot/Futures 老币符号冲突', assignee:'regison', layer:'ai', module:'scope5.eval', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S5' },
+      { id:'PRODUCT-2288', title:'[Data Quality] K线 API 不稳定 — 4% 失败率 + 陈旧数据问题', assignee:'regison', layer:'ai', module:'scope5.eval', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S5' },
+      { id:'PRODUCT-2289', title:'[User-System] build-transfer API 500 修复 — Helius priority fee 编码格式不匹配', assignee:'ethan', layer:'ai', module:'scope1.core', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1866', title:'[AI-Core] D0 架构方向 — 多模型管线 (Multi-Model Pipeline) 替代单一大模型', assignee:'chriszhu', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1840', title:'[D0] Skill Hunter — Agent 默认启用自我进化能力包', assignee:'jackjun', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2297', title:'[AI-Core] D0 用户行为记忆系统 v3.0 实现', assignee:'jim', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2119', title:'[Trading] Polymarket 策略发现与验证框架', assignee:'hanliang', layer:'trading', module:'scope2.trading', state:'canceled', stateLabel:'Suspend', priority:'high', team:'PRODUCT', scope:'S2' },
+      { id:'PRODUCT-1817', title:'[Trading] Dashboard 持仓展示字段补全 — Open Positions 数据完善', assignee:'peter', layer:'ai', module:'scope1.core', state:'started', stateLabel:'Product Planning', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2298', title:'[User-System] 测试环境 refresh 接口登录后仍返回 401 — cookie 状态异常', assignee:'jim', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1776', title:'[Data] 设计用户交互轨迹收集方案 — LLM 摘要与存储质量权衡', assignee:'fei', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1737', title:'[UX] Onboarding 问题卡设计与实现 — User Profile 冷启动', assignee:'sylvia', layer:'ai', module:'scope1.core', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2302', title:'[AI-Core] DONUT_HL_WITHDRAW 提现未告知手续费 — 影响用户资金预期', assignee:'ethan', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1682', title:'[UX] D0 Webpage Explore 页面 MVP — 市场发现与信号概览', assignee:'sylvia', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2308', title:'[AI-Core] D0 Chat 意图识别与场景路由 — 迁移 CryptoAIRouter', assignee:'unassigned', layer:'ai', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1591', title:'[Eval 003-1] 主动埋点', assignee:'fei', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-1576', title:'[AI-Core] Eval 003 — 用户 use case 反馈需求 PR 管线', assignee:'fei', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2042', title:'[Infra] 有状态服务消除单可用区风险 — Redis/TimescaleDB 等全在 ap-southeast-2a', assignee:'wenzhang', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-2043', title:'[Infra] 生产服务添加多副本与 PDB — 消除单副本全量不可用风险', assignee:'wenzhang', layer:'infra', module:'scope7.infra', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-2026', title:'[Infra] K8s 生产基础设施运维问题修复', assignee:'wenzhang', layer:'infra', module:'scope7.infra', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S7' },
+      { id:'PRODUCT-2330', title:'[AI-Core] 原子与不变量级别 LLM 评测体系建设', assignee:'fei', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'medium', team:'PRODUCT', scope:'S1' },
+      { id:'PRODUCT-2423', title:'[UX] K 线支撑位画线逻辑错误 — 竖线应为横线且缺少 H1/H2 标注', assignee:'hanliang', layer:'ai', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'medium', team:'PRODUCT', scope:'S1' }
+    ]
+  },
+  eng22: {
     label: 'Sprint 22 (ENG)', dates: '3/15 → 3/29', status: 'active',
     issues: [
       { id:'ENG-1184', title:'[Bug] Test 环境 hyperliquid-portfolio 接口 500 — DWS API key 不同步', assignee:'ethan', layer:'experience', module:'frontend.dashboard', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-1181', title:'[Perps] 交易对扩充 10→20 — SQL Migration 文件实现', assignee:'alex', layer:'trading', module:'trading.perps', state:'started', stateLabel:'In Progress', priority:'high', team:'ENG' },
+      { id:'ENG-1181', title:'[Perps] 交易对扩充 10→20 — SQL Migration 文件实现', assignee:'alex', layer:'trading', module:'trading.perps', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-1177', title:'下线压测环境（stress namespace）', assignee:'wenzhang', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
       { id:'ENG-1175', title:'[AI-Core] Web Chat SSE 流式输出丢失 — 子 Agent 工具调用后内容截断', assignee:'jiagui', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
       { id:'ENG-1170', title:'[Data] DriftWebSocketService 高频价格推送打崩 ActiveMQ 连接', assignee:'jim', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
-      { id:'ENG-1166', title:'[Infra] ActiveMQ testing 环境被打崩 — Blockaid + Birdeye 高频推送 + broker 规格不足', assignee:'wenzhang', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-1166', title:'[Infra] ActiveMQ testing 环境被打崩 — Blockaid + Birdeye 高频推送 + broker 规格不足', assignee:'wenzhang', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-1165', title:'[Infra] Production Shared VM 根卷写满 — 8GB 磁盘耗尽导致失联 4 天，D0 bot 创建全部失败', assignee:'wenzhang', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-1159', title:'[Safety] wallet-service 凭证泄露轮换 — .env.example 含真实 Privy Secret', assignee:'jim', layer:'safety', module:'scope4.safety', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-1157', title:'[Safety] wallet-service 全局认证 — Privy 路由零 auth 修复', assignee:'jim', layer:'safety', module:'scope4.safety', state:'completed', stateLabel:'Done', priority:'low', team:'ENG' },
@@ -1360,19 +1538,19 @@ const CYCLES = {
       { id:'ENG-1103', title:'[Infra] workspace-sync.sh 用户自定义配置与官方更新合并冲突处理', assignee:'wenzhang', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-1101', title:'[Memory] Heartbeat Step 3 — signals.jsonl 到 behavioral profile 批量同步', assignee:'xujin', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-1097', title:'[Memory] 每日用户行为同步 — Behavioral Sync 与 confidence 自动更新', assignee:'xujin', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
-      { id:'ENG-1096', title:'[Data] DONUT 数据源审计框架 — 发现工具缺口与数据冲突的方法论', assignee:'hanliang', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' },
-      { id:'ENG-1095', title:'[Infra] openclaw-dashboard 服务运维信息及重启恢复记录', assignee:'unassigned', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'low', team:'ENG' },
+      { id:'ENG-1096', title:'[Data] DONUT 数据源审计框架 — 发现工具缺口与数据冲突的方法论', assignee:'hanliang', layer:'safety', module:'scope4.safety', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' },
+      { id:'ENG-1095', title:'[Infra] openclaw-dashboard 服务运维信息及重启恢复记录', assignee:'unassigned', layer:'experience', module:'frontend.dashboard', state:'completed', stateLabel:'Done', priority:'low', team:'ENG' },
       { id:'ENG-1091', title:'[AI-Core] Shared LLM 日配额每天早上耗尽 — Opus/Sonnet 100% 满额导致服务不可用', assignee:'jim', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
       { id:'ENG-1089', title:'[Infra] Shared 模式禁用 qmd embed — 回退 BM25 关键词搜索', assignee:'wenzhang', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
       { id:'ENG-1081', title:'[UX] donut-backend-testing pod 崩溃导致 TG proxy 与 LLM 服务级联失败', assignee:'justin', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
-      { id:'ENG-1087', title:'[AI-Core] OpenClaw Profile Plugin — 用 SQLite 替代 JSON 文件存储 user profile', assignee:'jim', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
+      { id:'ENG-1087', title:'[AI-Core] OpenClaw Profile Plugin — 用 SQLite 替代 JSON 文件存储 user profile', assignee:'jim', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
       { id:'ENG-1043', title:'[Infra] D0 Bot 监控 — SigNoz 告警规则 + /health/d0 心跳端点', assignee:'jiagui', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-1011', title:'[AI-Core] LLM Token 用量配额 — 按用户账户限制并与会员权益挂钩', assignee:'zouye', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'urgent', team:'ENG' },
-      { id:'ENG-1009', title:'[Infra] SignOz 查询 D0 LLM Token 用量操作指南', assignee:'unassigned', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
+      { id:'ENG-1009', title:'[Infra] SignOz 查询 D0 LLM Token 用量操作指南', assignee:'unassigned', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
       { id:'ENG-1000', title:'[UX] TG Bot 消息顺序错乱 — 文本消息被重排至会话底部', assignee:'justin', layer:'experience', module:'frontend.dashboard', state:'canceled', stateLabel:'Canceled', priority:'no priority', team:'ENG' },
       { id:'ENG-997', title:'[Trading] Polymarket 完成情况与整体进度追踪', assignee:'hanliang', layer:'trading', module:'trading.perps', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
-      { id:'ENG-967', title:'[D0-CLI] 平仓后自动取消对应 token 的 TP/SL 订单', assignee:'kevin', layer:'trading', module:'trading.perps', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' },
-      { id:'ENG-962', title:'[D0-CLI] 实现 Polymarket CLOB 与 Data API 工具 — 含订单管理与持仓', assignee:'hanliang', layer:'trading', module:'trading.perps', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
+      { id:'ENG-967', title:'[D0-CLI] 平仓后自动取消对应 token 的 TP/SL 订单', assignee:'kevin', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' },
+      { id:'ENG-962', title:'[D0-CLI] 实现 Polymarket CLOB 与 Data API 工具 — 含订单管理与持仓', assignee:'hanliang', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-930', title:'[Infra] D0 Gateway VM 根磁盘不足导致 Docker 镜像更新失败', assignee:'jackjun', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'high', team:'ENG' },
       { id:'ENG-925', title:'[Infra] D0 独享 Agent vs Multi-Agent 共享架构 — 功能与安全对比', assignee:'justin', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
       { id:'ENG-924', title:'[Infra] D0 Cloud 成本分析 — Hetzner 独享 vs AWS EC2 vs Multi-Agent 共享', assignee:'justin', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'medium', team:'ENG' },
@@ -1386,137 +1564,12 @@ const CYCLES = {
       { id:'ENG-836', title:'[Data] Nofx 策略工作室追踪更新', assignee:'justin', layer:'ai', module:'ai.tools', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' },
       { id:'ENG-806', title:'[Extension] 浏览器研究 — 插件融合与本地 Browser Agent 方案探索', assignee:'jiagui', layer:'infra', module:'infra.devops', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' },
       { id:'ENG-831', title:'[Infra] Suna 长连接在滚动更新期间提前断开', assignee:'justin', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' },
-      { id:'ENG-810', title:'[Trading] Agent 交易实验框架 — benchmark 设计与高胜率策略挖掘', assignee:'jackjun', layer:'trading', module:'trading.perps', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' },
-      { id:'ENG-827', title:'[Trading] 补充量化用户交易场景与相关数据源', assignee:'tao', layer:'trading', module:'trading.perps', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' }
-    ]
-  },
-  sprint23: {
-    label: 'Sprint 23 (PRODUCT)', dates: '3/23 → 4/3', status: 'active',
-    issues: [
-      { id:'PRODUCT-2499', title:'[AI-Core] 模型 API 成本优化 — Model Routing + 低成本模型替代 + Prompt Caching', assignee:'unassigned', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S7' },
-      { id:'PRODUCT-2497', title:'[D0] Orphan Container 成本泄漏 — TG 解绑/离线后容器持续烧钱', assignee:'jiagui', layer:'infra', module:'scope7.infra', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S7' },
-      { id:'PRODUCT-2496', title:'D0 线上成本 Tracking — Infra + LLM 实时监控', assignee:'jackjun', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S7' },
-      { id:'PRODUCT-2493', title:'[Tech] GRPS D0 Bot 集成技术方案', assignee:'lirui', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2492', title:'[Trading] Per-Symbol 杠杆持久化 — 后端实现（SET_LEVERAGE API + 仓位调整 + 挂单联动）', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2485', title:'[AI-Core] Skill 分层访问控制实现', assignee:'xujin', layer:'commercial', module:'scope8.commercial', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2229', title:'[Safety] Scope 3: 外部攻击面收敛 — 封堵已知入侵路径 (P1)', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2228', title:'[Safety] Scope 2: 内部权限控制 — 防止单人完成用户资金转移 (P0)', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2227', title:'[Safety] Scope 1: 用户容器隔离 — SharedVM 用户间数据与资金隔离 (P0)', assignee:'jiagui', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2219', title:'[Perps] 交易对扩充 10→20 — SQL Migration + 灰度上线', assignee:'alex', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2216', title:'[Epic] Jupiter V2 迁移 — Adapter 重构、Trigger Order 与签名链路', assignee:'regison', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2207', title:'[Epic] 风控引擎 & GRPS — 链上风控规则、参数约束与执行侧保护', assignee:'sylvia', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2205', title:'[Epic] 用户账户 & 认证 — Session/Cookie/Login 问题修复与 Turnkey 接入', assignee:'gary', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2194', title:'[Design] Harness UI 重构 — HIL + D0 统一体验', assignee:'yixintan', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2193', title:'[Trading] 新增 Polymarket 持仓和挂单查询 REST 接口', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2190', title:'[GRPS] D0 Bot GRPS 集成联调 — 后端已上线，对接 AI Skill 层', assignee:'lirui', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2251', title:'[Infra] 统一聚合报警机制 — 用 Turing 实现跨模块告警聚合、去噪与分发', assignee:'jackjun', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2189', title:'[Perps] Donut Perpetual 多副本改造 — 代码层任务', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2187', title:'[Perps] 交易对扩充 — 从 10 对扩展至 20 对', assignee:'peter', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2186', title:'[Safety] AI Skill GRPS 软约束方法论 — grps-risk-guard 实现', assignee:'xujin', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2185', title:'[AI-Core] D0 Strategy Hub 策略中心 — 回测 + 实盘 + AI 策略', assignee:'unassigned', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Planning', priority:'urgent', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2218', title:'[Trading] 移除自研 TP/SL — 迁移至 Jupiter Trigger Order API V2', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2184', title:'[UX] D0 Dashboard 与 Onboarding UI/UX 优化', assignee:'gary', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'medium', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2183', title:'[Dashboard] D0 小币种提现与资产展示', assignee:'peter', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2182', title:'[Perps] 账户上账 — 新增 EVM 链 USDT 支持', assignee:'peter', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Planning', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2154', title:'[Safety] K8s 仓库硬编码凭证清理与轮换 — DB password + 13 个 token/key', assignee:'jackjun', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2150', title:'[QA] D0 E2E 多环境验收 — Test / Staging / Prod 全链路覆盖', assignee:'kevin', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-2147', title:'[QA] 测试看板可视化 — 覆盖度 + 回归结果 Dashboard', assignee:'kevin', layer:'quality', module:'scope5.eval', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-2256', title:'[D0 CLI] Tool Result 长数组折叠 — 减少 LLM Token 消耗', assignee:'regison', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2144', title:'[UX] TG Bot Daily Brief 缺少 inline CTA 跳转 Dashboard', assignee:'xujin', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2132', title:'[Onboarding] 缺少 Back 按钮 + Claim 后 TG/Web 切换体验优化', assignee:'yixintan', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2128', title:'[Design] Onboarding 构思', assignee:'yixintan', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'no priority', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2127', title:'[GTM] D0 launch 素材', assignee:'yixintan', layer:'growth', module:'scope9.growth', state:'started', stateLabel:'In Progress', priority:'no priority', team:'PRODUCT', scope:'S9' },
-      { id:'PRODUCT-2126', title:'[Design] Dashboard 重组+构思', assignee:'yixintan', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'no priority', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2125', title:'[GTM] 3/27 活动素材', assignee:'yixintan', layer:'growth', module:'scope9.growth', state:'started', stateLabel:'In Progress', priority:'no priority', team:'PRODUCT', scope:'S9' },
-      { id:'PRODUCT-2124', title:'[Tech] Membership Panel + 升级引导 UI — 订阅管理 & Pro Skill 拦截', assignee:'gary', layer:'commercial', module:'scope8.commercial', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2123', title:'[Tech] Pricing Page — 两档对比 + CTA 动态渲染 + Checkout 跳转', assignee:'gary', layer:'commercial', module:'scope8.commercial', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2122', title:'[Tech] Creem 支付通道对接 — Checkout + Webhook + Provider 抽象', assignee:'wenzhang', layer:'commercial', module:'scope8.commercial', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2121', title:'[Tech] 计费域模型 + Plan Config — 数据建模 & 订阅状态机', assignee:'wenzhang', layer:'commercial', module:'scope8.commercial', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2120', title:'[Trading] Polymarket 首次下单失败 — Turnkey 无法签名 legacy 格式 approve 交易', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2117', title:'[PM-4] 订单功能增强 — 撤单 + 查询 + 多笔循环下单', assignee:'hanliang', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2115', title:'[PM-2] 策略信号上线 — News Trading + Sport Trading', assignee:'hanliang', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2083', title:'[AI-Core] D0 Skill 市场 — 第三方 Skill 浏览、安装与对话集成', assignee:'xujin', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2114', title:'[PM-1] 最小闭环 — Yield Bias → 下单 → 止损', assignee:'hanliang', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2025', title:'[Infra] OpenClaw 上游升级 + 全量回归测试', assignee:'wenzhang', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S7' },
-      { id:'PRODUCT-2338', title:'[UX] HL Wallet 余额展示 — 显示可提现金额而非总资产', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Review', priority:'medium', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2019', title:'[Trading] D0 Perps 体验优化说明 — 内部预检外漏修复与下单体验改进', assignee:'lirui', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2098', title:'[Data] AMQP 故障容错 — Birdeye 熔断 + OTel 告警 + Health Check 降级', assignee:'jackjun', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S7' },
-      { id:'PRODUCT-2260', title:'[Trading] Agents 前端 fetchBase 缺少 auth headers — positions 接口返回 401', assignee:'ethan', layer:'experience', module:'scope1.core', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2017', title:'[GRPS] D0 Bot 调用 GRPS 服务数据 — 业务场景梳理与集成设计', assignee:'peter', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2012', title:'[User-System] 商业化 MVP — Cron 模型降级 + 成本预算缩减', assignee:'zouye', layer:'commercial', module:'scope8.commercial', state:'unstarted', stateLabel:'Planning', priority:'high', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2011', title:'[AI-Core] 商业化 MVP — Skills + Cron 权益分档包装', assignee:'zouye', layer:'commercial', module:'scope8.commercial', state:'unstarted', stateLabel:'Planning', priority:'high', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2010', title:'[User-System] 商业化 MVP — 上线付费闭环能力', assignee:'zouye', layer:'commercial', module:'scope8.commercial', state:'unstarted', stateLabel:'Planning', priority:'high', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2009', title:'[User-System] D0 商业化规划 — MVP 阶段付费验证路线', assignee:'zouye', layer:'commercial', module:'scope8.commercial', state:'unstarted', stateLabel:'Planning', priority:'high', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2261', title:'[AI-Core] MCP Server 工具精简 — 170 个工具收敛为 22 个聚合器', assignee:'regison', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1997', title:'[User-System] Safari localhost 下 Secure Cookie 丢弃导致登录后 API 全部 401', assignee:'gary', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1992', title:'[AI-Core] D0 E2E 自动化测试接入 GitHub Actions CI', assignee:'kevin', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-1990', title:'[AI-Core] D0 Eval Contract v1 — Agent 评测方法论与 Evaluation Schema', assignee:'fei', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-2014', title:'[Trading] Polymarket 信号生产到执行全流程 Pipeline', assignee:'hanliang', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Planning', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2082', title:'[AI-Core] LLM Proxy 主备通道架构设计 — OpenRouter / AWS 自动 Fallback', assignee:'wenzhang', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2263', title:'[User-System] D0 Bot 向用户暴露原始 API Billing Error — 优化错误处理与用户提示', assignee:'wenzhang', layer:'commercial', module:'scope8.commercial', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S8' },
-      { id:'PRODUCT-2265', title:'[UX] 限价单核心操作迁移至 Jupiter V2 — 创建/取消/列表/历史/状态全覆盖', assignee:'regison', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2266', title:'[Trading] Jupiter V1/V2 Adapter 统一重构 — 上层模块屏蔽 API 差异', assignee:'regison', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2267', title:'[User-System] DWS + JWT + Vault 签名链路验证 — Jupiter V2 迁移前置条件', assignee:'regison', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2268', title:'[Trading] Jupiter Trigger Order V2 迁移 — 影响分析与改动计划', assignee:'regison', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-1989', title:'[GRPS] 风控参数约束规则 — 参数间比较逻辑与上下限统一', assignee:'sylvia', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Planning', priority:'high', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-1987', title:'[Safety] 加仓时自动刷新仓位 TP/SL — Patch 语义 + 即时触发校验', assignee:'alex', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-1983', title:'[AI-Core] D0 Analytics FE 实施包 — Track B/C 规范、Contract 与 Hook Map', assignee:'jim', layer:'quality', module:'scope5.eval', state:'completed', stateLabel:'Done', priority:'urgent', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-2341', title:'[User-System] Session Token 7 天过期后 Bot 不可用 — 缺少自动续期机制', assignee:'jim', layer:'experience', module:'scope1.core', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1979', title:'[D0-QA] Use Case 质量与效果测试', assignee:'xujin', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1978', title:'[D0-Ops] 高质量 Cron Jobs 整理与适配', assignee:'xujin', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1976', title:'[D0-Data] 踩坑记录复用与代币筛选机制优化', assignee:'regison', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1975', title:'[D0-Data] 缺失数据补齐 — 宏观数据 / WildTrack / ETF 等', assignee:'regison', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1974', title:'[Data] 中间信号处理层构建 — Regime + Signal Engine', assignee:'regison', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1972', title:'[D0-Data] 数据质量与集成度审查', assignee:'regison', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1970', title:'[UX] Discover 1.0 验收标准补充 — 部分功能强化', assignee:'gary', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2222', title:'[Infra] D0 E2E 自动化测试持续集成 — 新功能覆盖与回归精进', assignee:'kevin', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-1963', title:'[AI-Core] D0 云端评测 Harness — B3/B4 真实后端双 Mode 测试', assignee:'fei', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-2151', title:'[Perps] Donut Perpetual 合约交易性能测试套件搭建', assignee:'kevin', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-1952', title:'[Process] 3/15 Sprint 复盘 — Trading 上游介入、Perps TPSL 与 QA 赋能执行项', assignee:'alex', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-1949', title:'[Dashboard] D0 自定义看板 — HTML 页面工具调用', assignee:'xujin', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1948', title:'[AI-Core] D0 困难用例场景分析与实现', assignee:'jackjun', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1947', title:'[AI-Core] Eval Harness 全景图 — v0316 版本 - 推进中', assignee:'fei', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-1946', title:'[AI-Core] D0 Use Case 归拢分析与修改建议 — Beta Top 10 优先级方案', assignee:'sylvia', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2015', title:'[Trading] D0 Polymarket CLOB 下单失败 — 钱包未注册导致 USDC 卡住', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-1940', title:'[AI-Core] SuperBot 2.0 — 将 70-80% 工程工作迁移至 Turing', assignee:'jackjun', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Progress', priority:'medium', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1939', title:'[Trading] EVM Native Token 转账预留 Gas 费 — Max Send 逻辑', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-1936', title:'[Trading] EVM wallet positions API 稳定性优化 — 多链查询超时根因与修复方案', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-1999', title:'[UX] D0 Landing Page iframe 路由重构 — 同步浏览器地址栏', assignee:'gary', layer:'growth', module:'scope9.growth', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT', scope:'S9' },
-      { id:'PRODUCT-1918', title:'[Safety] D0 数据诚实性加固 — 对未接入链/平台的 Prompt 硬约束', assignee:'jackjun', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-1902', title:'[Safety] 明确 Agent 签名授权模型 — 自主交易签名路径与权限边界', assignee:'regison', layer:'safety', module:'scope4.safety', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-1900', title:'[Safety] GRPS 迭代 — 支持风控参数间比较约束（Max Drawdown ≥ Daily Loss）', assignee:'sylvia', layer:'safety', module:'scope4.safety', state:'triage', stateLabel:'Triage', priority:'medium', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-1891', title:'[UX] 3/15 发版全流程 UI/UX 设计走查验收', assignee:'yixintan', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-1882', title:'[D0-KP] Phase 3.3: Daily Report 升级 — 数据驱动分析报告', assignee:'jim', layer:'ai', module:'scope3.proactive', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S3' },
-      { id:'PRODUCT-1878', title:'[AI-Core] D0 知识管线 Phase 2.2 — 自动化知识提取管线 (Auto Knowledge Extraction)', assignee:'chriszhu', layer:'ai', module:'scope3.proactive', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S3' },
-      { id:'PRODUCT-1872', title:'[AI-Core] D0 Knowledge Pipeline 总体规划 — Master Plan', assignee:'chriszhu', layer:'ai', module:'scope3.proactive', state:'unstarted', stateLabel:'Planning', priority:'urgent', team:'PRODUCT', scope:'S3' },
-      { id:'PRODUCT-2287', title:'[Data Quality] 同名不同币 — Alpha 代币与 Spot/Futures 老币符号冲突', assignee:'regison', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2288', title:'[Data Quality] K线 API 不稳定 — 4% 失败率 + 陈旧数据问题', assignee:'regison', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2289', title:'[User-System] build-transfer API 500 修复 — Helius priority fee 编码格式不匹配', assignee:'ethan', layer:'experience', module:'scope1.core', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1998', title:'[UX] 谷歌邮箱登录成功后异常跳转至 test 界面', assignee:'gary', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'low', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1866', title:'[AI-Core] D0 架构方向 — 多模型管线 (Multi-Model Pipeline) 替代单一大模型', assignee:'chriszhu', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S7' },
-      { id:'PRODUCT-1840', title:'[D0] Skill Hunter — Agent 默认启用自我进化能力包', assignee:'jackjun', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'medium', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2297', title:'[AI-Core] D0 用户行为记忆系统 v3.0 实现', assignee:'jim', layer:'ai', module:'scope3.proactive', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S3' },
-      { id:'PRODUCT-2119', title:'[Trading] Polymarket 策略发现与验证框架', assignee:'hanliang', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Planning', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-1817', title:'[Trading] Dashboard 持仓展示字段补全 — Open Positions 数据完善', assignee:'peter', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Planning', priority:'high', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-2298', title:'[User-System] 测试环境 refresh 接口登录后仍返回 401 — cookie 状态异常', assignee:'jim', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-1790', title:'[AI-Core] D0 信号学习闭环系统 — 知识积累与自主优化 Pipeline', assignee:'chriszhu', layer:'ai', module:'scope3.proactive', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S3' },
-      { id:'PRODUCT-1776', title:'[Data] 设计用户交互轨迹收集方案 — LLM 摘要与存储质量权衡', assignee:'fei', layer:'quality', module:'scope5.eval', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-1739', title:'[AI-Core] User Profile Skill 建立 — schema 设计、数据采集、查询接口与更新机制', assignee:'sylvia', layer:'ai', module:'scope6.personal', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S6' },
-      { id:'PRODUCT-1737', title:'[UX] Onboarding 问题卡设计与实现 — User Profile 冷启动', assignee:'sylvia', layer:'ai', module:'scope6.personal', state:'completed', stateLabel:'Done', priority:'high', team:'PRODUCT', scope:'S6' },
-      { id:'PRODUCT-1736', title:'[User-System] User Profile Schema 架构设计与实现', assignee:'sylvia', layer:'ai', module:'scope6.personal', state:'started', stateLabel:'In Review', priority:'urgent', team:'PRODUCT', scope:'S6' },
-      { id:'PRODUCT-2302', title:'[AI-Core] DONUT_HL_WITHDRAW 提现未告知手续费 — 影响用户资金预期', assignee:'ethan', layer:'trading', module:'scope2.trading', state:'unstarted', stateLabel:'Todo', priority:'urgent', team:'PRODUCT', scope:'S2' },
-      { id:'PRODUCT-1682', title:'[UX] D0 Webpage Explore 页面 MVP — 市场发现与信号概览', assignee:'sylvia', layer:'experience', module:'scope1.core', state:'started', stateLabel:'In Review', priority:'high', team:'PRODUCT', scope:'S1' },
-      { id:'PRODUCT-2308', title:'[AI-Core] D0 Chat 意图识别与场景路由 — 迁移 CryptoAIRouter', assignee:'unassigned', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S7' },
-      { id:'PRODUCT-1591', title:'[Eval 003-1] 主动埋点', assignee:'fei', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-1576', title:'[AI-Core] Eval 003 — 用户 use case 反馈需求 PR 管线', assignee:'fei', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Progress', priority:'high', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-2042', title:'[Infra] 有状态服务消除单可用区风险 — Redis/TimescaleDB 等全在 ap-southeast-2a', assignee:'wenzhang', layer:'infra', module:'scope7.infra', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S7' },
-      { id:'PRODUCT-2043', title:'[Infra] 生产服务添加多副本与 PDB — 消除单副本全量不可用风险', assignee:'wenzhang', layer:'infra', module:'scope7.infra', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S7' },
-      { id:'PRODUCT-2026', title:'[Infra] K8s 生产基础设施运维问题修复', assignee:'wenzhang', layer:'safety', module:'scope4.safety', state:'started', stateLabel:'In Progress', priority:'urgent', team:'PRODUCT', scope:'S4' },
-      { id:'PRODUCT-2330', title:'[AI-Core] 原子与不变量级别 LLM 评测体系建设', assignee:'fei', layer:'quality', module:'scope5.eval', state:'started', stateLabel:'In Review', priority:'medium', team:'PRODUCT', scope:'S5' },
-      { id:'PRODUCT-2253', title:'CoinGlass Fear & Greed API 返回过时数据 — 需增加数据新鲜度校验和 fallback 源', assignee:'regison', layer:'experience', module:'scope1.core', state:'unstarted', stateLabel:'Todo', priority:'high', team:'PRODUCT', scope:'S1' }
+      { id:'ENG-810', title:'[Trading] Agent 交易实验框架 — benchmark 设计与高胜率策略挖掘', assignee:'jackjun', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' },
+      { id:'ENG-827', title:'[Trading] 补充量化用户交易场景与相关数据源', assignee:'tao', layer:'infra', module:'infra.k8s', state:'completed', stateLabel:'Done', priority:'no priority', team:'ENG' }
     ]
   }
 };
+
 
 /* ── Shared Mappings ───────────────────────────────────── */
 const nameMap = {jackjun:'JackJun',fei:'Fei',xujin:'Jin Xu',gary:'Gary',ethan:'Ethan',alex:'Alex',lirui:'Rui Li',regison:'Regison',wenzhang:'Wenzhang',jiagui:'Jiagui',peter:'Peter',zouye:'Ye Zou',sylvia:'Sylvia',yixintan:'Yi Tan',hanliang:'Liang Han',tao:'Tao Yuan',jim:'Jim',kevin:'Kevin',justin:'Justin',chriszhu:'Chris Zhu',unassigned:'—'};
@@ -1524,7 +1577,7 @@ const priorityColors = {urgent:'#ef4444',high:'#f59e0b',medium:'#3b82f6',low:'#2
 const moduleAccents = {'scope1':'#f59e0b','scope2':'#ef4444','scope3':'#a78bfa','scope4':'#dc2626','scope5':'#14b8a6','scope6':'#8b5cf6','scope7':'#71717a','scope8':'#d4a73a','scope9':'#22c55e','frontend':'#3b82f6','ai':'#f59e0b','trading':'#ef4444','infra':'#71717a','quality':'#14b8a6','growth':'#22c55e'};
 const FLAT_MODULES = ['frontend.dashboard','frontend.hil','frontend.extension','ai.tools','ai.eval','ai.llmproxy','ai.agent','trading.perps','trading.spot','trading.agents','trading.wallet','infra.backend','infra.k8s','infra.devops','infra.cron','quality.e2e','quality.triage','growth.seo','growth.referral','growth.voice'];
 
-let activeCycleKey = 'sprint23';
+let activeCycleKey = 'product23';
 
 /* ── localStorage Keys (v8.2) ──────────────────────────── */
 const SAVE_KEY = 'd0-board-v82';
@@ -3182,6 +3235,51 @@ document.addEventListener('click', function(e) {
 });
 
 window.addEventListener('load', function() { initApp(); restoreUserMatrixItems(); });
+
+/* ══ LINEAR SYNC (v11.1) ══════════════════════════════════ */
+var SYNC_CONFIG = { owner:'DonutLabs-ai', repo:'d0-product-kanban', workflow:'sync-linear.yml', tokenKey:'d0_kanban_gh_token' };
+function getSyncToken() { return localStorage.getItem(SYNC_CONFIG.tokenKey); }
+function setSyncToken(t) { localStorage.setItem(SYNC_CONFIG.tokenKey, t); }
+
+function triggerLinearSync() {
+  var token = getSyncToken();
+  if (!token) {
+    token = prompt('首次使用需要 GitHub PAT（fine-grained，只需 Actions: Write）\n\n创建：https://github.com/settings/tokens?type=beta\nRepo: DonutLabs-ai/d0-product-kanban\nPermission: Actions → Read and write\n\n粘贴 token：');
+    if (!token) return;
+    setSyncToken(token.trim());
+  }
+  var btn = document.getElementById('syncBtn'), icon = document.getElementById('syncIcon'), ts = document.getElementById('syncTimestamp');
+  btn.disabled = true; btn.style.opacity = '0.6';
+  icon.style.animation = 'spin 1s linear infinite'; ts.textContent = '触发中...';
+  if (!document.getElementById('syncSpinStyle')) { var s = document.createElement('style'); s.id='syncSpinStyle'; s.textContent='@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}'; document.head.appendChild(s); }
+
+  fetch('https://api.github.com/repos/'+SYNC_CONFIG.owner+'/'+SYNC_CONFIG.repo+'/actions/workflows/'+SYNC_CONFIG.workflow+'/dispatches', {
+    method:'POST', headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}, body:JSON.stringify({ref:'main'})
+  }).then(function(r) {
+    if (r.status===204) { ts.textContent='✅ 已触发，等待同步...'; icon.style.animation=''; btn.style.background='rgba(34,197,94,.1)'; btn.style.borderColor='rgba(34,197,94,.3)'; btn.style.color='var(--success)'; pollWorkflowAndReload(token); }
+    else if (r.status===401||r.status===403) { localStorage.removeItem(SYNC_CONFIG.tokenKey); ts.textContent='❌ Token 无效'; resetSyncBtn(); }
+    else { ts.textContent='❌ 失败: '+r.status; resetSyncBtn(); }
+  }).catch(function() { ts.textContent='❌ 网络错误'; resetSyncBtn(); });
+}
+
+function resetSyncBtn() { var b=document.getElementById('syncBtn'),i=document.getElementById('syncIcon'); b.disabled=false; b.style.opacity='1'; b.style.background='rgba(59,130,246,.1)'; b.style.borderColor='rgba(59,130,246,.3)'; b.style.color='var(--info)'; i.style.animation=''; }
+
+function pollWorkflowAndReload(token) {
+  var t0=Date.now(), ts=document.getElementById('syncTimestamp');
+  function poll() {
+    if (Date.now()-t0>180000) { ts.textContent='⏳ 超时，请刷新'; resetSyncBtn(); return; }
+    fetch('https://api.github.com/repos/'+SYNC_CONFIG.owner+'/'+SYNC_CONFIG.repo+'/actions/runs?per_page=1&event=workflow_dispatch', {
+      headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'}
+    }).then(function(r){return r.json();}).then(function(d) {
+      var run=d.workflow_runs&&d.workflow_runs[0];
+      if (run&&new Date(run.created_at).getTime()>t0-30000) {
+        if (run.status==='completed') { run.conclusion==='success'?(ts.textContent='✅ 完成！刷新中...',setTimeout(function(){location.reload(true)},2000)):(ts.textContent='⚠️ '+run.conclusion,resetSyncBtn()); }
+        else { ts.textContent='⏳ 同步中... ('+Math.round((Date.now()-t0)/1000)+'s)'; setTimeout(poll,8000); }
+      } else { ts.textContent='⏳ 启动中... ('+Math.round((Date.now()-t0)/1000)+'s)'; setTimeout(poll,5000); }
+    }).catch(function(){setTimeout(poll,8000);});
+  }
+  setTimeout(poll,5000);
+}
 </script>
 
 <!-- v11: User Story Detail Modal -->
