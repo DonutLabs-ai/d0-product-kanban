@@ -965,8 +965,8 @@ a:hover { text-decoration: underline; }
       <!-- Version ↔ Matrix mapping strip (v10.4) -->
       <div style="display:grid;grid-template-columns:80px repeat(5, 1fr);gap:2px;margin-bottom:var(--space-2);font-family:var(--font-mono);font-size:0.6rem">
         <div></div>
-        <div style="text-align:center;padding:var(--space-1) var(--space-2);background:rgba(34,197,94,.12);border-radius:var(--radius-sm);color:var(--success);font-weight:600">← v1「看得清」→</div>
-        <div style="text-align:center;padding:var(--space-1) var(--space-2);background:rgba(59,130,246,.12);border-radius:var(--radius-sm);color:var(--info);font-weight:600">← v2「想得明」→</div>
+        <div></div>
+        <div></div>
         <div style="text-align:center;padding:var(--space-1) var(--space-2);background:rgba(245,158,11,.12);border-radius:var(--radius-sm);color:var(--warning);font-weight:600">← v3「做得住」→</div>
         <div style="text-align:center;padding:var(--space-1) var(--space-2);background:rgba(167,139,250,.12);border-radius:var(--radius-sm);color:#a78bfa;font-weight:600" colspan="2">← v4「越来越好」→</div>
       </div>
@@ -1155,8 +1155,7 @@ a:hover { text-decoration: underline; }
       <!-- Milestone Timeline -->
       <div class="matrix-timeline">
         <div class="tl-title">📅 Version ↔ Matrix Mapping</div>
-        <div class="tl-row"><span class="tl-when tw-now">v1</span><span class="tl-coord">P0×S0~S1</span><span class="tl-desc">「看得清」Reactive + Guarded — 核心流程跑通，能用敢用愿意付费</span></div>
-        <div class="tl-row"><span class="tl-when tw-30d">v2</span><span class="tl-coord">P1×S1~S2</span><span class="tl-desc">「想得明」Monitor + Managed — 个性化基础 + 知识体系 + 评测</span></div>
+
         <div class="tl-row"><span class="tl-when tw-3m">v3</span><span class="tl-coord">P2~P3×S2</span><span class="tl-desc">「做得住」Draft→Constrained — 自动执行 + 风控闭环 + 审批</span></div>
         <div class="tl-row"><span class="tl-when tw-12m">v4</span><span class="tl-coord">P3~P4×S3</span><span class="tl-desc">「越来越好」Continuous — 质量闭环 + 增长 + 自我进化</span></div>
       </div>
@@ -1232,17 +1231,9 @@ a:hover { text-decoration: underline; }
       <div class="hint">版本不绑日历 · Epic 验收即上线 · 全 P0 通过 = 版本达成</div>
     </div>
 
-    <!-- M1 Execution Sheet -->
-    <div style="margin:var(--space-4) 0">
-      <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:400;margin-bottom:var(--space-1);color:var(--fg-base)">v1「看得清」— 核心流程跑通</div>
-      <div style="font-size:0.82rem;color:var(--fg-muted);margin-bottom:var(--space-2)">用户能否第一次体验到 proactive 的价值——"D0 在替我盯着，它的判断有道理"？</div>
-      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-subtle);margin-bottom:var(--space-4)">版本制 · P0 全部验收通过 = v1 达成 · 9 P0 + 7 P1 Epics</div>
-      <div id="m1ExecutionSheet"></div>
-    </div>
-
-    <!-- M2-M4 Roadmap -->
+    <!-- M3-M4 Roadmap -->
     <div style="margin:var(--space-8) 0">
-      <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:400;margin-bottom:var(--space-4)">v2 → v4 路线图</div>
+      <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:400;margin-bottom:var(--space-4)">v3 → v4 路线图</div>
       <div id="milestoneRoadmap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:var(--space-4)"></div>
     </div>
 
@@ -2578,101 +2569,9 @@ function renderCEOFocus() {
    MILESTONE PLANNING (v9.0)
    ══════════════════════════════════════════════════════════ */
 function renderMilestone() {
-  // ═══ v1「看得清」═══
-  var m1El = document.getElementById('m1ExecutionSheet');
-  if (m1El) {
-    var v1P0 = [
-      { epic:'PRODUCT-1948', name:'困难用例', desc:'12 个高频交易场景全部跑通', accept:'12 场景成功率 ≥ 80%', owner:'JackJun', status:'In Progress' },
-      { epic:'PRODUCT-2184', name:'Dashboard', desc:'首版 UI 体验基线', accept:'持仓/交易/盈亏可见，加载 ≤ 3s', owner:'Gary + Yi Tan', status:'In Progress' },
-      { epic:'PRODUCT-2205', name:'账户认证', desc:'Session/Login/Turnkey 修复', accept:'全流程无阻断', owner:'Gary', status:'Todo' },
-      { epic:'PRODUCT-2149', name:'安全修复', desc:'51 个安全漏洞主体修复', accept:'P0/P1 全清，复扫无 Critical', owner:'Jiagui', status:'In Progress' },
-      { epic:'PRODUCT-2207', name:'风控引擎', desc:'链上风控规则 + 参数约束 v1', accept:'GRPS 生效，超限被拦截', owner:'Sylvia + Rui Li', status:'Todo' },
-      { epic:'PRODUCT-2317', name:'合约测试', desc:'Counter/Settlement/Liquidation', accept:'覆盖率 ≥ 60%，CI 通过', owner:'Peter + Kevin', status:'In Progress' },
-      { epic:'PRODUCT-1813', name:'止盈止损', desc:'TP/SL v1 实现', accept:'触发延迟 ≤ 30s', owner:'Peter', status:'In Progress' },
-      { epic:'PRODUCT-2009', name:'付费 MVP', desc:'Stripe 接入 + 四档定价', accept:'订阅/升级/取消全流程', owner:'Ye Zou', status:'Planning' },
-      { epic:'PRODUCT-1768', name:'Launch Plan', desc:'种子用户获取', accept:'50+ 注册，首批付费', owner:'Ruqi Hu', status:'In Progress' }
-    ];
-    var v1P1 = [
-      { epic:'PRODUCT-2197', name:'MCP 整合', desc:'170→22 工具合并', accept:'功能无退化，token 降 ≥ 30%', owner:'Regison', status:'In Review' },
-      { epic:'PRODUCT-2206', name:'AI 行为规则', desc:'D0 性格 + TG Bot 行为', accept:'10 条对话测试通过', owner:'Jin Xu', status:'In Progress' },
-      { epic:'PRODUCT-2296', name:'策略逻辑校准', desc:'Poly/Ruki 交易逻辑', accept:'采纳率提升', owner:'Chris', status:'Planning' },
-      { epic:'PRODUCT-2216', name:'Jupiter V2', desc:'链上 Adapter 重构', accept:'成功率 ≥ 90%', owner:'Ethan', status:'In Progress' },
-      { epic:'PRODUCT-2208', name:'AI 可信性', desc:'置信度标注', accept:'高置信准确率 ≥ 85%', owner:'JackJun', status:'In Progress' },
-      { epic:'PRODUCT-2413', name:'Beta Tester', desc:'社区交易员验证', accept:'≥ 10 人参与', owner:'Melvin', status:'Todo' },
-      { epic:'PRODUCT-2215', name:'Onboarding', desc:'注册引导 + Landing', accept:'≤ 3 步，可追踪', owner:'Justin', status:'In Progress' }
-    ];
-
-    function makeTable(items, prioLabel) {
-      var pc = prioLabel==='P0'?'var(--error)':'var(--warning)';
-      var h = '<div style="margin-bottom:var(--space-4)"><div style="font-family:var(--font-mono);font-size:0.68rem;font-weight:600;color:'+pc+';margin-bottom:var(--space-2)">'+prioLabel+'</div>';
-      h += '<div style="overflow-x:auto"><table class="m1-table"><thead><tr><th>Epic</th><th>做什么</th><th>验收标准</th><th>负责人</th><th>Status</th></tr></thead><tbody>';
-      items.forEach(function(r) {
-        var stCls = (r.status==='In Progress'||r.status==='In Review')?'dev':r.status==='Todo'?'todo':'plan';
-        h += '<tr><td class="m1-scope"><a class="card-id" href="https://linear.app/donutbrowser/issue/'+r.epic+'" target="_blank">'+r.epic+'</a></td>';
-        h += '<td class="m1-feature">'+r.name+'<br><span style="font-size:0.68rem;color:var(--fg-subtle)">'+r.desc+'</span></td>';
-        h += '<td class="m1-acceptance">'+r.accept+'</td>';
-        h += '<td class="m1-owner">'+r.owner+'</td>';
-        h += '<td><span class="m1-status '+stCls+'">'+r.status+'</span></td></tr>';
-      });
-      h += '</tbody></table></div></div>';
-      return h;
-    }
-
-    function versionGate(label, ns, gate) {
-      return '<div style="background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-4)">'
-        + '<div style="display:flex;justify-content:space-between;align-items:center">'
-        + '<div><span style="font-family:var(--font-display);font-size:1.1rem">'+label+'</span></div>'
-        + '<div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--info);background:rgba(59,130,246,.08);padding:var(--space-1) var(--space-3);border-radius:100px">🎯 '+ns+'</div></div>'
-        + '<div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-muted);margin-top:var(--space-2)">✅ 版本达成门槛: '+gate+'</div></div>';
-    }
-
-    function progressSummary(items) {
-      var ip = items.filter(function(r){return r.status==='In Progress'||r.status==='In Review'}).length;
-      var td = items.filter(function(r){return r.status==='Todo'}).length;
-      var pl = items.filter(function(r){return r.status==='Planning'}).length;
-      var pct = Math.round((ip/items.length)*100);
-      return '<div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-4)">'
-        + '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--warning)">'+ip+'</div><div style="font-size:0.58rem;color:var(--fg-subtle)">开发/Review</div></div>'
-        + '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:rgba(113,113,122,.08);border:1px solid rgba(113,113,122,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--fg-subtle)">'+td+'</div><div style="font-size:0.58rem;color:var(--fg-subtle)">Todo</div></div>'
-        + '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--info)">'+pl+'</div><div style="font-size:0.58rem;color:var(--fg-subtle)">规划中</div></div>'
-        + '<div style="text-align:center;padding:var(--space-2) var(--space-4);background:var(--bg-subtle);border:1px solid var(--border-base);border-radius:var(--radius-sm)"><div style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700">'+pct+'%</div><div style="font-size:0.58rem;color:var(--fg-subtle)">已启动</div></div></div>';
-    }
-
-    var out = '';
-    // v1 Gate
-    out += versionGate('v1「看得清」— 核心流程跑通', '北极星: 7日交易用户留存率', '全部 P0 Epic 验收通过 = v1 达成');
-    out += '<div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--fg-subtle);margin-bottom:var(--space-2)">矩阵对应: P0×S0~S1 (Reactive + Guarded)</div>';
-    out += progressSummary(v1P0.concat(v1P1));
-    out += makeTable(v1P0, 'P0');
-    out += makeTable(v1P1, 'P1');
-
-    m1El.innerHTML = out;
-  }
-
-  // ═══ v2/v3/v4 Roadmap ═══
+  // ═══ v3/v4 Roadmap ═══
   var roadmapEl = document.getElementById('milestoneRoadmap');
   if (roadmapEl) {
-    // v2
-    var v2P0 = [
-      { epic:'PRODUCT-2209', name:'用户画像', desc:'Persona 定制 + 30天行为推断风险偏好', accept:'保守型/激进型收到不同建议；可查看/修改偏好', owner:'Justin + Sylvia', status:'Planning' },
-      { epic:'PRODUCT-1872', name:'知识体系 P1-P2', desc:'数据采集 + 知识注入 + Crypto 前沿', accept:'知识检索命中率 ≥ 50%；回答最近 7 天行业动态', owner:'Chris + JackJun', status:'Planning' },
-      { epic:'PRODUCT-2211', name:'评测体系', desc:'模型基准 + Skill 质量验证 + 自动化评测', accept:'Eval Harness 可运行；覆盖 ≥ 10 Skill；有基线分数', owner:'Fei', status:'In Progress' },
-      { epic:'PRODUCT-2198', name:'Dashboard 功能', desc:'看板 + 自动化配置 + 金融数据展示', accept:'用户可配自动化规则；持仓/盈亏/历史一页可见', owner:'Ethan', status:'Todo' }
-    ];
-    var v2P1 = [
-      { epic:'PRODUCT-2201', name:'主动推送', desc:'行情异动 Alert + 多语言推送', accept:'异动后 ≤ 60s 推送；支持中/英', owner:'JackJun', status:'Todo' },
-      { epic:'PRODUCT-2210', name:'E2E 测试', desc:'CI 管线 + 压力测试', accept:'E2E 在 CI 自动运行；核心流程覆盖 ≥ 70%', owner:'Kevin', status:'In Progress' },
-      { epic:'PRODUCT-1696', name:'数据埋点', desc:'后端行为埋点', accept:'关键操作有埋点；PostHog 可查', owner:'Fei', status:'Todo' },
-      { epic:'PRODUCT-2008', name:'用户反馈', desc:'160 条 Beta 反馈消化', accept:'全部归类；P0 反馈转 issue', owner:'Sylvia', status:'Todo' },
-      { epic:'PRODUCT-2217', name:'交易体验', desc:'持仓展示 + 委托单 + DeFi/跨链', accept:'持仓数据准确实时；≥ 3 链 DeFi 可用', owner:'Ethan', status:'Todo' },
-      { epic:'PRODUCT-2214', name:'社区运营', desc:'KOL 合作启动', accept:'≥ 5 KOL 合作落地', owner:'Ruqi Hu', status:'Todo' },
-      { epic:'PRODUCT-2129', name:'UI 收尾', desc:'v1 遗留 UI 问题修复', accept:'设计走查遗留清零', owner:'Yi Tan', status:'Todo' }
-    ];
-    var v2P2 = [
-      { epic:'PRODUCT-2007', name:'图表方案', desc:'K 线技术选型', accept:'选型文档 + Demo 验证', owner:'Sylvia', status:'Todo' },
-      { epic:'PRODUCT-1887', name:'财务看板', desc:'Finance Dashboard', accept:'收支按日/周/月查看', owner:'Ginger', status:'Todo' }
-    ];
-
     // v3
     var v3P0 = [
       { epic:'PRODUCT-2199', name:'安全防护', desc:'限额 Guard + 熔断 + 大额审批', accept:'超限被拦截；极端行情自动降级；大额需二次确认', owner:'Jiagui + Rui Li', status:'Todo' },
@@ -2702,17 +2601,15 @@ function renderMilestone() {
     ];
 
     var VERSION_CORE_Q = {
-      'v2': '用户能否感知到"D0 给我的建议和给别人的不一样，而且越来越懂我"？',
       'v3': '用户是否愿意让 D0 在预设规则内自动执行——并在 30 天后仍保持开启？',
       'v4': 'D0 的决策质量是否随用户规模和运行时间自动提升——不依赖人工迭代？'
     };
     var VERSION_SUBTITLE_FULL = {
-      'v2': '个性化基座',
       'v3': '受约束自主执行',
       'v4': '自我进化闭环'
     };
     function versionCard(ver, subtitle, matrixCoord, ns, gate, p0, p1, p2) {
-      var cls = ver==='v2'?'m2':ver==='v3'?'m3':'m4';
+      var cls = ver==='v3'?'m3':'m4';
       var allItems = p0.concat(p1).concat(p2||[]);
       var ip = allItems.filter(function(r){return r.status==='In Progress'||r.status==='In Review'}).length;
       var td = allItems.filter(function(r){return r.status==='Todo'}).length;
@@ -2760,11 +2657,7 @@ function renderMilestone() {
     }
 
     roadmapEl.style.gridTemplateColumns = '1fr';
-    roadmapEl.innerHTML = versionCard('v2','想得明','P1×S1~S2',
-      '北极星: Suggestion Adoption Rate 随时长上升',
-      '全部 P0 验收通过: 不同用户收到不同建议 + 知识检索命中 ≥ 50% + Eval 覆盖 ≥ 10 Skill',
-      v2P0, v2P1, v2P2)
-    + versionCard('v3','做得住','P2~P3×S2',
+    roadmapEl.innerHTML = versionCard('v3','做得住','P2~P3×S2',
       '北极星: Auto-Execution Trust Retention 70% at Day 30',
       '全部 P0 验收通过: 超限被拦截 + 每笔过 GRPS + 复合下单成功率 ≥ 95% + 知识命中 ≥ 70%',
       v3P0, v3P1, [])
@@ -2785,8 +2678,6 @@ function renderMilestone() {
       + '<span class="sync-detail">版本内全部 P0 验收通过 = 版本达成</span>'
       + '<span class="sync-sep">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>'
       + '<span class="sync-section">Version ↔ Matrix 对应:</span>'
-      + '<span class="sync-detail">v1 = P0×S0~S1 (Reactive + Guarded)</span>'
-      + '<span class="sync-detail">v2 = P1×S1~S2 (Monitor + Managed)</span>'
       + '<span class="sync-detail">v3 = P2~P3×S2 (Draft→Constrained)</span>'
       + '<span class="sync-detail">v4 = P3~P4×S3 (Continuous)</span>'
       + '<span class="sync-sep">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>'
@@ -3081,7 +2972,7 @@ function previewCell() {
   const cellId = 'cell-' + p + '-' + s;
   const cell = document.getElementById(cellId);
   // Map to version
-  const versionMap = { 'P0': { 'S0': 'v1', 'S1': 'v1' }, 'P1': { 'S1': 'v2', 'S2': 'v2' }, 'P2': { 'S1': 'v3', 'S2': 'v3' }, 'P3': { 'S2': 'v3', 'S3': 'v3' }, 'P4': { 'S3': 'v4' } };
+  const versionMap = { 'P2': { 'S1': 'v3', 'S2': 'v3' }, 'P3': { 'S2': 'v3', 'S3': 'v3' }, 'P4': { 'S3': 'v4' } };
   const ver = (versionMap[p] && versionMap[p][s]) || '—';
   const isEmpty = cell && cell.classList.contains('cell-empty');
   let html = '→ 建议放入 <span class="af-cell-tag">' + coord + '</span>';
