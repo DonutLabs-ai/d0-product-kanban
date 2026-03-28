@@ -155,8 +155,8 @@ tbody tr:hover{background:var(--bg2)}
     <button class="tb-tab active" onclick="sw('p1',this)">框架</button>
     <button class="tb-tab" onclick="sw('p2',this)">为什么断了</button>
     <button class="tb-tab" onclick="sw('p3',this)">谁负责哪层</button>
-    <button class="tb-tab" onclick="sw('p4',this)">v1 看得清</button>
-    <button class="tb-tab" onclick="sw('p5',this)">v2→v4 路线</button>
+    <button class="tb-tab" onclick="sw('p4',this)">看得清</button>
+    <button class="tb-tab" onclick="sw('p5',this)">后续路线</button>
   </div>
 </div>
 
@@ -431,114 +431,54 @@ tbody tr:hover{background:var(--bg2)}
 <!-- ═══════════ TAB 3: 谁负责哪层 ═══════════ -->
 <div id="p3" class="page">
 
+  <!-- Rosetta stone — show once -->
   <div class="section">
     <div class="sh">
-      <div class="sh-num" style="background:rgba(34,211,238,0.12);color:var(--cyan)">⚡</div>
-      <div><div class="sh-title">Autonomy Stack 与产品路线的映射</div>
-      <div class="sh-sub">七层 × 四版本 — 对应 Product Kanban 的 Proactive × High-Stake 4×4 矩阵</div></div>
+      <div class="sh-num" style="background:rgba(153,151,255,0.15);color:var(--pu)">🗺</div>
+      <div><div class="sh-title">两套语言的翻译表 — 看一次就够</div>
+      <div class="sh-sub">之后全文只用左边的中文名。Product Kanban 矩阵坐标做参考。</div></div>
     </div>
     <div class="sb">
-      <div class="prose" style="margin-bottom:12px">
-        <p>Product Kanban 里的 v1→v4 路线和 Autonomy Stack 的七层是<strong>同一件事的两种视角</strong>。矩阵看「用户感知到的能力」，Stack 看「系统需要什么架构才能支撑这个能力」。两者的依赖顺序完全一致：</p>
-      </div>
-
-      <!-- v1→v4 mapping -->
-      <div style="display:grid;grid-template-columns:1fr;gap:8px">
-
-        <div style="border:2px solid rgba(8,145,178,0.4);border-radius:8px;padding:14px 16px;background:rgba(8,145,178,0.04)">
-          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px">
-            <span style="font-family:var(--mono);font-size:.7rem;color:#0891b2;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(8,145,178,0.12)">v1 看得清</span>
-            <span style="font-family:var(--mono);font-size:.65rem;color:var(--text3)">P0×S0~S1 · Reactive + Guarded</span>
-            <span style="font-family:var(--mono);font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(8,145,178,0.15);color:#0891b2">← NOW</span>
-          </div>
-          <div style="display:grid;grid-template-columns:100px 1fr;gap:8px;font-size:.78rem">
-            <div style="color:#0891b2;font-weight:600">第 1–2 层</div>
-            <div style="color:var(--text2)">现实事件 + 感知上下文 = <strong style="color:var(--white)">Agent 能看见真实世界</strong></div>
-          </div>
-          <div style="font-size:.72rem;color:var(--text3);margin-top:4px;line-height:1.5">矩阵里的「D0 Chat 155 工具 · Spot/Perps 交易 · Jupiter V2 · MCP 精简」全在这两层。用户用了核心功能，agent 的数据准不准、事件通不通，决定「看得清」能不能成立。</div>
-        </div>
-
-        <div style="border:1px solid rgba(217,119,6,0.3);border-radius:8px;padding:14px 16px;background:rgba(217,119,6,0.03)">
-          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px">
-            <span style="font-family:var(--mono);font-size:.7rem;color:#d97706;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(217,119,6,0.12)">v2 想得明</span>
-            <span style="font-family:var(--mono);font-size:.65rem;color:var(--text3)">P1×S1~S2 · Monitor + Managed</span>
-            <span style="font-family:var(--mono);font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(217,119,6,0.1);color:#d97706">30D TARGET</span>
-          </div>
-          <div style="display:grid;grid-template-columns:100px 1fr;gap:8px;font-size:.78rem">
-            <div style="color:#d97706;font-weight:600">第 3–4 层</div>
-            <div style="color:var(--text2)">推理计划 + 验证边界 = <strong style="color:var(--white)">Agent 想做什么要经过结构化校验</strong></div>
-          </div>
-          <div style="font-size:.72rem;color:var(--text3);margin-top:4px;line-height:1.5">矩阵里的「价格提醒 · GRPS 软约束 · Strategy Hub · Skill Marketplace · PM 闭环」。Agent 开始有主动判断，但每个判断必须经过 typed boundary 才能进入执行。</div>
-        </div>
-
-        <div style="border:1px solid rgba(5,150,105,0.3);border-radius:8px;padding:14px 16px;background:rgba(5,150,105,0.03)">
-          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px">
-            <span style="font-family:var(--mono);font-size:.7rem;color:#059669;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(5,150,105,0.12)">v3 做得住</span>
-            <span style="font-family:var(--mono);font-size:.65rem;color:var(--text3)">P2~P3×S2 · Draft→Constrained</span>
-            <span style="font-family:var(--mono);font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(5,150,105,0.1);color:#059669">3-6M</span>
-          </div>
-          <div style="display:grid;grid-template-columns:100px 1fr;gap:8px;font-size:.78rem">
-            <div style="color:#059669;font-weight:600">第 5–6 层</div>
-            <div style="color:var(--text2)">控制策略 + 个性化决策 = <strong style="color:var(--white)">约束是系统强制的、每用户可配的</strong></div>
-          </div>
-          <div style="font-size:.72rem;color:var(--text3);margin-top:4px;line-height:1.5">矩阵里的「Approval Inbox · 交易方案草案推送 · 再平衡建议 · 风控违规草案」。Agent 能自动起草方案但受 GRPS + Profile 约束，用户可见可配。</div>
-        </div>
-
-        <div style="border:1px solid rgba(190,18,60,0.3);border-radius:8px;padding:14px 16px;background:rgba(190,18,60,0.03)">
-          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px">
-            <span style="font-family:var(--mono);font-size:.7rem;color:#be123c;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(190,18,60,0.12)">v4 越来越好</span>
-            <span style="font-family:var(--mono);font-size:.65rem;color:var(--text3)">P3~P4×S3 · Continuous</span>
-            <span style="font-family:var(--mono);font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(190,18,60,0.1);color:#be123c">12M</span>
-          </div>
-          <div style="display:grid;grid-template-columns:100px 1fr;gap:8px;font-size:.78rem">
-            <div style="color:#be123c;font-weight:600">第 7 层</div>
-            <div style="color:var(--text2)">评测放行演化 = <strong style="color:var(--white)">系统从自身数据中持续进化</strong></div>
-          </div>
-          <div style="font-size:.72rem;color:var(--text3);margin-top:4px;line-height:1.5">矩阵里的「24/7 自主值班 · 极端行情自动降仓」。需要 eval→release gate→model 改进的完整闭环，执行数据成为不可压缩的竞争壁垒。</div>
-        </div>
-
-      </div>
-
-      <div class="quote" style="margin-top:14px">依赖链是硬的：v1 没做完（agent 看不见真实世界），v2 的推理就在幻觉上跑。v2 没做完（推理没有校验），v3 的自动执行就是脱缰的马。<strong>不能跳层。</strong></div>
+      <table>
+        <thead><tr><th>阶段</th><th>意思</th><th>涉及的层</th><th>矩阵坐标</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:700;color:#0891b2">看得清</td><td>Agent 能稳定看见真实世界</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">第 1–2 层</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">P0×S0~S1</td></tr>
+          <tr><td style="font-weight:700;color:#d97706">想得明</td><td>推理必须经过结构化校验</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">第 3–4 层</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">P1×S1~S2</td></tr>
+          <tr><td style="font-weight:700;color:#059669">做得住</td><td>约束是系统强制的、每用户可配</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">第 5–6 层</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">P2~P3×S2</td></tr>
+          <tr><td style="font-weight:700;color:#be123c">越来越好</td><td>系统从自身数据中持续进化</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">第 7 层</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">P3~P4×S3</td></tr>
+        </tbody>
+      </table>
+      <div class="quote" style="margin-top:10px">依赖是硬的：「看得清」没过，「想得明」的推理就在幻觉上跑。「想得明」没过，「做得住」的自动执行就是脱缰的马。<strong>不能跳。</strong></div>
     </div>
   </div>
 
   <!-- 层级归属 -->
   <div class="section">
     <div class="sh">
-      <div class="sh-num" style="background:rgba(153,151,255,0.15);color:var(--pu)">👥</div>
-      <div><div class="sh-title">每个人在 Autonomy Stack 的位置</div>
-      <div class="sh-sub">每层有 owner，每个层间交接有人盯</div></div>
+      <div class="sh-num" style="background:rgba(8,145,178,0.12);color:#0891b2">👥</div>
+      <div><div class="sh-title">每个人在哪层、每层之间谁盯交接</div></div>
     </div>
     <div class="sb">
 
-      <!-- Layer 1 -->
-      <div style="margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:2px solid rgba(8,145,178,0.3)">
-          <span style="font-family:var(--mono);font-size:.65rem;padding:2px 6px;border-radius:3px;background:rgba(8,145,178,0.12);color:#0891b2;font-weight:600">L1 现实事件层</span>
-          <span style="font-size:.7rem;color:var(--text3)">真实世界发生了什么 — 交易、行情、余额</span>
-        </div>
-        <div class="person-grid" style="margin-top:2px">
+      <!-- ===== 看得清 ===== -->
+      <div style="border-left:3px solid #0891b2;padding-left:14px;margin-bottom:18px">
+        <div style="font-size:.88rem;font-weight:700;color:#0891b2;margin-bottom:8px">看得清 <span style="font-family:var(--mono);font-size:.6rem;color:var(--text3);font-weight:400;margin-left:6px">← 现在在这</span></div>
+
+        <div style="font-size:.72rem;color:var(--text2);font-weight:600;padding-bottom:4px;margin-bottom:4px;border-bottom:1px solid rgba(30,30,58,0.5)">现实事件 — 真实世界发生了什么</div>
+        <div class="person-grid" style="margin-bottom:6px">
           <div class="pg-row"><div class="pg-name">Peter</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#0891b2"></span> 交易执行 · 撮合 · 结算 · 事件产出</span></div></div>
           <div class="pg-row"><div class="pg-name">Alex</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#0891b2"></span> Perps 撮合引擎 · TPSL · API</span></div></div>
           <div class="pg-row"><div class="pg-name">Liang Han</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#0891b2"></span> 量化数据 · Polymarket · 行情数据源</span></div></div>
           <div class="pg-row"><div class="pg-name">Ethan</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#0891b2"></span> 多链资产 · Deposit/Withdraw/Transfer</span></div></div>
         </div>
-      </div>
 
-      <!-- L1→L2 interface -->
-      <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:10px 14px;margin-bottom:12px">
-        <div style="font-size:.78rem;font-weight:600;color:var(--red)">▼ L1→L2 事件管道 — Owner: Wenzhang</div>
-        <div style="font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.5">Trading 事件怎么变成 agent 可消费的 context。涉及 event schema、推送管道 (PRODUCT-2629)、通知服务、MCP 数据注入。Wenzhang 同时理解 infra 管道和 agent runtime，适合 own 这条交接线。</div>
-      </div>
-
-      <!-- Layer 2 -->
-      <div style="margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:2px solid rgba(8,145,178,0.3)">
-          <span style="font-family:var(--mono);font-size:.65rem;padding:2px 6px;border-radius:3px;background:rgba(8,145,178,0.12);color:#0891b2;font-weight:600">L2 感知上下文层</span>
-          <span style="font-size:.7rem;color:var(--text3)">Agent 看见了什么 — context、通知、展示</span>
+        <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:10px 14px;margin-bottom:8px">
+          <div style="font-size:.78rem;font-weight:600;color:var(--red)">▼ 事件管道交接 — Owner: Wenzhang</div>
+          <div style="font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.5">上面的人产出事件（成交、强平、余额变动），下面的人要消费这些事件。Wenzhang 保证中间管道通畅：event schema、推送管道、通知服务、MCP 数据注入。</div>
         </div>
-        <div class="person-grid" style="margin-top:2px">
+
+        <div style="font-size:.72rem;color:var(--text2);font-weight:600;padding-bottom:4px;margin-bottom:4px;border-bottom:1px solid rgba(30,30,58,0.5)">感知上下文 — Agent 看见了什么</div>
+        <div class="person-grid">
           <div class="pg-row"><div class="pg-name">Regison</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#0891b2"></span> MCP 工具链 · d0-cli · 数据质量</span></div></div>
           <div class="pg-row"><div class="pg-name">Jin Xu</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#0891b2"></span> D0 前端 · TG Bot · Skills</span></div></div>
           <div class="pg-row"><div class="pg-name">Gary</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#0891b2"></span> Dashboard · Onboarding · WebApp</span></div></div>
@@ -546,77 +486,61 @@ tbody tr:hover{background:var(--bg2)}
         </div>
       </div>
 
-      <!-- L2→L3 interface -->
-      <div style="background:rgba(217,119,6,0.04);border:1px solid rgba(217,119,6,0.2);border-radius:6px;padding:10px 14px;margin-bottom:12px">
-        <div style="font-size:.78rem;font-weight:600;color:#d97706">▼ L2→L3 上下文→推理 — 目前跟 v1 一起先解决</div>
-        <div style="font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.5">Context 注入质量直接决定推理质量。MCP 工具返回什么格式、memory 写入什么内容、skill prompt 如何组织 → 推理层的输入。v1 阶段先把 L1→L2 通了，L2→L3 的质量问题会自然暴露。</div>
-      </div>
+      <!-- ===== 想得明 ===== -->
+      <div style="border-left:3px solid #d97706;padding-left:14px;margin-bottom:18px">
+        <div style="font-size:.88rem;font-weight:700;color:#d97706;margin-bottom:8px">想得明 <span style="font-family:var(--mono);font-size:.6rem;color:var(--text3);font-weight:400;margin-left:6px">30D 目标</span></div>
 
-      <!-- Layer 3 -->
-      <div style="margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:2px solid rgba(217,119,6,0.3)">
-          <span style="font-family:var(--mono);font-size:.65rem;padding:2px 6px;border-radius:3px;background:rgba(217,119,6,0.12);color:#d97706;font-weight:600">L3 推理计划层</span>
-          <span style="font-size:.7rem;color:var(--text3)">Agent 怎么想 — 判断、规划、决策</span>
-        </div>
-        <div class="person-grid" style="margin-top:2px">
+        <div style="font-size:.72rem;color:var(--text2);font-weight:600;padding-bottom:4px;margin-bottom:4px;border-bottom:1px solid rgba(30,30,58,0.5)">推理计划 — Agent 怎么想</div>
+        <div class="person-grid" style="margin-bottom:6px">
           <div class="pg-row"><div class="pg-name">JackJun</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#d97706"></span> Agent 架构 · LLM Routing · 推理链路</span></div></div>
           <div class="pg-row"><div class="pg-name">Fei</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#d97706"></span> AI 研究 · Frontier · 推理质量</span></div></div>
         </div>
-      </div>
 
-      <!-- L3→L4 interface -->
-      <div style="background:rgba(217,119,6,0.04);border:1px solid rgba(217,119,6,0.2);border-radius:6px;padding:10px 14px;margin-bottom:12px">
-        <div style="font-size:.78rem;font-weight:600;color:#d97706">▼ L3→L4 验证关卡 — 需要指定 Owner</div>
-        <div style="font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.5">Agent 推理完成后，function call 在执行前经过什么校验。现状：187/268 工具裸透传。需要的是 schema 校验、参数边界、幻觉拦截。这是 v2 的核心交付。</div>
-      </div>
-
-      <!-- Layer 4-5 -->
-      <div style="margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:2px solid rgba(5,150,105,0.3)">
-          <span style="font-family:var(--mono);font-size:.65rem;padding:2px 6px;border-radius:3px;background:rgba(5,150,105,0.12);color:#059669;font-weight:600">L4–5 验证边界 + 控制策略</span>
-          <span style="font-size:.7rem;color:var(--text3)">系统怎么约束 — 校验、风控、审批</span>
+        <div style="background:rgba(217,119,6,0.04);border:1px solid rgba(217,119,6,0.2);border-radius:6px;padding:10px 14px;margin-bottom:8px">
+          <div style="font-size:.78rem;font-weight:600;color:#d97706">▼ 验证关卡交接 — 需要指定 Owner</div>
+          <div style="font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.5">Agent 推理完成后，function call 执行前经过什么校验。现状：187/268 工具裸透传。需要 schema 校验 + 参数边界 + 幻觉拦截。</div>
         </div>
-        <div class="person-grid" style="margin-top:2px">
-          <div class="pg-row"><div class="pg-name">Fei</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#059669"></span> Eval 体系 · 验证框架 · Safety Audit</span></div></div>
-          <div class="pg-row"><div class="pg-name">Jiagui</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#059669"></span> 容器安全 · 浏览器隔离 · 硬边界</span></div></div>
+
+        <div style="font-size:.72rem;color:var(--text2);font-weight:600;padding-bottom:4px;margin-bottom:4px;border-bottom:1px solid rgba(30,30,58,0.5)">验证边界 — 校验、风控、审批</div>
+        <div class="person-grid">
+          <div class="pg-row"><div class="pg-name">Fei</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#d97706"></span> Eval 体系 · 验证框架 · Safety Audit</span></div></div>
+          <div class="pg-row"><div class="pg-name">Jiagui</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#d97706"></span> 容器安全 · 浏览器隔离 · 硬边界</span></div></div>
+        </div>
+      </div>
+
+      <!-- ===== 做得住 ===== -->
+      <div style="border-left:3px solid #059669;padding-left:14px;margin-bottom:18px">
+        <div style="font-size:.88rem;font-weight:700;color:#059669;margin-bottom:8px">做得住 <span style="font-family:var(--mono);font-size:.6rem;color:var(--text3);font-weight:400;margin-left:6px">3-6M</span></div>
+
+        <div style="font-size:.72rem;color:var(--text2);font-weight:600;padding-bottom:4px;margin-bottom:4px;border-bottom:1px solid rgba(30,30,58,0.5)">控制策略 + 个性化决策 — 约束 × 用户画像</div>
+        <div class="person-grid" style="margin-bottom:6px">
           <div class="pg-row"><div class="pg-name">Peter</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#059669"></span> GRPS 风控规则 · 交易约束</span></div></div>
-        </div>
-      </div>
-
-      <!-- L5→L6 interface -->
-      <div style="background:rgba(5,150,105,0.04);border:1px solid rgba(5,150,105,0.2);border-radius:6px;padding:10px 14px;margin-bottom:12px">
-        <div style="font-size:.78rem;font-weight:600;color:#059669">▼ L5→L6 策略适配 — 需要指定 Owner</div>
-        <div style="font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.5">GRPS 约束怎么和用户画像结合，导出每用户不同的 agent 行为。现状：GRPS 只覆盖 perps，Profile 还没接入决策。v3 的核心交付。</div>
-      </div>
-
-      <!-- Layer 6 -->
-      <div style="margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:2px solid rgba(5,150,105,0.3)">
-          <span style="font-family:var(--mono);font-size:.65rem;padding:2px 6px;border-radius:3px;background:rgba(5,150,105,0.12);color:#059669;font-weight:600">L6 个性化决策层</span>
-          <span style="font-size:.7rem;color:var(--text3)">对谁不一样 — 画像、偏好、信任梯度</span>
-        </div>
-        <div class="person-grid" style="margin-top:2px">
+          <div class="pg-row"><div class="pg-name">Jiagui</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#059669"></span> 系统安全 · 权限硬边界</span></div></div>
           <div class="pg-row"><div class="pg-name">Sylvia</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#059669"></span> 用户画像 · 交易偏好 · Persona</span></div></div>
-          <div class="pg-row"><div class="pg-name">Justin</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#059669"></span> 产品策略 · Onboarding · 用户可见配置</span></div></div>
+          <div class="pg-row"><div class="pg-name">Justin</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#059669"></span> 产品策略 · Approval Inbox · 用户可见配置</span></div></div>
+          <div class="pg-row"><div class="pg-name">Ethan</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#059669"></span> DeFi 交易执行 · Dashboard 功能页</span></div></div>
+        </div>
+
+        <div style="background:rgba(5,150,105,0.04);border:1px solid rgba(5,150,105,0.2);border-radius:6px;padding:10px 14px">
+          <div style="font-size:.78rem;font-weight:600;color:#059669">▼ 策略适配交接 — 需要指定 Owner</div>
+          <div style="font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.5">GRPS 约束怎么和用户画像结合，导出每用户不同的 agent 行为。现状：GRPS 只覆盖 perps，Profile 还没接入决策。</div>
         </div>
       </div>
 
-      <!-- L6→L7 interface -->
-      <div style="background:rgba(190,18,60,0.04);border:1px solid rgba(190,18,60,0.2);border-radius:6px;padding:10px 14px;margin-bottom:12px">
-        <div style="font-size:.78rem;font-weight:600;color:#be123c">▼ L6→L7 进化回路 — 需要指定 Owner</div>
-        <div style="font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.5">用户行为 + 执行结果怎么变成 eval 信号，反馈回模型和规则。现状：Langfuse/PostHog/d0-evals 各做各的，闭环没通。v4 的核心交付。</div>
-      </div>
+      <!-- ===== 越来越好 ===== -->
+      <div style="border-left:3px solid #be123c;padding-left:14px">
+        <div style="font-size:.88rem;font-weight:700;color:#be123c;margin-bottom:8px">越来越好 <span style="font-family:var(--mono);font-size:.6rem;color:var(--text3);font-weight:400;margin-left:6px">12M</span></div>
 
-      <!-- Layer 7 -->
-      <div style="margin-bottom:4px">
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:2px solid rgba(190,18,60,0.3)">
-          <span style="font-family:var(--mono);font-size:.65rem;padding:2px 6px;border-radius:3px;background:rgba(190,18,60,0.12);color:#be123c;font-weight:600">L7 评测放行演化</span>
-          <span style="font-size:.7rem;color:var(--text3)">系统怎么变好 — eval、release gate、模型迭代</span>
-        </div>
-        <div class="person-grid" style="margin-top:2px">
+        <div style="font-size:.72rem;color:var(--text2);font-weight:600;padding-bottom:4px;margin-bottom:4px;border-bottom:1px solid rgba(30,30,58,0.5)">评测放行演化 — 系统怎么变好</div>
+        <div class="person-grid" style="margin-bottom:6px">
           <div class="pg-row"><div class="pg-name">Fei</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#be123c"></span> Eval 框架 · Safety 审计 · Release Gate</span></div></div>
           <div class="pg-row"><div class="pg-name">Kevin / Jim</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#be123c"></span> E2E 测试 · Trading QA · 发版流程</span></div></div>
           <div class="pg-row"><div class="pg-name">Wenzhang</div><div class="pg-layers"><span class="pg-tag"><span class="t-dot" style="background:#be123c"></span> Eval Infra · 监控 · Observability</span></div></div>
+        </div>
+
+        <div style="background:rgba(190,18,60,0.04);border:1px solid rgba(190,18,60,0.2);border-radius:6px;padding:10px 14px">
+          <div style="font-size:.78rem;font-weight:600;color:#be123c">▼ 进化回路交接 — 需要指定 Owner</div>
+          <div style="font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.5">执行结果怎么变成 eval 信号，反馈回模型和规则。现状：Langfuse/PostHog/d0-evals 各做各的，闭环没通。</div>
         </div>
       </div>
 
@@ -625,17 +549,17 @@ tbody tr:hover{background:var(--bg2)}
 
 </div>
 
-<!-- ═══════════ TAB 4: v1 看得清 ═══════════ -->
+<!-- ═══════════ TAB 4: 看得清 ═══════════ -->
 <div id="p4" class="page">
 
   <div class="section">
     <div class="sh">
-      <div class="sh-num" style="background:rgba(8,145,178,0.12);color:#0891b2">v1</div>
-      <div><div class="sh-title">v1「看得清」— 第 1–2 层 Issue 全景</div>
-      <div class="sh-sub">P0×S0~S1 · Ground Truth · 让 agent 稳定看见真实世界</div></div>
+      <div class="sh-num" style="background:rgba(8,145,178,0.12);color:#0891b2">👁</div>
+      <div><div class="sh-title">看得清 — Issue 全景</div>
+      <div class="sh-sub">验收标准：agent 对已发生的交易事件，1 分钟内 context 可用</div></div>
     </div>
     <div class="sb prose">
-      <p>v1 的验收不是「功能上线了」而是<strong>「agent 对已发生的事件，1 分钟内 context 可用」</strong>。下面是 L1 和 L2 涉及的所有 issue。</p>
+      <p>「看得清」要解决的：真实世界发生了什么 → agent 知道了什么。下面是相关的所有 issue。</p>
     </div>
   </div>
 
@@ -711,56 +635,52 @@ tbody tr:hover{background:var(--bg2)}
 
 </div>
 
-<!-- ═══════════ TAB 5: v2→v4 路线 ═══════════ -->
+<!-- ═══════════ TAB 5: 后续路线 ═══════════ -->
 <div id="p5" class="page">
 
   <div class="section">
     <div class="sh">
       <div class="sh-num" style="background:rgba(153,151,255,0.15);color:var(--pu)">▸</div>
-      <div><div class="sh-title">v2→v4 路线 — Autonomy Stack × Product Matrix</div>
-      <div class="sh-sub">每个版本 = 一组层的验收。v1 没过，不进 v2。</div></div>
+      <div><div class="sh-title">后续路线 — 按依赖链推进</div>
+      <div class="sh-sub">每个阶段有验收标准。上一个没过，不进下一个。</div></div>
     </div>
     <div class="sb">
       <div class="rm">
         <div class="rm-item now">
-          <div class="rm-when">NOW · v1「看得清」· P0×S0~S1 · 第 1–2 层</div>
-          <div class="rm-title">Ground Truth — Agent 能稳定看见真实世界</div>
+          <div class="rm-when">NOW</div>
+          <div class="rm-title" style="color:#0891b2">看得清 — Agent 能稳定看见真实世界</div>
           <div class="rm-desc">
-            矩阵要求：核心流程跑通，能用敢用愿意付费<br>
-            Stack 要求：L1→L2 事件管道通 + MCP 数据准 + 通知到位 + Dashboard 实时<br>
-            验收标准：agent 对任何已发生的交易事件，1 分钟内 context 可用
+            事件管道通 + MCP 数据准 + 通知到位 + Dashboard 实时<br>
+            <strong>验收：</strong>agent 对已发生的交易事件，1 分钟内 context 可用
           </div>
-          <div class="rm-who">L1→L2 Owner: Wenzhang · 层 owner: Peter · Regison · Jin Xu · Gary · Liang Han · JackJun</div>
+          <div class="rm-who">事件管道 Owner: Wenzhang · Peter · Regison · Jin Xu · Gary · Liang Han · JackJun</div>
         </div>
         <div class="rm-item">
-          <div class="rm-when">30D TARGET · v2「想得明」· P1×S1~S2 · 第 3–4 层</div>
-          <div class="rm-title">Typed Boundary — 推理必须经过结构化校验</div>
+          <div class="rm-when">30D TARGET</div>
+          <div class="rm-title" style="color:#d97706">想得明 — 推理必须经过结构化校验</div>
           <div class="rm-desc">
-            矩阵要求：价格提醒 · GRPS 软约束 · Strategy Hub · PM 闭环<br>
-            Stack 要求：Agent 的每个 function call 在执行前经过 schema 校验 + 参数边界检查<br>
-            验收标准：零裸透传 — 每个 MCP 工具调用都有 typed 验证
+            价格提醒 · GRPS 软约束 · Strategy Hub · 每个 function call 执行前校验<br>
+            <strong>验收：</strong>零裸透传 — 每个 MCP 工具调用都有 typed 验证
           </div>
-          <div class="rm-who">L3→L4 Owner: 待定 · 层 owner: JackJun · Fei · Jin Xu · Jiagui</div>
+          <div class="rm-who">验证关卡 Owner: 待定 · JackJun · Fei · Jin Xu · Jiagui</div>
         </div>
         <div class="rm-item">
-          <div class="rm-when">3-6M · v3「做得住」· P2~P3×S2 · 第 5–6 层</div>
-          <div class="rm-title">Constraint Architecture — 约束是系统强制的、每用户可配的</div>
+          <div class="rm-when">3-6M</div>
+          <div class="rm-title" style="color:#059669">做得住 — 约束是系统强制的、每用户可配的</div>
           <div class="rm-desc">
-            矩阵要求：Approval Inbox · 交易方案推送 · 再平衡建议 · 风控违规草案<br>
-            Stack 要求：GRPS 扩展全品类 + Profile→agent behavior policy + 用户可见可配<br>
-            验收标准：Agent 行为因用户 profile 不同而不同，用户可在 Dashboard 调整
+            Approval Inbox · GRPS 扩展全品类 · Profile→agent behavior policy · 用户可见可配<br>
+            <strong>验收：</strong>Agent 行为因用户 profile 不同而不同，用户可在 Dashboard 调整
           </div>
-          <div class="rm-who">L5→L6 Owner: 待定 · 层 owner: Peter · Jiagui · Sylvia · Justin · Ethan</div>
+          <div class="rm-who">策略适配 Owner: 待定 · Peter · Jiagui · Sylvia · Justin · Ethan</div>
         </div>
         <div class="rm-item">
-          <div class="rm-when">12M · v4「越来越好」· P3~P4×S3 · 第 7 层</div>
-          <div class="rm-title">Closed-Loop — 系统从自身数据中持续进化</div>
+          <div class="rm-when">12M</div>
+          <div class="rm-title" style="color:#be123c">越来越好 — 系统从自身数据中持续进化</div>
           <div class="rm-desc">
-            矩阵要求：24/7 自主值班 · 极端行情自动降仓<br>
-            Stack 要求：Eval→Release Gate→Model 改进完整闭环 · 执行数据→fine-tune<br>
-            验收标准：模型行为可证明地从上一轮执行数据中改进
+            Eval→Release Gate→Model 改进完整闭环 · 24/7 自主值班 · 极端行情自动降仓<br>
+            <strong>验收：</strong>模型行为可证明地从上一轮执行数据中改进
           </div>
-          <div class="rm-who">L7 Owner: Fei · 层 owner: Kevin · Jim · Wenzhang</div>
+          <div class="rm-who">进化回路 Owner: Fei · Kevin · Jim · Wenzhang</div>
         </div>
       </div>
     </div>
@@ -772,9 +692,8 @@ tbody tr:hover{background:var(--bg2)}
       <div><div class="sh-title">一句话总结</div></div>
     </div>
     <div class="sb prose">
-      <p>Product Kanban 的 4×4 矩阵和 Autonomy Stack 的七层<strong>是同一条路线的两个视角</strong>。</p>
-      <p>矩阵看「用户感知到什么能力」（看得清→想得明→做得住→越来越好），Stack 看「系统需要什么架构才能支撑这个能力」（L1-L2→L3-L4→L5-L6→L7）。</p>
-      <p>根因不是人不够 — 是<strong>这七层被按模块切成了水平 silo</strong>，层之间没有人保证「上游产出 = 下游消费」。每个版本的验收本质上是在验收「对应层间的交接质量」。</p>
+      <p>根因不是人不够 — 是<strong>各模块团队各自建自己那一段，层之间没有人保证「上游产出 = 下游消费」</strong>。</p>
+      <p>每个阶段的验收本质上是在验收「对应交接线的质量」。先让「看得清」过关，再往「想得明」走。</p>
     </div>
   </div>
 
