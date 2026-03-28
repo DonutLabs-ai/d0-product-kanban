@@ -155,7 +155,7 @@ tbody tr:hover{background:var(--bg2)}
     <button class="tb-tab active" onclick="sw('p1',this)">框架</button>
     <button class="tb-tab" onclick="sw('p2',this)">为什么断了</button>
     <button class="tb-tab" onclick="sw('p3',this)">谁负责哪层</button>
-    <button class="tb-tab" onclick="sw('p4',this)">看得清</button>
+    <button class="tb-tab" onclick="sw('p4',this)">v1 Issue</button>
     <button class="tb-tab" onclick="sw('p5',this)">后续路线</button>
   </div>
 </div>
@@ -431,24 +431,82 @@ tbody tr:hover{background:var(--bg2)}
 <!-- ═══════════ TAB 3: 谁负责哪层 ═══════════ -->
 <div id="p3" class="page">
 
-  <!-- Rosetta stone — show once -->
+  <!-- Visual matrix mapping -->
   <div class="section">
     <div class="sh">
       <div class="sh-num" style="background:rgba(153,151,255,0.15);color:var(--pu)">🗺</div>
-      <div><div class="sh-title">两套语言的翻译表 — 看一次就够</div>
-      <div class="sh-sub">之后全文只用左边的中文名。Product Kanban 矩阵坐标做参考。</div></div>
+      <div><div class="sh-title">Autonomy Stack 在产品矩阵上的位置</div>
+      <div class="sh-sub">颜色 = Stack 的四个阶段在矩阵上覆盖的区域</div></div>
     </div>
     <div class="sb">
-      <table>
-        <thead><tr><th>阶段</th><th>意思</th><th>涉及的层</th><th>矩阵坐标</th></tr></thead>
-        <tbody>
-          <tr><td style="font-weight:700;color:#0891b2">看得清</td><td>Agent 能稳定看见真实世界</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">第 1–2 层</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">P0×S0~S1</td></tr>
-          <tr><td style="font-weight:700;color:#d97706">想得明</td><td>推理必须经过结构化校验</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">第 3–4 层</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">P1×S1~S2</td></tr>
-          <tr><td style="font-weight:700;color:#059669">做得住</td><td>约束是系统强制的、每用户可配</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">第 5–6 层</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">P2~P3×S2</td></tr>
-          <tr><td style="font-weight:700;color:#be123c">越来越好</td><td>系统从自身数据中持续进化</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">第 7 层</td><td style="font-family:var(--mono);font-size:.68rem;color:var(--text3)">P3~P4×S3</td></tr>
-        </tbody>
-      </table>
-      <div class="quote" style="margin-top:10px">依赖是硬的：「看得清」没过，「想得明」的推理就在幻觉上跑。「想得明」没过，「做得住」的自动执行就是脱缰的马。<strong>不能跳。</strong></div>
+      <!-- Mini matrix -->
+      <div style="overflow-x:auto">
+        <div style="display:grid;grid-template-columns:70px repeat(4,1fr);grid-template-rows:auto repeat(5,46px);gap:2px;min-width:500px;font-size:.65rem;font-family:var(--mono)">
+          <!-- Corner -->
+          <div style="display:flex;align-items:flex-end;justify-content:flex-end;padding:2px 4px;color:var(--text3);font-size:.55rem">High-Stake →<br>Proactive ↓</div>
+          <!-- Column headers -->
+          <div style="background:var(--bg2);border-radius:4px;padding:4px 6px;text-align:center"><span style="color:var(--pu);display:block">S0</span><span style="color:var(--text2)">Research</span></div>
+          <div style="background:var(--bg2);border-radius:4px;padding:4px 6px;text-align:center"><span style="color:var(--pu);display:block">S1</span><span style="color:var(--text2)">Guarded</span></div>
+          <div style="background:var(--bg2);border-radius:4px;padding:4px 6px;text-align:center"><span style="color:var(--pu);display:block">S2</span><span style="color:var(--text2)">Managed</span></div>
+          <div style="background:var(--bg2);border-radius:4px;padding:4px 6px;text-align:center"><span style="color:var(--pu);display:block">S3</span><span style="color:var(--text2)">Continuous</span></div>
+          <!-- Row P0 -->
+          <div style="background:var(--bg2);border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;justify-content:center"><span style="color:var(--pu)">P0</span><span style="color:var(--text2)">Reactive</span></div>
+          <div style="background:rgba(8,145,178,0.15);border:2px solid rgba(8,145,178,0.5);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:#0891b2;font-weight:600;font-size:.6rem">v1 NOW</div>
+          <div style="background:rgba(8,145,178,0.15);border:2px solid rgba(8,145,178,0.5);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:#0891b2;font-weight:600;font-size:.6rem">v1 NOW</div>
+          <div style="background:rgba(8,145,178,0.06);border:1px solid var(--border2);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:.58rem">安全基础</div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <!-- Row P1 -->
+          <div style="background:var(--bg2);border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;justify-content:center"><span style="color:var(--pu)">P1</span><span style="color:var(--text2)">Monitor</span></div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <div style="background:rgba(217,119,6,0.15);border:2px solid rgba(217,119,6,0.5);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:#d97706;font-weight:600;font-size:.6rem">v2 30D</div>
+          <div style="background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.3);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:#d97706;font-size:.58rem">v2</div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <!-- Row P2 -->
+          <div style="background:var(--bg2);border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;justify-content:center"><span style="color:var(--pu)">P2</span><span style="color:var(--text2)">Draft</span></div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <div style="background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.3);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:#059669;font-size:.58rem">v3</div>
+          <div style="background:rgba(5,150,105,0.15);border:2px solid rgba(5,150,105,0.5);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:#059669;font-weight:600;font-size:.6rem">v3 6M</div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <!-- Row P3 -->
+          <div style="background:var(--bg2);border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;justify-content:center"><span style="color:var(--pu)">P3</span><span style="color:var(--text2)">Constrained</span></div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <div style="background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.3);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:#059669;font-size:.58rem">v3</div>
+          <div style="background:rgba(190,18,60,0.15);border:2px solid rgba(190,18,60,0.5);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:#be123c;font-weight:600;font-size:.6rem">v4 12M</div>
+          <!-- Row P4 -->
+          <div style="background:var(--bg2);border-radius:4px;padding:4px 6px;display:flex;flex-direction:column;justify-content:center"><span style="color:var(--pu)">P4</span><span style="color:var(--text2)">Adaptive</span></div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:4px"></div>
+          <div style="background:rgba(190,18,60,0.08);border:1px solid rgba(190,18,60,0.3);border-radius:4px;padding:4px;display:flex;align-items:center;justify-content:center;color:#be123c;font-size:.58rem">v4</div>
+        </div>
+      </div>
+
+      <!-- Legend below matrix -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;font-size:.72rem">
+        <div style="padding:8px 10px;border-radius:6px;border-left:3px solid #0891b2;background:rgba(8,145,178,0.04)">
+          <div style="font-weight:700;color:#0891b2">v1 看得清</div>
+          <div style="color:var(--text2);margin-top:2px;line-height:1.4">核心流程跑通<br>能用敢用愿意付费</div>
+          <div style="color:var(--text3);font-size:.65rem;margin-top:2px">= 第 1–2 层</div>
+        </div>
+        <div style="padding:8px 10px;border-radius:6px;border-left:3px solid #d97706;background:rgba(217,119,6,0.04)">
+          <div style="font-weight:700;color:#d97706">v2 想得明</div>
+          <div style="color:var(--text2);margin-top:2px;line-height:1.4">个性化基础<br>知识体系 + 评测</div>
+          <div style="color:var(--text3);font-size:.65rem;margin-top:2px">= 第 3–4 层</div>
+        </div>
+        <div style="padding:8px 10px;border-radius:6px;border-left:3px solid #059669;background:rgba(5,150,105,0.04)">
+          <div style="font-weight:700;color:#059669">v3 做得住</div>
+          <div style="color:var(--text2);margin-top:2px;line-height:1.4">自动执行<br>风控闭环 + 审批</div>
+          <div style="color:var(--text3);font-size:.65rem;margin-top:2px">= 第 5–6 层</div>
+        </div>
+        <div style="padding:8px 10px;border-radius:6px;border-left:3px solid #be123c;background:rgba(190,18,60,0.04)">
+          <div style="font-weight:700;color:#be123c">v4 越来越好</div>
+          <div style="color:var(--text2);margin-top:2px;line-height:1.4">质量闭环<br>增长 + 自我进化</div>
+          <div style="color:var(--text3);font-size:.65rem;margin-top:2px">= 第 7 层</div>
+        </div>
+      </div>
+
+      <div class="quote" style="margin-top:10px">依赖是硬的：v1 没过（agent 看不见真实世界），v2 的推理就在幻觉上跑。v2 没过（推理没有校验），v3 的自动执行就是脱缰的马。<strong>不能跳。</strong></div>
     </div>
   </div>
 
@@ -549,17 +607,17 @@ tbody tr:hover{background:var(--bg2)}
 
 </div>
 
-<!-- ═══════════ TAB 4: 看得清 ═══════════ -->
+<!-- ═══════════ TAB 4: v1 Issue ═══════════ -->
 <div id="p4" class="page">
 
   <div class="section">
     <div class="sh">
-      <div class="sh-num" style="background:rgba(8,145,178,0.12);color:#0891b2">👁</div>
-      <div><div class="sh-title">看得清 — Issue 全景</div>
-      <div class="sh-sub">验收标准：agent 对已发生的交易事件，1 分钟内 context 可用</div></div>
+      <div class="sh-num" style="background:rgba(8,145,178,0.12);color:#0891b2">v1</div>
+      <div><div class="sh-title">v1 · 核心流程跑通，能用敢用愿意付费</div>
+      <div class="sh-sub">验收：agent 对已发生的交易事件，1 分钟内 context 可用</div></div>
     </div>
     <div class="sb prose">
-      <p>「看得清」要解决的：真实世界发生了什么 → agent 知道了什么。下面是相关的所有 issue。</p>
+      <p>v1 要解决的：真实世界发生了什么 → agent 知道了什么。下面是相关的所有 issue。</p>
     </div>
   </div>
 
@@ -648,7 +706,7 @@ tbody tr:hover{background:var(--bg2)}
       <div class="rm">
         <div class="rm-item now">
           <div class="rm-when">NOW</div>
-          <div class="rm-title" style="color:#0891b2">看得清 — Agent 能稳定看见真实世界</div>
+          <div class="rm-title" style="color:#0891b2">v1 · 核心流程跑通，能用敢用愿意付费</div>
           <div class="rm-desc">
             事件管道通 + MCP 数据准 + 通知到位 + Dashboard 实时<br>
             <strong>验收：</strong>agent 对已发生的交易事件，1 分钟内 context 可用
@@ -657,7 +715,7 @@ tbody tr:hover{background:var(--bg2)}
         </div>
         <div class="rm-item">
           <div class="rm-when">30D TARGET</div>
-          <div class="rm-title" style="color:#d97706">想得明 — 推理必须经过结构化校验</div>
+          <div class="rm-title" style="color:#d97706">v2 · 个性化基础 + 知识体系 + 评测</div>
           <div class="rm-desc">
             价格提醒 · GRPS 软约束 · Strategy Hub · 每个 function call 执行前校验<br>
             <strong>验收：</strong>零裸透传 — 每个 MCP 工具调用都有 typed 验证
@@ -666,7 +724,7 @@ tbody tr:hover{background:var(--bg2)}
         </div>
         <div class="rm-item">
           <div class="rm-when">3-6M</div>
-          <div class="rm-title" style="color:#059669">做得住 — 约束是系统强制的、每用户可配的</div>
+          <div class="rm-title" style="color:#059669">v3 · 自动执行 + 风控闭环 + 审批</div>
           <div class="rm-desc">
             Approval Inbox · GRPS 扩展全品类 · Profile→agent behavior policy · 用户可见可配<br>
             <strong>验收：</strong>Agent 行为因用户 profile 不同而不同，用户可在 Dashboard 调整
@@ -675,7 +733,7 @@ tbody tr:hover{background:var(--bg2)}
         </div>
         <div class="rm-item">
           <div class="rm-when">12M</div>
-          <div class="rm-title" style="color:#be123c">越来越好 — 系统从自身数据中持续进化</div>
+          <div class="rm-title" style="color:#be123c">v4 · 质量闭环 + 增长 + 自我进化</div>
           <div class="rm-desc">
             Eval→Release Gate→Model 改进完整闭环 · 24/7 自主值班 · 极端行情自动降仓<br>
             <strong>验收：</strong>模型行为可证明地从上一轮执行数据中改进
